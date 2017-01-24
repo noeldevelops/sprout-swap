@@ -29,4 +29,23 @@
 			<li>Site saves Margie's info and default location, and takes her to her dynamic homepage/feed.</li>
 		</ol>
 	</body>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Interaction Flow</title>
+	</head>
+	<body>
+		<h1>Interaction Flow: Mia</h1>
+		<ol>
+			<li>When Mia is home she gets on her iMac and opens up google chrome</li>
+			<li>Mia searches for sprout-swap on the search bar.</li>
+			<li>Mia sees the website and opens up the website</li>
+			<li>Mia gets on her profile and post some vegatables are her wall/feed.</li>
+			<li>Mia leaves her iMac to do something and plans on coming back shortly to see if she has any replys.</li>
+			<li>Then she comes back to her iMac to see if she has any reply and discoverys she has a reply</li>
+			<li>She replys back to the other user and to see what would be the best place and time they can meet. Mia told her what
+			are the best times for herself.</li>
+			<li>Mia waits to see if she has a quick reply. Which she does </li>
+		</ol>
+	</body>
 </html>
