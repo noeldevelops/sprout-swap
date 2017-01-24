@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>index.php</title>
+		<title>Index and Executive Summary</title>
 	</head>
 	<body>
 		<h1>Executive Summary: Sprout Swap</h1>
