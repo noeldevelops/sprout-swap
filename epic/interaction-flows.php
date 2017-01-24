@@ -28,13 +28,6 @@
 			<li>Once back on the site she types in some information about herself in the description and uploads a photo of her in her garden.</li>
 			<li>Site saves Margie's info and default location, and takes her to her dynamic homepage/feed.</li>
 		</ol>
-	</body>
-
-	<head>
-		<meta charset="UTF-8">
-		<title>Interaction Flow</title>
-	</head>
-	<body>
 		<h1>Interaction Flow: Mia</h1>
 		<ol>
 			<li>When Mia is home she gets on her iMac and opens up google chrome</li>
@@ -44,8 +37,9 @@
 			<li>Mia leaves her iMac to do something and plans on coming back shortly to see if she has any replys.</li>
 			<li>Then she comes back to her iMac to see if she has any reply and discoverys she has a reply</li>
 			<li>She replys back to the other user and to see what would be the best place and time they can meet. Mia told her what
-			are the best times for herself.</li>
-			<li>Mia waits to see if she has a quick reply. Which she does </li>
+				are the best times for herself.</li>
+			<li>Mia waits to see if she has a quick reply. Which she does and then begins to plan </li>
 		</ol>
 	</body>
 </html>
+
