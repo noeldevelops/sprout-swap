@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>Persona 1: Noah</title>
 	</head>
 	<body>
 		<h1>First Persona</h1>
