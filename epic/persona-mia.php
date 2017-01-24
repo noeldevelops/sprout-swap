@@ -5,7 +5,7 @@
 		<title>Persona 3: Mia</title>
 	</head>
 	<body>
-		<h1>Thrid Persona</h1>
+		<h1>Third Persona</h1>
 		<p>Name: Mia</p>
 		<p>Age:27</p>
 		<p>Gender/Sex: Female</p>
