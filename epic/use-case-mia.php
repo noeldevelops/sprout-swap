@@ -9,6 +9,7 @@
 			<li>Mia searches for sprout-swap</li>
 			<li>Mia makes a post on sprout-swap if anyone wants to trade cabbage and carrots in her local area.</li>
 			<li>Mia comes back later on her iMac to see if she has notifications from anyone on sprout-swap.</li>
+			<li>Mia opens up a message and replys back to the other user</li>
 		</ol>
 	</head>
 	<body>
