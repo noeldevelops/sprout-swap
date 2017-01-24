@@ -17,5 +17,16 @@
 			<li>Noah clicks the "contact" button on the bottom of the post</li>
 			<li>the server sends a message populated with the poster's provided contact information and opens a new message on his phone</li>
 		</ol>
+		<h1>Interaction Flow: Margie</h1>
+		<ol>
+			<li>Margie sits at her home computer after her morning chores, opens IE, navigates to the URL</li>
+			<li>Server finds and serves up the website's home page</li>
+			<li>Margie clicks on the "Sign Up" link and enters her name and email address.</li>
+			<li>Server auto detects Margie's location, php validates email address and sends a message with sign up link to Margie's email address</li>
+			<li>She then has to click the link that is sent to her email</li>
+			<li>The link connects Margie back to Sprout Swap's create profile page
+			<li>Once back on the site she types in some information about herself in the description and uploads a photo of her in her garden.</li>
+			<li>Site saves Margie's info and default location, and takes her to her dynamic homepage/feed.</li>
+		</ol>
 	</body>
 </html>
