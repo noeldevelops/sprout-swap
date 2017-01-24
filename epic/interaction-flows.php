@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Use Case: Noah</title>
+		<title>Interaction Flows</title>
 	</head>
 	<body>
 		<h1>Interaction Flow: Noah</h1>
