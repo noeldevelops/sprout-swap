@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>Use Case 3: Mia</title>
 		<h1>Mia's use case</h1>
+	</head>
+	<body>
 		<ol>
 			<li>Mia gets on her iMac</li>
 			<li>Mia searches for sprout-swap</li>
@@ -11,8 +13,5 @@
 			<li>Mia comes back later on her iMac to see if she has notifications from anyone on sprout-swap.</li>
 			<li>Mia opens up a message and replys back to the other user</li>
 		</ol>
-	</head>
-	<body>
-
 	</body>
 </html>
