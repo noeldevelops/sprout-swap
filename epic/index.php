@@ -9,7 +9,7 @@
 		<p>Sprout Swap is a dynamic website that offers hobby farmers and growers the opportunity to get rid of excess produce by trading, bartering, or selling. Users can create a profile, make posts with text and images of produce they have to offer, and view a feed of others' offerings that can be filtered by location or neighborhood. They will be able to send private messages to other site users and respond to postings. All responsibility for food safety and financial exchanges will be done privately between users, with no liability assumed by Sprout Swap. </p>
 		<div>
 			<h1>Use Case 1: Noah</h1>
-			<a href="use-case-noah.php">Noah Persona</a><br/>
+			<a href="persona-noah.php">Noah Persona</a><br/>
 			<a href="use-case-noah.php">Noah Use Case</a><br/>
 		</div>
 		<div>
