@@ -22,7 +22,7 @@
 			<a href="persona-mia.php">Mia Persona</a><br/>
 			<a href="use-case-mia.php">Mia Use Case</a><br/>
 		</div>
-		<a href="interaction-flows.php">Interaction Flows</a><br/>
+		<h1><a href="interaction-flows.php">Interaction Flows</a></h1>
 		<h1>User Stories</h1>
 			<p>As a guest user, I want to be able to browse for produce in my area and find the poster's given contact information</p>
 			<p>As profile user, I want to be able to post pictures and descriptions of my produce and private message other profiles</p>
