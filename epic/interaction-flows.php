@@ -8,14 +8,15 @@
 		<h1>Interaction Flow: Noah</h1>
 		<ol>
 			<li>While at work, Noah opens sprout-swap on his iPhone</li>
-			<li>sprout-swap's server receives the request and notices Noah is on a mobile device.  the server sends the appropriate files to Noah's phone browser</li>
-			<li>the server sees noah is located in Albuquerque and loads the Albuquerque feed</li>
-			<li>Noah scrolls through the Albuquerque feed, then limits his feed to a handful of neighborhoods that are on his way home</li>
-			<li>the server limits the posts which show up on his feed based on Abq neighborhood ID</li>
+			<li>Sprout-Swap's server sends the main feed to Noah's phone browser</li>
+			<li>Noah scrolls through the Albuquerque feed, then limits his feed to posts within a 10mi radius of his location</li>
+			<li>The server detects Noah's location and limits the posts which show up on his feed based on postLocationIds</li>
 			<li>Noticing a post for cheap squash, Noah clicks on the post</li>
-			<li> The server opens the post link which offers more information including the requested price(money or barter), name of the grower, etc...</li>
+			<li> The server opens the post detail which offers more information including the requested price (money or barter), name of the grower, etc...</li>
 			<li>Noah clicks the "contact" button on the bottom of the post</li>
-			<li>the server sends a message populated with the poster's provided contact information and opens a new message on his phone</li>
+			<li>The site opens the message API</li>
+			<li>Noah types his message and hits send</li>
+			<li>The server sends the message to the poster and pushes a notification</li>
 		</ol>
 		<h1>Interaction Flow: Margie</h1>
 		<ol>
