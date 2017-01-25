@@ -36,7 +36,7 @@
 			<li>Mia sees the website and opens up the website</li>
 			<li>Mia gets on her profile and post some vegetables are her wall/feed.</li>
 			<li>Mia leaves her iMac to do something and plans on coming back shortly to see if she has any replies.</li>
-			<li>Then she comes back to her iMac to see if she has any reply and discoveries she has a reply</li>
+			<li>Then she comes back to her iMac to see if she has any reply and discovers she has a reply</li>
 			<li>She replys back to the other user and to see what would be the best place and time they can meet. Mia told her what are the best times for herself.</li>
 			<li>Mia waits to see if she has a quick reply. Which she does and then begins to plan </li>
 		</ol>
