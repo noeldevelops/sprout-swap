@@ -1,5 +1,7 @@
 #erd{
-	width: 800px;
+	width: 1200px;
 	height: auto;
 	min-width: 400px;
+	border: 1px solid black;
+	padding: 5px;
 }

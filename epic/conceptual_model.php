@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link type="text/css" rel="stylesheet" href="../style/style1.css"/>
 		<meta charset="utf-8" />
 		<title>Conceptual Model</title>
 	</head>
@@ -68,8 +69,8 @@
 			<li>Google Maps for geolocation</li>
 			<li>Pusher for messaging</li>
 		</ul>
-		<div id="erd">
-		<img src="../images/sprout-swap-erd.png" alt="Entity Relationship Diagram"/>
+		<div>
+		<img id="erd" src="../images/sprout-swap-erd.png" alt="Entity Relationship Diagram"/>
 		</div>
 	</body>
 </html>
