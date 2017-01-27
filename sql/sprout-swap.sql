@@ -13,8 +13,8 @@ CREATE TABLE profile (
 	profileImageId INT,
 	profileJoinDate DATETIME,
 	profileName VARCHAR,
-	profilePasswordHash CHAR,
-	profileSalt CHAR,
+	profilePasswordHash CHAR (128),
+	profileSalt CHAR (64),
 	profileSummary VARCHAR,
 
 	PRIMARY KEY (profileId)
