@@ -28,7 +28,7 @@ CREATE TABLE post (
 	postDateTime,
 	postLocation,
 	postOffer VARCHAR,
-	postRequest,
+	postRequest
 );
 
 CREATE TABLE message (
@@ -40,16 +40,16 @@ CREATE TABLE message (
 	messageContent,
 	messageIpAddress,
 	messageStatus,
-	messageTimeStamp,
+	messageTimeStamp
 );
 
 CREATE TABLE image (
 	imageId,
 	imagePostId,
-	imageCloudinaryId,
+	imageCloudinaryId
 );
 
 CREATE TABLE mode (
 	modeId,
-	modeName,
+	modeName
 );
