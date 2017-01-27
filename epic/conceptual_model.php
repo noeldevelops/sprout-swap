@@ -68,7 +68,7 @@
 			<li>Google Maps for geolocation</li>
 			<li>Pusher for messaging</li>
 		</ul>
-		<div>
+		<div id="erd">
 		<img src="../images/sprout-swap-erd.png" alt="Entity Relationship Diagram"/>
 		</div>
 	</body>
