@@ -31,4 +31,25 @@ CREATE TABLE post (
 	postRequest,
 );
 
-CREATE TABLE
+CREATE TABLE message (
+	messageId,
+	messagePostId,
+	messageReceiverProfileId,
+	messageSenderProfileId,
+	messageBrowser,
+	messageContent,
+	messageIpAddress,
+	messageStatus,
+	messageTimeStamp,
+);
+
+CREATE TABLE image (
+	imageId,
+	imagePostId,
+	imageCloudinaryId,
+);
+
+CREATE TABLE mode (
+	modeId,
+	modeName,
+);
