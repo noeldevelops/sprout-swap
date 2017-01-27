@@ -68,6 +68,6 @@
 			<li>Google Maps for geolocation</li>
 			<li>Pusher for messaging</li>
 		</ul>
-		<img src="/images/sprout-swap-erd.svg" alt="ERD">
+		<img src="/images/sprout-swap-erd.svg" alt="ERD" />
 	</body>
 </html>
