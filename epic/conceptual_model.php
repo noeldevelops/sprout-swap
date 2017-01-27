@@ -69,7 +69,7 @@
 			<li>Pusher for messaging</li>
 		</ul>
 		<div>
-		<img src="/images/sprout-swap-erd.png" alt="Entity Relationship Diagram" />
+		<img src="../images/sprout-swap-erd.png" alt="Entity Relationship Diagram"/>
 		</div>
 	</body>
 </html>
