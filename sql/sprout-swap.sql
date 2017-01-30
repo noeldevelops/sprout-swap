@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS mode;
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	profileImageId REFERENCES image (imageId),
+	profileImageId INT UNSIGNED NOT NULL,
 	profileActivation CHAR,
 	profileEmail VARCHAR NOT NULL (255),
 	profileHandle VARCHAR NOT NULL (15),
@@ -17,41 +17,54 @@ CREATE TABLE profile (
 	profileSalt CHAR (64),
 	profileSummary VARCHAR (250),
 
+	-- FOREIGN KEY (profileImageId) REFERENCES image (imageId),
 	PRIMARY KEY (profileId)
 );
 
 CREATE TABLE post (
 	postId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	postModeId REFERENCES mode (modeId),
-	postProfileId REFERENCES profile (profileId),
+	postModeId INT UNSIGNED NOT NULL,
+	postProfileId INT UNSIGNED NOT NULL,
 	postContent VARCHAR (250),
 	postDateTime TIMESTAMP NOT NULL,
-	postLocation POINT,
+	postLocation POINT NOT NULL,
 	postOffer VARCHAR NOT NULL(75),
 	postRequest VARCHAR (75),
 
+	FOREIGN KEY (postModeId) REFERENCES mode (modeId),
+	FOREIGN KEY (postProfileId) REFERENCES profile (profileId),
 	PRIMARY KEY (postId)
 );
 
 CREATE TABLE message (
-	messageId,
-	messagePostId REFERENCES post (postId),
-	messageReceiverProfileId,
-	messageSenderProfileId,
-	messageBrowser,
-	messageContent,
+	messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	messagePostId INT UNSIGNED NOT NULL,
+	messageReceiverProfileId INT UNSIGNED NOT NULL,
+	messageSenderProfileId INT UNSIGNED NOT NULL,
+	messageBrowser ,
+	messageContent VARCHAR NOT NULL (500),
 	messageIpAddress,
 	messageStatus,
-	messageTimeStamp
+	messageTimeStamp TIMESTAMP NOT NULL,
+
+	FOREIGN KEY (messagePostId) REFERENCES post (postId),
+	FOREIGN KEY (messageReceiverProfileId) REFERENCES profile (ProfileId),
+	FOREIGN KEY (messageSenderProfileId) REFERENCES profile (profileId),
+	PRIMARY KEY (messageId)
 );
 
 CREATE TABLE image (
-	imageId,
-	imagePostId,
-	imageCloudinaryId
+	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imagePostId INT UNSIGNED NOT NULL,
+	imageCloudinaryId,
+
+	FOREIGN KEY (imagePostId) REFERENCES image (imageId),
+	PRIMARY KEY (imageId)
 );
 
 CREATE TABLE mode (
-	modeId,
-	modeName
+	modeId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	modeName VARCHAR (20),
+
+	PRIMARY KEY (modeId)
 );
