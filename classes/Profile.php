@@ -38,6 +38,11 @@ class Profile {
 	 **/
 	private $profileName;
 	/**
+	 * hash required when creating a password
+	 * @var char(64) for $profilePasswordHash
+	 **/
+	private $profilePasswordHash;
+	/**
 	 *
 	 */
 }
