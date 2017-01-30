@@ -14,10 +14,21 @@ class Profile {
 	private $profileImageId;
 	/**
 	 * activation code will be sent to end users email
-	 * @var is a char(16)
+	 * @var char(16) for profileActivation
 	 **/
 	private $profileActivation;
 	/**
+	 *user private access email
+	 * @var varchar(255) for profileEmail;
+	 **/
+	private $profileEmail;
+	/**
+	 * created by the user and has to be unique
+	 * @var varchar(21) is for profileHandlie not null
+	 **/
+	private $profileHandle;
+	/**
 	 *
 	 **/
+
 }
