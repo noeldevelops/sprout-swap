@@ -168,4 +168,17 @@ class Post implements \JsonSerializable {
 		 }
 		 $this->postProfileId = $newPostProfileId;
 	 }
+	 /**
+	  * accessor method for post browser
+	  * @return string
+	  */
+	 public function getPostBrowser() {
+	 	return($this->postBrowser);
+	 }
+	 /**
+	  * mutuator method for post browser
+	  */
+	 public function setPostBrowser(string $newPostBrowser) {
+	 	$this->postBrowser = $newPostBrowser;
+	 }
 }
