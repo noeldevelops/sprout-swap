@@ -38,11 +38,18 @@ class Profile {
 	 **/
 	private $profileName;
 	/**
-	 * hash required when creating a password
+	 * database will generate a hash value
 	 * @var char(64) for $profilePasswordHash
 	 **/
 	private $profilePasswordHash;
 	/**
-	 *
-	 */
+	 * salt created by password hash
+	 * @var char(64) for $profileSalt
+	 **/
+	private $profileSalt;
+	/**
+	 * description of the profile
+	 * @var varchar(255) for $profileSummary
+	 **/
+	private $profileSummary;
 }
