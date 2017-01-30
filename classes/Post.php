@@ -135,5 +135,37 @@ class Post implements \JsonSerializable {
 	 /**
 	  * mutator method for Post Mode Id
 	  *
+	  * @param int $newPostModeId
+	  * @throws \RangeException if $newPostModeId is not positive
+	  * @throws \RangeException if $newPostModeId is > 3
+	  * @throws \TypeError if $newPostModeId is not an integer
+	  **/
+	 public function setPostModeId(int $newPostModeId) {
+	 	if($newPostModeId <= 0) {
+	 		throw(new \RangeException("Mode Id must be positive"));
+		}
+		if($newPostModeId > 3) {
+	 		throw(new \RangeException("Mode Id is out of range"));
+		}
+		$this->postModeId = $newPostModeId;
+	 }
+	 /**
+	  * accessor method for post profile id
+	  * @return int
 	  */
+	 public function getPostProfileId() {
+	 	return($this->postProfileId);
+	 }
+	 /**
+	  * mutator method for post profile id
+	  * @param int $newPostProfileId
+	  * @throws \RangeException if $newPostProfileId is not positive
+	  * @throws \TypeError if $newPostProfileId is not an integer
+	  */
+	 public function setPostProfileId(int $newPostProfileId) {
+		 if($newPostProfileId <= 0) {
+			 throw(new \RangeException("Profile Id must be positive"));
+		 }
+		 $this->postProfileId = $newPostProfileId;
+	 }
 }
