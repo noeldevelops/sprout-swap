@@ -1,6 +1,6 @@
 <?php
 
-class Profile{
+class Profile {
 	/**
 	 * id for the profile; this is a primary key
 	 * @var int for profileId
@@ -11,4 +11,13 @@ class Profile{
 	 * this is a foreign key that references image (imageId)
 	 * @var int $profileImageId
 	 **/
-}	private $profileImageId;
+	private $profileImageId;
+	/**
+	 * activation code will be sent to end users email
+	 * @var is a char(16)
+	 **/
+	private $profileActivation;
+	/**
+	 *
+	 **/
+}
