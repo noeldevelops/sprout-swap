@@ -23,12 +23,12 @@ class Message{
 	private $messageSenderProfileId;
 	/**
 	 * Information about the user's browser
-	 * @var $messageBrowser VARCHAR (255)
+	 * @var $messageBrowser string (255)
 	 */
 	private $messageBrowser;
 	/**
 	 * content of the message
-	 * @var $messageContent VARCHAR (255)
+	 * @var $messageContent string (255)
 	 */
 	private $messageContent;
 	/**
@@ -38,7 +38,7 @@ class Message{
 	private $messageIpAddress;
 	/**
 	 * Whether the message is read or unread
-	 * @var $messageStatus TINYINT NOT NULL
+	 * @var $messageStatus int NOT NULL
 	 */
 	private $messageStatus;
 	/**
@@ -47,7 +47,7 @@ class Message{
 	 */
 	private $messageTimestamp;
 
-	public function __construct(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent,  $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
+	public function __construct(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
 		try{
 			$this->setMessageId($newMessageId);
 			$this->setMessagePostId($newMessagePostId);
@@ -147,7 +147,7 @@ class Message{
 	/**
 	 * mutator method for message sender Id
 	 * @param int $newMessageSenderProfileId
-	 * @throws \RangeException if Id is equl to or less than zero
+	 * @throws \RangeException if Id is equal to or less than zero
 	 */
 	public function setMessageSenderProfileId(int $newMessageSenderProfileId){
 		//check that messageSenderProfileId is above zero
@@ -157,4 +157,98 @@ class Message{
 		//convert and store variable
 		$this->messageSenderProfileId = $newMessageSenderProfileId;
 	}
+	/**
+	 * accessor method for message sender's browser
+	 * @return string
+	 */
+	public function getMessageBrowser(){
+		return($this->messageBrowser);
+	}
+	/**
+	 * mutator method for message sender's browser information
+	 * @param string $newMessageBrowser
+	 * @throws \Exception if no information received from sender
+	 */
+	public function setMessageBrowser(string $newMessageBrowser){
+		//if null, no information recorded from the user
+		if($newMessageBrowser === null){
+			throw(new \Exception("No browser information received"));
+		}
+		//convert and store information
+		$this->messageBrowser = $newMessageBrowser;
+	}
+	/**
+	 * accessor method for message content
+	 * @return string message content
+	 */
+	public function getMessageContent(){
+		return($this->messageContent);
+	}
+	/**
+	 * mutator method for message content
+	 * @param string $newMessageContent
+	 * @throws Exception if user attempts to send a blank message
+	 */
+	public function setMessageContent(string $newMessageContent){
+		//throws exception if user sends a blank message
+		if($newMessageContent === null){
+			throw(new \Exception("Messages cannot be blank!"));
+		}
+		//converts and stores variables
+		$this->messageContent = $newMessageContent;
+	}
+	/**
+	 * accessor method for message sender's ip address
+	 * @return string
+	 */
+	public function getMessageIpAddress(){
+		return($this->messageIpAddress);
+	}
+	/**
+	 * mutator method for message sender's ip address
+	 * @param $newMessageIpAddress
+	 * @throws TypeError
+	 */
+	public function setMessageIpAddress($newMessageIpAddress) {
+		//if null, throws TypeError
+		if($newMessageIpAddress === null) {
+			throw(new \TypeError("Ip address must be a string"));
+		}
+		//convert and store string
+		$this->messageIpAddress = $newMessageIpAddress;
+	}
+	/**
+	 * accessor method for message status (read or unread)
+	 * @return int either 0 or 1
+	 */
+		public function getMessageStatus(){
+			return($this->messageStatus);
+		}
+	/**
+	 * mutator method for message status
+	 * @param int $newMessageStatus
+	 * throws \RangeException if not equal to either zero or one
+	 */
+		public function setMessageStatus(int $newMessageStatus){
+			//throws exceptions if $newMessageStatus is NOT equal to 0 or 1
+			if($newMessageStatus !== 0 || $newMessageStatus !== 1){
+				throw (new \RangeException("Message Status must be equal to either zero or one"));
+			}
+			//convert and store variable
+			$this->messageStatus = $newMessageStatus;
+		}
+		public function getMessageTimestamp(){
+			return($this->messageTimestamp);
+		}
+		public function setMessageTimestamp($newMessageTimestamp = null){
+			if($newMessageTimestamp === null){
+				$this->messageTimestamp = null;
+				return;
+			}
+			try {
+				$newMessageTimestamp = self::validateTimestamp($newMessageTimestamp);
+			} catch
+			}
+		}
+
 }
