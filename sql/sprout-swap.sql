@@ -1,14 +1,18 @@
 -- these statements will drop the tables and re-add them
-DROP TABLE IF EXISTS profile;
-DROP TABLE IF EXISTS post;
-DROP TABLE IF EXISTS message;
-DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS mode;
+DROP TABLE IF EXISTS image;
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS profile;
+
+
+
+
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileImageId INT UNSIGNED NOT NULL,
-	profileActivation CHAR,
+	profileActivation CHAR (25),
 	profileEmail VARCHAR (255) NOT NULL,
 	profileHandle VARCHAR (15) NOT NULL,
 	profileJoinDate TIMESTAMP NOT NULL,
@@ -17,7 +21,7 @@ CREATE TABLE profile (
 	profileSalt CHAR (64),
 	profileSummary VARCHAR (250),
 
-	-- FOREIGN KEY (profileImageId) REFERENCES image (imageId),
+	FOREIGN KEY (profileImageId) REFERENCES image (imageId),
 	PRIMARY KEY (profileId)
 );
 
