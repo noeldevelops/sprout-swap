@@ -7,33 +7,35 @@ DROP TABLE IF EXISTS mode;
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	profileImageId REFERENCES image (imageId),
 	profileActivation CHAR,
-	profileEmail VARCHAR NOT NULL,
-	profileHandle VARCHAR NOT NULL,
-	profileImageId INT,
-	profileJoinDate DATETIME,
-	profileName VARCHAR,
+	profileEmail VARCHAR NOT NULL (255),
+	profileHandle VARCHAR NOT NULL (15),
+	profileJoinDate TIMESTAMP NOT NULL,
+	profileName VARCHAR (30),
 	profilePasswordHash CHAR (128),
 	profileSalt CHAR (64),
-	profileSummary VARCHAR,
+	profileSummary VARCHAR (250),
 
 	PRIMARY KEY (profileId)
 );
 
 CREATE TABLE post (
-	postId INT,
-	postModeId,
-	postProfileId,
-	postContent,
-	postDateTime,
-	postLocation,
-	postOffer VARCHAR,
-	postRequest
+	postId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	postModeId REFERENCES mode (modeId),
+	postProfileId REFERENCES profile (profileId),
+	postContent VARCHAR (250),
+	postDateTime TIMESTAMP NOT NULL,
+	postLocation POINT,
+	postOffer VARCHAR NOT NULL(75),
+	postRequest VARCHAR (75),
+
+	PRIMARY KEY (postId)
 );
 
 CREATE TABLE message (
 	messageId,
-	messagePostId,
+	messagePostId REFERENCES post (postId),
 	messageReceiverProfileId,
 	messageSenderProfileId,
 	messageBrowser,
