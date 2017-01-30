@@ -69,7 +69,7 @@ CREATE TABLE postImage(
 
 	CREATE TABLE message (
 	messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	messagePostId INT UNSIGNED NOT NULL,
+	messagePostId INT UNSIGNED,
 	messageReceiverProfileId INT UNSIGNED NOT NULL,
 	messageSenderProfileId INT UNSIGNED NOT NULL,
 	messageBrowser VARCHAR (255) NOT NULL,
