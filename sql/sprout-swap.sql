@@ -1,13 +1,13 @@
+-- noinspection SqlDialectInspectionForFile
+
+-- noinspection SqlNoDataSourceInspectionForFile
+
 -- these statements will drop the tables and re-add them
 DROP TABLE IF EXISTS mode;
 DROP TABLE IF EXISTS image;
 DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS profile;
-
-
-
-
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
