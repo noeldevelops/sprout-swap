@@ -32,5 +32,12 @@ class Profile {
 	 * @var timestamp default current_timestamp not null
 	 **/
 	private $profileTimestamp;
-
+	/**
+	 * profileName will be end users real name
+	 * @var varchar(30) for $profileName
+	 **/
+	private $profileName;
+	/**
+	 *
+	 */
 }
