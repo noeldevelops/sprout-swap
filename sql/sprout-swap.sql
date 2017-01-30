@@ -3,11 +3,20 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 
 -- these statements will drop the tables and re-add them
-DROP TABLE IF EXISTS mode;
-DROP TABLE IF EXISTS image;
+
 DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS postImage;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS profile;
+DROP TABLE IF EXISTS mode;
+DROP TABLE IF EXISTS image;
+
+CREATE TABLE image (
+	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imageCloudinaryId VARCHAR (32),
+
+	PRIMARY KEY (imageId)
+);
 
 CREATE TABLE mode (
 	modeId INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -16,12 +25,6 @@ CREATE TABLE mode (
 	PRIMARY KEY (modeId)
 );
 
-CREATE TABLE image (
-	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	imageCloudinaryId VARCHAR (32),
-
-	PRIMARY KEY (imageId)
-);
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
