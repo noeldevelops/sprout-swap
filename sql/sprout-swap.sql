@@ -9,17 +9,31 @@ DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS profile;
 
+CREATE TABLE mode (
+	modeId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	modeName VARCHAR (20),
+
+	PRIMARY KEY (modeId)
+);
+
+CREATE TABLE image (
+	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	imageCloudinaryId VARCHAR (32),
+
+	PRIMARY KEY (imageId)
+);
+
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileImageId INT UNSIGNED NOT NULL,
-	profileActivation CHAR (25),
+	profileActivation CHAR (16),
 	profileEmail VARCHAR (255) NOT NULL,
-	profileHandle VARCHAR (15) NOT NULL,
-	profileTimestamp TIMESTAMP NOT NULL,
+	profileHandle VARCHAR (21) NOT NULL,
+	profileTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	profileName VARCHAR (30),
 	profilePasswordHash CHAR (128),
 	profileSalt CHAR (64),
-	profileSummary VARCHAR (250),
+	profileSummary VARCHAR (255),
 
 	FOREIGN KEY (profileImageId) REFERENCES image (imageId),
 	PRIMARY KEY (profileId)
@@ -42,7 +56,15 @@ CREATE TABLE post (
 	PRIMARY KEY (postId)
 );
 
-CREATE TABLE message (
+CREATE TABLE postImage(
+	postImageImageId INT UNSIGNED NOT NULL,
+	postImagePostId INT UNSIGNED NOT NULL,
+
+	FOREIGN KEY (postImageImageId) REFERENCES image (imageId),
+	FOREIGN KEY (postImagePostId) REFERENCES post (postId)
+);
+
+	CREATE TABLE message (
 	messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	messagePostId INT UNSIGNED NOT NULL,
 	messageReceiverProfileId INT UNSIGNED NOT NULL,
@@ -59,18 +81,4 @@ CREATE TABLE message (
 	PRIMARY KEY (messageId)
 );
 
-CREATE TABLE image (
-	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	imagePostId INT UNSIGNED NOT NULL,
-	imageCloudinaryId VARCHAR (255),
 
-	FOREIGN KEY (imagePostId) REFERENCES image (imageId),
-	PRIMARY KEY (imageId)
-);
-
-CREATE TABLE mode (
-	modeId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	modeName VARCHAR (20),
-
-	PRIMARY KEY (modeId)
-);
