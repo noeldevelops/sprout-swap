@@ -77,5 +77,63 @@ class Post implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 **/
 	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, string $newPostLocation, string $newPostOffer, string $newPostRequest, DateTime $newPostTimestamp ) {
+		 try {
+			 $this->setPostId($newPostId);
+			 $this->setPostModeId($newPostModeId);
+			 $this->setPostProfileId($newPostProfileId);
+			 $this->setPostBrowser($newPostBrowser);
+			 $this->setPostContent($newPostContent);
+			 $this->setPostIpAddress($newPostIpAddress);
+			 $this->setPostLocation($newPostLocation);
+			 $this->setPostOffer($newPostOffer);
+			 $this->setPostRequest($newPostRequest);
+			 $this->setPostTimestamp($newPostTimestamp);
+		 } catch(\InvalidArgumentException $invalidArgument) {
+			 // rethrow the exception to the caller
+			 throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		 } catch(\RangeException $range) {
+			 // rethrow the exception to the caller
+			 throw(new \RangeException($range->getMessage(), 0, $range));
+		 } catch(\TypeError $typeError) {
+			 // rethrow the exception to the caller
+			 throw(new \TypeError($typeError->getMessage(), 0, $typeError));
+		 } catch(\Exception $exception) {
+			 // rethrow the exception to the caller
+			 throw(new \Exception($exception->getMessage(), 0, $exception));
+		 }
 	 }
+	 /**
+	  * accessor method for this Post id
+	  * @return int|null value of post id
+	  **/
+	 public function getPostId() {
+	 	return($this->postId);
+	 }
+	 /**
+	  * mutator method for post ID
+	  * @param int|null $newPostId new value of postID
+	  * @throws \RangeException if $newPostId is not positive
+	  * @throws \TypeError if $newPostId is not an integer
+	  **/
+	 public function setPostId(int $newPostID = null) {
+	 	if($newPostId === null) {
+		$this->postId = null;
+		return;
+		}
+		if($newPostId <= 0) {
+	 		throw(new \RangeException("Post ID cannot be negative"));
+		}
+		$this->postId = $newPostId;
+	 }
+	 /**
+	  * accessor method for Post Mode Id
+	  * @return int
+	  */
+	 public function getPostModeId() {
+	 	return($this->postModeId);
+	 }
+	 /**
+	  * mutator method for Post Mode Id
+	  *
+	  */
 }
