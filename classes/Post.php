@@ -177,8 +177,15 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutuator method for post browser
+	  * @throws \InvalidArgumentException if $newPostBrowser is insecure
+	  * @throws \RangeException if $newPostBrowser is > 255 characters
+	  * @throws \TypeError if $newPostBrowser is not a string
 	  */
 	 public function setPostBrowser(string $newPostBrowser) {
+	 	$newPostBrowser = filter_var($newPostBrowser, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 	if(strlen($newPostBrowser) > 255) {
+	 		throw(new \RangeException("Browser content is too large"));
+		}
 	 	$this->postBrowser = $newPostBrowser;
 	 }
 }
