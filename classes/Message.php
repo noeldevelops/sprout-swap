@@ -187,14 +187,22 @@ class Message{
 	/**
 	 * mutator method for message content
 	 * @param string $newMessageContent
-	 * @throws Exception if user attempts to send a blank message
+	 * @throws \InvalidArgumentException if user attempts to send a blank message
+	 * @throws \RangeException if message is too long to fit in the database
 	 */
 	public function setMessageContent(string $newMessageContent){
+		//filters message content to ensure security
+		$newMessageContent = trim($newMessageContent);
+		$newMessageContent = filter_var($newMessageContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		//throws exception if user sends a blank message
-		if($newMessageContent === null){
-			throw(new \Exception("Messages cannot be blank!"));
+		if(empty($newMessageContent) === true){
+			throw(new \InvalidArgumentException("Messages cannot be blank!"));
 		}
-		//converts and stores variables
+		//ensure message will fit into the database
+		if(strlen($newMessageContent) > 500){
+			throw(new \RangeException("Messages cannot contain more than 500 characters!"));
+		}
+		//converts and stores content
 		$this->messageContent = $newMessageContent;
 	}
 	/**
@@ -244,10 +252,6 @@ class Message{
 			if($newMessageTimestamp === null){
 				$this->messageTimestamp = null;
 				return;
-			}
-			try {
-				$newMessageTimestamp = self::validateTimestamp($newMessageTimestamp);
-			} catch
 			}
 		}
 
