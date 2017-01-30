@@ -9,8 +9,8 @@ CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileImageId INT UNSIGNED NOT NULL,
 	profileActivation CHAR,
-	profileEmail VARCHAR NOT NULL (255),
-	profileHandle VARCHAR NOT NULL (15),
+	profileEmail VARCHAR (255) NOT NULL,
+	profileHandle VARCHAR (15) NOT NULL,
 	profileJoinDate TIMESTAMP NOT NULL,
 	profileName VARCHAR (30),
 	profilePasswordHash CHAR (128),
@@ -28,7 +28,7 @@ CREATE TABLE post (
 	postContent VARCHAR (250),
 	postDateTime TIMESTAMP NOT NULL,
 	postLocation POINT NOT NULL,
-	postOffer VARCHAR NOT NULL(75),
+	postOffer VARCHAR (75) NOT NULL,
 	postRequest VARCHAR (75),
 
 	FOREIGN KEY (postModeId) REFERENCES mode (modeId),
@@ -41,10 +41,10 @@ CREATE TABLE message (
 	messagePostId INT UNSIGNED NOT NULL,
 	messageReceiverProfileId INT UNSIGNED NOT NULL,
 	messageSenderProfileId INT UNSIGNED NOT NULL,
-	messageBrowser ,
-	messageContent VARCHAR NOT NULL (500),
-	messageIpAddress,
-	messageStatus,
+	messageBrowser VARCHAR (128) NOT NULL,
+	messageContent VARCHAR (500) NOT NULL,
+	messageIpAddress VARBINARY (16),
+	messageStatus TINYINT NOT NULL,
 	messageTimeStamp TIMESTAMP NOT NULL,
 
 	FOREIGN KEY (messagePostId) REFERENCES post (postId),
@@ -56,7 +56,7 @@ CREATE TABLE message (
 CREATE TABLE image (
 	imageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	imagePostId INT UNSIGNED NOT NULL,
-	imageCloudinaryId,
+	imageCloudinaryId VARCHAR (255),
 
 	FOREIGN KEY (imagePostId) REFERENCES image (imageId),
 	PRIMARY KEY (imageId)
