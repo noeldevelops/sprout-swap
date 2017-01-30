@@ -83,5 +83,3 @@ CREATE TABLE postImage(
 	FOREIGN KEY (messageSenderProfileId) REFERENCES profile (profileId),
 	PRIMARY KEY (messageId)
 );
-
-
