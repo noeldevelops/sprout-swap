@@ -3,7 +3,7 @@
 class Profile {
 	/**
 	 * id for the profile; this is a primary key
-	 * @var int for profileId
+	 * @var int for $profileId
 	 **/
 	private $profileId;
 	/**
@@ -14,21 +14,23 @@ class Profile {
 	private $profileImageId;
 	/**
 	 * activation code will be sent to end users email
-	 * @var char(16) for profileActivation
+	 * @var char(16) for $profileActivation
 	 **/
 	private $profileActivation;
 	/**
 	 *user private access email
-	 * @var varchar(255) for profileEmail;
+	 * @var varchar(255) for $profileEmail;
 	 **/
 	private $profileEmail;
 	/**
-	 * created by the user and has to be unique
-	 * @var varchar(21) is for profileHandlie not null
+	 * created by the user; has to be unique
+	 * @var varchar(21) is for $profileHandlie not null
 	 **/
 	private $profileHandle;
 	/**
-	 *
+	 *timestamp will be created in sql database when profile is created
+	 * @var timestamp default current_timestamp not null
 	 **/
+	private $profileTimestamp;
 
 }
