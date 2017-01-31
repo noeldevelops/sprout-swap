@@ -58,6 +58,7 @@ class Profile {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
 			$this->setProfileActivation($newProfileActivation);
+
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHandle($newProfileHandle);
 			$this->setProfileTimestamp($newProfileTimestamp);
@@ -339,5 +340,13 @@ class Profile {
 	 * @return string
 	 **/
 
-
+	public function insert(\PDO $pdo) {
+		if($this->profileId !== null){
+			throw(new \PDOException("not a new profile"));
+		}
+		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary)";
+		$statement = $pdo->prepare($query);
+		$formattedTimestamp = $this->profileTimestamp->format("Y-m-d H:i:s");
+		$parameters = [profile]
+	}
 }
