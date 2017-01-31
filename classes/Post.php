@@ -117,8 +117,8 @@ class Post implements \JsonSerializable {
 	  **/
 	 public function setPostId(int $newPostID = null) {
 	 	if($newPostId === null) {
-		$this->postId = null;
-		return;
+			$this->postId = null;
+			return;
 		}
 		if($newPostId <= 0) {
 	 		throw(new \RangeException("Post ID cannot be negative"));
@@ -164,7 +164,7 @@ class Post implements \JsonSerializable {
 	  */
 	 public function setPostProfileId(int $newPostProfileId) {
 		 if($newPostProfileId <= 0) {
-			 throw(new \RangeException("Profile Id must be positive"));
+			 throw(new \RangeException("Keep it positive!"));
 		 }
 		 $this->postProfileId = $newPostProfileId;
 	 }
@@ -187,5 +187,86 @@ class Post implements \JsonSerializable {
 	 		throw(new \RangeException("Browser content is too large"));
 		}
 	 	$this->postBrowser = $newPostBrowser;
+	 }
+	 /**
+	  *accessor method for post content
+	  * @return string value of post content
+	  **/
+	 public function getPostContent() {
+	 		return($this->postContent);
+	 }
+	 /**
+	  * mutator method for post content
+	  * @param string $newPostContent new value of psot content
+	  * @throws \InvalidArgumentException if $newPostContent is insecure
+	  * @throws \RangeException if $newPostContent is > 250 characters
+	  * @throws \TypeError if $newPostContent is not a string
+	  **/
+	 public function setPostContent(string $newPostContent) {
+	 	$newPostContent = trim($newPostContent);
+	 	$newPostContent = filter_var($newPostContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 	if(empty($newPostContent) === true) {
+	 			throw(new \InvalidArgumentException("Your post is empty or insecure."));
+		if(strlen($newPostContent) > 255) {
+			throw(new \RangeException("Your post content is far too wordy."));
+		}
+		$this->postContent = $newPostContent;
+		}
+	 }
+	 /**
+	  * accessor method for postIpAddress
+	  * @returns string value of users IP address
+	  */
+	 public function getPostIpAddress () {
+	 	return($this->postIpAddress);
+	 }
+	 /**
+	  * mutuator method for Post IP Address
+	  * @param string $newPostIpAddress value of users IP Address
+	  * @throws \InvalidArgumentException if IP address is not a valid ip address
+	  */
+	 public function setPostIpAddress(string $newPostIpAddress) {
+	 	$newPostIpAddress = filter_var($newPostIpAddress, FILTER_VALIDATE_IP);
+	 	$this->postIpAddress = $newPostIpAddress;
+	 }
+	 /**
+	  * accessor method for post location
+	  * @returns point value of post location
+	  */
+	 public function getPostLocation() {
+	 	return($this->postLocation);
+	 }
+	 /**
+	  * mutator method for post location
+	  * @param point $newPostLocation new value of post location
+	  *
+	  */
+	 public function setPostLocation(point $newPostLocation) {
+	 	$this->postLocation = $newPostLocation;
+	 }
+	 /**
+	  * accessor method for post offer
+	  * @returns string value of post offer
+	  */
+	 public function getPostOffer() {
+	 	return($this->postOffer);
+	 }
+	 /**
+	  * mutator method for post offer
+	  * @param string $newPostOffer value of post offer
+	  * @throws \InvalidArgumentException if $newPostOffer is insecure or empty
+	  * @throws \RangeException if $newPostOffer is >75 characters
+	  * @throws \TypeError if $newPostOffer is not a string
+	  */
+	 public function setPostOffer(string $newPostOffer) {
+	 	$newPostOffer = trim($newPostOffer);
+	 	$newPostOffer = filter_var($newPostOffer, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 	if(empty($newPostOffer) === true) {
+	 		throw(new \InvalidArgumentException("Offer content is empty or insecure."));
+		}
+		if(strlen($newPostOffer) > 75) {
+	 		throw(new \RangeException("Offer content too large"));
+		}
+		$this->postOffer = $newPostOffer;
 	 }
 }
