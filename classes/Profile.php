@@ -146,7 +146,9 @@ class Profile {
 		if(empty($newProfileActivation) === true) {
 			throw(new \InvalidArgumentException("profile activation is empty or insecure"));
 		}
-		if(strlen($newProfileActivation) > 16)
+		if(strlen($newProfileActivation) > 16){
+			throw(new \RangeException("profile activation cannot be more than 16 characters"));
+		}
 			$this->profileActivation = $newProfileActivation;
 	}
 	/**
@@ -192,7 +194,7 @@ class Profile {
 	 * @throws \TypeError if $newProfileHandle is not a string
 	 **/
 
-	public function setProfileHandle(sting $newProfileHandle) {
+	public function setProfileHandle(string $newProfileHandle) {
 		if(empty($newProfileHandle) === true){
 			throw(new \InvalidArgumentException("must create unique profile handle"));
 		}
@@ -224,16 +226,15 @@ class Profile {
 			$newProfileTimestamp = self::validatetime($newProfileTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-			catch(\RangeException $rangeException) {
+		} catch(\RangeException $rangeException) {
 				throw (new \RangeException($rangeException->getmessage(), 0, $rangeException));
 			}
-		}
 		$this->profileTimestamp = $newProfileTimestamp;
+		}
 
 		/** accessor method for profile timestamp
 		 *@return $this profile timestamp
 		 **/
-	}
 
 	public function getProfileName() {
 		return($this->profileName);
