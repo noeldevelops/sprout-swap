@@ -322,6 +322,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * update method for message
 	 * @param PDO $pdo PDO connection object
+	 * @throws \PDOException if mySQL errors occur
 	 */
 		public function update(\PDO $pdo) {
 			//if messageId is null, it does not exist and therefore cannot be updated
