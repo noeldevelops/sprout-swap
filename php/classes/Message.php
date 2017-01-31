@@ -361,7 +361,7 @@ class Message implements \JsonSerializable {
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
-		public static function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
+		public static function getMessageByMessageSenderProfileId(\PDO $pdo, int $messageSenderProfileId){
 			//throw an exception if sender id is empty
 			if($messageSenderProfileId <= 0){
 				throw (new \RangeException("messageSenderId is not greater than zero"));
