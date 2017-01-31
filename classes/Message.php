@@ -1,6 +1,6 @@
 <?PHP
 
-class Message{
+class Message implements \JsonSerializable {
 	/**
 	 * ID for message; primary key
 	 * @var int $messageId
@@ -300,7 +300,7 @@ class Message{
 			$this->messageId = intval($pdo->lastInsertId());
 		}
 	/**
-	 * delte function for mySQL
+	 * delete function for mySQL
 	 * @param PDO $pdo
 	 */
 		public function delete (\PDO $pdo){
@@ -339,12 +339,14 @@ class Message{
 	/**
 	 * @param PDO $pdo
 	 * @param int $messageSenderProfileId
-	 * @return SplFixedArray
+	 * @return SplFixedArray of all messages associated with a sender id
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
 		public function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
 			//throw an exception if sender id is empty
 			if($messageSenderProfileId <= 0){
-				throw (\PDOException("messageSenderId is not greater than zero"));
+				throw (\RangeException("messageSenderId is not greater than zero"));
 			}
 			//create query template
 			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageSenderProfileId = :messageSenderProfileId";
@@ -361,10 +363,19 @@ class Message{
 					$messages[$messages->key()] = $message;
 					$messages->next();
 				} catch(\Exception $exception){
-					//if row can't be converted
+					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
 				return($messages);
 			}
+		}
+	/**
+	 * formats variables for JSON serialization
+	 * @return array with state variable to serialize
+	 */
+		public function jsonSerialize(){
+			$fields = get_object_vars($this);
+			$fields["messageTimestamp"] = $this->messageTimestamp->getTimestamp() * 1000;
+			return($fields);
 		}
 }
