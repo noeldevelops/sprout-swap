@@ -269,4 +269,29 @@ class Post implements \JsonSerializable {
 		}
 		$this->postOffer = $newPostOffer;
 	 }
+	 /**
+	  * accessor method for post request
+	  * @returns string value of post request
+	  */
+	 public function getPostRequest() {
+	 	return($this->postRequest);
+	 }
+	 /**
+	  * mutator method for post request
+	  * @param string $newPostRequest new value of post request
+	  * @throws \InvalidArgumentException if $newPostRequest is insecure or empty
+	  * @throws \RangeException if $newPostRequest is > 75 characters
+	  * @throws \TypeError if $newPostRequest is not a string
+	  **/
+	 public function setPostRequest(string $newPostRequest) {
+	 	$newPostRequest = trim($newPostRequest);
+	 	$newPostRequest = filter_var($newPostRequest, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 	if(empty($newPostRequest) === true) {
+			throw(new \InvalidArgumentException("Request is empty or insecure"));
+		}
+		if(strlen($newPostRequest) > 75) {
+			throw(new \RangeException("Request is too long"));
+		}
+		$this->postRequest = $newPostRequest;
+	 }
 }
