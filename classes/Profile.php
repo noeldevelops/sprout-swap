@@ -294,7 +294,7 @@ class Profile {
 	 * mutator method for profile salt
 	 * @param int $newProfileSalt
 	 * @throws \RangeException if $newProfileSalt is not positive
-	 * @thows \TypeError if $newProfileSalt is not a string
+	 * @throws \TypeError if $newProfileSalt is not a string
 	 **/
 
 	public function setProfileSalt(string $newProfileSalt){
@@ -312,5 +312,31 @@ class Profile {
 	 * @return string
 	 **/
 
-	public
+	public function getProfileSummary(){
+		return($this->profileSummary);
+	}
+
+	/**
+	 * mutator method for profile summary
+	 * @param int $newProfileSummary
+	 * @throws \RangeException if $newProfileSummary is not positive
+	 * @throws \TypeError if $newProfileSummary is not a string
+	 **/
+
+	public function setProfileSummary(string $newProfileSummary) {
+		if(empty($newProfileSummary) === true) {
+			throw(new \InvalidArgumentException(("profile summary created by user")));
+		}
+		if(strlen($newProfileSummary) > 255) {
+			throw(new \RangeException("profile summary cannot contain more than 255 characters"));
+		}
+		$this->profileSummary = $newProfileSummary;
+
+	}
+	/**
+	 * accessor method for profile summary
+	 * @return string
+	 **/
+
+
 }
