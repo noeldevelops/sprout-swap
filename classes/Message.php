@@ -425,10 +425,9 @@ class Message implements \JsonSerializable {
 			//bind variables
 			$parameters = ["messagePostId" => $messagePostId];
 			$statement->execute($parameters);
-			//setup array of messages
+			//build array of messages
 			$messages = new \SplFixedArray($statement->rowCount());
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			//build array of messages
 			while(($row = $statement->fetch()) !== false) {
 				try {
 					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
