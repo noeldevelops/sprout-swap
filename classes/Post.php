@@ -294,4 +294,18 @@ class Post implements \JsonSerializable {
 		}
 		$this->postRequest = $newPostRequest;
 	 }
+	 /**
+	  * accessor method for post timestamp
+	  * @returns timestamp value of post timestamp
+	  */
+	 public function getPostTimestamp() {
+	 	return($this->postTimestamp);
+	 }
+	 /**
+	  * mutuator method for post timestamp
+	  * @param timestamp $newPostTimestamp new value of post timestamp
+	  */
+	 public function setPostTimestamp(datetime $newPostTimestamp) {
+	 	$this->postTimestamp = $newPostTimestamp;
+	 }
 }
