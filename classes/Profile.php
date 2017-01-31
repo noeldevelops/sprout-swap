@@ -52,4 +52,31 @@ class Profile {
 	 * @var varchar(255) for $profileSummary
 	 **/
 	private $profileSummary;
+
+	public function_construct(int $newProfileId = null, int $newProfileImageId, char $newProfileActivation, varchar $newProfileEmail, varchar $newProfileHandle, timestamp default $newProfileTimestamp, varchar $newProfileName, char $newProfilePasswordHash, char $newProfileSalt, varchar $newProfileSummary) {
+		try {
+			$this->setProfileId($newProfileId);
+			$this->setProfileImageId($newProfileImageId);
+			$this->setProfileActivation($newProfileActivation);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileHandle($newProfileHandle);
+			$this->setProfileTimestamp($newProfileTimestamp);
+			$this->setProfileName($newProfileName);
+			$this->setProfilePasswordHash($newProfilePasswordHash);
+			$this->setProfileSalt($newProfileSalt);
+			$this->setProfileSummary($newProfileSummary);
+	} catch(\InvalidArgumentException $invaildArgument) {
+	throw(new \InvalidArgumentException($invaildArgument->getmessage(), 0, $invaildArgument));
+		} catch(\RangeException $rangeException) {
+			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
+		} catch(\TypeError $typeError) {
+			throw (new \TypeError($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			throw (new \Exception($exception->getMessage(), 0, $exception));
+		}
+	}
+	/**
+	 * accessor method for messageId
+	 * @return int|null value of messageId
+	 **/
 }
