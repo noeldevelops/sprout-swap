@@ -63,4 +63,27 @@ public function getImageId() {
 		}
 		$this->imageId = $newImageId;
 	}
+	/**
+	 * accessor method for image cloudinary id
+	 * @returns int|null value of image cloudinary id
+	 */
+	public function getImageCloudinaryId(){
+		return($this->imageCloudinaryId);
+	}
+	/**
+	 * mutuator method for image cloudinary id
+	 * @param int|null $newImageCloudinaryId new value of cloudinary id
+	 * @throws \RangeException if $newImageCloudinaryId is not positive
+	 * @throws \TypeError if $newImageCloudinaryId is not an integer
+	 */
+	public function setImageCloudinaryId(int $newImageCloudinaryId = null) {
+		if($newImageCloudinaryId === null) {
+			$this->imageCloudinaryId = null;
+			return;
+		}
+		if($newImageCloudinaryId <= 0) {
+			throw(new \RangeException("Image Cloudinary Id is not positive"));
+		}
+		$this->imageCloudinaryId = $newImageCloudinaryId;
+	}
 }
