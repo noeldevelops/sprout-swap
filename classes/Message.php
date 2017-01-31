@@ -252,14 +252,47 @@ class Message{
 			//convert and store variable
 			$this->messageStatus = $newMessageStatus;
 		}
+	/**
+	 * accessor for message timestamp
+	 * @returns $messageTimestamp
+	 */
 		public function getMessageTimestamp(){
 			return($this->messageTimestamp);
 		}
+	/**
+	 * mutator for messageTimestamp
+	 * @param null $newMessageTimestamp
+	 */
 		public function setMessageTimestamp($newMessageTimestamp = null){
+			// if message timestamp is null, set it to current
 			if($newMessageTimestamp === null){
-				$this->messageTimestamp = null;
+				$this->messageTimestamp = new DateTime();
 				return;
 			}
+			// store message date
+			try{
+				$newMessageTimestamp = self::validateDateTime($newMessageTimestamp);
+			} catch(\InvalidArgumentException $invalidArgument) {
+				throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+			} catch(\RangeException $rangeException) {
+				throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
+			}
+			$this->messageTimestamp = $newMessageTimestamp;
+		}
+		public function insert (\PDO $pdo){
+			//ensure message id is null
+			if($this->messageId !==  null){
+				throw (new \PDOException("messageId already exists in database"));
+			}
+			// create query template
+			$query = "INSERT INTO message(messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp)";
+			$statement = $pdo->prepare($query);
+			//bind variables
+			$formattedTimestamp = $this->messageTimestamp->format("Y-m-d H:i:s");
+			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $formattedTimestamp];
+			$statement->execute($parameters);
+			//update null messageId
+			$this->messageId = intval($pdo->lastInsertId());
 		}
 
 }
