@@ -260,5 +260,31 @@ class Profile {
 	 * @return string
 	 **/
 
+	public function getProfileHash(){
+		return($this->profileHash);
+	}
+
+	/**
+	 * mutator method for profile hash
+	 * @param int $newProfileHash
+	 * @throws \RangeException if $newPrfofileHash is not positive
+	 * @throws \TypeError if $newProfileName is not a string
+	 **/
+
+	public function setProfileHash(string $newProfileHash){
+		if(empty($newProfileHash) === true){
+			throw(new \InvalidArgumentException("profile hash will be created in the string"));
+		}
+		if(strlen($newProfileHash) > 128){
+			throw(new \RangeException("profile hash cannot contain more than 128 characters"));
+		}
+		$this->profileHash = $newProfileHash;
+	}
+
+	/**
+	 * accessor method for profile hash
+	 * @return string
+	 **/
+
 
 }
