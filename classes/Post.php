@@ -55,7 +55,7 @@ class Post implements \jsonSerializable {
 	private $postRequest;
 	/**
 	 * Timestamp when post is created
-	 * @var TIMESTAMP $postTimestamp
+	 * @var DateTime $postTimestamp
 	 */
 	private $postTimestamp;
 	/**
@@ -177,6 +177,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * mutuator method for post browser
+	  * @param string $newPostBrowser new value of postBrowser
 	  * @throws \InvalidArgumentException if $newPostBrowser is insecure
 	  * @throws \RangeException if $newPostBrowser is > 255 characters
 	  * @throws \TypeError if $newPostBrowser is not a string
@@ -199,7 +200,7 @@ class Post implements \jsonSerializable {
 	  * mutator method for post content
 	  * @param string $newPostContent new value of psot content
 	  * @throws \InvalidArgumentException if $newPostContent is insecure
-	  * @throws \RangeException if $newPostContent is > 250 characters
+	  * @throws \RangeException if $newPostContent is > 255 characters
 	  * @throws \TypeError if $newPostContent is not a string
 	  **/
 	 public function setPostContent(string $newPostContent) {
@@ -296,16 +297,106 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
-	  * @returns timestamp value of post timestamp
+	  * @returns datetime $postTimeStamp value of post timestamp
 	  */
 	 public function getPostTimestamp() {
 	 	return($this->postTimestamp);
 	 }
-	 /**
-	  * mutuator method for post timestamp
-	  * @param timestamp $newPostTimestamp new value of post timestamp
-	  */
-	 public function setPostTimestamp(datetime $newPostTimestamp) {
-	 	$this->postTimestamp = $newPostTimestamp;
-	 }
+
+	/**
+	 * mutator method for post timestamp
+	 *
+	 * @param \DateTime|string|null $newPostTimestamp post date as a DateTime object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newPostTimestamp is not a valid object or string
+	 * @throws \RangeException if $newPostTimestamp is a date that does not exist
+	 **/
+	public function setTweetDate($newPostTimestamp = null) {
+		// base case: if the date is null, use the current date and time
+		if($newPostTimestamp === null) {
+			$this->postTimestamp = new \DateTime();
+			return;
+		}
+		try {
+			$newPostTimestamp = self::validateDateTime($newPostTimestamp);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->postTimestamp = $newPostTimestamp;
+	}
+	/**
+	 * inserts this post into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		if($this->postId !== null) {
+			throw(new \PDOException("Not a new post"));
+		}
+		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest, :postTimestamp)";
+		$statement = $pdo->prepare($query);
+		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
+
+		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
+
+		$statement->execute($parameters);
+
+		$this->postId = intval($pdo->lastInsertId());
+	}
+	/**
+	 * deletes this post from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) {
+		if($this->postId === null) {
+			throw(new \PDOException("unable to delete a post that doesn't exist"));
+		}
+		$query = "DELETE FROM post WHERE postId = :postId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["postId" => $this->postId];
+		$statement->execute($parameters);
+	}
+
+
+/**
+ * updates this post in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) {
+	if($this->postId === null) {
+		throw(new \PDOException("Cannot update a post that doesn't exist"));
+	}
+	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = :postLocation, postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
+	$statement = $pdo->prepare($query);
+	$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
+
+	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
+
+	$statement->execute($parameters);
+}
+/**gets the post by content
+ *
+ */
+
+public static function getPostbyPostContent(\PDO $pdo, string $postContent)
+(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest, :postTimestamp)";
+		$statement = $pdo->prepare($query);
+		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
+
+		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
+
+		$statement->execute($parameters);
+
+		$this->postId = intval($pdo->lastInsertId());
+	}
 }
