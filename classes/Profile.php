@@ -229,12 +229,36 @@ class Profile {
 			}
 		}
 		$this->profileTimestamp = $newProfileTimestamp;
+
+		/** accessor method for profile timestamp
+		 *@return $this profile timestamp
+		 **/
+	}
+
+	public function getProfileName() {
+		return($this->profileName);
 	}
 
 	/**
-	 * insert functioni
-	 * @param PDO $pdo
+	 * mutator method for profile name
+	 * @param int $newProfileName
+	 * @throws \RangeException if $newProfileName is not positive
+	 * @throws \TypeError if $newProfileName is not a string
 	 **/
 
-	public function insert
+	public function setProfileName(string $newProfileName){
+		if(empty($newProfileName) === true){
+			throw(new \InvalidArgumentException("profile name must be a first and last name"));
+		}
+		if(strlen($newProfileName) > 30){
+			throw(new \RangeException("profile name cannot contain more than 30 characters"));
+		}
+		$this->profileName = $newProfileName;
+	}
+	/**
+	 * accessor method for profile name
+	 * @return string
+	 **/
+
+
 }
