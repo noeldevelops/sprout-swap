@@ -33,7 +33,7 @@ class Message implements \JsonSerializable {
 	private $messageContent;
 	/**
 	 * IP address of message sender
-	 * @var $browserIpAddress VARBINARY (16)
+	 * @var $browserIpAddress string
 	 */
 	private $messageIpAddress;
 	/**
@@ -43,7 +43,7 @@ class Message implements \JsonSerializable {
 	private $messageStatus;
 	/**
 	 * Timestamp when message was sent
-	 * @var $messageTimeStamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+	 * @var $messageTimeStamp datetime
 	 */
 	private $messageTimestamp;
 
@@ -349,7 +349,7 @@ class Message implements \JsonSerializable {
 		public static function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
 			//throw an exception if sender id is empty
 			if($messageSenderProfileId <= 0){
-				throw (\RangeException("messageSenderId is not greater than zero"));
+				throw (new \RangeException("messageSenderId is not greater than zero"));
 			}
 			//create query template
 			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageSenderProfileId = :messageSenderProfileId";
@@ -402,7 +402,7 @@ class Message implements \JsonSerializable {
 					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
-				return ($messages);
+				return($messages);
 			}
 		}
 	/**
