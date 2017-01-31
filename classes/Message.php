@@ -458,7 +458,7 @@ class Message implements \JsonSerializable {
 			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageContent LIKE :messageContent";
 			$statement = $pdo->prepare($query);
 			//bind message content to placeholder
-			$messageContent = "%messageContent%";
+			$messageContent = "%$messageContent%";
 			$parameters = ["messageContent" => $messageContent];
 			$statement->execute($parameters);
 			//build array of messages
