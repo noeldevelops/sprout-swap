@@ -1,4 +1,5 @@
 <?PHP
+namespace Edu\Cnm\SproutSwap;
 
 class Message implements \JsonSerializable {
 	/**
@@ -46,7 +47,20 @@ class Message implements \JsonSerializable {
 	 * @var $messageTimeStamp datetime
 	 */
 	private $messageTimestamp;
-
+	/**
+	 * Message constructor.
+	 * @param int|null $newMessageId
+	 * @param int $newMessagePostId
+	 * @param int $newMessageReceiverProfileId
+	 * @param int $newMessageSenderProfileId
+	 * @param string $newMessageBrowser
+	 * @param string $newMessageContent
+	 * @param string $newMessageIpAddress
+	 * @param int $newMessageStatus
+	 * @param null $newMessageTimestamp
+	 * @throws Exception
+	 * @throws TypeError
+	 */
 	public function __construct
 	(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
 		try{
@@ -443,7 +457,6 @@ class Message implements \JsonSerializable {
 				return($messages);
 			}
 		}
-
 	/**
 	 * method allows us to search within messages
 	 * @param PDO $pdo
