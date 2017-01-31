@@ -286,5 +286,31 @@ class Profile {
 	 * @return string
 	 **/
 
+	public function getProfileSalt(){
+		return($this->profileSalt);
+	}
 
+	/**
+	 * mutator method for profile salt
+	 * @param int $newProfileSalt
+	 * @throws \RangeException if $newProfileSalt is not positive
+	 * @thows \TypeError if $newProfileSalt is not a string
+	 **/
+
+	public function setProfileSalt(string $newProfileSalt){
+		if(empty($newProfileSalt) === true){
+			throw(new \InvalidArgumentException("profile salt created by hash"));
+		}
+		if(strlen($newProfileSalt) > 64){
+			throw(new \RangeException("profile salt cannot contain more than 64 characters"));
+		}
+		$this->profileSalt = $newProfileSalt;
+	}
+
+	/**
+	 * accessor method for profile salt
+	 * @return string
+	 **/
+
+	public
 }
