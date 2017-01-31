@@ -183,6 +183,27 @@ class Profile {
 
 	public function getProfileHandle() {
 		return($this->profileHandle);
-
 	}
+
+	/**
+	 * mutator method for profile handle
+	 * @param int $newProfileHandle
+	 * @throws \RangeException if $newProfileHnadle is not positive
+	 * @throws \TypeError if $newProfileHandle is not a string
+	 **/
+
+	public function setProfileHandle(sting $newProfileHandle) {
+		if(empty($newProfileHandle) === true){
+			throw(new \InvalidArgumentException("must create unique profile handle"));
+		}
+		if(strlen($newProfileHandle) > 21){
+			throw(new \RangeException("Profile handle cannot contain more than 21 characters"));
+		}
+		$this->profileHandle = $newProfileHandle;
+	}
+	/**
+	 * accessor method for profile handle
+	 * @return string
+	 **/
+
 }
