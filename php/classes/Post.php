@@ -410,7 +410,62 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 	while(($row = $statement->fetch()) !== false) {
 		try {
 			$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			$posts[$posts->key()] = $post;
+			$posts->next();
+		} catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
+	return($posts);
 }
+	/**gets the post by post Id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param integer $postId post Id to search
+	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 **/
+
+	public static function getPostbyPostId (\PDO $pdo, string $postId, $exception) {
+		if($postId <= 0) {
+			throw(new \RangeException("Post ID must be positive"));
+		}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postId = :postId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["postId => $postId"];
+		$statement->execute($parameters);
+
+		try {
+			$post = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+		} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($post);
+	}
+		/**
+		 * get post by post mode
+		 * @param \PDO $pdo connection object
+		 * @param int $postModeId mode id to search by
+		 * @return \SplFixedArray of posts found
+		 * @throws \PDOException when mySQL errors occur
+		 * @throws \TypeError when variables are not correct type
+
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	} */
 }
