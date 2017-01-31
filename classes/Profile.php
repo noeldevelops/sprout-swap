@@ -14,17 +14,17 @@ class Profile {
 	private $profileImageId;
 	/**
 	 * activation code will be sent to end users email
-	 * @var char(16) for $profileActivation
+	 * @var $profileActivation string (16)
 	 **/
 	private $profileActivation;
 	/**
 	 *user private access email
-	 * @var varchar(255) for $profileEmail;
+	 * @var $profileEmail string (255);
 	 **/
 	private $profileEmail;
 	/**
 	 * created by the user; has to be unique
-	 * @var varchar(21) is for $profileHandlie not null
+	 * @var $profileHandlie string (21) not null
 	 **/
 	private $profileHandle;
 	/**
@@ -34,26 +34,26 @@ class Profile {
 	private $profileTimestamp;
 	/**
 	 * profileName will be end users real name
-	 * @var varchar(30) for $profileName
+	 * @var $profileName string (30)
 	 **/
 	private $profileName;
 	/**
 	 * database will generate a hash value
-	 * @var char(64) for $profilePasswordHash
+	 * @var $profilePasswordHash string (64)
 	 **/
 	private $profilePasswordHash;
 	/**
 	 * salt created by password hash
-	 * @var char(64) for $profileSalt
+	 * @var $profileSalt string (64)
 	 **/
 	private $profileSalt;
 	/**
 	 * description of the profile
-	 * @var varchar(255) for $profileSummary
+	 * @var $profileSummary string (255)
 	 **/
 	private $profileSummary;
 
-	public function_construct(int $newProfileId = null, int $newProfileImageId, char $newProfileActivation, varchar $newProfileEmail, varchar $newProfileHandle, timestamp default $newProfileTimestamp, varchar $newProfileName, char $newProfilePasswordHash, char $newProfileSalt, varchar $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
@@ -136,8 +136,37 @@ class Profile {
 }
 	/**
 	 * mutator method for profile activation
-	 * @param char $newProfileActivation
-	 * @throws \RangeException is profile activation is not positive
-	 * @thorws \TypeError if $newProfileActivation is not a char
+	 * @param string $newProfileActivation
+	 * @throws \InvalidArgumentException if $newProfileActivation is insecure
+	 * @throws \RangeException if $newProfileActivation is > 16 characters
+	 * @thorws \TypeError if $newProfileActivation is not a string
 	 **/
+
+	public function setProfileActivation(string $newProfileActivation) {
+		if(empty($newProfileActivation) === true) {
+			throw(new \InvalidArgumentException("profile activation is empty or insecure"));
+		}
+		if(strlen($newProfileActivation) > 16)
+			$this->profileActivation = $newProfileActivation;
+	}
+	/**
+	 * accessor method for profile activation
+	 *
+	 * @return \Profile activation valid for profile
+	 **/
+
+	public function getProfileEmail() {
+		return($this->profileEmail);
+	}
+
+	/**
+	 * mutator method for profile email
+	 * @param int $newProfileEmail
+	 * @throws \RangeException if $newProfileEmail is not positive
+	 * @throws \TypeError if $newProfileEmail is not a string
+	 **/
+
+	public function setProfileEmail(string $newProfileEmail) {
+		if($newProfileEmail)
+	}
 }
