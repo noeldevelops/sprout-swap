@@ -319,7 +319,6 @@ class Message implements \JsonSerializable {
 			//execute parameters
 			$statement->execute($parameters);
 		}
-
 	/**
 	 * update method for message
 	 * @param PDO $pdo PDO connection object
@@ -338,7 +337,6 @@ class Message implements \JsonSerializable {
 			//execute parameters
 			$statement->execute($parameters);
 		}
-
 	/**
 	 * @param PDO $pdo
 	 * @param int $messageSenderProfileId
@@ -372,7 +370,6 @@ class Message implements \JsonSerializable {
 				return($messages);
 			}
 		}
-
 	/**
 	 * @param PDO $pdo
 	 * @param int $messageReceiverProfileId
@@ -405,18 +402,18 @@ class Message implements \JsonSerializable {
 				return($messages);
 			}
 		}
-
 	/**
 	 * @param PDO $pdo
 	 * @param int $messagePostId
 	 * @return SplFixedArray array of messages in reference to a particular post; can be null
 	 * @throws \InvalidArgumentException if messagePostId is null
 	 * @throws \RangeException if messagePostId is an invalid int
+	 * @throws \PDOException when mySQL errors occur
 	 */
 		public static function getMessageByMessagePostId(\PDO $pdo, int $messagePostId){
 			//throws exception if messagePostId is null
 			if($messagePostId === null){
-				throw (new \InvalidArgumentException("messagePostId cannot be null!"));
+				throw (new \InvalidArgumentException("messagePostId cannot be null in this situation"));
 			}
 			//throws exception if messagePostId is less than zero
 			if($messagePostId <= 0){
@@ -428,7 +425,7 @@ class Message implements \JsonSerializable {
 			//bind variables
 			$parameters = ["messagePostId" => $messagePostId];
 			$statement->execute($parameters);
-			//build array of messages
+			//setup array of messages
 			$messages = new \SplFixedArray($statement->rowCount());
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			//build array of messages
@@ -445,6 +442,38 @@ class Message implements \JsonSerializable {
 			}
 		}
 
+	/**
+	 * method allows us to search within messages
+	 * @param PDO $pdo
+	 * @param string $messageContent
+	 * @return mixed
+	 */
+		public static function getMessageByMessageContent(\PDO $pdo, string $messageContent){
+			//sanitize for security
+			$messageContent = trim($messageContent);
+			$messageContent = filter_var($messageContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+			//create query template
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageContent LIKE :messageContent";
+			$statement = $pdo->prepare($query);
+			//bind message content to placeholder
+			$messageContent = "%messageContent%";
+			$parameters = ["messageContent" => $messageContent];
+			$statement->execute($parameters);
+			//build array of messages
+			$messages = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$messages[$messages->key()] = $message;
+					$messages->next();
+				} catch(\Exception $exception) {
+					//throws if row can't be converted
+					throw (new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return($messages);
+			}
+		}
 	/**
 	 * formats variables for JSON serialization
 	 * @return array with state variable to serialize
