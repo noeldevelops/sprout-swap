@@ -26,4 +26,6 @@ class PostImage implements \JsonSerializable{
 			throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+
 }

@@ -246,8 +246,10 @@ class Message implements \JsonSerializable {
 	 */
 		public function setMessageStatus(int $newMessageStatus){
 			//throws exceptions if $newMessageStatus is NOT equal to 0 or 1
-			if($newMessageStatus !== 0 || $newMessageStatus !== 1){
-				throw (new \RangeException("Message Status must be equal to either zero or one"));
+			if($newMessageStatus < 0 ){
+				throw (new \RangeException("Message Status must not be less than zero"));
+			} else if($newMessageStatus > 1){
+				throw (new \RangeException("Message Status must not be greater than one"));
 			}
 			//convert and store variable
 			$this->messageStatus = $newMessageStatus;
