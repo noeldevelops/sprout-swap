@@ -67,7 +67,7 @@ class Post implements \JsonSerializable {
 	 * @param string $newPostBrowser auto-generated browser info for the user who created post
 	 * @param string $newPostContent actual content of the post
 	 * @param string $newPostIpAddress IP Address of user who created post
-	 * @param string $newPostLocation geolocation of user who created post
+	 * @param point $newPostLocation geolocation of user who created post
 	 * @param string $newPostOffer string containing user's offer
 	 * @param string $newPostRequest string containing user's request
 	 * @param DateTime $newPostTimestamp contains date and time post was created
@@ -76,7 +76,7 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, string $newPostLocation, string $newPostOffer, string $newPostRequest, DateTime $newPostTimestamp ) {
+	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, point $newPostLocation, string $newPostOffer, string $newPostRequest, DateTime $newPostTimestamp ) {
 		 try {
 			 $this->setPostId($newPostId);
 			 $this->setPostModeId($newPostModeId);
@@ -115,7 +115,7 @@ class Post implements \JsonSerializable {
 	  * @throws \RangeException if $newPostId is not positive
 	  * @throws \TypeError if $newPostId is not an integer
 	  **/
-	 public function setPostId(int $newPostID = null) {
+	 public function setPostId(int $newPostId = null) {
 	 	if($newPostId === null) {
 			$this->postId = null;
 			return;

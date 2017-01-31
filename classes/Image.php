@@ -5,7 +5,7 @@
  * @author A Noel Cothren <noelcothren@gmail.com>
  * @version 1.0
  **/
-class Image implements \JsonSerializable {
+class Image implements \jsonSerializable {
 	/**
 	 * id for the image, this is the primary key
 	 * @var int $imageId
