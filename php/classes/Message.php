@@ -58,8 +58,8 @@ class Message implements \JsonSerializable {
 	 * @param string $newMessageIpAddress
 	 * @param int $newMessageStatus
 	 * @param null $newMessageTimestamp
-	 * @throws Exception
-	 * @throws TypeError
+	 * @throws \Exception
+	 * @throws \TypeError
 	 */
 	public function __construct
 	(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
@@ -233,7 +233,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for message sender's ip address
 	 * @param $newMessageIpAddress
-	 * @throws TypeError
+	 * @throws \TypeError
 	 */
 	public function setMessageIpAddress(string $newMessageIpAddress) {
 		//sanitize input
@@ -299,7 +299,7 @@ class Message implements \JsonSerializable {
 
 	/**
 	 * insert function
-	 * @param PDO $pdo
+	 * @param \PDO $pdo
 	 * @throws \PDOException when mySQL errors occur
 	 */
 		public function insert (\PDO $pdo){
@@ -319,7 +319,7 @@ class Message implements \JsonSerializable {
 		}
 	/**
 	 * delete function for mySQL
-	 * @param PDO $pdo PDO connection object
+	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL errors occur
 	 */
 		public function delete (\PDO $pdo){
@@ -337,7 +337,7 @@ class Message implements \JsonSerializable {
 		}
 	/**
 	 * update method for message
-	 * @param PDO $pdo PDO connection object
+	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException if mySQL errors occur
 	 */
 		public function update(\PDO $pdo) {
@@ -355,9 +355,9 @@ class Message implements \JsonSerializable {
 			$statement->execute($parameters);
 		}
 	/**
-	 * @param PDO $pdo
+	 * @param \PDO $pdo
 	 * @param int $messageSenderProfileId
-	 * @return SplFixedArray of all messages associated with a sender id
+	 * @return \SplFixedArray of all messages associated with a sender id
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
@@ -388,9 +388,9 @@ class Message implements \JsonSerializable {
 			}
 		}
 	/**
-	 * @param PDO $pdo
+	 * @param \PDO $pdo
 	 * @param int $messageReceiverProfileId
-	 * @return SplFixedArray array of all messages received by a particular id
+	 * @return \SplFixedArray array of all messages received by a particular id
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
@@ -420,9 +420,9 @@ class Message implements \JsonSerializable {
 			}
 		}
 	/**
-	 * @param PDO $pdo
+	 * @param \PDO $pdo
 	 * @param int $messagePostId
-	 * @return SplFixedArray array of messages in reference to a particular post; can be null
+	 * @return \SplFixedArray array of messages in reference to a particular post; can be null
 	 * @throws \InvalidArgumentException if messagePostId is null
 	 * @throws \RangeException if messagePostId is an invalid int
 	 * @throws \PDOException when mySQL errors occur
@@ -459,7 +459,7 @@ class Message implements \JsonSerializable {
 		}
 	/**
 	 * method allows us to search within messages
-	 * @param PDO $pdo
+	 * @param \PDO $pdo
 	 * @param string $messageContent
 	 * @return mixed
 	 */
@@ -488,6 +488,22 @@ class Message implements \JsonSerializable {
 				}
 				return($messages);
 			}
+		}
+	/**
+	 * @param \PDO $pdo
+	 * @param int $messageId
+	 * @throws \RangeException if message id is outside of bounds
+	 */
+		public static function getMessageByMessageId(\PDO $pdo, int $messageId){
+			if($messageId <= 0){
+				throw (new \RangeException("messageId must be greater than zero"));
+			}
+			//create query statement
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageId = :messageId";
+			$statement = $pdo->prepare($query);
+			//bind variables and execute
+			$parameters = ["messageId" => $messageId];
+			$statement->execute($parameters);
 		}
 	/**
 	 * formats variables for JSON serialization
