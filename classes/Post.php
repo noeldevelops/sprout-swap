@@ -6,7 +6,7 @@
  * @version 1.0
  **/
 
-class Post implements \JsonSerializable {
+class Post implements \jsonSerializable {
 	/**
 	 * id for this Post; this is the primary key
 	 * @var int $postId
