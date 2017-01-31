@@ -254,7 +254,7 @@ class Message implements \JsonSerializable {
 		}
 	/**
 	 * accessor for message timestamp
-	 * @returns $messageTimestamp
+	 * @returns \DateTime value of message
 	 */
 		public function getMessageTimestamp(){
 			return($this->messageTimestamp);
@@ -262,6 +262,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator for messageTimestamp
 	 * @param null $newMessageTimestamp
+	 * @throws \InvalidArgumentException when
 	 */
 		public function setMessageTimestamp($newMessageTimestamp = null){
 			// if message timestamp is null, set it to current
@@ -283,6 +284,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * insert function
 	 * @param PDO $pdo
+	 * @throws \PDOException when mySQL errors occur
 	 */
 		public function insert (\PDO $pdo){
 			//ensure message id is null
@@ -301,7 +303,8 @@ class Message implements \JsonSerializable {
 		}
 	/**
 	 * delete function for mySQL
-	 * @param PDO $pdo
+	 * @param PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occur
 	 */
 		public function delete (\PDO $pdo){
 			//if messageId is null, it does not exist and therefore cannot be deleted
@@ -319,7 +322,7 @@ class Message implements \JsonSerializable {
 
 	/**
 	 * update method for message
-	 * @param PDO $pdo
+	 * @param PDO $pdo PDO connection object
 	 */
 		public function update(\PDO $pdo) {
 			//if messageId is null, it does not exist and therefore cannot be updated
@@ -343,7 +346,7 @@ class Message implements \JsonSerializable {
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
-		public function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
+		public static function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
 			//throw an exception if sender id is empty
 			if($messageSenderProfileId <= 0){
 				throw (\RangeException("messageSenderId is not greater than zero"));
@@ -369,6 +372,39 @@ class Message implements \JsonSerializable {
 				return($messages);
 			}
 		}
+
+	/**
+	 * @param PDO $pdo
+	 * @param int $messageReceiverProfileId
+	 * @return SplFixedArray array of all messages received by a particular id
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
+	 */
+		public static function getMessageByMessageReceiverProfileId(\PDO $pdo, int $messageReceiverProfileId){
+			if($messageReceiverProfileId <= 0){
+				throw(new \RangeException("messageReceiverId must be greater than zero, hombre"));
+			}
+			//create query template
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageReceiverProfileId = :messageReceiverProfileId";
+			$statement = $pdo->prepare($query);
+			//bind variables
+			$parameters = ["messageReceiverProfileId" => $messageReceiverProfileId];
+			$statement->execute($parameters);
+			//build array of messages
+			$messages = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$messages[$messages->key()] = $message;
+					$messages->next();
+				} catch(\Exception $exception) {
+					//throws if row can't be converted
+					throw (new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return ($messages);
+			}
+}
 	/**
 	 * formats variables for JSON serialization
 	 * @return array with state variable to serialize
