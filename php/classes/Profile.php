@@ -367,6 +367,19 @@ class Profile {
 		}
 
 		$query = "DELETE FROM profile WHERE profileId = profileId";
-
+		$statement = $pdo->prepare($query);
+		//bind the member variables to the place holder in the template
+		$parameters = ["profileId" => $this->profileId];
+		$statement->execute($parameters);
 	}
+
+	/**
+	 * update profile in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	public function update(\PDO $pdo)
 }
