@@ -261,29 +261,29 @@ class Profile {
 	 * @return string
 	 **/
 
-	public function getProfileHash(){
-		return($this->profileHash);
+	public function getProfilePasswordHash(){
+		return($this->profilePasswordHash);
 	}
 
 	/**
-	 * mutator method for profile hash
-	 * @param int $newProfileHash
-	 * @throws \RangeException if $newPrfofileHash is not positive
-	 * @throws \TypeError if $newProfileName is not a string
+	 * mutator method for profile password hash
+	 * @param int $newProfilePasswordHash
+	 * @throws \RangeException if $newPrfofilePasswordHash is not positive
+	 * @throws \TypeError if $newProfilePasswordHash is not a string
 	 **/
 
-	public function setProfileHash(string $newProfileHash){
-		if(empty($newProfileHash) === true){
-			throw(new \InvalidArgumentException("profile hash will be created in the string"));
+	public function setProfilePasswordHash(string $newProfilePasswordHash){
+		if(empty($newProfilePasswordHash) === true){
+			throw(new \InvalidArgumentException("profile passwordhash will be created in the string"));
 		}
-		if(strlen($newProfileHash) > 128){
-			throw(new \RangeException("profile hash cannot contain more than 128 characters"));
+		if(strlen($newProfilePasswordHash) > 128){
+			throw(new \RangeException("profile password hash cannot contain more than 128 characters"));
 		}
-		$this->profileHash = $newProfileHash;
+		$this->profilePasswordHash = $newProfilePasswordHash;
 	}
 
 	/**
-	 * accessor method for profile hash
+	 * accessor method for profile password hash
 	 * @return string
 	 **/
 
