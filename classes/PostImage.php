@@ -70,14 +70,6 @@ class PostImage implements \JsonSerializable{
 		$this->postImagePostId = $newPostImagePostId;
 	}
 	/**
-	 * JSON Serializable method
-	 * @return array of data to be serialized
-	 */
-	public function jsonSerialize(){
-		$fields = get_object_vars($this);
-		return($fields);
-	}
-	/**
 	 * Insert function
 	 * @param PDO $pdo PHP data connection object
 	 */
@@ -95,7 +87,7 @@ class PostImage implements \JsonSerializable{
 	 */
 	public function delete(\PDO $pdo){
 		//create query template
-		$query = "DELETE FROM postImage WHERE postImageImageId = :postImageImageId AND postImagePostId = :postImagePostId";
+		$query = "DELETE FROM postImage WHERE postImageImageId = :postImageImageId OR postImagePostId = :postImagePostId";
 		$statement = $pdo->prepare($query);
 		//bind variables
 		$parameters = ["postImageImageId" => $this->postImageImageId, "postImagePostId" => $this->postImagePostId];
@@ -112,5 +104,13 @@ class PostImage implements \JsonSerializable{
 		//bind variables
 		$parameters = ["postImageImageId" => $this->postImageImageId, "postImagePostId" => $this->postImagePostId];
 		$statement->execute($parameters);
+	}
+	/**
+	 * JSON Serializable method
+	 * @return array of data to be serialized
+	 */
+	public function jsonSerialize(){
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
