@@ -405,6 +405,46 @@ class Message implements \JsonSerializable {
 				return($messages);
 			}
 		}
+
+	/**
+	 * @param PDO $pdo
+	 * @param int $messagePostId
+	 * @return SplFixedArray array of messages in reference to a particular post; can be null
+	 * @throws \InvalidArgumentException if messagePostId is null
+	 * @throws \RangeException if messagePostId is an invalid int
+	 */
+		public static function getMessageByMessagePostId(\PDO $pdo, int $messagePostId){
+			//throws exception if messagePostId is null
+			if($messagePostId === null){
+				throw (new \InvalidArgumentException("messagePostId cannot be null!"));
+			}
+			//throws exception if messagePostId is less than zero
+			if($messagePostId <= 0){
+				throw (new \RangeException("messagePostId must be greater than zero"));
+			}
+			//create query template
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messagePostId = :messagePostId";
+			$statement = $pdo->prepare($query);
+			//bind variables
+			$parameters = ["messagePostId" => $messagePostId];
+			$statement->execute($parameters);
+			//build array of messages
+			$messages = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			//build array of messages
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$messages[$messages->key()] = $message;
+					$messages->next();
+				} catch(\Exception $exception) {
+					//throws if row can't be converted
+					throw (new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return($messages);
+			}
+		}
+
 	/**
 	 * formats variables for JSON serialization
 	 * @return array with state variable to serialize
