@@ -47,7 +47,8 @@ class Message{
 	 */
 	private $messageTimestamp;
 
-	public function __construct(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
+	public function __construct
+	(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
 		try{
 			$this->setMessageId($newMessageId);
 			$this->setMessagePostId($newMessagePostId);

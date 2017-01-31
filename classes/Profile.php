@@ -79,4 +79,30 @@ class Profile {
 	 * accessor method for messageId
 	 * @return int|null value of messageId
 	 **/
+	public function getProfileId() {
+		return($this->profileId);
+	}
+	/**
+	 * mutator method for profile id
+	 * @param int|null $newProfileId
+	 * @throws \RangeException is message id is not positive
+	 **/
+
+	public function setProfileId(int $newProfileId = null) {
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+		if($newProfileId <= 0) {
+			throw (new \RangeException("Profile Id must be positive"));
+		}
+		//convert and store profile id
+	$this->profileId = $newProfileId;
+	}
+	/**
+	 * accessor method for Profile Id
+	 * @return int $profileImageId
+	 **/
+
+
 }
