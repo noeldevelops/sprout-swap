@@ -206,4 +206,35 @@ class Profile {
 	 * @return string
 	 **/
 
+	public function getProfileTimestamp() {
+		return($this->profileTimestamp);
+	}
+
+	/**
+	 * mutator method for profile timestamp
+	 * @param null $newProfileTimestamp
+	 **/
+
+	public function setProfileTimestamp($newProfileTimestamp = null){
+		if($newProfileTimestamp === null){
+			$this->profileTimestamp = new DateTime();
+			return;
+		}
+		try{
+			$newProfileTimestamp = self::validatetime($newProfileTimestamp);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+			catch(\RangeException $rangeException) {
+				throw (new \RangeException($rangeException->getmessage(), 0, $rangeException));
+			}
+		}
+		$this->profileTimestamp = $newProfileTimestamp;
+	}
+
+	/**
+	 * insert functioni
+	 * @param PDO $pdo
+	 **/
+
+	public function insert
 }
