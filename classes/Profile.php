@@ -85,7 +85,8 @@ class Profile {
 	/**
 	 * mutator method for profile id
 	 * @param int|null $newProfileId
-	 * @throws \RangeException is message id is not positive
+	 * @throws \RangeException is profile id is not positive
+	 * @throws \TypeError if $newProfileId is not an integer
 	 **/
 
 	public function setProfileId(int $newProfileId = null) {
@@ -104,5 +105,39 @@ class Profile {
 	 * @return int $profileImageId
 	 **/
 
+		public function getProfileImageId() {
+	return($this->profileImageId);
+}
+	/**
+	 * mutator method for profile image id
+	 * @param int|null $newProfileImageId
+	 * @throws \RangeException is profile image id is not positive
+	 * @thorws \TypeError if $newProfileImageId is not an integer
+	 **/
 
+		public function setProfileImageId(int $newProfileImageId = null) {
+	if($newProfileImageId === null) {
+		$this->profileImageId = null;
+		return;
+	}
+	if($newProfileImageId <= 0) {
+		throw (new \RangeException("Profile Image Id must be positive"));
+	}
+	//convert and store profile image id
+	$this->profileImageId = $newProfileImageId;
+}
+	/**
+	 * accessor method for Profile Image Id
+	 * @return int $profileActivation
+	 **/
+
+	public function getProfileActivation() {
+	return($this->profileActivation);
+}
+	/**
+	 * mutator method for profile activation
+	 * @param char $newProfileActivation
+	 * @throws \RangeException is profile activation is not positive
+	 * @thorws \TypeError if $newProfileActivation is not a char
+	 **/
 }
