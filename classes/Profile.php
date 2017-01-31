@@ -167,6 +167,22 @@ class Profile {
 	 **/
 
 	public function setProfileEmail(string $newProfileEmail) {
-		if($newProfileEmail)
+		if(empty($newProfileEmail) === true){
+			throw(new \InvalidArgumentException("Must have email address"));
+		}
+		if(strlen($newProfileEmail) > 255){
+			throw(new \RangeException("Email cannot contain more than 255 characters"));
+		}
+		$this ->profileEmail = $newProfileEmail;
+
+	}
+	/**
+	 * accessor method for profile email
+	 * @return string
+	 */
+
+	public function getProfileHandle() {
+		return($this->profileHandle);
+
 	}
 }
