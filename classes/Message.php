@@ -380,8 +380,8 @@ class Message implements \JsonSerializable {
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \RangeException when messageProfileId is of the incorrect type or less than zero
 	 */
-		public static function getMessageByMessageReceiverProfileId(\PDO $pdo, int $messageReceiverProfileId){
-			if($messageReceiverProfileId <= 0){
+		public static function getMessageByMessageReceiverProfileId(\PDO $pdo, int $messageReceiverProfileId) {
+			if($messageReceiverProfileId <= 0) {
 				throw(new \RangeException("messageReceiverId must be greater than zero, hombre"));
 			}
 			//create query template
@@ -404,7 +404,7 @@ class Message implements \JsonSerializable {
 				}
 				return ($messages);
 			}
-}
+		}
 	/**
 	 * formats variables for JSON serialization
 	 * @return array with state variable to serialize
