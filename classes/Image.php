@@ -53,13 +53,13 @@ public function getImageId() {
  * @throws \RangeException if $newImageId is not positive
  * @throws \TypeError if $newImageId is not an integer
  */
-	public function setTweetId(int $newImageId = null) {
+	public function setImageId(int $newImageId = null) {
 		if($newImageId === null) {
 			$this->imageId = null;
 			return;
 		}
 		if($newImageId <= 0) {
-			throw(new \RangeException("tweet id is not positive"));
+			throw(new \RangeException("Image id is not positive"));
 		}
 		$this->imageId = $newImageId;
 	}
