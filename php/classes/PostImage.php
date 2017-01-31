@@ -1,4 +1,6 @@
 <?PHP
+namespace Edu\Cnm\SproutSwap;
+
 class PostImage implements \JsonSerializable{
 	/**
 	 * foreign key
@@ -70,7 +72,7 @@ class PostImage implements \JsonSerializable{
 		$this->postImagePostId = $newPostImagePostId;
 	}
 	/**
-	 * Insert function
+	 * Insert function for postImage table
 	 * @param PDO $pdo PHP data connection object
 	 */
 	public function insert(\PDO $pdo){
@@ -82,24 +84,12 @@ class PostImage implements \JsonSerializable{
 		$statement->execute($parameters);
 	}
 	/**
-	 * Delete function
+	 * Delete function for postImage table
 	 * @param PDO $pdo PHP data connection object
 	 */
 	public function delete(\PDO $pdo){
 		//create query template
-		$query = "DELETE FROM postImage WHERE postImageImageId = :postImageImageId OR postImagePostId = :postImagePostId";
-		$statement = $pdo->prepare($query);
-		//bind variables
-		$parameters = ["postImageImageId" => $this->postImageImageId, "postImagePostId" => $this->postImagePostId];
-		$statement->execute($parameters);
-	}
-	/**
-	 * Update function
-	 * @param PDO $pdo PHP data connection object
-	 */
-	public function update(\PDO $pdo){
-		//create query template
-		$query = "UPDATE postImage SET postImageImageId = :postImageImageId, postImagePostId= :postImagePostId";
+		$query = "DELETE FROM postImage WHERE postImageImageId = :postImageImageId AND postImagePostId = :postImagePostId";
 		$statement = $pdo->prepare($query);
 		//bind variables
 		$parameters = ["postImageImageId" => $this->postImageImageId, "postImagePostId" => $this->postImagePostId];
