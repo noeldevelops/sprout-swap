@@ -386,17 +386,31 @@ public function update(\PDO $pdo) {
 }
 /**gets the post by content
  *
- */
+ * @param \PDO $pdo PDO connection object
+ * @param string $postContent post content to search
+ * @return \SplFixedArray of posts found
+ * @throws \PDOException when mySQL errors occur
+ * @throws \TypeError when variables are not correct type
+ **/
 
-public static function getPostbyPostContent(\PDO $pdo, string $postContent)
-(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest, :postTimestamp)";
-		$statement = $pdo->prepare($query);
-		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
-
-		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
-
-		$statement->execute($parameters);
-
-		$this->postId = intval($pdo->lastInsertId());
+public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
+	$postContent = trim($postContent);
+	$postContent = filter_var($postContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+	if(empty($postContent) === true) {
+		throw(new \PDOException("Post content is invalid"));
 	}
+	$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
+	$statement = $pdo->prepare($query);
+	$postContent = "%$postContent%";
+	$parameters = ["postContent => $postContent"];
+	$statement->execute($parameters);
+
+	$posts = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+		}
+	}
+}
 }
