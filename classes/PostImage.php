@@ -27,5 +27,42 @@ class PostImage implements \JsonSerializable{
 		}
 	}
 
+	/**
+	 * accessor method for PostImageImageId
+	 * @return int
+	 */
+	public function getPostImageImageId(){
+		return $this->postImageImageId;
+	}
+	/**
+	 * mutator method for postImageImageId
+	 * @param int $postImageImageId
+	 * @throws \RangeException if postImageImageId is less than or equal to zero
+	 */
+	public function setPostImageImageId(int $postImageImageId) {
+		if($this->postImageImageId >= 0){
+			throw(new \RangeException("postImageImageId must be greater than zero"));
+		}
+		$this->postImageImageId = $postImageImageId;
+	}
+
+	/**
+	 * accessor method for postImagePostId
+	 * @return int
+	 */
+	public function getPostImagePostId(){
+		return $this->postImagePostId;
+	}
+	/**
+	 * @param int $postImagePostId
+	 * @throws RangeException if postImagePostId is less than or equal to zero
+	 */
+	public function setPostImagePostId(int $postImagePostId){
+		if($this->postImagePostId >= 0){
+			throw(new \RangeException("postImageImageId must be greater than zero"));
+		}
+		$this->postImagePostId = $postImagePostId;
+	}
+
 
 }
