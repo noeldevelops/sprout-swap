@@ -347,6 +347,9 @@ class Profile {
 		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary)";
 		$statement = $pdo->prepare($query);
 		$formattedTimestamp = $this->profileTimestamp->format("Y-m-d H:i:s");
-		$parameters = [profile]
+		$parameters = ["profileImageId" => $this->profileImageId, "profileActivation" => $this->profileActivation, "profileEmail" => $this->profileEmail, "profileHandle" => $this->profileHandle, "profileTimestamp" => $this->profileTimestamp, "profileName" => $this->profileName, "profilePasswordHash" => $this->profilePasswordHash, "profileSalt" => $this->profileSalt, "profileSummary" => $this->profileSummary];
+		$statement->execute($parameters);
+		//update null profileId
+		$this->profileId = intval($pdo->lastInsertId());
 	}
 }
