@@ -61,6 +61,6 @@ public function getImageId() {
 		if($newImageId <= 0) {
 			throw(new \RangeException("tweet id is not positive"));
 		}
-		$this->tweetId = $newImageId;
+		$this->imageId = $newImageId;
 	}
 }
