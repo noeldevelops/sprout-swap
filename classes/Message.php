@@ -335,4 +335,36 @@ class Message{
 			//execute parameters
 			$statement->execute($parameters);
 		}
+
+	/**
+	 * @param PDO $pdo
+	 * @param int $messageSenderProfileId
+	 * @return SplFixedArray
+	 */
+		public function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderProfileId){
+			//throw an exception if sender id is empty
+			if($messageSenderProfileId <= 0){
+				throw (\PDOException("messageSenderId is not greater than zero"));
+			}
+			//create query template
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageSenderProfileId = :messageSenderProfileId";
+			$statement = $pdo->prepare($query);
+			//bind variables to template
+			$parameters = ["messageSenderProfileId" => $messageSenderProfileId];
+			$statement->execute($parameters);
+			//build array of messages
+			$messages = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false){
+				try{
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$messages[$messages->key()] = $message;
+					$messages->next();
+				} catch(\Exception $exception){
+					//if row can't be converted
+					throw (new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return($messages);
+			}
+		}
 }
