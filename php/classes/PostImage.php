@@ -72,8 +72,8 @@ class PostImage implements \JsonSerializable{
 		$this->postImagePostId = $newPostImagePostId;
 	}
 	/**
-	 * Insert function for postImage table
-	 * @param PDO $pdo PHP data connection object
+	 * insert method
+	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function insert(\PDO $pdo){
 		//create query template
