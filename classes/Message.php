@@ -279,6 +279,11 @@ class Message{
 			}
 			$this->messageTimestamp = $newMessageTimestamp;
 		}
+
+	/**
+	 * insert function
+	 * @param PDO $pdo
+	 */
 		public function insert (\PDO $pdo){
 			//ensure message id is null
 			if($this->messageId !==  null){
@@ -294,5 +299,40 @@ class Message{
 			//update null messageId
 			$this->messageId = intval($pdo->lastInsertId());
 		}
+	/**
+	 * delte function for mySQL
+	 * @param PDO $pdo
+	 */
+		public function delete (\PDO $pdo){
+			//if messageId is null, it does not exist and therefore cannot be deleted
+			if($this->messageId ===  null){
+				throw (new \PDOException("cannot delete a message without an assigned messageId"));
+			}
+			// create query
+			$query = "DELETE FROM message WHERE messageId = $this->messageId";
+			$statement = $pdo->prepare($query);
+			//bind variables to template
+			$parameters = ["messageId" => $this->messageId];
+			//execute parameters
+			$statement->execute($parameters);
+		}
 
+	/**
+	 * update method for message
+	 * @param PDO $pdo
+	 */
+		public function update(\PDO $pdo) {
+			//if messageId is null, it does not exist and therefore cannot be updated
+			if($this->messageId === null) {
+				throw(new \PDOException("cannot update a message that does not have an assigned messageId"));
+			}
+			//create query template
+			$query = "UPDATE message SET messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser = :messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus, messageTimestamp = :messageTimestamp WHERE messageId = :messageId";
+			$statement = $pdo->prepare($query);
+			//bind variables
+			$formattedTimestamp = $this->messageTimestamp->format("Y-m-d H:i:s");
+			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $formattedTimestamp];
+			//execute parameters
+			$statement->execute($parameters);
+		}
 }
