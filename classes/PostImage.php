@@ -63,6 +63,8 @@ class PostImage implements \JsonSerializable{
 		}
 		$this->postImagePostId = $postImagePostId;
 	}
-
-
+	public function jsonSerialize(){
+		$fields = get_object_vars($this);
+		return($fields);
+	}
 }
