@@ -43,7 +43,7 @@ class Message{
 	private $messageStatus;
 	/**
 	 * Timestamp when message was sent
-	 * @var $messageTimeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+	 * @var $messageTimeStamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 	 */
 	private $messageTimestamp;
 
@@ -170,6 +170,9 @@ class Message{
 	 * @throws \Exception if no information received from sender
 	 */
 	public function setMessageBrowser(string $newMessageBrowser){
+		//sanitize input
+		$newMessageBrowser = trim($newMessageBrowser);
+		$newMessageBrowser = filter_var($newMessageBrowser, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		//if null, no information recorded from the user
 		if($newMessageBrowser === null){
 			throw(new \Exception("No browser information received"));
@@ -217,7 +220,10 @@ class Message{
 	 * @param $newMessageIpAddress
 	 * @throws TypeError
 	 */
-	public function setMessageIpAddress($newMessageIpAddress) {
+	public function setMessageIpAddress(string $newMessageIpAddress) {
+		//sanitize input
+		$newMessageIpAddress = trim($newMessageIpAddress);
+		$newMessageIpAddress = filter_var($newMessageIpAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		//if null, throws TypeError
 		if($newMessageIpAddress === null) {
 			throw(new \TypeError("Ip address must be a string"));
