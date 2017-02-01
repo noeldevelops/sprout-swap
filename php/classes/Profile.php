@@ -66,8 +66,8 @@ class Profile {
 			$this->setProfilePasswordHash($newProfilePasswordHash);
 			$this->setProfileSalt($newProfileSalt);
 			$this->setProfileSummary($newProfileSummary);
-	} catch(\InvalidArgumentException $invalidArgument) {
-	throw(new \InvalidArgumentException($invalidArgument->getmessage(), 0, $invalidArgument));
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getmessage(), 0, $invalidArgument));
 		} catch(\RangeException $rangeException) {
 			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
 		} catch(\TypeError $typeError) {
@@ -76,13 +76,15 @@ class Profile {
 			throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * accessor method for messageId
 	 * @return int|null value of messageId
 	 **/
 	public function getProfileId() {
-		return($this->profileId);
+		return ($this->profileId);
 	}
+
 	/**
 	 * mutator method for profile id
 	 * @param int|null $newProfileId
@@ -99,16 +101,18 @@ class Profile {
 			throw (new \RangeException("Profile Id must be positive"));
 		}
 		//convert and store profile id
-	$this->profileId = $newProfileId;
+		$this->profileId = $newProfileId;
 	}
+
 	/**
 	 * accessor method for Profile Id
 	 * @return int $profileImageId
 	 **/
 
-		public function getProfileImageId() {
-	return($this->profileImageId);
-}
+	public function getProfileImageId() {
+		return ($this->profileImageId);
+	}
+
 	/**
 	 * mutator method for profile image id
 	 * @param int|null $newProfileImageId
@@ -116,25 +120,27 @@ class Profile {
 	 * @throws \TypeError if $newProfileImageId is not an integer
 	 **/
 
-		public function setProfileImageId(int $newProfileImageId = null) {
-	if($newProfileImageId === null) {
-		$this->profileImageId = null;
-		return;
+	public function setProfileImageId(int $newProfileImageId = null) {
+		if($newProfileImageId === null) {
+			$this->profileImageId = null;
+			return;
+		}
+		if($newProfileImageId <= 0) {
+			throw (new \RangeException("Profile Image Id must be positive"));
+		}
+		//convert and store profile image id
+		$this->profileImageId = $newProfileImageId;
 	}
-	if($newProfileImageId <= 0) {
-		throw (new \RangeException("Profile Image Id must be positive"));
-	}
-	//convert and store profile image id
-	$this->profileImageId = $newProfileImageId;
-}
+
 	/**
 	 * accessor method for Profile Image Id
 	 * @return int $profileActivation
 	 **/
 
 	public function getProfileActivation() {
-	return($this->profileActivation);
-}
+		return ($this->profileActivation);
+	}
+
 	/**
 	 * mutator method for profile activation
 	 * @param string $newProfileActivation
@@ -147,11 +153,12 @@ class Profile {
 		if(empty($newProfileActivation) === true) {
 			throw(new \InvalidArgumentException("profile activation is empty or insecure"));
 		}
-		if(strlen($newProfileActivation) > 16){
+		if(strlen($newProfileActivation) > 16) {
 			throw(new \RangeException("profile activation cannot be more than 16 characters"));
 		}
-			$this->profileActivation = $newProfileActivation;
+		$this->profileActivation = $newProfileActivation;
 	}
+
 	/**
 	 * accessor method for profile activation
 	 *
@@ -159,7 +166,7 @@ class Profile {
 	 **/
 
 	public function getProfileEmail() {
-		return($this->profileEmail);
+		return ($this->profileEmail);
 	}
 
 	/**
@@ -170,22 +177,23 @@ class Profile {
 	 **/
 
 	public function setProfileEmail(string $newProfileEmail) {
-		if(empty($newProfileEmail) === true){
+		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("Must have email address"));
 		}
-		if(strlen($newProfileEmail) > 255){
+		if(strlen($newProfileEmail) > 255) {
 			throw(new \RangeException("Email cannot contain more than 255 characters"));
 		}
-		$this ->profileEmail = $newProfileEmail;
+		$this->profileEmail = $newProfileEmail;
 
 	}
+
 	/**
 	 * accessor method for profile email
 	 * @return string
 	 */
 
 	public function getProfileHandle() {
-		return($this->profileHandle);
+		return ($this->profileHandle);
 	}
 
 	/**
@@ -196,21 +204,22 @@ class Profile {
 	 **/
 
 	public function setProfileHandle(string $newProfileHandle) {
-		if(empty($newProfileHandle) === true){
+		if(empty($newProfileHandle) === true) {
 			throw(new \InvalidArgumentException("must create unique profile handle"));
 		}
-		if(strlen($newProfileHandle) > 21){
+		if(strlen($newProfileHandle) > 21) {
 			throw(new \RangeException("Profile handle cannot contain more than 21 characters"));
 		}
 		$this->profileHandle = $newProfileHandle;
 	}
+
 	/**
 	 * accessor method for profile handle
 	 * @return string
 	 **/
 
 	public function getProfileTimestamp() {
-		return($this->profileTimestamp);
+		return ($this->profileTimestamp);
 	}
 
 	/**
@@ -218,27 +227,27 @@ class Profile {
 	 * @param null $newProfileTimestamp
 	 **/
 
-	public function setProfileTimestamp($newProfileTimestamp = null){
-		if($newProfileTimestamp === null){
+	public function setProfileTimestamp($newProfileTimestamp = null) {
+		if($newProfileTimestamp === null) {
 			$this->profileTimestamp = new DateTime();
 			return;
 		}
-		try{
+		try {
 			$newProfileTimestamp = self::validatetime($newProfileTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $rangeException) {
-				throw (new \RangeException($rangeException->getmessage(), 0, $rangeException));
-			}
-		$this->profileTimestamp = $newProfileTimestamp;
+			throw (new \RangeException($rangeException->getmessage(), 0, $rangeException));
 		}
+		$this->profileTimestamp = $newProfileTimestamp;
+	}
 
-		/** accessor method for profile timestamp
-		 *@return $this profile timestamp
-		 **/
+	/** accessor method for profile timestamp
+	 * @return $this profile timestamp
+	 **/
 
 	public function getProfileName() {
-		return($this->profileName);
+		return ($this->profileName);
 	}
 
 	/**
@@ -248,22 +257,23 @@ class Profile {
 	 * @throws \TypeError if $newProfileName is not a string
 	 **/
 
-	public function setProfileName(string $newProfileName){
-		if(empty($newProfileName) === true){
+	public function setProfileName(string $newProfileName) {
+		if(empty($newProfileName) === true) {
 			throw(new \InvalidArgumentException("profile name must be a first and last name"));
 		}
-		if(strlen($newProfileName) > 30){
+		if(strlen($newProfileName) > 30) {
 			throw(new \RangeException("profile name cannot contain more than 30 characters"));
 		}
 		$this->profileName = $newProfileName;
 	}
+
 	/**
 	 * accessor method for profile name
 	 * @return string
 	 **/
 
-	public function getProfilePasswordHash(){
-		return($this->profilePasswordHash);
+	public function getProfilePasswordHash() {
+		return ($this->profilePasswordHash);
 	}
 
 	/**
@@ -273,11 +283,11 @@ class Profile {
 	 * @throws \TypeError if $newProfilePasswordHash is not a string
 	 **/
 
-	public function setProfilePasswordHash(string $newProfilePasswordHash){
-		if(empty($newProfilePasswordHash) === true){
+	public function setProfilePasswordHash(string $newProfilePasswordHash) {
+		if(empty($newProfilePasswordHash) === true) {
 			throw(new \InvalidArgumentException("profile password hash will be created in the string"));
 		}
-		if(strlen($newProfilePasswordHash) > 128){
+		if(strlen($newProfilePasswordHash) > 128) {
 			throw(new \RangeException("profile password hash cannot contain more than 128 characters"));
 		}
 		$this->profilePasswordHash = $newProfilePasswordHash;
@@ -288,8 +298,8 @@ class Profile {
 	 * @return string
 	 **/
 
-	public function getProfileSalt(){
-		return($this->profileSalt);
+	public function getProfileSalt() {
+		return ($this->profileSalt);
 	}
 
 	/**
@@ -299,11 +309,11 @@ class Profile {
 	 * @throws \TypeError if $newProfileSalt is not a string
 	 **/
 
-	public function setProfileSalt(string $newProfileSalt){
-		if(empty($newProfileSalt) === true){
+	public function setProfileSalt(string $newProfileSalt) {
+		if(empty($newProfileSalt) === true) {
 			throw(new \InvalidArgumentException("profile salt created by hash"));
 		}
-		if(strlen($newProfileSalt) > 64){
+		if(strlen($newProfileSalt) > 64) {
 			throw(new \RangeException("profile salt cannot contain more than 64 characters"));
 		}
 		$this->profileSalt = $newProfileSalt;
@@ -314,8 +324,8 @@ class Profile {
 	 * @return string
 	 **/
 
-	public function getProfileSummary(){
-		return($this->profileSummary);
+	public function getProfileSummary() {
+		return ($this->profileSummary);
 	}
 
 	/**
@@ -335,13 +345,14 @@ class Profile {
 		$this->profileSummary = $newProfileSummary;
 
 	}
+
 	/**
 	 * accessor method for profile summary
 	 * @return string
 	 **/
 
 	public function insert(\PDO $pdo) {
-		if($this->profileId !== null){
+		if($this->profileId !== null) {
 			throw(new \PDOException("not a new profile"));
 		}
 		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary)";
@@ -360,8 +371,8 @@ class Profile {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public function delete(\PDO $pdo){
-		if($this->profileId === null){
+	public function delete(\PDO $pdo) {
+		if($this->profileId === null) {
 			throw(new \PDOException("cannot delete profile id that does not exist"));
 		}
 
@@ -380,8 +391,8 @@ class Profile {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public function update(\PDO $pdo){
-		if($this->profileId === null){
+	public function update(\PDO $pdo) {
+		if($this->profileId === null) {
 			throw(new \PDOException("cannot update profileId because it does not exist"));
 		}
 
@@ -399,7 +410,7 @@ class Profile {
 			"profilePasswordHash" => $this->profilePasswordHash,
 			"profileSalt" => $this->profileSalt,
 			"profileSummary" => $this->profileSummary];
-			$statement->execute($parameters);
+		$statement->execute($parameters);
 	}
 
 	/**
@@ -408,8 +419,8 @@ class Profile {
 	 * @throws \PDOException when mySQL errors occur
 	 **/
 
-	public static function getProfileByProfileId(\PDO $pdo, int $profileId){
-		if($profileId <= 0){
+	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
+		if($profileId <= 0) {
 			throw(new \RangeException("profileId is not greater than zero"));
 		}
 		//create query template
@@ -426,10 +437,10 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 			if($row !== false) {
 				$profileId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 			}
-		}catch(\Exception $exception){
+		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profileId);
+		return ($profileId);
 	}
 
 	/**
@@ -440,4 +451,38 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+
+	public static function getProfileByProfileImageId(\PDO $pdo, int $profileImageId) {
+		if($profileImageId <= 0) {
+			throw(new \RangeException("profile image id must be positive"));
+		}
+
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["profileImageId" => $profileImageId];
+		$statement->execute($parameters);
+
+		$profileImageId = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profileImageId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+			}catch(Exception $exception){
+				throw (new \PDOException(($exception->getProfile()), 0, $exception));
+			}
+		}
+		return($profileImageId);
+
+		/**
+		 * get all profile image id
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @return \SplFixedArray SplFixedArray of profile image id found or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+	}
+
+	public static function getProfileByProfileActivation
 }
