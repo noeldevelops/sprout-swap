@@ -8,7 +8,7 @@ use Edu\Cnm\SproutSwap\Message;
 require_once("DataDesignTest.php");
 
 //grab the Message class
-require_once(dirname(__DIR__)) . "/classes/autoload.php";
+require_once(dirname(__DIR__)) . "/autoload.php";
 
 class messageTest extends DataDesignTest{
 	protected $VALID_MESSAGEPOSTID = 7346376;
@@ -25,14 +25,12 @@ class messageTest extends DataDesignTest{
 	 */
 	public final function setUp(){
 		parent::setUp();
-		$this->message = new Message(null, "");
-		$this->message-insert($this->getPDO());
-		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
+		$this->profile = new Profile(null, null, "ssssssssssssssss", "solomon.leyba@gmail.com", "ranch.me", null, "Solomon Leyba", );
 	}
 	public function testInsertValidMessage(){
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$this->message = new Message(null, )
+		$this->message = new Message(null, );
 	}
 }
