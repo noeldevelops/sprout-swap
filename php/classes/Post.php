@@ -413,7 +413,7 @@ public function update(\PDO $pdo) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($post);
+		return($post);
 	}
 		/**
 		 * get post by post mode ID

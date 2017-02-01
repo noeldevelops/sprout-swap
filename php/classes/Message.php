@@ -1,6 +1,12 @@
 <?PHP
 namespace Edu\Cnm\SproutSwap;
 
+/**
+ * Class Message for sprout-swap capstone project
+ * @package Edu\Cnm\SproutSwap
+ *
+ * @author Solomon Leyba <solomon.leyba@gmail.com>
+ */
 class Message implements \JsonSerializable {
 	/**
 	 * ID for message; primary key
