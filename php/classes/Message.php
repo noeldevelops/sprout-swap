@@ -44,7 +44,7 @@ class Message implements \JsonSerializable {
 	private $messageStatus;
 	/**
 	 * Timestamp when message was sent
-	 * @var $messageTimeStamp datetime
+	 * @var $messageTimeStamp \datetime
 	 */
 	private $messageTimestamp;
 	/**
@@ -233,7 +233,8 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for message sender's ip address
 	 * @param $newMessageIpAddress
-	 * @throws \TypeError
+	 * @throws \InvalidArgumentException
+	 * removed '@' symbol from in front of inet_pton (error suppression operator)
 	 */
 	public function setMessageIpAddress(string $newMessageIpAddress) {
 		//sanitize input
@@ -241,9 +242,10 @@ class Message implements \JsonSerializable {
 		$newMessageIpAddress = filter_var($newMessageIpAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		//if null, throws TypeError
 		if($newMessageIpAddress === null) {
-			throw(new \TypeError("Ip address must be a string"));
+			throw(new \InvalidArgumentException("Ip address must be a string"));
 		}
 		//convert and store string
+		$newMessageIpAddress = inet_pton($newMessageIpAddress);
 		$this->messageIpAddress = $newMessageIpAddress;
 	}
 	/**
@@ -283,7 +285,7 @@ class Message implements \JsonSerializable {
 		public function setMessageTimestamp($newMessageTimestamp = null){
 			// if message timestamp is null, set it to current
 			if($newMessageTimestamp === null){
-				$this->messageTimestamp = new DateTime();
+				$this->messageTimestamp = new \DateTime();
 				return;
 			}
 			// store message date
