@@ -76,7 +76,7 @@ public function getImageId() {
 	 * @throws \RangeException if $newImageCloudinaryId is not positive
 	 * @throws \TypeError if $newImageCloudinaryId is not an integer
 	 */
-	public function setImageCloudinaryId(int $newImageCloudinaryId = null) {
+	public function setImageCloudinaryId(string $newImageCloudinaryId = null) {
 		if($newImageCloudinaryId === null) {
 			$this->imageCloudinaryId = null;
 			return;

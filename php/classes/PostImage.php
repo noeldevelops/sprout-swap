@@ -63,7 +63,7 @@ class PostImage implements \JsonSerializable{
 	}
 	/**
 	 * @param int $newPostImagePostId
-	 * @throws RangeException if postImagePostId is less than or equal to zero
+	 * @throws \RangeException if postImagePostId is less than or equal to zero
 	 */
 	public function setPostImagePostId(int $newPostImagePostId){
 		if($this->postImagePostId >= 0){
@@ -85,7 +85,7 @@ class PostImage implements \JsonSerializable{
 	}
 	/**
 	 * Delete function for postImage table
-	 * @param PDO $pdo PHP data connection object
+	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function delete(\PDO $pdo){
 		//create query template
