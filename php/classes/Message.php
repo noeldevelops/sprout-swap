@@ -516,7 +516,7 @@ class Message implements \JsonSerializable {
 			try{
 				$message = null;
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
-				$row = $statement->fetch;
+				$row = $statement->fetch();
 				if($row !== false){
 					$message = new Message ($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
 				}
