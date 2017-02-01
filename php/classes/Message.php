@@ -512,6 +512,18 @@ class Message implements \JsonSerializable {
 			//bind variables and execute
 			$parameters = ["messageId" => $messageId];
 			$statement->execute($parameters);
+			//grab message from mySL
+			try{
+				$message = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch;
+				if($row !== false){
+					$message = new Message ($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+				}
+			} catch(\Exception $exception){
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return($message);
 		}
 	/**
 	 * formats variables for JSON serialization
