@@ -409,9 +409,9 @@ public function update(\PDO $pdo) {
 			$row = $statement->fetch();
 			if($row !== false) {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			}
 		} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
 		}
 		return($post);
 	}
@@ -583,7 +583,7 @@ public function update(\PDO $pdo) {
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when variables are not correct type
 	 */
-	public static function getPostByPostRequest (\PDO $pdo, string $postOffer, $exception) {
+	public static function getPostByPostRequest (\PDO $pdo, string $postRequest, $exception) {
 		$postRequest = trim($postRequest);
 		$postRequest = filter_var($postRequest, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
 		if(empty($postRequest) === true) {
@@ -608,13 +608,12 @@ public function update(\PDO $pdo) {
 		return($posts);
 	}
 	/**
-	 * Specify data which should be serialized to JSON
-	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 * which is a value of any type other than a resource.
-	 * @since 5.4.0
-	 */
-	function jsonSerialize() {
-		// TODO: Implement jsonSerialize() method.
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
