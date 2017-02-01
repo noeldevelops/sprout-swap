@@ -1,4 +1,5 @@
 <?php
+namespace Edu\Cnm\SproutSwap;
 /**
  * This class is what is stored when users create a new Post
  *
