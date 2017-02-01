@@ -36,8 +36,9 @@ class messageTest extends DataDesignTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->profileId, $this->messageSenderProfileId->profileId, $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
-
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+		// enforce fields match expectation
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
