@@ -309,7 +309,7 @@ class Post implements \jsonSerializable {
 	 * @throws \InvalidArgumentException if $newPostTimestamp is not a valid object or string
 	 * @throws \RangeException if $newPostTimestamp is a date that does not exist
 	 **/
-	public function setTweetDate($newPostTimestamp = null) {
+	public function setPostTimestamp($newPostTimestamp = null) {
 		// base case: if the date is null, use the current date and time
 		if($newPostTimestamp === null) {
 			$this->postTimestamp = new \DateTime();
