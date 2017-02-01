@@ -576,6 +576,38 @@ public function update(\PDO $pdo) {
 		return($posts);
 	}
 	/**
+	 * get post by post request
+	 * @param \PDO $pdo connection object
+	 * @param string $postRequest to search by
+	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 */
+	public static function getPostByPostRequest (\PDO $pdo, string $postOffer, $exception) {
+		$postRequest = trim($postRequest);
+		$postRequest = filter_var($postRequest, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		if(empty($postRequest) === true) {
+			throw(new \PDOException("Post Request is invalid"));
+		}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postRequest LIKE :postRequest";
+		$statement = $pdo->prepare($query);
+//bind the parameters
+		$postRequest = "%$postRequest%";
+		$parameters = ["postRequest => $postRequest"];
+		$statement->execute($parameters);
+		//make an array
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
+	/**
 	 * Specify data which should be serialized to JSON
 	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
 	 * @return mixed data which can be serialized by <b>json_encode</b>,
