@@ -20,13 +20,13 @@ class Image implements \jsonSerializable {
 	/**
 	 * constructor for this Image
 	 * @param int|null $newImageId id of this image
-	 * @param int|null $newImageCloudinaryId id of the image on Cloudinary API
+	 * @param string $newImageCloudinaryId id of the image on Cloudinary API
 	 * @throws \TypeError if data violates type hints
 	 * @throws \Exception if some other exception occurs
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are negative or too long
 	 */
-	public function __contruct(int $newImageId = null, int $newImageCloudinaryId) {
+	public function __contruct(int $newImageId = null, string $newImageCloudinaryId) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageCloudinaryId($newImageCloudinaryId);
@@ -72,18 +72,24 @@ public function getImageId() {
 	}
 	/**
 	 * mutuator method for image cloudinary id
-	 * @param int|null $newImageCloudinaryId new value of cloudinary id
-	 * @throws \RangeException if $newImageCloudinaryId is not positive
-	 * @throws \TypeError if $newImageCloudinaryId is not an integer
+	 * @param string $newImageCloudinaryId new value of cloudinary id
+	 * @throws \InvalidArgumentException if cloudinary id is empty or insecure
+	 * @throws \TypeError if $newImageCloudinaryId is not an string
 	 */
 	public function setImageCloudinaryId(string $newImageCloudinaryId = null) {
-		if($newImageCloudinaryId === null) {
-			$this->imageCloudinaryId = null;
-			return;
-		}
-		if($newImageCloudinaryId <= 0) {
-			throw(new \RangeException("Image Cloudinary Id is not positive"));
+		$newImageCloudinaryId = filter_var($newImageCloudinaryId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newImageCloudinaryId) === true) {
+			throw(new \InvalidArgumentException("ID is empty or insecure"));
 		}
 		$this->imageCloudinaryId = $newImageCloudinaryId;
+	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
 	}
 }

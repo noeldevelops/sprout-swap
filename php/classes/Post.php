@@ -25,32 +25,32 @@ class Post implements \jsonSerializable {
 	private $postProfileId;
 	/**
 	 * auto-generated browser info for the user who created post
-	 * @var VARCHAR $postBrowser
+	 * @var string $postBrowser
 	 */
 	private $postBrowser;
 	/**
 	 * actual content of the post
-	 * @var VARCHAR $postContent
+	 * @var string $postContent
 	 */
 	private $postContent;
 	/**
 	 *IP Address from the User who is creating post
-	 *@var VARBINARY $postContent
+	 *@var string $postIpAddress
 	 **/
 	private $postIpAddress;
 	/**
 	 * geolocation of user who creates post
-	 * @var POINT $postLocation
+	 * @var point $postLocation
 	 */
 	private $postLocation;
 	/**
 	 * this is the specific item(s) user is offering
-	 * @var VARCHAR $postOffer
+	 * @var string $postOffer
 	 */
 	private $postOffer;
 	/**
 	 * what is the user requesting in return for offer
-	 * @var VARCHAR $postRequest
+	 * @var string $postRequest
 	 */
 	private $postRequest;
 	/**
