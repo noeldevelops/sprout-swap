@@ -452,10 +452,20 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 		/**
 		 * get post by post mode
 		 * @param \PDO $pdo connection object
-		 * @param int $postModeId mode id to search by
+		 * @param int $postModeId mode to search by
 		 * @return \SplFixedArray of posts found
 		 * @throws \PDOException when mySQL errors occur
 		 * @throws \TypeError when variables are not correct type
+		 */
+		public static function getPostByPostMode (\PDO $pdo, int $postModeId, $exception) {
+			if($postModeId <= 0) {
+			throw(new \RangeException("Post mode must be positive"));
+			}
+			if($postModeId >= 3) {
+				throw(new \RangeException("Post Mode not valid"));
+			}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postMode = :postMode";
+		$statement = $pdo->prepare($query);
 
 		$posts = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -467,5 +477,34 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 			}
 		}
 		return($posts);
-	} */
+	}
+	/**
+	 * get post by post profile ID
+	 * @param \PDO $pdo connection object
+	 * @param int $postProfileId profile ID to search by
+	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 */
+	public static function getPostByPostProfileId (\PDO $pdo, int $postProfileId, $exception) {
+		if($postProfileId <= 0) {
+			throw(new \RangeException("Post mode must be positive"));
+		}
+		if($postProfileId >= 3) {
+			throw(new \RangeException("Post Mode not valid"));
+		}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postProfileId = :postProfileId";
+		$statement = $pdo->prepare($query);
+
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
 }
