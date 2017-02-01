@@ -392,16 +392,25 @@ class Profile {
 
 		//bind the member variables to the place holders in the template
 		$formattedTimestamp = $this->profileTimestamp->format("Y-m-d H:i:s");
-		$parameters = ["profileId" =>
-		$this->profileId, "profileImageId" =>
-		$this->profileImageId, "profileActivation" =>
-		$this->profileActivation, "profileEmail" =>
-		$this->profileEmail, "profileHandle" =>
-		$this->profileHandle, "profileTimestamp" =>
-		$this->profileTimestamp, "profileName" =>
-		$this->profileName, "profilePasswordHash" =>
-		$this->profilePasswordHash, "profileSalt" =>
-		$this->profileSalt, "profileSummary" =>
-		$formatted]
+		$parameters = ["profileId" => $this->profileId,
+			"profileImageId" => $this->profileImageId,
+			"profileActivation" => $this->profileActivation,
+			"profileEmail" => $this->profileEmail,
+			"profileHandle" => $this->profileHandle,
+			"profileTimestamp" => $this->profileTimestamp,
+			"profileName" => $this->profileName,
+			"profilePasswordHash" => $this->profilePasswordHash,
+			"profileSalt" => $this->profileSalt,
+			"profileSummary" =>
+		$formattedTimestamp];
+			$statement->execute($parameters);
 	}
+
+	/**
+	 * delete function for mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException whem mySQL errors occur
+	 **/
+
+	public function
 }
