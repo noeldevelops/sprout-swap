@@ -294,15 +294,6 @@ class Message implements \JsonSerializable {
 				$this->messageTimestamp = new \DateTime();
 				return;
 			}
-			// store message date
-			try{
-				$newMessageTimestamp = self::validateDateTime($newMessageTimestamp);
-			} catch(\InvalidArgumentException $invalidArgument) {
-				throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-			} catch(\RangeException $rangeException) {
-				throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
-			}
-			$this->messageTimestamp = $newMessageTimestamp;
 		}
 
 	/**
@@ -313,7 +304,7 @@ class Message implements \JsonSerializable {
 		public function insert (\PDO $pdo){
 			//ensure message id is null
 			if($this->messageId !==  null){
-				throw (new \PDOException("messageId already exists in database"));
+				throw (new \PDOException("message already exists in database"));
 			}
 			// create query template
 			$query = "INSERT INTO message(messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus) VALUES (:messagePostId, :messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus)";
@@ -323,7 +314,7 @@ class Message implements \JsonSerializable {
 			$statement->execute($parameters);
 			//update null messageId
 			$this->messageId = intval($pdo->lastInsertId());
-			$this->messageTimestamp = new \DateTime;
+			$this->messageTimestamp = new \DateTime();
 		}
 	/**
 	 * delete function for mySQL

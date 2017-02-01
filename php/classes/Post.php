@@ -207,12 +207,11 @@ class Post implements \jsonSerializable {
 	 	$newPostContent = trim($newPostContent);
 	 	$newPostContent = filter_var($newPostContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	 	if(empty($newPostContent) === true) {
-	 			throw(new \InvalidArgumentException("Your post is empty or insecure."));
-		if(strlen($newPostContent) > 255) {
+			throw(new \InvalidArgumentException("Your post is empty or insecure."));
+		} if(strlen($newPostContent) > 255) {
 			throw(new \RangeException("Your post content is far too wordy."));
 		}
 		$this->postContent = $newPostContent;
-		}
 	 }
 	 /**
 	  * accessor method for postIpAddress
@@ -469,7 +468,9 @@ public function update(\PDO $pdo) {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
-			} catch(\Exception $exception) {
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			}	catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
@@ -517,11 +518,12 @@ public function update(\PDO $pdo) {
 	 * @param point $postLocation to search by
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct type
+	 * @returns \SplFixedArray array of posts that are found
 	 **/
 	public static function getPostbyPostLocation (\PDO $pdo, point $postLocation) {
 		//sanitize
 		if(empty($postLocation) === true) {
-			throw(new \PDOException("Post location is invalid"));
+			throw(new \PDOException("Post location is not valid"));
 		}
 		//create query template
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
