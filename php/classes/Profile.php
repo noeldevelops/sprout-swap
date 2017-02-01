@@ -494,7 +494,6 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
-		$profileActivation = "%$profileActivation%";
 		$parameters = ["profileActivation" => $profileActivation];
 		$statement->execute($parameters);
 
