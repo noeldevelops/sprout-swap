@@ -500,7 +500,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * @param \PDO $pdo
 	 * @param int $messageId
-	 * @throws \RangeException if message id is outside of bounds
+	 * @return Message|null
 	 */
 		public static function getMessageByMessageId(\PDO $pdo, int $messageId){
 			if($messageId <= 0){
