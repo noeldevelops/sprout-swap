@@ -316,7 +316,7 @@ class Message implements \JsonSerializable {
 				throw (new \PDOException("messageId already exists in database"));
 			}
 			// create query template
-			$query = "INSERT INTO message(messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser =:messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus, messageTimestamp = :messageTimestamp)";
+			$query = "INSERT INTO message(messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp) VALUES (:messagePostId, :messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus, :messageTimestamp)";
 			$statement = $pdo->prepare($query);
 			//bind variables
 			$formattedTimestamp = $this->messageTimestamp->format("Y-m-d H:i:s");
