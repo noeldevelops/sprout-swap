@@ -413,11 +413,22 @@ class Profile {
 			throw(new \RangeException("profileId is not greater than zero"));
 		}
 		//create query template
-		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$query = "
+SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		//bind variables to template
 		$parameters = ["profileId" => $profileId];
 		$statement->execute($parameters);
+		try {
+			$profileId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profileId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+			}
+		}catch(\Exception $exception){
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 		return($profileId);
 	}
 }
