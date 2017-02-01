@@ -176,7 +176,7 @@ class Post implements \jsonSerializable {
 	 	return($this->postBrowser);
 	 }
 	 /**
-	  * mutuator method for post browser
+	  * mutator method for post browser
 	  * @param string $newPostBrowser new value of postBrowser
 	  * @throws \InvalidArgumentException if $newPostBrowser is insecure
 	  * @throws \RangeException if $newPostBrowser is > 255 characters
@@ -198,7 +198,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * mutator method for post content
-	  * @param string $newPostContent new value of psot content
+	  * @param string $newPostContent new value of post content
 	  * @throws \InvalidArgumentException if $newPostContent is insecure
 	  * @throws \RangeException if $newPostContent is > 255 characters
 	  * @throws \TypeError if $newPostContent is not a string
@@ -221,7 +221,7 @@ class Post implements \jsonSerializable {
 	 	return($this->postIpAddress);
 	 }
 	 /**
-	  * mutuator method for Post IP Address
+	  * mutator method for Post IP Address
 	  * @param string $newPostIpAddress value of users IP Address
 	  * @throws \InvalidArgumentException if IP address is not a valid ip address
 	  */
@@ -335,15 +335,16 @@ class Post implements \jsonSerializable {
 		if($this->postId !== null) {
 			throw(new \PDOException("Not a new post"));
 		}
-		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest, :postTimestamp)";
+		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest)";
 		$statement = $pdo->prepare($query);
 		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
 		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
 
 		$statement->execute($parameters);
-
+		//update null messageId
 		$this->postId = intval($pdo->lastInsertId());
+		$this->postTimestamp = new \DateTime();
 	}
 	/**
 	 * deletes this post from mySQL
@@ -383,16 +384,16 @@ public function update(\PDO $pdo) {
 
 	$statement->execute($parameters);
 }
+
 	/**gets the post by post Id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param integer $postId post Id to search
-	 * @return \SplFixedArray of posts found
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError when variables are not correct type
-	 **/
+	 * @param int|string $postId post Id to search
+	 * @param \Exception $exception
+	 * @return int $postId of one post with that id
+	 */
 
-	public static function getPostbyPostId (\PDO $pdo, string $postId, $exception) {
+	public static function getPostByPostId (\PDO $pdo, string $postId, $exception) {
 		if($postId <= 0) {
 			throw(new \RangeException("Post ID must be positive"));
 		}
@@ -402,17 +403,7 @@ public function update(\PDO $pdo) {
 		$parameters = ["postId => $postId"];
 		$statement->execute($parameters);
 
-		try {
-			$post = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
-			}
-		} catch(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($post);
+		return;
 	}
 		/**
 		 * get post by post mode ID
@@ -429,7 +420,7 @@ public function update(\PDO $pdo) {
 			if($postModeId >= 3) {
 				throw(new \RangeException("Post Mode ID not valid"));
 			}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postMode = :postMode";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postModeId = :postModeId";
 		$statement = $pdo->prepare($query);
 
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -485,7 +476,7 @@ public function update(\PDO $pdo) {
 	 * @throws \TypeError when variables are not correct type
 	 **/
 
-	public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
+	public static function getPostByPostContent(\PDO $pdo, string $postContent) {
 		$postContent = trim($postContent);
 		$postContent = filter_var($postContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
 		if(empty($postContent) === true) {
@@ -520,7 +511,7 @@ public function update(\PDO $pdo) {
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
 	 **/
-	public static function getPostbyPostLocation (\PDO $pdo, point $postLocation) {
+	public static function getPostByPostLocation (\PDO $pdo, point $postLocation) {
 		//sanitize
 		if(empty($postLocation) === true) {
 			throw(new \PDOException("Post location is not valid"));
@@ -577,13 +568,13 @@ public function update(\PDO $pdo) {
 		}
 		return($posts);
 	}
+
 	/**
 	 * get post by post request
 	 * @param \PDO $pdo connection object
 	 * @param string $postRequest to search by
-	 * @return \SplFixedArray of posts found
-	 * @throws \PDOException when mySQL errors occur
-	 * @throws \TypeError when variables are not correct type
+	 * @param $exception
+	 * @return SplFixedArray of posts found
 	 */
 	public static function getPostByPostRequest (\PDO $pdo, string $postRequest, $exception) {
 		$postRequest = trim($postRequest);
