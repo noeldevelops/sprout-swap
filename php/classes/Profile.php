@@ -346,7 +346,6 @@ class Profile {
 		}
 		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary)";
 		$statement = $pdo->prepare($query);
-		$formattedTimestamp = $this->profileTimestamp->format("Y-m-d H:i:s");
 		$parameters = ["profileImageId" => $this->profileImageId, "profileActivation" => $this->profileActivation, "profileEmail" => $this->profileEmail, "profileHandle" => $this->profileHandle, "profileTimestamp" => $this->profileTimestamp, "profileName" => $this->profileName, "profilePasswordHash" => $this->profilePasswordHash, "profileSalt" => $this->profileSalt, "profileSummary" => $this->profileSummary];
 		$statement->execute($parameters);
 		//update null profileId
@@ -387,22 +386,19 @@ class Profile {
 		}
 
 		//create query template
-		$query = "UPDATE profile SET profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle, profileTimestamp = :profileTimestamp, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary";
+		$query = "UPDATE profile SET profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$formattedTimestamp = $this->profileTimestamp->format("Y-m-d H:i:s");
 		$parameters = ["profileId" => $this->profileId,
 			"profileImageId" => $this->profileImageId,
 			"profileActivation" => $this->profileActivation,
 			"profileEmail" => $this->profileEmail,
 			"profileHandle" => $this->profileHandle,
-			"profileTimestamp" => $this->profileTimestamp,
 			"profileName" => $this->profileName,
 			"profilePasswordHash" => $this->profilePasswordHash,
 			"profileSalt" => $this->profileSalt,
-			"profileSummary" =>
-		$formattedTimestamp];
+			"profileSummary" => $this->profileSummary];
 			$statement->execute($parameters);
 	}
 
