@@ -36,10 +36,10 @@ class messageTest extends DataDesignTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->receiverProfile->profileId, $this->senderProfile->profileId, $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, $this->messageReceiverProfileId->profileId, $this->messageSenderProfileId->profileId, $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
-		$this->assertEquals($numRows + 1, $this->getConnection->getRowCount("message"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
 		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->profile->getMessageReceiverProfileId());
 		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->profile->getMessageSenderProfileId());
