@@ -384,40 +384,6 @@ public function update(\PDO $pdo) {
 
 	$statement->execute($parameters);
 }
-/**gets the post by content
- *
- * @param \PDO $pdo PDO connection object
- * @param string $postContent post content to search
- * @return \SplFixedArray of posts found
- * @throws \PDOException when mySQL errors occur
- * @throws \TypeError when variables are not correct type
- **/
-
-public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
-	$postContent = trim($postContent);
-	$postContent = filter_var($postContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
-	if(empty($postContent) === true) {
-		throw(new \PDOException("Post content is invalid"));
-	}
-	$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
-	$statement = $pdo->prepare($query);
-	$postContent = "%$postContent%";
-	$parameters = ["postContent => $postContent"];
-	$statement->execute($parameters);
-
-	$posts = new \SplFixedArray($statement->rowCount());
-	$statement->setFetchMode(\PDO::FETCH_ASSOC);
-	while(($row = $statement->fetch()) !== false) {
-		try {
-			$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
-			$posts[$posts->key()] = $post;
-			$posts->next();
-		} catch(\Exception $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-	}
-	return($posts);
-}
 	/**gets the post by post Id
 	 *
 	 * @param \PDO $pdo PDO connection object
@@ -450,19 +416,19 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 		return ($post);
 	}
 		/**
-		 * get post by post mode
+		 * get post by post mode ID
 		 * @param \PDO $pdo connection object
 		 * @param int $postModeId mode to search by
 		 * @return \SplFixedArray of posts found
 		 * @throws \PDOException when mySQL errors occur
 		 * @throws \TypeError when variables are not correct type
 		 */
-		public static function getPostByPostMode (\PDO $pdo, int $postModeId, $exception) {
+		public static function getPostByPostModeId (\PDO $pdo, int $postModeId, $exception) {
 			if($postModeId <= 0) {
-			throw(new \RangeException("Post mode must be positive"));
+			throw(new \RangeException("Post mode ID must be positive"));
 			}
 			if($postModeId >= 3) {
-				throw(new \RangeException("Post Mode not valid"));
+				throw(new \RangeException("Post Mode ID not valid"));
 			}
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postMode = :postMode";
 		$statement = $pdo->prepare($query);
@@ -488,14 +454,16 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 	 */
 	public static function getPostByPostProfileId (\PDO $pdo, int $postProfileId, $exception) {
 		if($postProfileId <= 0) {
-			throw(new \RangeException("Post mode must be positive"));
+			throw(new \RangeException("Post ID must be positive"));
 		}
-		if($postProfileId >= 3) {
-			throw(new \RangeException("Post Mode not valid"));
-		}
+		//create the query template
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postProfileId = :postProfileId";
 		$statement = $pdo->prepare($query);
 
+		//bind the parameters
+		$parameters = ["postProfileId" => $postProfileId];
+		$statement->execute($parameters);
+		//build an array of posts
 		$posts = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -506,5 +474,115 @@ public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
 			}
 		}
 		return($posts);
+	}
+	/**gets the post by content
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $postContent post content to search
+	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 **/
+
+	public static function getPostbyPostContent(\PDO $pdo, string $postContent) {
+		$postContent = trim($postContent);
+		$postContent = filter_var($postContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		if(empty($postContent) === true) {
+			throw(new \PDOException("Post content is invalid"));
+		}
+		//create new query template
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
+		$statement = $pdo->prepare($query);
+		//bind the parameters
+		$postContent = "%$postContent%";
+		$parameters = ["postContent => $postContent"];
+		$statement->execute($parameters);
+//build an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
+	/**
+	 * gets post by Post Location
+	 * @param \PDO $pdo PDO connection object
+	 * @param point $postLocation to search by
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct type
+	 **/
+	public static function getPostbyPostLocation (\PDO $pdo, point $postLocation) {
+		//sanitize
+		if(empty($postLocation) === true) {
+			throw(new \PDOException("Post location is invalid"));
+		}
+		//create query template
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
+		$statement = $pdo->prepare($query);
+		//bind parameters
+		$parameters = ["postLocation => $postLocation"];
+		$statement->execute($parameters);
+		//create an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
+	/**
+	 * get post by post offer
+	 * @param \PDO $pdo connection object
+	 * @param string $postOffer to search by
+	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 */
+	public static function getPostByPostOffer (\PDO $pdo, string $postOffer, $exception) {
+		$postOffer = trim($postOffer);
+		$postOffer = filter_var($postOffer, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		if(empty($postOffer) === true) {
+			throw(new \PDOException("Post Offer is invalid"));
+		}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postOffer LIKE :postOffer";
+		$statement = $pdo->prepare($query);
+//bind the parameters
+		$postOffer = "%$postOffer%";
+		$parameters = ["postOffer => $postOffer"];
+		$statement->execute($parameters);
+		//make an array
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
+	/**
+	 * Specify data which should be serialized to JSON
+	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+	 * @return mixed data which can be serialized by <b>json_encode</b>,
+	 * which is a value of any type other than a resource.
+	 * @since 5.4.0
+	 */
+	function jsonSerialize() {
+		// TODO: Implement jsonSerialize() method.
 	}
 }
