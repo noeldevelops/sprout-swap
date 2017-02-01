@@ -392,8 +392,8 @@ class Message implements \JsonSerializable {
 					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
-				return($messages);
 			}
+			return($messages);
 		}
 	/**
 	 * @param \PDO $pdo
@@ -424,8 +424,8 @@ class Message implements \JsonSerializable {
 					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
-				return($messages);
 			}
+			return($messages);
 		}
 	/**
 	 * @param \PDO $pdo
@@ -462,8 +462,8 @@ class Message implements \JsonSerializable {
 					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
-				return($messages);
 			}
+			return($messages);
 		}
 	/**
 	 * method allows us to search within messages
@@ -494,8 +494,8 @@ class Message implements \JsonSerializable {
 					//throws if row can't be converted
 					throw (new \PDOException($exception->getMessage(), 0, $exception));
 				}
-				return($messages);
 			}
+			return($messages);
 		}
 	/**
 	 * @param \PDO $pdo
