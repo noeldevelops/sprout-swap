@@ -354,13 +354,14 @@ class Message implements \JsonSerializable {
 				throw(new \PDOException("cannot update a message that does not have an assigned messageId"));
 			}
 			//create query template
-			$query = "UPDATE message SET messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser = :messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus, messageTimestamp = :messageTimestamp WHERE messageId = :messageId";
+			$query = "UPDATE message SET messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser = :messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus WHERE messageId = :messageId";
 			$statement = $pdo->prepare($query);
 			//bind variables
 			$formattedTimestamp = $this->messageTimestamp->format("Y-m-d H:i:s");
-			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $formattedTimestamp];
+			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
 			//execute parameters
 			$statement->execute($parameters);
+			$this->messageTimestamp = new \DateTime();
 		}
 	/**
 	 * @param \PDO $pdo
