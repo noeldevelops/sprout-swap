@@ -360,7 +360,7 @@ class Message implements \JsonSerializable {
 			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
 			//execute parameters
 			$statement->execute($parameters);
-			$this->messageTimestamp = new \DateTime();
+			$this->messageTimestamp = new \DateTime;
 		}
 	/**
 	 * @param \PDO $pdo
