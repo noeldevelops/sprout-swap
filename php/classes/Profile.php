@@ -24,7 +24,7 @@ class Profile {
 	private $profileEmail;
 	/**
 	 * created by the user; has to be unique
-	 * @var $profileHandlie string (21) not null
+	 * @var $profileHandle string (21) not null
 	 **/
 	private $profileHandle;
 	/**
@@ -66,8 +66,8 @@ class Profile {
 			$this->setProfilePasswordHash($newProfilePasswordHash);
 			$this->setProfileSalt($newProfileSalt);
 			$this->setProfileSummary($newProfileSummary);
-	} catch(\InvalidArgumentException $invaildArgument) {
-	throw(new \InvalidArgumentException($invaildArgument->getmessage(), 0, $invaildArgument));
+	} catch(\InvalidArgumentException $invalidArgument) {
+	throw(new \InvalidArgumentException($invalidArgument->getmessage(), 0, $invalidArgument));
 		} catch(\RangeException $rangeException) {
 			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
 		} catch(\TypeError $typeError) {
@@ -113,7 +113,7 @@ class Profile {
 	 * mutator method for profile image id
 	 * @param int|null $newProfileImageId
 	 * @throws \RangeException is profile image id is not positive
-	 * @thorws \TypeError if $newProfileImageId is not an integer
+	 * @throws \TypeError if $newProfileImageId is not an integer
 	 **/
 
 		public function setProfileImageId(int $newProfileImageId = null) {
@@ -140,7 +140,7 @@ class Profile {
 	 * @param string $newProfileActivation
 	 * @throws \InvalidArgumentException if $newProfileActivation is insecure
 	 * @throws \RangeException if $newProfileActivation is > 16 characters
-	 * @thorws \TypeError if $newProfileActivation is not a string
+	 * @throws \TypeError if $newProfileActivation is not a string
 	 **/
 
 	public function setProfileActivation(string $newProfileActivation) {
@@ -191,7 +191,7 @@ class Profile {
 	/**
 	 * mutator method for profile handle
 	 * @param int $newProfileHandle
-	 * @throws \RangeException if $newProfileHnadle is not positive
+	 * @throws \RangeException if $newProfileHandle is not positive
 	 * @throws \TypeError if $newProfileHandle is not a string
 	 **/
 
@@ -269,13 +269,13 @@ class Profile {
 	/**
 	 * mutator method for profile password hash
 	 * @param int $newProfilePasswordHash
-	 * @throws \RangeException if $newPrfofilePasswordHash is not positive
+	 * @throws \RangeException if $newProfilePasswordHash is not positive
 	 * @throws \TypeError if $newProfilePasswordHash is not a string
 	 **/
 
 	public function setProfilePasswordHash(string $newProfilePasswordHash){
 		if(empty($newProfilePasswordHash) === true){
-			throw(new \InvalidArgumentException("profile passwordhash will be created in the string"));
+			throw(new \InvalidArgumentException("profile password hash will be created in the string"));
 		}
 		if(strlen($newProfilePasswordHash) > 128){
 			throw(new \RangeException("profile password hash cannot contain more than 128 characters"));
@@ -409,7 +409,7 @@ class Profile {
 	/**
 	 * delete function for mySQL
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException whem mySQL errors occur
+	 * @throws \PDOException when mySQL errors occur
 	 **/
 
 	public static function getProfileByProfileId(\PDO $pdo, int $profileId){
