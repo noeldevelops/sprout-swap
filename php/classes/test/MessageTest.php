@@ -3,6 +3,7 @@ namespace Edu\Cnm\SproutSwap\Test;
 
 //grab the project test
 use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
+use Edu\Cnm\SproutSwap\Message;
 
 require_once("DataDesignTest.php");
 
@@ -18,10 +19,20 @@ class messageTest extends DataDesignTest{
 	protected $VALID_MESSAGECONTENT2 = "Message updated content passing";
 	protected $VALID_MESSAGEIPADDRESS = "IP passing";
 	protected $VALID_MESSAGESTATUS = 2;
-	protected $VALID_MESSAGETIMESTAMP = 128748376;
-
+	protected $VALID_MESSAGETIMESTAMP = null;
+	/**
+	 * creating dependent objects before running the test
+	 */
 	public final function setUp(){
 		parent::setUp();
 		$this->message = new Message(null, "");
+		$this->message-insert($this->getPDO());
+		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
+	}
+	public function testInsertValidMessage(){
+		//store number of current rows to compare against
+		$numRows = $this->getConnection()->getRowCount("message");
+		//create new message and insert
+		$this->message = new Message(null, )
 	}
 }
