@@ -357,7 +357,6 @@ class Message implements \JsonSerializable {
 			$query = "UPDATE message SET messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser = :messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus WHERE messageId = :messageId";
 			$statement = $pdo->prepare($query);
 			//bind variables
-			$formattedTimestamp = $this->messageTimestamp->format("Y-m-d H:i:s");
 			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
 			//execute parameters
 			$statement->execute($parameters);
