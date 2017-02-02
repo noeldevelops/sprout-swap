@@ -49,6 +49,40 @@ class messageTest extends DataDesignTest{
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
 		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
-
 	}
+	/**
+	 * test insert invalid message
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidMessage(){
+		//create a message w non-null message id
+		$message = new Message(DataDesignTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+	}
+
+	/**
+	 * test update valid message
+	 */
+	public function testUpdateValidMessage(){
+		//store number of current rows to compare against
+		$numRows = $this->getConnection()->getRowCount("message");
+		//create new message and insert
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+		//edit the message and update in mySQL
+		$message->setMessageContent($this->VALID_MESSAGECONTENT2);
+		$message->update($this->getPDO());
+		//grab data and ensure it matches expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->profile->getMessageReceiverProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->profile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
+		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
+		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
+	}
+
 }
