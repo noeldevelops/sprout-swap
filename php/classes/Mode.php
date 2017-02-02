@@ -113,5 +113,25 @@ class Mode{
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public function delete(\PDO $pdo)
+	public function delete(\PDO $pdo){
+		if($this->modeId === null){
+			throw (new \PDOException("cannot delete mode id that does not exist"));
+		}
+
+		$query = "DELETE FROM mode WHERE modeId = modeId";
+		$statement = $pdo->prepare($query);
+		//bind the member varibles to the place holder in the template
+		$parameters = ["modeId" => $this->modeId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * update mode in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+
 }
