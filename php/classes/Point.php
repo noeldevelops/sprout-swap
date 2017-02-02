@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\SproutSwap
+namespace Edu\Cnm\SproutSwap;
 /**
  * Point class for SproutSwap
  * @author Noel Cothren <noelcothren@gmail.com>
