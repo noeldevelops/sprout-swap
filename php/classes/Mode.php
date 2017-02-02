@@ -185,5 +185,35 @@ class Mode{
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 
-	public static function getModeByModeName
+	public static function getModeByModeName(\PDO $pdo, string $modeName) {
+		$modeName = trim($modeName);
+		$modeName = filter_var($modeName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($modeName) === true) {
+			throw (new \PDOException("mode name is invalid"));
+		}
+
+		$query = "SELECT modeId, modeName FROM mode WHERE modeName = :modeName";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["modeName" => $modeName];
+		$statement->execute($parameters);
+
+		$modeName = new Mode($row["modeId"], $row["modeName"]);
+		$modeName[$modeName->key()] = $modeName;
+		$modeName->next();
+	}catch (\Exception $exception){
+		throw (new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($modeName);
+
+	/**
+	 * get the mode name by mode
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $modeName mode name to search for
+	 * @return Mode|null mode name or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 }
+?>
