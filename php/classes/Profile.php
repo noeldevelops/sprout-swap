@@ -555,5 +555,40 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 			 **/
 		}
 
+	public static function getProfileByProfileHandle(\PDO $pdo, string $profileHandle){
+		$profileHandle = trim($profileHandle);
+		$profileHandle = filter_var($profileHandle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileHandle) === true){
+			throw(new \PDOException("profile handle is invalid"));
+		}
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
 
+		$parameters = ["profileHandle" => profileHandle];
+		$statement->execute($parameters);
+
+		$profileHandle = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch() !== false));
+			try {
+				$profileHandle = new Profile ($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profileHandle[$profileHandle->key()] = $profileHandle;
+				$profileHandle->next();
+			}catch(\Exception $exception){
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return($profileHandle);
+
+			/**
+			 * get the profile handle by profile
+			 *
+			 * @param \PDO $pdo PDO connection object
+			 * @param int $profileHandle profile handle to search for
+			 * @return Profile|null profile handle or null if not found
+			 * @throws \PDOException when mySQL related errors occur
+			 * @throws \TypeError when variables are not the correct data type
+			 **/
+		}
+
+	public static function getProfileByProfileName
 }

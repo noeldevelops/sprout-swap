@@ -1,5 +1,3 @@
-profileEmail VARCHAR (255) NOT NULL,
-profileHandle VARCHAR (21) NOT NULL,
 profileName VARCHAR (30),
 
 CREATE TABLE mode (
