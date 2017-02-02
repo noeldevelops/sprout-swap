@@ -1,5 +1,3 @@
-profileName VARCHAR (30),
-
 CREATE TABLE mode (
 modeId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 modeName VARCHAR (20),
