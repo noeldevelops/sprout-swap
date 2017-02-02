@@ -153,5 +153,37 @@ class Mode{
 	 * @throws \PDOException when mySQL errors occur
 	 **/
 
-	public static function getModeByModeId
+	public static function getModeByModeId(\PDO $pdo, int $modeId){
+		if($modeId <= 0){
+			throw (new\RangeException("modeId is not greater than zero"));
+		}
+		//create query template
+		$query = "SELECT modeId, modeName FROM mode WHERE modeId = :modeId";
+		$statement = $pdo->prepare($query);
+		//bind variables to template
+		$parameters = ["modeId" => $modeId];
+		$statement->execute($parameters);
+		try {
+			$modeId = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				modeId = new Mode($row["modeId"], $row["modeName"]);
+			}
+		}catch(\Exception $exception){
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($modeId);
+	}
+
+	/**
+	 * get mode id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of mode id found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getModeByModeName
 }
