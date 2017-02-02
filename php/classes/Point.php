@@ -21,7 +21,7 @@ private $long;
  * @param $newLong
  * @throws \InvalidArgumentException if not valid
  */
-public function __construct($newLat, $newLong) {
+public function __construct(float $newLat, float $newLong) {
 	try {
 		$this->setLat($newLat);
 		$this->setLong($newLong);
@@ -42,6 +42,7 @@ public function getLat() {
  * @throws \RangeException if $newLat is not between -180 and 180
  */
 public function setLat($newLat) {
-
+	if($newLat < -180 || $newLat > 180)
+		throw(new \RangeException("latitude is not within the range (-180,180)"));
 }
 }
