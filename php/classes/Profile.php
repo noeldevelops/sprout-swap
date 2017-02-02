@@ -503,17 +503,17 @@ class Profile {
 		$parameters = ["profileActivation" => $profileActivation];
 		$statement->execute($parameters);
 
-		$profileActivation = new \SplFixedArray(($statement->rowCount()));
+		$profileActivations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) ;
 		try {
 			$profileActivation = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-			$profileActivation[$profileActivation->key()] = $profileActivation;
-			$profileActivation->next();
+			$profileActivations[$profileActivations->key()] = $profileActivations;
+			$profileActivations->next();
 		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($profileActivation);
+		return ($profileActivations);
 
 		/**
 		 * get the profile activation by profile

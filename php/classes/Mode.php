@@ -97,7 +97,7 @@ class Mode{
 		if($this->modeId !== null){
 			throw(new \PDOException("not a new mode"));
 		}
-		$query = "INSERT INTO mode(modeId, modeName)";
+		$query = "INSERT INTO mode(modeId, modeName) VALUES (:modeId, :modeName)";
 		$statement = $pdo->prepare($query);
 		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
 		$statement->execute($parameters);
@@ -146,14 +146,16 @@ class Mode{
 		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
 		$statement->execute($parameters);
 	}
-
 	/**
-	 * delete function for mySQL
+	 * get the mode name by mode id
+	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL errors occur
+	 * @param int $modeId mode id to search for
+	 * @return Mode|null mode name or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
-
-	public static function getModeByModeId(\PDO $pdo, int $modeId){
+	public static function getModeNameByModeId(\PDO $pdo, int $modeId){
 		if($modeId <= 0){
 			throw (new\RangeException("modeId is not greater than zero"));
 		}
@@ -197,23 +199,17 @@ class Mode{
 
 		$parameters = ["modeName" => $modeName];
 		$statement->execute($parameters);
-
-		$modeName = new Mode($row["modeId"], $row["modeName"]);
-		$modeName[$modeName->key()] = $modeName;
-		$modeName->next();
-	catch (\Exception $exception) {
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		try {
+			$modeName = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$modeName = new Mode($row["modeId"], $row["modeName"]);
+			}
+		}catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-	return($modeName);
-}
-	/**
-	 * get the mode name by mode
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $modeName mode name to search for
-	 * @return Mode|null mode name or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
+		return($modeName);
+	}
 }
 ?>

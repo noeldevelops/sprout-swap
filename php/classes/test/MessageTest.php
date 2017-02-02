@@ -85,18 +85,18 @@ class messageTest extends DataDesignTest{
 		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
 	}
 	/**
-	 * test updating invalid tweet
+	 * test updating invalid message
 	 * @expectedException \PDOException
 	 */
-	public function testUpdateInvalidTweet(){
+	public function testUpdateInvalidMessage(){
 		$message = new Message(DataDesignTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 	}
 	/**
-	 * testing deleting a valid tweet
+	 * testing deleting a valid message
 	 *
 	 */
-	public function testDeleteValidTweet(){
+	public function testDeleteValidMessage(){
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
