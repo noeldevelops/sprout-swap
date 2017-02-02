@@ -1,5 +1,5 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\DataDesign\Test;
+namespace Edu\Cnm\SproutSwap\DataDesign;
 
 abstract class DataDesignTest extends \PHPUnit_Extensions_Database_TestCase{
 	/**

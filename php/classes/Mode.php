@@ -14,7 +14,7 @@ class Mode{
 	 **/
 	private $modeId;
 	/**
-	 * mode name will appear when search for
+	 * mode name
 	 * @var $modeName string (20)
 	 **/
 	private $modeName;
@@ -76,7 +76,7 @@ class Mode{
 		 * @throws \RangeException if $newModeName is > 20 characters
 		 * @throws \TypeError if $newModeName is not a string
 		 **/
-
+		// todo: add filters for strings
 	public function setModeName(string $newModeName){
 		if (empty($newModeName) === true){
 			throw (new \InvalidArgumentException("mode name is empty or insecure"));
@@ -120,7 +120,7 @@ class Mode{
 
 		$query = "DELETE FROM mode WHERE modeId = modeId";
 		$statement = $pdo->prepare($query);
-		//bind the member varibles to the place holder in the template
+		//bind the member variables to the place holder in the template
 		$parameters = ["modeId" => $this->modeId];
 		$statement->execute($parameters);
 	}
@@ -212,4 +212,3 @@ class Mode{
 		return($modeName);
 	}
 }
-?>

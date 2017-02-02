@@ -503,7 +503,7 @@ class Message implements \JsonSerializable {
 			//bind variables and execute
 			$parameters = ["messageId" => $messageId];
 			$statement->execute($parameters);
-			//grab message from mySL
+			//grab message from mySQL
 			try{
 				$message = null;
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);

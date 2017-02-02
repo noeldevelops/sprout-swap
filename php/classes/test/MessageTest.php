@@ -1,8 +1,8 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\Test;
+namespace Edu\Cnm\SproutSwap\DataDesign\Test;
 
 //grab the project test
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
+use Edu\Cnm\SproutSwap\DataDesign\DataDesignTest;
 use Edu\Cnm\SproutSwap\Message;
 
 require_once("DataDesignTest.php");
@@ -10,7 +10,7 @@ require_once("DataDesignTest.php");
 //grab the Message class
 require_once(dirname(__DIR__)) . "/autoload.php";
 
-class messageTest extends DataDesignTest{
+class MessageTest extends DataDesignTest{
 	protected $VALID_MESSAGEPOSTID = null;
 	protected $VALID_MESSAGERECEIVERPROFILEID = null;
 	protected $VALID_MESSAGESENDERPROFILEID = null;
