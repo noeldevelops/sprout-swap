@@ -107,6 +107,14 @@ class ProfileTest extends DataDesignTest {
 	 **/
 
 	public function testDeleteInvalidProfile(){
-		//create a Profile
+		//create a Profile and try to delete it without actually inserting it
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->delete($this->getPDO());
 	}
+
+	/**
+	 * test grabbing a Profile by profile content
+	 **/
+
+	public function testGetValidProfileByContent()
 };
