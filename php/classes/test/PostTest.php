@@ -124,5 +124,19 @@ class PostTest extends DataDesignTest {
 		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->delete($this->getPDO());
 	}
-
+/*
+ * test getting a post by post id
+ */
+public function testGetValidPostByPostId() {
+	//count number of rows and save for later
+	$numRows = $this->getConnection()->getRowCount("post");
+	//create a new Post and insert into mySqL
+	$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+	$post->insert($this->getPDO());
+	// grab the data from mySQL and enforce the fields match our expectations
+		$results = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
+}
 }
