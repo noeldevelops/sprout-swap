@@ -4,7 +4,7 @@ namespace Edu\Cnm\SproutSwap\Test;
 //grab project test
 use
 
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;require_once("DataDesignTest.php");
+use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;use Edu\Cnm\SproutSwap\Profile;require_once("DataDesignTest.php");
 
 //grab the profile class
 require_once (dirname(__DIR__)). "/autoload.php";
@@ -36,6 +36,43 @@ class ProfileTest extends DataDesignTest {
 	 * create dependent objects before running each test
 	 **/
 	public final function setUp(){
+		//run the default setUp() method first
+		parent::setUp();
+
+		//create and insert a Profile to the own test to Profile
+		$this->profile = new Profile(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->profile->insert($this->getPDO());
+
+		//calculate the date (just use the time the unit test was setup...)
+		$this->VALID_PROFILEDATE = new \DateTime();
+	}
+	/**
+	 * test inserting a valid Profile and verify that the actual mySQL data matches
+	 **/
+
+	public function testInsertValidProfile(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");.
+
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expections
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	}
+
+	/**
+	 * test inserting a Profile that already exists
+	 *
+	 * @expectedException PDOException
+	 **/
+
+	public function testInsertInvalidProfile(){
 
 	}
 };
