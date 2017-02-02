@@ -33,4 +33,37 @@ class Mode{
 		throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+	/**
+	 * accessor method for modeId
+	 * @return int|null value of modeId
+	 **/
+
+	public function getModeId(){
+		return ($this->modeId);
+	}
+
+	/**
+	 * mutator method for mode id
+	 * @param int|null $newModeId
+	 * @throws \RangeException is mode id is not postive
+	 * @throws \TypeError if $newModeId is not an integer
+	 **/
+
+	public function setModeId(int $newModeId = null){
+		if ($newModeId === null){
+			$this->modeId = null;
+			return;
+		}
+		if ($newModeId <= 0){
+			throw (new \RangeException("Mode Id must be positive"));
+		}
+
+		/**
+		 * accessor method for Mode Id
+		 * @return int $modeId
+		 **/
+
+
+	}
 }
