@@ -50,12 +50,12 @@ class Mode{
 	 * @throws \TypeError if $newModeId is not an integer
 	 **/
 
-	public function setModeId(int $newModeId = null){
-		if ($newModeId === null){
+	public function setModeId(int $newModeId = null) {
+		if($newModeId === null) {
 			$this->modeId = null;
 			return;
 		}
-		if ($newModeId <= 0){
+		if($newModeId <= 0) {
 			throw (new \RangeException("Mode Id must be positive"));
 		}
 
@@ -63,7 +63,33 @@ class Mode{
 		 * accessor method for Mode Id
 		 * @return int $modeId
 		 **/
-
-
 	}
+
+	public function getModeName(){
+		return ($this->modeName);
+		}
+
+		/**
+		 * mutator method for mode name
+		 * @param string $newModeName
+		 * @throws \InvalidArgumentException if $newModeName is insecure
+		 * @throws \RangeException if $newModeName is > 20 characters
+		 * @throws \TypeError if $newModeName is not a string
+		 **/
+
+	public function setModeName(string $newModeName){
+		if (empty($newModeName) === true){
+			throw (new \InvalidArgumentException("mode name is empty or insecure"));
+		}
+		if (strlen($newModeName) > 20) {
+			throw (new \RangeException("mode name cannot be more than 20 characters"));
+		}
+		$this->modeName = $newModeName;
+	}
+
+	/**
+	 * accessor method for mode name
+	 *
+	 * @return \Mode name valid for mode
+	 **/
 }
