@@ -73,6 +73,40 @@ class ProfileTest extends DataDesignTest {
 	 **/
 
 	public function testInsertInvalidProfile(){
+		//create a Profile with a non null profile id and watch it fail
+		$profile = new Profile(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->update($this->getPDO());
+	}
 
+	/**
+	 * test creating a Profile and then deleting it
+	 **/
+
+	public function testDeleteValidProfile(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->insert($this->getPDO());
+
+		//delete the profile from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		//grab the data from mySQL and enforce the Profile does not exist
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+	}
+
+	/**
+	 * test deleting a Profile that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+
+	public function testDeleteInvalidProfile(){
+		//create a Profile
 	}
 };
