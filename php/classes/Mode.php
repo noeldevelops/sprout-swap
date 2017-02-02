@@ -201,9 +201,9 @@ class Mode{
 		$modeName = new Mode($row["modeId"], $row["modeName"]);
 		$modeName[$modeName->key()] = $modeName;
 		$modeName->next();
-	}catch (\Exception $exception){
-		throw (new \PDOException($exception->getMessage(), 0, $exception));
-
+	catch (\Exception $exception) {
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
 	return($modeName);
 }
 	/**
