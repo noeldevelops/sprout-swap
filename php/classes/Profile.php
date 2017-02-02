@@ -1,4 +1,11 @@
 <?php
+namespace Edu\Cnm\SproutSwap;
+/**
+ * This class is what is stored when users create a new Profile
+ *
+ * @author A Zak Abad <abad.zacaria@gmail.com>
+ * @version 1.0
+ **/
 
 class Profile {
 	/**
@@ -626,3 +633,4 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 		}
 	}
 }
+?>
