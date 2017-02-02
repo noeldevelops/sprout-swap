@@ -168,7 +168,7 @@ class Mode{
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				modeId = new Mode($row["modeId"], $row["modeName"]);
+				$modeId = new Mode($row["modeId"], $row["modeName"]);
 			}
 		}catch(\Exception $exception){
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
