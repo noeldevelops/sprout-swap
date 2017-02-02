@@ -97,7 +97,7 @@ class Mode{
 		if($this->modeId !== null){
 			throw(new \PDOException("not a new mode"));
 		}
-		$query = "INSERT INTO mode(modeId, modeName VALUES :modeId, :modeName)";
+		$query = "INSERT INTO mode(modeId, modeName)";
 		$statement = $pdo->prepare($query);
 		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
 		$statement->execute($parameters);
@@ -203,9 +203,9 @@ class Mode{
 		$modeName->next();
 	}catch (\Exception $exception){
 		throw (new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	return($modeName);
 
+	return($modeName);
+}
 	/**
 	 * get the mode name by mode
 	 *
