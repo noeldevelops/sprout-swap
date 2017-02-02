@@ -463,7 +463,7 @@ class Profile {
 			throw(new \RangeException("profile image id must be positive"));
 		}
 
-		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileImageId = :profileImageId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileImageId" => $profileImageId];
@@ -497,7 +497,7 @@ class Profile {
 			throw(new \PDOException("profile activation is invalid"));
 		}
 
-		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileActivation = :profileActivation";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileActivation" => $profileActivation];
@@ -532,7 +532,7 @@ class Profile {
 			if(empty($profileEmail) === true){
 				throw(new \PDOException("profile email is invalid"));
 			}
-			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileEmail = :profileEmail";
 			$statement = $pdo->prepare($query);
 
 			$parameters = ["profileEmail" => $profileEmail];
@@ -567,7 +567,7 @@ class Profile {
 		if(empty($profileHandle) === true){
 			throw(new \PDOException("profile handle is invalid"));
 		}
-		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileHandle = :profileHandle";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["profileHandle" => profileHandle];
@@ -601,7 +601,7 @@ class Profile {
 		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profileName) === true){
 			throw(new \PDOException("profile name is invalid"));
-			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileName = :profileName";
 			$statement = $pdo->prepare($query);
 
 			$parameters = ["profileName" => $profileName];
