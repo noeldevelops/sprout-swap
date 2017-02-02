@@ -45,4 +45,10 @@ public function setLat($newLat) {
 	if($newLat < -180 || $newLat > 180)
 		throw(new \RangeException("latitude is not within the range (-180,180)"));
 }
+	public function jsonSerialize() {
+		$fields = [];
+		$fields["lat"] = $this->lat;
+		$fields["lng"] = $this->long;
+		return($fields);
+	}
 }
