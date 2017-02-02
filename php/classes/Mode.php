@@ -92,4 +92,26 @@ class Mode{
 	 *
 	 * @return \Mode name valid for mode
 	 **/
+
+	public function insert(\PDO $pdo){
+		if($this->modeId !== null){
+			throw(new \PDOException("not a new mode"));
+		}
+		$query = "INSERT INTO mode(modeId, modeName)";
+		$statement = $pdo->prepare($query);
+		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
+		$statement->execute($parameters);
+		//update null modeId
+		$this->modeId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * delete this mode from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	public function delete(\PDO $pdo)
 }
