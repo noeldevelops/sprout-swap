@@ -133,5 +133,25 @@ class Mode{
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
+	public function update(\PDO $pdo){
+		if ($this->modeId === null){
+			throw (new \PDOException("cannot update modeId because it does not exist"));
+		}
 
+		//create query template
+		$query = "UPDATE mode SET modeID = :modeID, modeName = :modeName";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * delete function for mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 **/
+
+	public static function getModeByModeId
 }
