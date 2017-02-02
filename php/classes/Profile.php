@@ -484,10 +484,10 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 		 **/
 	}
 
-	public static function getProfileByProfileActivation(\PDO $pdo, string $profileActivation){
+	public static function getProfileByProfileActivation(\PDO $pdo, string $profileActivation) {
 		$profileActivation = trim($profileActivation);
 		$profileActivation = filter_var($profileActivation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profileActivation) === true){
+		if(empty($profileActivation) === true) {
 			throw(new \PDOException("profile activation is invalid"));
 		}
 
@@ -499,26 +499,61 @@ SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle
 
 		$profileActivation = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch() !== false));
-			try {
-				$profileActivation = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profileActivation[$profileActivation->key()] = $profileActivation;
-				$profileActivation->next();
-			}catch(\Exception $exception){
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		while(($row = $statement->fetch() !== false)) ;
+		try {
+			$profileActivation = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+			$profileActivation[$profileActivation->key()] = $profileActivation;
+			$profileActivation->next();
+		} catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($profileActivation);
+
+		/**
+		 * get the profile activation by profile
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @param int $profileActivation profile activation to search for
+		 * @return Profile|null profile activation or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		}
+
+	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail){
+			$profileEmail = trim($profileEmail);
+			$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($profileEmail) === true){
+				throw(new \PDOException("profile email is invalid"));
 			}
-			return($profileActivation);
+			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileId = :profileId";
+			$statement = $pdo->prepare($query);
+
+			$parameters = ["profileEmail" => $profileEmail];
+			$statement->execute($parameters);
+
+			$profileEmail = new \SplFixedArray(($statement->rowCount()));
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch() !== false));
+				try {
+					$profileEmail = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+					$profileEmail[$profileEmail->key()] = $profileEmail;
+					$profileEmail->next();
+				}catch(\Exception $exception){
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+				return($profileEmail);
 
 			/**
-			 * get the profile activation by profile
+			 * get the profile email in class profile
 			 *
-			 * @param \PDO $pdo PDO conncetion object
-			 * @param int $profileActivation profile activation to search for
-			 * @return Profile|null profile activation or null if not found
+			 * @param \PDO $pdp PDO connection object
+			 * @param int $profileEmail profile email to search for
+			 * @return Profile|null profile email or null if not found
 			 * @throws \PDOException when mySQL related errors occur
 			 * @throws \TypeError when variables are not the correct data type
 			 **/
+		}
 
 
-	}
 }
