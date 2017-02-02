@@ -404,7 +404,7 @@ public function update(\PDO $pdo) {
 		$parameters = ["postId => $postId"];
 		$statement->execute($parameters);
 
-		return;
+		return($postId);
 	}
 		/**
 		 * get post by post mode ID
