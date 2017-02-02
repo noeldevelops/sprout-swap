@@ -116,5 +116,30 @@ class ProfileTest extends DataDesignTest {
 	 * test grabbing a Profile by profile content
 	 **/
 
-	public function testGetValidProfileByContent()
-};
+	public function testGetValidProfileByContent(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfileContent($this->getPDO(), $profile->getProfileContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Profile", $results);
+
+		//grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	}
+
+	/**
+	 * test grabbing a Profile by content that does not exist
+	 **/
+
+	public function testGetInvalidProfileByContent()
+}
