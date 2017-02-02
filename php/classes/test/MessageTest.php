@@ -42,8 +42,8 @@ class messageTest extends DataDesignTest{
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->profile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->profile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -76,13 +76,111 @@ class messageTest extends DataDesignTest{
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->profile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->profile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT2);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
 		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
+	}
+	/**
+	 * test updating invalid tweet
+	 * @expectedException \PDOException
+	 */
+	public function testUpdateInvalidTweet(){
+		$message = new Message(DataDesignTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+	}
+	/**
+	 * testing deleting a valid tweet
+	 *
+	 */
+	public function testDeleteValidTweet(){
+		//store number of current rows to compare against
+		$numRows = $this->getConnection()->getRowCount("message");
+		//create new message and insert
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+		//delete message from mySQL
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
+		$message->delete($this->getPDO());
+		//grab mySQL data and ensure message does not exist
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertNull($pdoMessage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCOunt("message"));
+	}
+	/**
+	 * test invalid delete; message has not even been inserted!!
+	 * @expectedException \PDOException
+	 */
+	public function testDeleteInvalidMessage(){
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->delete($this->getPDO());
+	}
+	/**
+	 * testing getting a valid message from sender profile Id
+	 */
+	public function testGetValidMessageByMessageSenderProfileId() {
+		//store number of current rows to compare against
+		$numRows = $this->getConnection()->getRowCount("message");
+		//create new message and insert
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+		//grab data from mySQL to check against expected
+		$results = Message::getMessageByMessageSenderProfileId($this->getPDO(), $message->getMessageContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\Message", $results);
+		//grab result from array and validate
+		$pdoMessage = $results[0];
+		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
+		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
+	}
+	/**
+	 * testing searching for an invalid message based on sender profile id
+	 */
+	public function testGetInvalidMessageByMessageSenderProfileId(){
+		$message = Message::getMessageByMessageSenderProfileId($this->getPDO(), "hope i find nothing!!");
+		$this->assertCount(0, $message);
+	}
+
+	/**
+	 * testing searching for a valid message based on receiver profile id
+	 */
+	public function testGetValidMessageByMessageReceiverProfileId() {
+		//store number of current rows to compare against
+		$numRows = $this->getConnection()->getRowCount("message");
+		//create new message and insert
+		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->insert($this->getPDO());
+		//grab data from mySQL to check against expected
+		$results = Message::getMessageByMessageReceiverProfileId($this->getPDO(), $message->getMessageContent());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\Message", $results);
+		//grab result from array and validate
+		$pdoMessage = $results[0];
+		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
+		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
+		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
+		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGEIPADDRESS);
+	}
+
+	/**
+	 * testing searching for an invalid message based on receiver profile id
+	 */
+	public function testGetInvalidMessageByMessageReceiverProfileId(){
+		$message = Message::getMessageByMessageSenderProfileId($this->getPDO(), "hope i find nothing!!");
+		$this->assertCount(0, $message);
 	}
 
 }
