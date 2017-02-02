@@ -21,7 +21,7 @@ class ProfileTest extends DataDesignTest {
 	 * content for the updated Profile
 	 * @var string $VALID_PROFILECONTENT2
 	 **/
-	protected $VALID_PROFILECONTECT2 = "PHPUnit test still passing";
+	protected $VALID_PROFILECONTENT2 = "PHPUnit test still passing";
 	/**
 	 * timestamp of the profile; this starts as null and is assigned later
 	 * @var DateTime $VALID_PROFILEDATE
