@@ -79,9 +79,9 @@ class ProfileTest extends DataDesignTest {
 	}
 
 	/**
-	 * test creating a Profile and then deleting it
+	 * test inserting a Profile, editing it, and then updating it
 	 **/
-
+	//starting point for update
 	public function testDeleteValidProfile(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
