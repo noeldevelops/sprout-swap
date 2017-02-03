@@ -3,7 +3,10 @@ namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
 
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;use Edu\Cnm\SproutSwap\Mode;use Edu\Cnm\SproutSwap\Profile;require_once("DataDesignTest.php");
+use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
+use Edu\Cnm\SproutSwap\Mode;
+use Edu\Cnm\SproutSwap\Profile;
+require_once("DataDesignTest.php");
 
 //grab the mode class
 require_once (dirname(__DIR__)). "/autoload.php";
