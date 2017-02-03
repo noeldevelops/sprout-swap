@@ -185,26 +185,26 @@ class ModeTest extends DataDesignTest{
 	 * test grabbing all modes
 	 **/
 
-public function testGetAllValidModes(){
+	public function testGetAllValidModes(){
 	//count the number of rows and save it for later
-$numRows = $this->getConnection()->getRowCount("mode");
+	$numRows = $this->getConnection()->getRowCount("mode");
 
 	//create a new mode and insert to into mySQL
-$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
-$mode->insert($this->getPDO());
+	$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+	$mode->insert($this->getPDO());
 
 	//grab the data from mySQL and enforce the fields match our expectations
-$results = Mode::getAllModes($this->getPDO());
-$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
-$this->assertCount(1, $results);
-$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Mode", $results);
+	$results = Mode::getAllModes($this->getPDO());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
+	$this->assertCount(1, $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Mode", $results);
 
 	//grab the result from the array and validate it
-$pdoMode = $results[0];
-$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
-$this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT);
-$this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
-}
+	$pdoMode = $results[0];
+	$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
+	$this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT);
+	$this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
+	}
 
 }
 ?>
