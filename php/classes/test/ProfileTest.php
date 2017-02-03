@@ -2,14 +2,14 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use
-
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;use Edu\Cnm\SproutSwap\Profile;require_once("DataDesignTest.php");
+use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
+use Edu\Cnm\SproutSwap\Profile;
+require_once("DataDesignTest.php");
 
 //grab the profile class
 require_once (dirname(__DIR__)). "/autoload.php";
 
-@author Zak Abad <abad.zacaria@gmail.com>
+//author Zak Abad <abad.zacaria@gmail.com>;
 
 class ProfileTest extends DataDesignTest {
 	/**
@@ -82,7 +82,7 @@ class ProfileTest extends DataDesignTest {
 	 * test inserting a Profile, editing it, and then updating it
 	 **/
 
-	public function testUpdateValidProfile) {
+	public function testUpdateValidProfile() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -92,7 +92,7 @@ class ProfileTest extends DataDesignTest {
 
 		//edit the Profile and update it in mySQL
 		$profile->setProfileContent($this->VALID_PROFILECONTENT2);
-		$mode->update($this->getPDO());
+		$profile->update($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileNameByProfileId($this->getPDO(), $profile->getProfileId());
@@ -187,7 +187,7 @@ class ProfileTest extends DataDesignTest {
 	 * test grabbing all profiles
 	 **/
 
-	public funcion testGetAllValidProfiles(){
+	public function testGetAllValidProfiles(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -203,7 +203,7 @@ class ProfileTest extends DataDesignTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId()$this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
 		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 }
