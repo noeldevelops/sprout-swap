@@ -81,7 +81,43 @@ class ProfileTest extends DataDesignTest {
 	/**
 	 * test inserting a Profile, editing it, and then updating it
 	 **/
-	//starting point for update
+
+	public function testUpdateValidMode() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("mode");
+
+		//create a new Mode and insert to into mySQL
+		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+		$mode->insert($this->getPDO());
+
+		//edit the Mode and update it in mySQL
+		$mode->setModeContent($this->VALID_MODECONTENT2);
+		$mode->update($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoMode = Mode::getModeNameByModeId($this->getPDO(), $mode->getModeId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
+		$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
+		$this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT2);
+		$this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
+		}
+
+	/**
+	 * test updating a Mode that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+
+	public function testUpdateInvalidMode(){
+		//create a Mode, try to update it without actually updating it and watch it fail
+		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+		$this->update($this->getPDO());
+	}
+
+	/**
+	 * test creating a Mode and then deleting it
+	 **/
+
 	public function testDeleteValidProfile(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
