@@ -52,7 +52,7 @@ class ProfileTest extends DataDesignTest {
 
 	public function testInsertValidProfile(){
 		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");.
+		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
