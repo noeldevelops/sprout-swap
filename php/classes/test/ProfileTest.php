@@ -58,7 +58,7 @@ class ProfileTest extends DataDesignTest {
 		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
 		$profile->insert($this->getPDO());
 
-		//grab the data from mySQL and enforce the fields match our expections
+		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
@@ -141,5 +141,36 @@ class ProfileTest extends DataDesignTest {
 	 * test grabbing a Profile by content that does not exist
 	 **/
 
-	public function testGetInvalidProfileByContent()
+	public function testGetInvalidProfileByContent(){
+		//grab profile by searching for content that does not exist
+		$profile = Profile::getProfileByProfileContent($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
+	}
+
+	/**
+	 * test grabbing all profiles
+	 **/
+
+	public funcion testGetAllValidProfiles(){
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new profile and insert to into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getAllProfiles($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Profile", $results);
+
+		//grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId()$this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 }
+
+}
+?>
