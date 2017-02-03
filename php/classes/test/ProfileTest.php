@@ -82,40 +82,40 @@ class ProfileTest extends DataDesignTest {
 	 * test inserting a Profile, editing it, and then updating it
 	 **/
 
-	public function testUpdateValidMode() {
+	public function testUpdateValidProfile) {
 		//count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("mode");
+		$numRows = $this->getConnection()->getRowCount("profile");
 
-		//create a new Mode and insert to into mySQL
-		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
-		$mode->insert($this->getPDO());
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile->insert($this->getPDO());
 
-		//edit the Mode and update it in mySQL
-		$mode->setModeContent($this->VALID_MODECONTENT2);
+		//edit the Profile and update it in mySQL
+		$profile->setProfileContent($this->VALID_PROFILECONTENT2);
 		$mode->update($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoMode = Mode::getModeNameByModeId($this->getPDO(), $mode->getModeId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
-		$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
-		$this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT2);
-		$this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
+		$pdoProfile = Profile::getProfileNameByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfikeId());
+		$this->assertEquals($pdoProfile->getProfileContent(), $this->VALID_PROFILECONTENT2);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 		}
 
 	/**
-	 * test updating a Mode that does not exist
+	 * test updating a Profile that does not exist
 	 *
 	 * @expectedException PDOException
 	 **/
 
-	public function testUpdateInvalidMode(){
-		//create a Mode, try to update it without actually updating it and watch it fail
-		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+	public function testUpdateInvalidProfile(){
+		//create a Profile, try to update it without actually updating it and watch it fail
+		$mode = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
 		$this->update($this->getPDO());
 	}
 
 	/**
-	 * test creating a Mode and then deleting it
+	 * test creating a Profile and then deleting it
 	 **/
 
 	public function testDeleteValidProfile(){
