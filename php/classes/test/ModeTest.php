@@ -2,14 +2,13 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use
 
 use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;use Edu\Cnm\SproutSwap\Mode;use Edu\Cnm\SproutSwap\Profile;require_once("DataDesignTest.php");
 
 //grab the mode class
 require_once (dirname(__DIR__)). "/autoload.php";
 
-@author Zak Abad <abad.zacaria@gmail.com>
+//author Zak Abad <abad.zacaria@gmail.com>
 
 class ModeTest extends DataDesignTest{
 	/**
@@ -74,7 +73,7 @@ class ModeTest extends DataDesignTest{
 
 	public function testInsertInvalidMode(){
 		//create a Mode with a non null mode id and watch it fail
-		$mode = new Mode(DataDesignTest::INVALID KEY, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->getPDO());
+		$mode = new Mode(DataDesignTest::INVALID_KEY, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->getPDO());
 	}
 
 	/**
@@ -186,13 +185,13 @@ class ModeTest extends DataDesignTest{
 	 * test grabbing all modes
 	 **/
 
-public funcion testGetAllValidModes(){
+public function testGetAllValidModes(){
 	//count the number of rows and save it for later
 $numRows = $this->getConnection()->getRowCount("mode");
 
 	//create a new mode and insert to into mySQL
 $mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
-$profile->insert($this->getPDO());
+$mode->insert($this->getPDO());
 
 	//grab the data from mySQL and enforce the fields match our expectations
 $results = Mode::getAllModes($this->getPDO());
@@ -202,7 +201,7 @@ $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Mode", $resu
 
 	//grab the result from the array and validate it
 $pdoMode = $results[0];
-$this->assertEquals($pdoMode->getModeId()$this->mode->getModeId());
+$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
 $this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT);
 $this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
 }
