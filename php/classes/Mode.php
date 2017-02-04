@@ -76,8 +76,10 @@ class Mode{
 		 * @throws \RangeException if $newModeName is > 20 characters
 		 * @throws \TypeError if $newModeName is not a string
 		 **/
-		// todo: add filters for strings
+
 	public function setModeName(string $newModeName){
+		$newModeName = trim($newModeName);
+		$newModeName = filter_var($newModeName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if (empty($newModeName) === true){
 			throw (new \InvalidArgumentException("mode name is empty or insecure"));
 		}
