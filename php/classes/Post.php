@@ -9,6 +9,7 @@ require_once("autoload.php");
  **/
 
 class Post implements \jsonSerializable {
+	use ValidateDate;
 	/**
 	 * id for this Post; this is the primary key
 	 * @var int $postId
@@ -43,7 +44,7 @@ class Post implements \jsonSerializable {
 	/**
 	 * geolocation of user who creates post
 	 * @use Point class
-	 * @var int $postLocation
+	 * @var Point $postLocation
 	 */
 	private $postLocation;
 	/**
@@ -73,13 +74,13 @@ class Post implements \jsonSerializable {
 	 * @param Point $newPostLocation geolocation of user who created post
 	 * @param string $newPostOffer string containing user's offer
 	 * @param string $newPostRequest string containing user's request
-	 * @param int $newPostTimestamp contains date and time post was created
+	 * @param \DateTime $newPostTimestamp contains date and time post was created
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, point $newPostLocation, string $newPostOffer, string $newPostRequest, int $newPostTimestamp ) {
+	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, Point $newPostLocation, string $newPostOffer, string $newPostRequest, int $newPostTimestamp ) {
 		 try {
 			 $this->setPostId($newPostId);
 			 $this->setPostModeId($newPostModeId);
@@ -234,7 +235,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * accessor method for post location
-	  * @returns point value of post location
+	  * @returns Point value of post location
 	  */
 	 public function getPostLocation() {
 	 	return($this->postLocation);
@@ -319,7 +320,7 @@ class Post implements \jsonSerializable {
 			return;
 		}
 		try {
-			$newPostTimestamp = self::validateDate($newPostTimestamp);
+			$newPostTimestamp = self::validateDateTime($newPostTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
@@ -340,9 +341,8 @@ class Post implements \jsonSerializable {
 		}
 		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest)";
 		$statement = $pdo->prepare($query);
-		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
-		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
+		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
 
 		$statement->execute($parameters);
 		//update null messageId
@@ -381,11 +381,11 @@ public function update(\PDO $pdo) {
 	}
 	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = :postLocation, postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
 	$statement = $pdo->prepare($query);
-	$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
-	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
+	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
 
 	$statement->execute($parameters);
+	$this->postTimestamp = new \DateTime();
 }
 
 	/**gets the post by post Id
@@ -413,7 +413,7 @@ public function update(\PDO $pdo) {
 		 * @param \PDO $pdo connection object
 		 * @param int $postModeId mode to search by
 		 * @return \SplFixedArray of posts found
-		 * @throws \PDOException when mySQL errors occur
+		 * @throws \PDOException $exception when mySQL errors occur
 		 * @throws \TypeError when variables are not correct type
 		 */
 		public static function getPostByPostModeId (\PDO $pdo, int $postModeId, $exception) {
@@ -442,7 +442,7 @@ public function update(\PDO $pdo) {
 	 * @param \PDO $pdo connection object
 	 * @param int $postProfileId profile ID to search by
 	 * @return \SplFixedArray of posts found
-	 * @throws \PDOException when mySQL errors occur
+	 * @throws \PDOException $exception when mySQL errors occur
 	 * @throws \TypeError when variables are not correct type
 	 */
 	public static function getPostByPostProfileId (\PDO $pdo, int $postProfileId, $exception) {
