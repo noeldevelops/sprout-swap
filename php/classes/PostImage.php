@@ -96,6 +96,54 @@ class PostImage implements \JsonSerializable{
 		$statement->execute($parameters);
 	}
 	/**
+	 * @param \PDO $pdo
+	 * @param int $postImageImageId
+	 */
+	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
+		if($postImageImageId <= 0){
+			throw(new \RangeException("postImageImageId must be greater than 0"));
+		}
+		//create query template
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImageImageId = :postImageImageId";
+		$statement = $pdo->prepare($query);
+		//bind variables
+		$parameters = ["postImageImageId" => $postImageImageId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * @param \PDO $pdo
+	 * @param int $postImagePostId
+	 */
+	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
+		if($postImagePostId <= 0){
+			throw(new \RangeException("postImagePostId must be greater than 0"));
+		}
+		//create query template
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImagePostId = :postImagePostId";
+		$statement = $pdo->prepare($query);
+		//bind variables and execute
+		$parameters = ["postImagePostId" => $postImagePostId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * @param \PDO $pdo
+	 * @param int $postImageImageId
+	 * @param int $postImagePostId
+	 */
+	public static function getPostImageByPostImageImageIdAndPostImagePostId(\PDO $pdo, int $postImageImageId, int $postImagePostId){
+		if($postImageImageId <= 0){
+			throw(new \RangeException("postImageImageId must be greater than 0"));
+		} else if($postImagePostId <= 0){
+			throw(new \RangeException("postImagePostId must be greater than 0"));
+		}
+		//create query template
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImageImageId = :postImageImageId AND postImagePostId = :postImagePostId";
+		$statement = $pdo->prepare($query);
+		//bind variables and execute
+		$parameters = ["postImageImageId" => $postImageImageId, "postImagePostId" => $postImagePostId];
+		$statement->execute($parameters);
+	}
+	/**
 	 * JSON Serializable method
 	 * @return array of data to be serialized
 	 */

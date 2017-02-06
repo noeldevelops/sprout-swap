@@ -1,16 +1,17 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\DataDesign\Test;
+namespace Edu\Cnm\SproutSwap\SproutSwap\Test;
 
 //grab the project test
-use Edu\Cnm\SproutSwap\DataDesign\DataDesignTest;
+use Edu\Cnm\SproutSwap\SproutSwap\SproutSwapTest;
 use Edu\Cnm\SproutSwap\Message;
 
-require_once("DataDesignTest.php");
+require_once("SproutSwapTest.php");
+
 
 //grab the Message class
 require_once(dirname(__DIR__)) . "/autoload.php";
 
-class MessageTest extends DataDesignTest{
+class MessageTest extends SproutSwapTest{
 	protected $VALID_MESSAGEPOSTID = null;
 	protected $VALID_MESSAGERECEIVERPROFILEID = null;
 	protected $VALID_MESSAGESENDERPROFILEID = null;
@@ -56,7 +57,7 @@ class MessageTest extends DataDesignTest{
 	 */
 	public function testInsertInvalidMessage(){
 		//create a message w non-null message id
-		$message = new Message(DataDesignTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(SproutSwapTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 	}
 
@@ -89,7 +90,7 @@ class MessageTest extends DataDesignTest{
 	 * @expectedException \PDOException
 	 */
 	public function testUpdateInvalidMessage(){
-		$message = new Message(DataDesignTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(SproutSwapTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 	}
 	/**
