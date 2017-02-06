@@ -1,5 +1,8 @@
-<?PHP
+<?php
 namespace Edu\Cnm\SproutSwap\SproutSwapTest;
+
+// grab the encrypted properties file
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 abstract class SproutSwapTest extends \PHPUnit_Extensions_Database_TestCase{
 	/**
@@ -51,7 +54,7 @@ abstract class SproutSwapTest extends \PHPUnit_Extensions_Database_TestCase{
 		if($this->connection === null){
 			$config = readConfig("/etc/apache2/capstone-mysql/sprout-swap.ini");
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprout-swap.ini");
-			$this->connection = $this->createDefaultFBConnection($pdo, $config["database"]);
+			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 		}
 		return($this->connection);
 	}

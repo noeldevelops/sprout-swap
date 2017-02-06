@@ -3,11 +3,12 @@ namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
 
+use Edu\Cnm\SproutSwap\SproutSwapTest\SproutSwapTest;
 Use Edu\Cnm\SproutSwap\Test;
-require_once("SproutSwapTest.php");
+require_once ("SproutSwapTest.php");
 
 //grab the mode class
-require_once (dirname(__DIR__)). "../classes/autoload.php";
+require_once (dirname(__DIR__) . "/autoload.php");
 
 //author Zak Abad <abad.zacaria@gmail.com>
 
@@ -38,10 +39,6 @@ class ModeTest extends SproutSwapTest{
 	public final function setUp(){
 		//run the default seUp() method first
 		parent::setUp();
-
-		//create and insert a Profile to the own test to Mode
-		$this->mode = new Mode(null, "@phpunit", "test@phpunit.de", "12125551212");
-		$this->mode->insert($this->getPDO());
 
 		//calculate the date (just use the time the unit test was setup...)
 		$this->VALID_MODEDATE = new \DateTime();
