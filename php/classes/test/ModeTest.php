@@ -4,7 +4,6 @@ namespace Edu\Cnm\SproutSwap\Test;
 //grab project test
 
 Edu\Cnm\SproutSwap\Test\SproutSwapTest;
-use Edu\Cnm\SproutSwap\ModeTest;
 require_once("SproutSwapTest.php");
 
 //grab the mode class
