@@ -105,7 +105,7 @@ class ModeTest extends SproutSwapTest{
 	public function testUpdateInvalidMode(){
 		//create a Mode, try to update it without actually updating it and watch it fail
 		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
-		$this->update($this->getPDO());
+		$mode->update($this->getPDO());
 	}
 
 	/**
