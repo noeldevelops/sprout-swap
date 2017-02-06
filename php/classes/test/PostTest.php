@@ -1,10 +1,9 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\DataDesign\{
-	Profile, Post, Test\DataDesignTest
-};
+use Edu\Cnm\SproutSwap\DataDesign\{Profile, Post};
 
 require_once("DataDesignTest.php");
+require_once(dirname(__DIR__) . "/classes/autoload.php");
 
 /**
  * Full PHP Unit Test for the Post Class

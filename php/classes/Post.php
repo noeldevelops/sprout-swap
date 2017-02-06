@@ -575,7 +575,7 @@ public function update(\PDO $pdo) {
 	 * @param \PDO $pdo connection object
 	 * @param string $postRequest to search by
 	 * @param $exception
-	 * @return SplFixedArray of posts found
+	 * @return \SplFixedArray of posts found
 	 */
 	public static function getPostByPostRequest (\PDO $pdo, string $postRequest, $exception) {
 		$postRequest = trim($postRequest);

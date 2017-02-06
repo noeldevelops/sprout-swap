@@ -6,7 +6,7 @@ namespace Edu\Cnm\SproutSwap;
  * @author Noel Cothren <noelcothren@gmail.com>
  *
  */
-class Point implements JsonSerializable {
+trait Point implements JsonSerializable {
 	/**
 	 * @var float $lat latitude
 	 *
@@ -75,5 +75,5 @@ class Point implements JsonSerializable {
 		$fields["lat"] = $this->lat;
 		$fields["long"] = $this->long;
 		return($fields);
-	} 
+	}
 }
