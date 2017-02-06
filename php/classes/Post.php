@@ -317,7 +317,7 @@ class Post implements \jsonSerializable {
 			return;
 		}
 		try {
-			$newPostTimestamp = self::validateDateTime($newPostTimestamp);
+			$newPostTimestamp = self::validateDate($newPostTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
@@ -588,6 +588,34 @@ public function update(\PDO $pdo) {
 //bind the parameters
 		$postRequest = "%$postRequest%";
 		$parameters = ["postRequest => $postRequest"];
+		$statement->execute($parameters);
+		//make an array
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($posts);
+	}
+	/**
+	 * get post by post request
+	 * @param \PDO $pdo connection object
+	 * @param int $postTimestamp to search by
+	 * @param $exception
+	 * @return SplFixedArray of posts found
+	 */
+	public static function getPostByPostTimestamp (\PDO $pdo, int $postTimestamp, $exception) {
+		if(null($postTimestamp) === true) {
+			throw(new \PDOException("Post Timestamp is null"));
+		}
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
+		$statement = $pdo->prepare($query);
+//bind the parameters
+		$parameters = ["postTimestamp => $postTimestamp"];
 		$statement->execute($parameters);
 		//make an array
 		$posts = new \SplFixedArray($statement->rowCount());
