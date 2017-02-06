@@ -609,7 +609,7 @@ public function update(\PDO $pdo) {
 	 * @return SplFixedArray of posts found
 	 */
 	public static function getPostByPostTimestamp (\PDO $pdo, int $postTimestamp, $exception) {
-		if(null($postTimestamp) === true) {
+		if(($postTimestamp) === null) {
 			throw(new \PDOException("Post Timestamp is null"));
 		}
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
