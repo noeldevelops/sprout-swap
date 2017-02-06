@@ -97,21 +97,6 @@ class PostImage implements \JsonSerializable{
 	}
 	/**
 	 * @param \PDO $pdo
-	 * @param int $postImageImageId
-	 */
-	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
-		if($postImageImageId <= 0){
-			throw(new \RangeException("postImageImageId must be greater than 0"));
-		}
-		//create query template
-		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImageImageId = :postImageImageId";
-		$statement = $pdo->prepare($query);
-		//bind variables
-		$parameters = ["postImageImageId" => $postImageImageId];
-		$statement->execute($parameters);
-	}
-	/**
-	 * @param \PDO $pdo
 	 * @param int $postImagePostId
 	 */
 	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
