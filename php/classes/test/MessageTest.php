@@ -109,7 +109,7 @@ class MessageTest extends SproutSwapTest{
 		//grab mySQL data and ensure message does not exist
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertNull($pdoMessage);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCOunt("message"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("message"));
 	}
 	/**
 	 * test invalid delete; message has not even been inserted!!

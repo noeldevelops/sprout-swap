@@ -1,13 +1,13 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\DataDesign;
+namespace Edu\Cnm\SproutSwap\SproutSwap;
 
-use Edu\Cnm\SproutSwap\DataDesign\DataDesignTest;
+use Edu\Cnm\SproutSwap\Test\SproutSwapTest;
 use Edu\Cnm\SproutSwap\Post;
 use Edu\Cnm\SproutSwap\PostImage;
 
 require_once(dirname(__DIR__)) . "/autoload.php";
 
-class PostImageTest extends DataDesignTest{
+class PostImageTest extends SproutSwapTest{
 	protected $VALID_POSTIMAGEIMAGEID = null;
 	protected $VALID_POSTIMAGEPOSTID = "free";
 	/**
@@ -30,7 +30,16 @@ class PostImageTest extends DataDesignTest{
 		$this->assertEquals($pdoPostImageImageId, $this->VALID_POSTIMAGEIMAGEID);
 		$this->assertEquals($pdoPostImagePostId, $this->VALID_POSTIMAGEPOSTID);
 	}
-
+	/**
+	 *
+	 */
+	public function testInsertInvalidPostImage(){
+		$postImage = new PostImage(SproutSwapTest::INVALID_KEY, SproutSwapTest::INVALID_KEY);
+		$postImage->insert($this->getPDO());
+	}
+	/**
+	 *
+	 */
 	public function testDeleteValidPostImage(){
 		//count rows and save for later
 		$numRows = $this->getConnection()->getRowCount("postImage");
@@ -41,7 +50,29 @@ class PostImageTest extends DataDesignTest{
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("postimage"));
 		$postImage->delete($this->getPDO());
 		//grab and assert equality
-		$pdoPostImage = PostImage::getPostImageByPostImageId();
+		$pdoPostImage = PostImage::getPostImageByPostImageId($this->getPDO(), $postImage->getPostImageImageId());
+		$this->assertNull($pdoPostImage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("postImage"));
+	}
+	/**
+	 * @expectedException \PDOException
+	 */
+	public function testDeleteInvalidPostImage(){
+		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
+		$postImage->delete($this->getPDO());
+	}
 
+	public function testGetValidPostImageByPostImageImageId(){
+		$numRows = $this->getConnection()->getRowCount("postImage");
+		//create new postImage and update
+		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
+		$postImage->insert($this->getPDO());
+		//grab data from mySQL and compare to expected
+		$results = PostImage::getPostImageByPostImageImageId($this->getPDO());
+		$pdoPostImage = $results[0];
+		$this->assertEquals($numRows + 1, $this->getConnection->getRowCount("postImage"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\PostImage", $results);
+		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
+		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
 	}
 }
