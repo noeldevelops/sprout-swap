@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\SproutSwapTest\{Image, PostImage, Post};
+use Edu\Cnm\SproutSwap\ {Image, PostImage};
 
 require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/classes/autoload.php");
@@ -10,3 +10,4 @@ require_once(dirname(__DIR__) . "/classes/autoload.php");
  * @see  Image
  * @author Noel Cothren <noelcothren@gmail.com>
  **/
+

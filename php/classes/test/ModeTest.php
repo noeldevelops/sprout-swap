@@ -3,7 +3,7 @@ namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
 
-Edu\Cnm\SproutSwap\Test\SproutSwapTest;
+Use Edu\Cnm\SproutSwap\Test\SproutSwapTest;
 require_once("SproutSwapTest.php");
 
 //grab the mode class
