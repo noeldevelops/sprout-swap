@@ -1,5 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap;
+require_once("autoload.php");
 /**
  * This class is what is stored when users create a new Post
  *
@@ -41,7 +42,8 @@ class Post implements \jsonSerializable {
 	private $postIpAddress;
 	/**
 	 * geolocation of user who creates post
-	 * @var point $postLocation
+	 * @use Point class
+	 * @var int $postLocation
 	 */
 	private $postLocation;
 	/**
@@ -68,7 +70,7 @@ class Post implements \jsonSerializable {
 	 * @param string $newPostBrowser auto-generated browser info for the user who created post
 	 * @param string $newPostContent actual content of the post
 	 * @param string $newPostIpAddress IP Address of user who created post
-	 * @param point $newPostLocation geolocation of user who created post
+	 * @param Point $newPostLocation geolocation of user who created post
 	 * @param string $newPostOffer string containing user's offer
 	 * @param string $newPostRequest string containing user's request
 	 * @param int $newPostTimestamp contains date and time post was created
@@ -239,10 +241,10 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * mutator method for post location
-	  * @param point $newPostLocation new value of post location
+	  * @param Point $newPostLocation new value of post location
 	  *
 	  */
-	 public function setPostLocation(point $newPostLocation) {
+	 public function setPostLocation(Point $newPostLocation) {
 	 	$this->postLocation = $newPostLocation;
 	 }
 	 /**
