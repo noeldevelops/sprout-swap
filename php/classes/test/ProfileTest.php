@@ -2,16 +2,16 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
+use Edu\Cnm\SproutSwap\Test;
 use Edu\Cnm\SproutSwap\Profile;
-require_once("DataDesignTest.php");
+require_once("SproutSwapTest.php");
 
 //grab the profile class
 require_once (dirname(__DIR__)). "/autoload.php";
 
 //author Zak Abad <abad.zacaria@gmail.com>;
 
-class ProfileTest extends DataDesignTest {
+class ProfileTest extends SproutSwapTest {
 	/**
 	 * content for profile
 	 * @var string $VALID_PROFILECONTENT
@@ -74,7 +74,7 @@ class ProfileTest extends DataDesignTest {
 
 	public function testInsertInvalidProfile(){
 		//create a Profile with a non null profile id and watch it fail
-		$profile = new Profile(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile = new Profile(SproutSwapTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
 		$profile->update($this->getPDO());
 	}
 
@@ -164,7 +164,7 @@ class ProfileTest extends DataDesignTest {
 		$results = Profile::getProfileByProfileContent($this->getPDO(), $profile->getProfileContent());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Profile", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\SproutSwap\\Profile", $results);
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
@@ -199,7 +199,7 @@ class ProfileTest extends DataDesignTest {
 		$results = Profile::getAllProfiles($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Profile", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\SproutSwap\\Profile", $results);
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];

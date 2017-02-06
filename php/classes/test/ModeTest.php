@@ -3,17 +3,16 @@ namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
 
-use Edu\Cnm\SproutSwap\DataDesign\Test\DataDesignTest;
-use Edu\Cnm\SproutSwap\Mode;
-use Edu\Cnm\SproutSwap\Profile;
-require_once("DataDesignTest.php");
+Edu\Cnm\SproutSwap\Test\SproutSwapTest;
+use Edu\Cnm\SproutSwap\ModeTest;
+require_once("SproutSwapTest.php");
 
 //grab the mode class
 require_once (dirname(__DIR__)). "/autoload.php";
 
 //author Zak Abad <abad.zacaria@gmail.com>
 
-class ModeTest extends DataDesignTest{
+class ModeTest extends SproutSwapTest{
 	/**
 	 * content for modeId
 	 * @var int modeId
@@ -76,7 +75,7 @@ class ModeTest extends DataDesignTest{
 
 	public function testInsertInvalidMode(){
 		//create a Mode with a non null mode id and watch it fail
-		$mode = new Mode(DataDesignTest::INVALID_KEY, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->getPDO());
+		$mode = new Mode(SproutSwapTest::INVALID_KEY, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->getPDO());
 	}
 
 	/**
@@ -200,7 +199,7 @@ class ModeTest extends DataDesignTest{
 	$results = Mode::getAllModes($this->getPDO());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
 	$this->assertCount(1, $results);
-	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Mode", $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\SproutSwap\\Mode", $results);
 
 	//grab the result from the array and validate it
 	$pdoMode = $results[0];
