@@ -6,7 +6,7 @@ namespace Edu\Cnm\SproutSwap;
  * @author Noel Cothren <noelcothren@gmail.com>
  *
  */
-trait Point implements JsonSerializable {
+class Point implements \JsonSerializable {
 	/**
 	 * @var float $lat latitude
 	 *
@@ -70,7 +70,7 @@ trait Point implements JsonSerializable {
 		{throw(new \RangeException("longitude is not within the range (-90, 90)"));}
 		$this->long=$newLong;
 	}
-	public function JsonSerializable() {
+	public function JsonSerialize() {
 		$fields = [];
 		$fields["lat"] = $this->lat;
 		$fields["long"] = $this->long;
