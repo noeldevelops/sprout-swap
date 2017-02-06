@@ -61,7 +61,9 @@ class PostImageTest extends SproutSwapTest{
 		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
 		$postImage->delete($this->getPDO());
 	}
-
+	/**
+	 *
+	 */
 	public function testGetValidPostImageByPostImageImageId(){
 		$numRows = $this->getConnection()->getRowCount("postImage");
 		//create new postImage and update
@@ -70,9 +72,47 @@ class PostImageTest extends SproutSwapTest{
 		//grab data from mySQL and compare to expected
 		$results = PostImage::getPostImageByPostImageImageId($this->getPDO());
 		$pdoPostImage = $results[0];
-		$this->assertEquals($numRows + 1, $this->getConnection->getRowCount("postImage"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\PostImage", $results);
 		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
 		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
+	}
+	/**
+	 *
+	 */
+	public function getInvalidPostImageByPostImageImageId(){
+		$postImage = PostImage::getPostImageByPostImageImageId($this->getPDO(), "hope there's nothitng -_-");
+		$this->assertEquals(0, $postImage);
+	}
+	/**
+	 *
+	 */
+	public function testGetValidPostImageByPostImagePostId(){
+		$numRows = $this->getConnection()->getRowCount("postImage");
+		//create new postImage and update
+		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
+		$postImage->insert($this->getPDO());
+		$results = PostImage::getPostImageByPostImagePostId($this->getPDO());
+		$pdoPostImage = $results[0];
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\PostImage", $results);
+		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
+		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
+	}
+	/**
+	 *
+	 */
+	public function testGetInvalidPostImageByPostImagePostId(){
+		$postImage = PostImage::getPostImageByPostImagePostId($this->getPDO(), "hope there's nothitng -_-");
+		$this->assertEquals(0, $postImage);
+	}
+	public function testGetValidPostImageByPostImageImageIdAndPostImagePostId(){
+		//store num rows to test against
+		$numRows = $this->getConnection()->getRowCount("postImage");
+		//create new postImage and insert
+		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
+		$postImage->insert($this->getPDO());
+		//grab data from mySQL and compare
+		$result
 	}
 }
