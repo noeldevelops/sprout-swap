@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\SproutSwap\{Profile, Post};
+use Edu\Cnm\SproutSwap\SproutSwapTest\{Profile, Post};
 
 require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/classes/autoload.php");
