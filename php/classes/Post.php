@@ -56,7 +56,7 @@ class Post implements \jsonSerializable {
 	private $postRequest;
 	/**
 	 * Timestamp when post is created
-	 * @var DateTime $postTimestamp
+	 * @var int $postTimestamp
 	 */
 	private $postTimestamp;
 	/**
@@ -71,7 +71,7 @@ class Post implements \jsonSerializable {
 	 * @param point $newPostLocation geolocation of user who created post
 	 * @param string $newPostOffer string containing user's offer
 	 * @param string $newPostRequest string containing user's request
-	 * @param DateTime $newPostTimestamp contains date and time post was created
+	 * @param int $newPostTimestamp contains date and time post was created
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -297,7 +297,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
-	  * @returns datetime $postTimeStamp value of post timestamp
+	  * @returns int $postTimeStamp value of current post timestamp
 	  */
 	 public function getPostTimestamp() {
 	 	return($this->postTimestamp);

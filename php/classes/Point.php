@@ -70,10 +70,10 @@ class Point implements JsonSerializable {
 		{throw(new \RangeException("longitude is not within the range (-90, 90)"));}
 		$this->long=$newLong;
 	}
-	public function jsonSerialize() {
+	public function JsonSerializable() {
 		$fields = [];
 		$fields["lat"] = $this->lat;
 		$fields["long"] = $this->long;
 		return($fields);
-	}
+	} 
 }
