@@ -606,7 +606,7 @@ public function update(\PDO $pdo) {
 	 * @param \PDO $pdo connection object
 	 * @param int $postTimestamp to search by
 	 * @param $exception
-	 * @return SplFixedArray of posts found
+	 * @return \SplFixedArray of posts found
 	 */
 	public static function getPostByPostTimestamp (\PDO $pdo, int $postTimestamp, $exception) {
 		if(($postTimestamp) === null) {

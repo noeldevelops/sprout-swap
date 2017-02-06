@@ -1,8 +1,8 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\DataDesign\{Profile, Post};
+use Edu\Cnm\SproutSwap\SproutSwap\{Profile, Post};
 
-require_once("DataDesignTest.php");
+require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/classes/autoload.php");
 
 /**
@@ -10,7 +10,7 @@ require_once(dirname(__DIR__) . "/classes/autoload.php");
  * @see Post
  * @author Noel Cothren <noelcothren@gmail.com>
  **/
-class PostTest extends DataDesignTest {
+class PostTest extends SproutSwapTest {
 	/**
 	 * content of the post
 	 * @var string $VALID_POSTCONTENT
@@ -66,7 +66,7 @@ class PostTest extends DataDesignTest {
 	 */
 	public function testInsertInvalidPost() {
 		//create a post with a non-null id and make sure it fails
-		$post = new Post(DataDesignTest::INVALID_KEY, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(SproutSwapTest::INVALID_KEY, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 	}
 
