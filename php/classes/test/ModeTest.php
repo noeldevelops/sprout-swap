@@ -2,13 +2,11 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-
-use Edu\Cnm\SproutSwap\SproutSwapTest\SproutSwapTest;
-Use Edu\Cnm\SproutSwap\Test;
+Use Edu\Cnm\SproutSwap\SproutSwapTest\{Mode};
 require_once ("SproutSwapTest.php");
 
 //grab the mode class
-require_once (dirname(__DIR__) . "/autoload.php");
+require_once(dirname(__DIR__)) . "/autoload.php";
 
 //author Zak Abad <abad.zacaria@gmail.com>
 
