@@ -1,6 +1,10 @@
 <?php
+namespace Edu\Cnm\SproutSwap\Test;
+use Edu\Cnm\SproutSwap\Point;
+use Edu\Cnm\SproutSwap\SproutSwapTest\SproutSwapTest;
+
 require_once("SproutSwapTest.php");
-require_once (dirname(__DIR__) . "autoload.php");
+require_once (dirname(__DIR__) . "/autoload.php");
 
 /**
  * PHPUnit test for the Point container class used by Post
@@ -8,7 +12,7 @@ require_once (dirname(__DIR__) . "autoload.php");
  * @author Solomon Leyba solomon.leyba@gmail.com
  */
 
-class PointTest extends SproutSwapTest{
+class PointTest extends SproutSwapTest {
 	protected $VALID_LAT = 40.9384;
 	protected $VALID_LONG = 50.2342;
 	protected $INVALID_LAT = 100.4544;
