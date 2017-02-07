@@ -1,5 +1,7 @@
 <?php
 namespace Edu\Cnm\SproutSwap;
+require_once ("autoload.php");
+
 /**
  * This class is what is stored when users create a new Profile
  *
@@ -8,6 +10,7 @@ namespace Edu\Cnm\SproutSwap;
  **/
 
 class Profile {
+	use ValidateDate;
 	/**
 	 * id for the profile; this is a primary key
 	 * @var int for $profileId
