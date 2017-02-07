@@ -60,7 +60,8 @@ class ModeTest extends SproutSwapTest {
 
 	public function testInsertInvalidMode(){
 		//create a Mode with a non null mode id and watch it fail
-		$mode = new Mode(SproutSwapTest::INVALID_KEY, $this->mode->getModeId(), $this->VALID_MODENAME, $this->getPDO());
+		$mode = new Mode(SproutSwapTest::INVALID_KEY, $this->VALID_MODENAME, $this->getPDO());
+		$mode->insert($this->getPDO());
 	}
 
 	/**
