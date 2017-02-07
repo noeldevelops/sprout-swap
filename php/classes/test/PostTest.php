@@ -1,9 +1,9 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\SproutSwapTest\{Profile, Post};
+use Edu\Cnm\SproutSwap\{Profile, Post};
 
 require_once("SproutSwapTest.php");
-require_once(dirname(__DIR__) . "/classes/autoload.php");
+require_once(dirname(__DIR__) . "/autoload.php");
 
 /**
  * Full PHP Unit Test for the Post Class
