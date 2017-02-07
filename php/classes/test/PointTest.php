@@ -1,7 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\Point;
-use Edu\Cnm\SproutSwap\SproutSwapTest\SproutSwapTest;
+use Edu\Cnm\SproutSwap\{Point};
 
 require_once("SproutSwapTest.php");
 require_once (dirname(__DIR__) . "/autoload.php");
