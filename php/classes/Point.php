@@ -1,5 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap;
+require_once ("autoload.php");
 /**
  * Point class for SproutSwap
  * Used by $postLocation
