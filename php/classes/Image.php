@@ -29,7 +29,7 @@ class Image implements \jsonSerializable {
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are negative or too long
 	 */
-	public function __contruct(int $newImageId = null, string $newImageCloudinaryId) {
+	public function __construct(int $newImageId = null, string $newImageCloudinaryId) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageCloudinaryId($newImageCloudinaryId);

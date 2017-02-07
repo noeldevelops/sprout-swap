@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\{Image, PostImage};
+use Edu\Cnm\SproutSwap\{Image};
 
 require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/autoload.php");
