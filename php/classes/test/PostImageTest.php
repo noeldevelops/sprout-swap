@@ -6,6 +6,12 @@ use Edu\Cnm\SproutSwap\{Post, PostImage};
 require_once ("SproutSwapTest.php");
 require_once(dirname(__DIR__)) . "/autoload.php";
 
+/**
+ * Class PostImageTest
+ * @package Edu\Cnm\SproutSwap\Test
+ * @author Solomon Leyba solomon.leyba@gmail.com
+ */
+
 class PostImageTest extends SproutSwapTest{
 	protected $VALID_POSTIMAGEIMAGEID = null;
 	protected $VALID_POSTIMAGEPOSTID = "free";
