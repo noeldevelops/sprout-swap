@@ -1,7 +1,10 @@
 <?php
+namespace Edu\Cnm\SproutSwap;
+require_once("autoload.php");
 /**
  * This class is for images that users upload
  *
+ * @author SproutSwap
  * @author A Noel Cothren <noelcothren@gmail.com>
  * @version 1.0
  **/
