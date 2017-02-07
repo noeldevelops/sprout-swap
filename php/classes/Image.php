@@ -68,7 +68,7 @@ public function getImageId() {
 	}
 	/**
 	 * accessor method for image cloudinary id
-	 * @returns int|null value of image cloudinary id
+	 * @returns string value of image cloudinary id
 	 */
 	public function getImageCloudinaryId(){
 		return($this->imageCloudinaryId);
@@ -85,6 +85,130 @@ public function getImageId() {
 			throw(new \InvalidArgumentException("ID is empty or insecure"));
 		}
 		$this->imageCloudinaryId = $newImageCloudinaryId;
+	}
+	/**
+	 * insert a new Image
+	 * @param \PDO $pdo
+	 * @throws \PDOException when mySQL errors occur
+	 */
+	public function insert (\PDO $pdo){
+		//ensure image id is null
+		if($this->imageId !==  null){
+			throw (new \PDOException("Image already exists in database"));
+		}
+		// create query template
+		$query = "INSERT INTO image(imageId, imageCloudinaryId) VALUES (:imageId, :imageCloudinaryId)";
+		$statement = $pdo->prepare($query);
+		//bind variables
+		$parameters = ["imageId" => $this->imageId, "imageCloudinaryId => $this->imageCloudinaryId"];
+		$statement->execute($parameters);
+		//update null messageId
+		$this->imageId = intval($pdo->lastInsertId());
+	}
+	/**
+	 * delete an Image
+	 * @param \PDO $pdo
+	 * @throws \PDOException when mySQL errors occur
+	 */
+	public function delete (\PDO $pdo){
+		//ensure image id is null
+		if($this->imageId ===  null){
+			throw (new \PDOException("Can't delete an image that doesn't exist"));
+		}
+		// create query template
+		$query = "DELETE FROM image WHERE imageId = $this->imageId";
+		$statement = $pdo->prepare($query);
+		//bind variables
+		$parameters = ["imageId" => $this->imageId];
+		$statement->execute($parameters);
+	}
+	/** gets an image by the imageId
+	 * @param \PDO $pdo PDO Connection Object
+	 * @param int $imageId image id to search for
+	 * @return Image|null Image found or doesn't exist
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 **/
+	 public static function getImageByImageId(\PDO $pdo, int $imageId) {
+		//throw an exception if imageId is empty
+		if($imageId <= 0) {
+			throw(new \PDOException("Image ID is not positive"));
+		}
+		$query = "SELECT imageId, imageCloudinaryId FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["imageId" => $imageId];
+		$statement->execute($parameters);
+		 try {
+			 $image = null;
+			 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+			 $row = $statement->fetch();
+			 if($row !== false) {
+				 $image = new Image($row["imageId"], $row["imageCloudinaryId"]);
+			 }
+		 } catch(\Exception $exception) {
+			 // if the row couldn't be converted, rethrow it
+			 throw(new \PDOException($exception->getMessage(), 0, $exception));
+		 }
+		 return($image);
+	}
+	/** gets an image by the imageCloudinaryId
+	 * @param \PDO $pdo PDO Connection Object
+	 * @param string $imageCloudinaryId image id from Cloudinary API to search for
+	 * @return Image|null Image found or doesn't exist
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
+	 **/
+	public static function getImageByImageCloudinaryId(\PDO $pdo, string $imageCloudinaryId) {
+		//throw an exception if imageId is empty
+		if(is_string($imageCloudinaryId) !== true) {
+			throw(new \TypeError("Image Cloudinary ID is not a string"));
+		}
+		$query = "SELECT imageId, imageCloudinaryId FROM image WHERE imageCloudinaryId = :imageCloudinaryId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["imageCloudinaryId" => $imageCloudinaryId];
+		$statement->execute($parameters);
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageId"], $row["imageCloudinaryId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
+	}
+	/** gets all images related to a specific post
+	 * @param \PDO $pdo
+	 * @throws \InvalidArgumentException if post doesn't exist
+	 * @throws \RangeException if postId is negative number
+	 * @returns \SplFixedArray $images
+	 **/
+	public static function getImagesByPostId(\PDO $pdo, int $postId) {
+		//throw an exception if postId is empty
+		if($postId === null) {
+			throw(new \InvalidArgumentException("this post doesn't exist"));
+		} else if($postId <= 0){
+			throw (new \RangeException("postId must be greater than zero"));
+		}
+		$query = "SELECT imageId, imageCloudinaryId FROM post WHERE postId = :postId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["postId" => $postId];
+		$statement->execute($parameters);
+		$images = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$image = new Image($row["imageId"], $row["imageCloudinaryId"]);
+				$images[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($images);
 	}
 	/**
 	 * formats the state variables for JSON serialization

@@ -11,10 +11,9 @@ require_once(dirname(__DIR__) . "/autoload.php");
  * @author Noel Cothren <noelcothren@gmail.com>
  **/
 class ImageTest extends SproutSwapTest {
-
-	protected $VALID_IMAGEID;
-	protected $VALID_IMAGECLOUDINARYID;
-	protected $INVALID_IMAGEID;
-	protected $INVALID_IMAGECLOUDINARYID;
+	protected $VALID_IMAGEID = null;
+	protected $VALID_IMAGECLOUDINARYID = "dNO4tbbKFUG215Me";
+	protected $INVALID_IMAGEID = 4294967296;
+	protected $INVALID_IMAGECLOUDINARYID = "$$$$$$";
 
 }
