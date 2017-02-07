@@ -2,8 +2,8 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-Use Edu\Cnm\SproutSwap\{Mode};
-require_once ("SproutSwapTest.php");
+use Edu\Cnm\SproutSwap\{Mode};
+require_once("SproutSwapTest.php");
 
 //grab the mode class
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -15,17 +15,12 @@ class ModeTest extends SproutSwapTest {
 	 * content for modeId
 	 * @var int modeId
 	 **/
-	protected $VALID_MODECONTENT = "PHPUnit test passing";
+	protected $VALID_MODECONTENT = "Free";
 	/**
 	 * content for updated Mode
 	 * @var string $VALID_MODECONTENT2
 	 **/
-	protected $VALID_MODECONTENT2 = "PHPUnit test still passing";
-	/**
-	 * timestamp of the mode; this starts as null and is assigned later
-	 * @var DateTime $VALID_MODEDATE
-	 **/
-	protected $VALID_MODEDATE = null;
+	protected $VALID_MODECONTENT2 = "Sell";
 	/**
 	 * Profile that created the Mode; this is for foreign key relations
 	 * @var Mode mode
@@ -38,27 +33,23 @@ class ModeTest extends SproutSwapTest {
 		//run the default seUp() method first
 		parent::setUp();
 
-		//calculate the date (just use the time the unit test was setup...)
-		$this->VALID_MODEDATE = new \DateTime();
 	}
 	/**
 	 * test inserting a valid Mode and verify that the actual mySQL data matches
 	 **/
 
-	public function testInsertValidProfile(){
+	public function testInsertValidMode(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("mode");
 
 		//create a new Mode and insert to into mySQL
-		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+		$mode = new Mode(null, $this->VALID_MODECONTENT);
 		$mode->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoMode = Mode::getModeNameByModeId($this->getPDO(), $mode->getModeId());
+		$pdoMode = Mode::getModeByModeId($this->getPDO(), $mode->getModeId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
-		$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
-		$this->assertEquals($pdoMode->getModeContent(), $this->VALID_MODECONTENT);
-		$this->assertEquals($pdoMode->getModeDate(), $this->VALID_MODEDATE);
+		$this->assertEquals($pdoMode->getModeName(), $this->VALID_MODECONTENT);
 	}
 
 	/**
@@ -81,7 +72,7 @@ class ModeTest extends SproutSwapTest {
 		$numRows = $this->getConnection()->getRowCount("mode");
 
 		//create a new Mode and insert to into mySQL
-		$mode = new Mode(null, $this->mode->getModeId(), $this->VALID_MODECONTENT, $this->VALID_MODEDATE);
+		$mode = new Mode(null, $this->VALID_MODECONTENT);
 		$mode->insert($this->getPDO());
 
 		//edit the Mode and update it in mySQL
@@ -203,4 +194,3 @@ class ModeTest extends SproutSwapTest {
 	}
 
 }
-?>

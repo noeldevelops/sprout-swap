@@ -158,7 +158,7 @@ class Mode{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getModeNameByModeId(\PDO $pdo, int $modeId){
+	public static function getModeByModeId(\PDO $pdo, int $modeId){
 		if($modeId <= 0){
 			throw (new\RangeException("modeId is not greater than zero"));
 		}

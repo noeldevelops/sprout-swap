@@ -44,7 +44,7 @@ abstract class SproutSwapTest extends \PHPUnit_Extensions_Database_TestCase{
 	 * @return mixed
 	 */
 	public final function getTearDownOperation(){
-		return(\PHPUnit_extension_Database_operation_factory::DELETE_ALL());
+		return(\PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL());
 	}
 	/**
 	 * sets up database connection for PHPUnit
@@ -63,6 +63,6 @@ abstract class SproutSwapTest extends \PHPUnit_Extensions_Database_TestCase{
 	 * @return mixed
 	 */
 	public final function getPDO(){
-		return($this->getConnection()-$this->getConnection());
+		return($this->getConnection()->getConnection());
 	}
 }
