@@ -104,7 +104,7 @@ class PostImage implements \JsonSerializable{
 	}
 	/**
 	 * @param \PDO $pdo
-	 * @param int $postImagePostId
+	 * @param int $postImageImageId
 	 * @return PostImage|null
 	 */
 	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
@@ -133,6 +133,7 @@ class PostImage implements \JsonSerializable{
 	/**
 	 * @param \PDO $pdo
 	 * @param int $postImagePostId
+	 * @return PostImage|null
 	 */
 	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
 		if($postImagePostId <= 0){
@@ -161,6 +162,7 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo
 	 * @param int $postImageImageId
 	 * @param int $postImagePostId
+	 * @return PostImage|null
 	 */
 	public static function getPostImageByPostImageImageIdAndPostImagePostId(\PDO $pdo, int $postImageImageId, int $postImagePostId){
 		if($postImageImageId <= 0){
