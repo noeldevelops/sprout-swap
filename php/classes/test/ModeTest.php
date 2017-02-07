@@ -6,7 +6,7 @@ Use Edu\Cnm\SproutSwap\{Mode};
 require_once ("SproutSwapTest.php");
 
 //grab the mode class
-require_once(dirname(__DIR__)) . "/autoload.php";
+require_once(dirname(__DIR__) . "/autoload.php");
 
 //author Zak Abad <abad.zacaria@gmail.com>
 
