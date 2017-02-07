@@ -105,6 +105,34 @@ class PostImage implements \JsonSerializable{
 	/**
 	 * @param \PDO $pdo
 	 * @param int $postImagePostId
+	 * @return PostImage|null
+	 */
+	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
+		if($postImageImageId <= 0){
+			throw(new \RangeException("postImagePostId must be greater than 0"));
+		}
+		//create query template
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImagePostId = :postImagePostId";
+		$statement = $pdo->prepare($query);
+		//bind variables and execute
+		$parameters = ["postImageImageId" => $postImageImageId];
+		$statement->execute($parameters);
+		//grab postImage from mySQL
+		try{
+			$postImage = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false){
+				$postImage = new PostImage ($row["postImageImageId"], $row["postImagePostId"]);
+			}
+		} catch(\Exception $exception){
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($postImage);
+	}
+	/**
+	 * @param \PDO $pdo
+	 * @param int $postImagePostId
 	 */
 	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
 		if($postImagePostId <= 0){
@@ -116,6 +144,18 @@ class PostImage implements \JsonSerializable{
 		//bind variables and execute
 		$parameters = ["postImagePostId" => $postImagePostId];
 		$statement->execute($parameters);
+		//grab postImage from mySQL
+		try{
+			$postImage = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false){
+				$postImage = new PostImage ($row["postImageImageId"], $row["postImagePostId"]);
+			}
+		} catch(\Exception $exception){
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($postImage);
 	}
 	/**
 	 * @param \PDO $pdo
@@ -134,6 +174,18 @@ class PostImage implements \JsonSerializable{
 		//bind variables and execute
 		$parameters = ["postImageImageId" => $postImageImageId, "postImagePostId" => $postImagePostId];
 		$statement->execute($parameters);
+		//grab postImage from mySQL
+		try{
+			$postImage = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false){
+				$postImage = new PostImage ($row["postImageImageId"], $row["postImagePostId"]);
+			}
+		} catch(\Exception $exception){
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($postImage);
 	}
 	/**
 	 * JSON Serializable method
