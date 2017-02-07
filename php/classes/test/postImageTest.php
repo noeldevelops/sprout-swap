@@ -1,10 +1,9 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\SproutSwap;
+namespace Edu\Cnm\SproutSwap\Test;
 
-use Edu\Cnm\SproutSwap\Test\SproutSwapTest;
-use Edu\Cnm\SproutSwap\Post;
-use Edu\Cnm\SproutSwap\PostImage;
+use Edu\Cnm\SproutSwap\{Post, PostImage};
 
+require_once ("SproutSwapTest.php");
 require_once(dirname(__DIR__)) . "/autoload.php";
 
 class PostImageTest extends SproutSwapTest{
@@ -113,6 +112,6 @@ class PostImageTest extends SproutSwapTest{
 		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
 		$postImage->insert($this->getPDO());
 		//grab data from mySQL and compare
-		$result
+		$result;
 	}
 }
