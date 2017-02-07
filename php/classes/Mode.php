@@ -1,4 +1,5 @@
 <?php
+
 namespace Edu\Cnm\SproutSwap;
 require_once ("autoload.php");
 /**
@@ -8,7 +9,7 @@ require_once ("autoload.php");
  * @version 1.0
  **/
 
-class Mode{
+class Mode {
 	/**
 	 * id for mode; this is the primary key
 	 * @var int for modeId
@@ -21,17 +22,17 @@ class Mode{
 	private $modeName;
 
 	public function __construct(int $newModeId = null, string $newModeName) {
-	try {
-		$this->setModeId($newModeId);
-		$this->setModeName($newModeName);
-	} catch(\InvalidArgumentException $invalidArgument) {
-		throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-	} catch(\RangeException $rangeException) {
-		throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
-	} catch(\TypeError $typeError) {
-		throw (new \TypeError($typeError->getMessage(), 0, $typeError));
-	} catch(\Exception $exception) {
-		throw (new \Exception($exception->getMessage(), 0, $exception));
+		try {
+			$this->setModeId($newModeId);
+			$this->setModeName($newModeName);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $rangeException) {
+			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
+		} catch(\TypeError $typeError) {
+			throw (new \TypeError($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			throw (new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 
@@ -40,7 +41,7 @@ class Mode{
 	 * @return int|null value of modeId
 	 **/
 
-	public function getModeId(){
+	public function getModeId() {
 		return ($this->modeId);
 	}
 
@@ -66,25 +67,25 @@ class Mode{
 		 **/
 	}
 
-	public function getModeName(){
+	public function getModeName() {
 		return ($this->modeName);
-		}
+	}
 
-		/**
-		 * mutator method for mode name
-		 * @param string $newModeName
-		 * @throws \InvalidArgumentException if $newModeName is insecure
-		 * @throws \RangeException if $newModeName is > 20 characters
-		 * @throws \TypeError if $newModeName is not a string
-		 **/
+	/**
+	 * mutator method for mode name
+	 * @param string $newModeName
+	 * @throws \InvalidArgumentException if $newModeName is insecure
+	 * @throws \RangeException if $newModeName is > 20 characters
+	 * @throws \TypeError if $newModeName is not a string
+	 **/
 
-	public function setModeName(string $newModeName){
+	public function setModeName(string $newModeName) {
 		$newModeName = trim($newModeName);
 		$newModeName = filter_var($newModeName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if (empty($newModeName) === true){
+		if(empty($newModeName) === true) {
 			throw (new \InvalidArgumentException("mode name is empty or insecure"));
 		}
-		if (strlen($newModeName) > 20) {
+		if(strlen($newModeName) > 20) {
 			throw (new \RangeException("mode name cannot be more than 20 characters"));
 		}
 		$this->modeName = $newModeName;
@@ -93,16 +94,16 @@ class Mode{
 	/**
 	 * accessor method for mode name
 	 *
-	 * @return \Mode name valid for mode
+	 * @return $modeName valid for mode
 	 **/
 
-	public function insert(\PDO $pdo){
-		if($this->modeId !== null){
+	public function insert(\PDO $pdo) {
+		if($this->modeId !== null) {
 			throw(new \PDOException("not a new mode"));
 		}
-		$query = "INSERT INTO mode(modeId, modeName) VALUES (:modeId, :modeName)";
+		$query = "INSERT INTO mode(modeName) VALUES (:modeName)";
 		$statement = $pdo->prepare($query);
-		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
+		$parameters = ["modeName" => $this->modeName];
 		$statement->execute($parameters);
 		//update null modeId
 		$this->modeId = intval($pdo->lastInsertId());
@@ -116,8 +117,8 @@ class Mode{
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public function delete(\PDO $pdo){
-		if($this->modeId === null){
+	public function delete(\PDO $pdo) {
+		if($this->modeId === null) {
 			throw (new \PDOException("cannot delete mode id that does not exist"));
 		}
 
@@ -136,8 +137,8 @@ class Mode{
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 
-	public function update(\PDO $pdo){
-		if ($this->modeId === null){
+	public function update(\PDO $pdo) {
+		if($this->modeId === null) {
 			throw (new \PDOException("cannot update modeId because it does not exist"));
 		}
 
@@ -149,6 +150,7 @@ class Mode{
 		$parameters = ["modeId" => $this->modeId, "modeName" => $this->modeName];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * get the mode name by mode id
 	 *
@@ -158,8 +160,8 @@ class Mode{
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getModeByModeId(\PDO $pdo, int $modeId){
-		if($modeId <= 0){
+	public static function getModeByModeId(\PDO $pdo, int $modeId) {
+		if($modeId <= 0) {
 			throw (new\RangeException("modeId is not greater than zero"));
 		}
 		//create query template
@@ -175,7 +177,7 @@ class Mode{
 			if($row !== false) {
 				$modeId = new Mode($row["modeId"], $row["modeName"]);
 			}
-		}catch(\Exception $exception){
+		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return ($modeId);
@@ -197,9 +199,10 @@ class Mode{
 			throw (new \PDOException("mode name is invalid"));
 		}
 
-		$query = "SELECT modeId, modeName FROM mode WHERE modeName = :modeName";
+		$query = "SELECT modeId, modeName FROM mode WHERE modeName LIKE :modeName";
 		$statement = $pdo->prepare($query);
 
+		$modeName = "%$modeName%";
 		$parameters = ["modeName" => $modeName];
 		$statement->execute($parameters);
 		$modes = new \SplFixedArray($statement->rowCount());
@@ -214,5 +217,27 @@ class Mode{
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($modeName);
+		return ($modes);
+	}
+
+	public static function getAllModes(\PDO $pdo){
+		//create query template
+		$query = "SELECT modeId, modeName FROM mode";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		//build an array of modes
+		$modes = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try {
+				$mode = new Mode($row["modeId"], $row["modeName"]);
+				$modes[$modes->key()] = $mode;
+				$modes->next();
+			}catch(\Exception $exception){
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($modes);
+	}
 }
