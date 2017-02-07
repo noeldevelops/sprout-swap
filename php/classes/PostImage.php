@@ -1,6 +1,13 @@
 <?PHP
 namespace Edu\Cnm\SproutSwap;
+require_once ("autoload.php");
 
+/**
+ * Class PostImage weak entity
+ * @see Post
+ * @see Image
+ * @package Edu\Cnm\SproutSwap
+ */
 class PostImage implements \JsonSerializable{
 	/**
 	 * foreign key
