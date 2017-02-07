@@ -162,7 +162,7 @@ public function getImageId() {
 		//throw an exception if imageId is empty
 		if(is_string($imageCloudinaryId) !== true) {
 			throw(new \TypeError("Image Cloudinary ID is not a string"));
-		}
+		} elseif(str_len($imageCloudinaryId) !<== 16)
 		$query = "SELECT imageId, imageCloudinaryId FROM image WHERE imageCloudinaryId = :imageCloudinaryId";
 		$statement = $pdo->prepare($query);
 		$parameters = ["imageCloudinaryId" => $imageCloudinaryId];
