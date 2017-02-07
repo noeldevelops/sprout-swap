@@ -2,9 +2,7 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use Edu\Cnm\SproutSwap\{
-	Profile, ValidateDate
-};
+use Edu\Cnm\SproutSwap\{Profile};
 require_once("SproutSwapTest.php");
 
 //grab the profile class
