@@ -16,4 +16,31 @@ class ImageTest extends SproutSwapTest {
 	protected $INVALID_IMAGEID = 4294967296;
 	protected $INVALID_IMAGECLOUDINARYID = "$$$$$$";
 
+	public function testInsertValidImage() {
+		$numRows = $this->getConnection()->getRowCount("image");
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->image->getImageCloudinaryId());
+	}
+
+	/**
+	 * test insert an image that already exists
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidImage() {
+		$image = new Image($this->VALID_IMAGEID, $this->VALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+	}
+
+	/**
+	 * test inserting an image with invalid Cloudinary ID
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidImageCloudinaryId() {
+		$image = new Image(null, $this->INVALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+	}
 }
