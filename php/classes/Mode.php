@@ -1,7 +1,8 @@
 <?php
 namespace Edu\Cnm\SproutSwap;
+require_once ("autoload.php");
 /**
- * This class is what is stored when users create a new Profile
+ * This class is for the Mode of the posts - buy, sell, or trade
  *
  * @author A Zak Abad <abad.zacaria@gmail.com>
  * @version 1.0
