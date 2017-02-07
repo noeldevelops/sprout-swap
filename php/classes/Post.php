@@ -339,10 +339,10 @@ class Post implements \jsonSerializable {
 		if($this->postId !== null) {
 			throw(new \PDOException("Not a new post"));
 		}
-		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, :postLocation, :postOffer, :postRequest)";
+		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, POINT(:postLocationX, :postLocationY), :postOffer, :postRequest)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
+		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(),"postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
 
 		$statement->execute($parameters);
 		//update null messageId
@@ -379,10 +379,10 @@ public function update(\PDO $pdo) {
 	if($this->postId === null) {
 		throw(new \PDOException("Cannot update a post that doesn't exist"));
 	}
-	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = :postLocation, postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
+	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = POINT(:postLocationX, :postLocationY), postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
 	$statement = $pdo->prepare($query);
 
-	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocation"=>$this->postLocation, "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
+	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(), "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
 
 	$statement->execute($parameters);
 	$this->postTimestamp = new \DateTime();
@@ -400,13 +400,23 @@ public function update(\PDO $pdo) {
 		if($postId <= 0) {
 			throw(new \RangeException("Post ID must be positive"));
 		}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postId = :postId";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postId = :postId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["postId => $postId"];
 		$statement->execute($parameters);
 
-		return($postId);
+		try {
+			$post = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+			}
+			} catch (\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		return($post);
 	}
 		/**
 		 * get post by post mode ID
@@ -423,14 +433,14 @@ public function update(\PDO $pdo) {
 			if($postModeId >= 3) {
 				throw(new \RangeException("Post Mode ID not valid"));
 			}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postModeId = :postModeId";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postModeId = :postModeId";
 		$statement = $pdo->prepare($query);
 
 		$posts = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -450,7 +460,7 @@ public function update(\PDO $pdo) {
 			throw(new \RangeException("Post ID must be positive"));
 		}
 		//create the query template
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postProfileId = :postProfileId";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postProfileId = :postProfileId";
 		$statement = $pdo->prepare($query);
 
 		//bind the parameters
@@ -461,7 +471,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 				$posts[$posts->key()] = $post;
 				$posts->next();
 			}	catch(\Exception $exception) {
@@ -486,7 +496,7 @@ public function update(\PDO $pdo) {
 			throw(new \PDOException("Post content is invalid"));
 		}
 		//create new query template
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
 		$statement = $pdo->prepare($query);
 		//bind the parameters
 		$postContent = "%$postContent%";
@@ -497,7 +507,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 				$posts[$posts->key()] = $post;
 				$posts->next();
 			} catch(\Exception $exception) {
@@ -530,7 +540,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 				$posts[$posts->key()] = $post;
 				$posts->next();
 			} catch(\Exception $exception) {
@@ -553,7 +563,7 @@ public function update(\PDO $pdo) {
 		if(empty($postOffer) === true) {
 			throw(new \PDOException("Post Offer is invalid"));
 		}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postOffer LIKE :postOffer";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postOffer LIKE :postOffer";
 		$statement = $pdo->prepare($query);
 //bind the parameters
 		$postOffer = "%$postOffer%";
@@ -564,7 +574,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -585,7 +595,7 @@ public function update(\PDO $pdo) {
 		if(empty($postRequest) === true) {
 			throw(new \PDOException("Post Request is invalid"));
 		}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postRequest LIKE :postRequest";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postRequest LIKE :postRequest";
 		$statement = $pdo->prepare($query);
 //bind the parameters
 		$postRequest = "%$postRequest%";
@@ -596,7 +606,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -614,7 +624,7 @@ public function update(\PDO $pdo) {
 		if(($postTimestamp) === null) {
 			throw(new \PDOException("Post Timestamp is null"));
 		}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
 		$statement = $pdo->prepare($query);
 //bind the parameters
 		$parameters = ["postTimestamp => $postTimestamp"];
@@ -624,7 +634,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], $row["postLocation"], $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
