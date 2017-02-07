@@ -2,16 +2,18 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\Profile;
+use Edu\Cnm\SproutSwap\{
+	Profile, ValidateDate
+};
 require_once("SproutSwapTest.php");
 
 //grab the profile class
-require_once (dirname(__DIR__)). "/autoload.php";
+require_once (dirname(__DIR__). "/autoload.php");
 
 //author Zak Abad <abad.zacaria@gmail.com>;
 
 class ProfileTest extends SproutSwapTest {
+	use ValidateDate;
 	/**
 	 * content for profile
 	 * @var string $VALID_PROFILECONTENT
