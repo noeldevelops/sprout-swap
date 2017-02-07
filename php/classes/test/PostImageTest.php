@@ -102,7 +102,7 @@ class PostImageTest extends SproutSwapTest{
 	 *
 	 */
 	public function testGetInvalidPostImageByPostImagePostId(){
-		$postImage = PostImage::getPostImageByPostImagePostId($this->getPDO(), "hope there's nothitng -_-");
+		$postImage = PostImage::getPostImageByPostImagePostId($this->getPDO(), "hope there's nothing -_-");
 		$this->assertEquals(0, $postImage);
 	}
 	public function testGetValidPostImageByPostImageImageIdAndPostImagePostId(){
@@ -112,6 +112,9 @@ class PostImageTest extends SproutSwapTest{
 		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
 		$postImage->insert($this->getPDO());
 		//grab data from mySQL and compare
-		$result;
+		$pdoPostImage = PostImage::getPostImageByPostImageImageIdAndPostImagePostId($this->getPDO(), $postImage->getPostImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
+		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
+		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
 	}
 }
