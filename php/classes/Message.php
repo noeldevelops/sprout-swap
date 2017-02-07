@@ -1,6 +1,6 @@
 <?PHP
 namespace Edu\Cnm\SproutSwap;
-
+require_once ("autoload.php");
 /**
  * Class Message for sprout-swap capstone project
  * @package Edu\Cnm\SproutSwap
@@ -8,6 +8,7 @@ namespace Edu\Cnm\SproutSwap;
  * @author Solomon Leyba <solomon.leyba@gmail.com>
  */
 class Message implements \JsonSerializable {
+	use ValidateDate;
 	/**
 	 * ID for message; primary key
 	 * @var int $messageId
