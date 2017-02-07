@@ -142,7 +142,7 @@ class Mode{
 		}
 
 		//create query template
-		$query = "UPDATE mode SET modeID = :modeID, modeName = :modeName";
+		$query = "UPDATE mode SET modeName = :modeName WHERE modeId = :modeId";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -202,16 +202,17 @@ class Mode{
 
 		$parameters = ["modeName" => $modeName];
 		$statement->execute($parameters);
-		try {
-			$modeName = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$modeName = new Mode($row["modeId"], $row["modeName"]);
+		$modes = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$mode = new Mode($row["modeId"], $row["modeName"]);
+				$modes[$modes->key()] = $mode;
+				$modes->next();
+
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		}catch(\Exception $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return($modeName);
-	}
 }

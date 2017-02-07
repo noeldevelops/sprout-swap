@@ -80,9 +80,8 @@ class ModeTest extends SproutSwapTest {
 		$mode->update($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoMode = Mode::getModeNameByModeId($this->getPDO(), $mode->getModeId());
+		$pdoMode = Mode::getModeByModeId($this->getPDO(), $mode->getModeId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
-		$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
 		$this->assertEquals($pdoMode->getModeName(), $this->VALID_MODENAME2);
 	}
 
@@ -136,7 +135,7 @@ class ModeTest extends SproutSwapTest {
 	 * test grabbing a Mode by mode name
 	 **/
 
-	public function testGetValidModeByName(){
+	public function testGetValidModeByModeName(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("mode");
 
