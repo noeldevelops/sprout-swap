@@ -10,7 +10,7 @@ require_once(dirname(__DIR__)) . "/autoload.php";
 
 //author Zak Abad <abad.zacaria@gmail.com>
 
-class ModeTest extends SproutSwapTest{
+class ModeTest extends SproutSwapTest {
 	/**
 	 * content for modeId
 	 * @var int modeId
