@@ -1,15 +1,13 @@
 <?PHP
-namespace Edu\Cnm\SproutSwap\SproutSwap\Test;
+namespace Edu\Cnm\SproutSwap\Test;
 
 //grab the project test
-use Edu\Cnm\SproutSwap\SproutSwap\SproutSwapTest;
-use Edu\Cnm\SproutSwap\Message;
+use Edu\Cnm\SproutSwap\{Profile, Message, Image};
 
 require_once("SproutSwapTest.php");
 
-
 //grab the Message class
-require_once(dirname(__DIR__)) . "/autoload.php";
+require_once(dirname(__DIR__) . "/autoload.php");
 
 class MessageTest extends SproutSwapTest{
 	protected $VALID_MESSAGEPOSTID = null;
