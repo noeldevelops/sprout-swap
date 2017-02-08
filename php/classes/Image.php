@@ -100,7 +100,7 @@ public function getImageId() {
 		$query = "INSERT INTO image(imageCloudinaryId) VALUES (:imageCloudinaryId)";
 		$statement = $pdo->prepare($query);
 		//bind variables
-		$parameters = ["imageCloudinaryId => $this->imageCloudinaryId"];
+		$parameters = ["imageCloudinaryId" => $this->imageCloudinaryId];
 		$statement->execute($parameters);
 		//update null messageId
 		$this->imageId = intval($pdo->lastInsertId());
