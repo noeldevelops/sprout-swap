@@ -97,8 +97,8 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Image::getImageByImageCloudinaryId($this->getPDO(), $image->getImageCloudinaryId());
+		$pdoImage = Image::getImageByImageCloudinaryId($this->getPDO(), $image->getImageCloudinaryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
+		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->VALID_IMAGECLOUDINARYID);
 	}
 }
