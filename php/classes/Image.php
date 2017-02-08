@@ -97,10 +97,10 @@ public function getImageId() {
 			throw (new \PDOException("Image already exists in database"));
 		}
 		// create query template
-		$query = "INSERT INTO image(imageId, imageCloudinaryId) VALUES (:imageId, :imageCloudinaryId)";
+		$query = "INSERT INTO image(imageCloudinaryId) VALUES (:imageCloudinaryId)";
 		$statement = $pdo->prepare($query);
 		//bind variables
-		$parameters = ["imageId" => $this->imageId, "imageCloudinaryId => $this->imageCloudinaryId"];
+		$parameters = ["imageCloudinaryId => $this->imageCloudinaryId"];
 		$statement->execute($parameters);
 		//update null messageId
 		$this->imageId = intval($pdo->lastInsertId());
