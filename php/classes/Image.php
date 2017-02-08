@@ -95,6 +95,8 @@ public function getImageId() {
 		//ensure image id is null
 		if($this->imageId !==  null){
 			throw (new \PDOException("Image already exists in database"));
+		} elseif(is_string($this->imageCloudinaryId) === false) {
+			throw (new \PDOException("Cloudinary Id is not a string"));
 		}
 		// create query template
 		$query = "INSERT INTO image(imageCloudinaryId) VALUES (:imageCloudinaryId)";
