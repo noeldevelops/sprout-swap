@@ -11,7 +11,7 @@ require_once (dirname(__DIR__). "/autoload.php");
 //author Zak Abad <abad.zacaria@gmail.com>;
 
 class ProfileTest extends SproutSwapTest {
-	use ValidateDate;
+	use Edu\Cnm\SproutSwap\{ValidateDate};
 	/**
 	 * content for profile
 	 * @var string $VALID_PROFILECONTENT
