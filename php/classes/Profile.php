@@ -239,7 +239,7 @@ class Profile {
 
 	public function setProfileTimestamp($newProfileTimestamp = null) {
 		if($newProfileTimestamp === null) {
-			$this->profileTimestamp = new DateTime();
+			$this->profileTimestamp = new \DateTime();
 			return;
 		}
 		try {

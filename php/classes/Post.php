@@ -530,7 +530,7 @@ public function update(\PDO $pdo) {
 			throw(new \PDOException("Post location is not valid"));
 		}
 		//create query template
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
 		$statement = $pdo->prepare($query);
 		//bind parameters
 		$parameters = ["postLocation => $postLocation"];
