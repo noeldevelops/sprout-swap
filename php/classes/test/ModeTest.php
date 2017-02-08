@@ -155,10 +155,10 @@ class ModeTest extends SproutSwapTest {
 	 **/
 
 	public function testGetInvalidModeByName(){
-		//grab mode by searching for name that does not exist
-		$mode = Mode::getModeByModeName($this->getPDO(), "you will find nothing");
-		$this->assertCount(0, $mode);
-	}
+	//grab mode by searching for name that does not exist
+	$mode = Mode::getModeByModeName($this->getPDO(), "you will find nothing");
+	$this->assertCount(0, $mode);
+}
 
 	/**
 	 * test grabbing all modes

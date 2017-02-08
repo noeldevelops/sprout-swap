@@ -21,6 +21,13 @@ class Mode {
 	 **/
 	private $modeName;
 
+	/**
+	 * Mode constructor.
+	 * @param int|null $newModeId
+	 * @param string $newModeName
+	 * @throws \Exception
+	 */
+
 	public function __construct(int $newModeId = null, string $newModeName) {
 		try {
 			$this->setModeId($newModeId);
@@ -94,8 +101,9 @@ class Mode {
 	}
 
 	/**
-	 * accessor method for mode name
-	 *
+	 * insert method for the mode class
+	 * @param \PDO $pdo
+	 * @throws \PDOException mode id is not null
 	 **/
 
 	public function insert(\PDO $pdo) {
