@@ -63,12 +63,11 @@ class Profile {
 	 **/
 	private $profileSummary;
 
-	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, string $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
 			$this->setProfileActivation($newProfileActivation);
-
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHandle($newProfileHandle);
 			$this->setProfileTimestamp($newProfileTimestamp);
