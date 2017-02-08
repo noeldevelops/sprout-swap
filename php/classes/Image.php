@@ -87,16 +87,15 @@ public function getImageId() {
 		$this->imageCloudinaryId = $newImageCloudinaryId;
 	}
 	/**
-	 * insert a new Image
 	 * @param \PDO $pdo
-	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError
 	 */
 	public function insert (\PDO $pdo){
 		//ensure image id is null
 		if($this->imageId !==  null){
 			throw (new \PDOException("Image already exists in database"));
 		} elseif(is_string($this->imageCloudinaryId) === false) {
-			throw (new \PDOException("Cloudinary Id is not a string"));
+			throw (new \TypeError("Cloudinary Id is not a string"));
 		}
 		// create query template
 		$query = "INSERT INTO image(imageCloudinaryId) VALUES (:imageCloudinaryId)";

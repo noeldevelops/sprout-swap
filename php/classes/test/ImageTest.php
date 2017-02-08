@@ -33,16 +33,6 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image($this->INVALID_IMAGEID, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 	}
-
-	/**
-	 * test inserting an image with invalid Cloudinary ID
-	 * @expectedException \PDOException
-	 */
-	public function testInsertInvalidImageCloudinaryId() {
-		$image = new Image(null, $this->INVALID_IMAGECLOUDINARYID);
-		$image->insert($this->getPDO());
-	}
-
 	/**
 	 *test inserting an image and then deleting it
 	 */
