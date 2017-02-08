@@ -55,7 +55,7 @@ class ModeTest extends SproutSwapTest {
 	/**
 	 * test inserting a Mode that already exists
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testInsertInvalidMode(){

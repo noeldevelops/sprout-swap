@@ -94,7 +94,6 @@ class Mode {
 	/**
 	 * accessor method for mode name
 	 *
-	 * @return $modeName valid for mode
 	 **/
 
 	public function insert(\PDO $pdo) {
@@ -122,7 +121,7 @@ class Mode {
 			throw (new \PDOException("cannot delete mode id that does not exist"));
 		}
 
-		$query = "DELETE FROM mode WHERE modeId = modeId";
+		$query = "DELETE FROM mode WHERE modeId = :modeId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder in the template
 		$parameters = ["modeId" => $this->modeId];

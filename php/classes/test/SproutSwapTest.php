@@ -10,7 +10,7 @@ abstract class SproutSwapTest extends \PHPUnit_Extensions_Database_TestCase{
 	 * @see https://dev.mysql.com/doc/refman/5.6/en/integer-types.html mySQL Integer Types
 	 * @var int INVALID_KEY
 	 **/
-	const INVALID_KEY = 4294967296;
+	const INVALID_KEY = 42949672969308476587346583746;
 	/**
 	 * PHP database connection interface
 	 * @var null
