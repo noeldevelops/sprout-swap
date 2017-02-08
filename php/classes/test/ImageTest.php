@@ -15,6 +15,7 @@ class ImageTest extends SproutSwapTest {
 	protected $VALID_IMAGECLOUDINARYID = "l0MqIbg2yVjaYzAj";
 	protected $INVALID_IMAGEID = 4294967296;
 	protected $INVALID_IMAGECLOUDINARYID = 6;
+	protected $VALID_POSTID = 78687;
 
 	public function testInsertValidImage() {
 		$numRows = $this->getConnection()->getRowCount("image");
@@ -99,7 +100,7 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 
-		$results = Image::getImagesByPostId($this->getPDO());
+		$results = Image::getImagesByPostId($this->getPDO(), $this->VALID_POSTID);
 		$this->assertEquals($numrows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Image", $results);
