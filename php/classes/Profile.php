@@ -364,7 +364,7 @@ class Profile {
 		if($this->profileId !== null) {
 			throw(new \PDOException("not a new profile"));
 		}
-		$query = "INSERT INTO profile(profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary)";
+		$query = "INSERT INTO profile(profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileId, :profileImageId, :profileActivation, :profileEmail, :profileHandle, :profileName, :profilePasswordHash, :profileSalt, :profileSummary)";
 		$statement = $pdo->prepare($query);
 		$parameters = ["profileId" => $this->profileId, "profileImageId" => $this->profileImageId, "profileActivation" => $this->profileActivation, "profileEmail" => $this->profileEmail, "profileHandle" => $this->profileHandle, "profileTimestamp" => $this->profileTimestamp, "profileName" => $this->profileName, "profilePasswordHash" => $this->profilePasswordHash, "profileSalt" => $this->profileSalt, "profileSummary" => $this->profileSummary];
 		$statement->execute($parameters);
