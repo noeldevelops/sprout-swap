@@ -22,11 +22,6 @@ class ModeTest extends SproutSwapTest {
 	 **/
 	protected $VALID_MODENAME2 = "Sell";
 	/**
-	 * Profile that created the Mode; this is for foreign key relations
-	 * @var Mode mode
-	 **/
-	protected $mode = null;
-	/**
 	 * create dependent objects before running each test
 	 **/
 	public final function setUp(){
@@ -60,7 +55,7 @@ class ModeTest extends SproutSwapTest {
 
 	public function testInsertInvalidMode(){
 		//create a Mode with a non null mode id and watch it fail
-		$mode = new Mode(SproutSwapTest::INVALID_KEY, $this->VALID_MODENAME, $this->getPDO());
+		$mode = new Mode(SproutSwapTest::INVALID_KEY, $this->VALID_MODENAME);
 		$mode->insert($this->getPDO());
 	}
 
@@ -148,7 +143,7 @@ class ModeTest extends SproutSwapTest {
 		$results = Mode::getModeByModeName($this->getPDO(), $mode->getModeName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\DataDesign\\Mode", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Mode", $results);
 
 		//grab the result from the array and validate it
 		$pdoMode = $results[0];
@@ -181,11 +176,10 @@ class ModeTest extends SproutSwapTest {
 	$results = Mode::getAllModes($this->getPDO());
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("mode"));
 	$this->assertCount(1, $results);
-	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Zabad1\\SproutSwap\\Mode", $results);
+	$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Mode", $results);
 
 	//grab the result from the array and validate it
 	$pdoMode = $results[0];
-	$this->assertEquals($pdoMode->getModeId(), $this->mode->getModeId());
 	$this->assertEquals($pdoMode->getModeName(), $this->VALID_MODENAME);
 	}
 

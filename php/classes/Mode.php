@@ -61,11 +61,14 @@ class Mode {
 			throw (new \RangeException("Mode Id must be positive"));
 		}
 
-		/**
-		 * accessor method for Mode Id
-		 * @return int $modeId
-		 **/
+		$this->modeId = $newModeId;
+
 	}
+
+	/**
+	 * accessor method for Mode Id
+	 * @return int $modeId
+	 **/
 
 	public function getModeName() {
 		return ($this->modeName);
