@@ -31,7 +31,7 @@ class ImageTest extends SproutSwapTest {
 	 * @expectedException \PDOException
 	 */
 	public function testInsertInvalidImage() {
-		$image = new Image($this->VALID_IMAGEID, $this->VALID_IMAGECLOUDINARYID);
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 	}
 
