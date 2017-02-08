@@ -2,7 +2,7 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use Edu\Cnm\SproutSwap\{Profile};
+use Edu\Cnm\SproutSwap\{Profile, ValidateDate};
 require_once("SproutSwapTest.php");
 
 //grab the profile class
@@ -40,7 +40,7 @@ class ProfileTest extends SproutSwapTest {
 		parent::setUp();
 
 		//create and insert a Profile to the own test to Profile
-		$this->profile = new Profile(null, "@phpunit", "test@phpunit.de", "+12125551212");
+		$this->profile = new Profile(null, 764736, "T0lwOTmIAh251cgB", "solomon.leyba@gmail.com", "twentyone", $this->VALID_PROFILEDATE, "solomon", "lOWXvPlng4ylCv10huXXzsjyCA0UwIluquBYwVeDzjOyffUm1uUHzB5r1FnlvL0C", "TMFNmjsZeb3qxmL6TmPrQvU65M7N66RQAS9U94gq792mis8R4We36OySAXJsBISP", "skgflashgfjahsdg summary");
 		$this->profile->insert($this->getPDO());
 
 		//calculate the date (just use the time the unit test was setup...)

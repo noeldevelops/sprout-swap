@@ -12,7 +12,7 @@ require_once(dirname(__DIR__) . "/autoload.php");
  **/
 class ImageTest extends SproutSwapTest {
 	protected $VALID_IMAGEID = null;
-	protected $VALID_IMAGECLOUDINARYID = "dNO4tbbKFUG215Me";
+	protected $VALID_IMAGECLOUDINARYID = "l0MqIbg2yVjaYzAj";
 	protected $INVALID_IMAGEID = 4294967296;
 	protected $INVALID_IMAGECLOUDINARYID = "$$$$$$";
 
@@ -22,8 +22,7 @@ class ImageTest extends SproutSwapTest {
 		$image->insert($this->getPDO());
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
-		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->image->getImageCloudinaryId());
+		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->VALID_IMAGECLOUDINARYID);
 	}
 
 	/**
@@ -44,7 +43,7 @@ class ImageTest extends SproutSwapTest {
 		$image->insert($this->getPDO());
 	}
 
-	/*
+	/**
 	 *test inserting an image and then deleting it
 	 */
 	public function testDeleteValidImage() {
@@ -84,10 +83,9 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
+		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->VALID_IMAGECLOUDINARYID);
 	}
 	/*
  * test getting an image by image id
@@ -99,7 +97,7 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = image::getImageByImageCloudinaryId($this->getPDO(), $image->getImageCloudinaryId());
+		$results = Image::getImageByImageCloudinaryId($this->getPDO(), $image->getImageCloudinaryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);

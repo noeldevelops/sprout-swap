@@ -49,7 +49,6 @@ class Mode {
 	 * mutator method for mode id
 	 * @param int|null $newModeId
 	 * @throws \RangeException is mode id is not postive
-	 * @throws \TypeError if $newModeId is not an integer
 	 **/
 
 	public function setModeId(int $newModeId = null) {

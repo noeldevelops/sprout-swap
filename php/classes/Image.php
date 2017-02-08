@@ -79,7 +79,7 @@ public function getImageId() {
 	 * @throws \InvalidArgumentException if cloudinary id is empty or insecure
 	 * @throws \TypeError if $newImageCloudinaryId is not an string
 	 */
-	public function setImageCloudinaryId(string $newImageCloudinaryId = null) {
+	public function setImageCloudinaryId(string $newImageCloudinaryId) {
 		$newImageCloudinaryId = filter_var($newImageCloudinaryId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newImageCloudinaryId) === true) {
 			throw(new \InvalidArgumentException("ID is empty or insecure"));
