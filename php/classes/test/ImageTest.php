@@ -43,6 +43,7 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->INVALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 	}
+
 	/*
 	 *test inserting an image and then deleting it
 	 */
@@ -62,13 +63,45 @@ class ImageTest extends SproutSwapTest {
 		$this->assertNull($pdoImage);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
 	}
+
 	/**
 	 * test deleting an image that doesn't exist
-	 *  @expectedException \PDOException
+	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidImage() {
 		// create a Tweet and try to delete it without actually inserting it
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->delete($this->getPDO());
+	}
+
+	/*
+ 	* test getting an image by image id
+ 	*/
+	public function testGetValidImageByImageId() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("image");
+		//create a new image and insert into mySqL
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
+	}
+	/*
+ * test getting an image by image id
+ */
+	public function testGetValidImageByImageCloudinaryId() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("image");
+		//create a new image and insert into mySqL
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = image::getImageByImageCloudinaryId($this->getPDO(), $image->getImageCloudinaryId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
 	}
 }
