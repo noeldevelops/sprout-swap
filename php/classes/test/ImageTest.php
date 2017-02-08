@@ -49,15 +49,15 @@ class ImageTest extends SproutSwapTest {
 	public function testDeleteValidImage() {
 		$numRows = $this->getConnection()->getRowCount("image");
 
-		// create a new Tweet and insert to into mySQL
+		// create a new image and insert to into mySQL
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 
-		// delete the Tweet from mySQL
+		// delete the image from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$image->delete($this->getPDO());
 
-		// grab the data from mySQL and enforce the Tweet does not exist
+		// grab the data from mySQL and enforce the image does not exist
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertNull($pdoImage);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
@@ -68,7 +68,7 @@ class ImageTest extends SproutSwapTest {
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidImage() {
-		// create a Tweet and try to delete it without actually inserting it
+		// create a image and try to delete it without actually inserting it
 		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
 		$image->delete($this->getPDO());
 	}

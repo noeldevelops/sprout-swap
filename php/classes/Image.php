@@ -162,7 +162,7 @@ public function getImageId() {
 		//throw an exception if imageId is empty
 		if(is_string($imageCloudinaryId) !== true) {
 			throw(new \TypeError("Image Cloudinary ID is not a string"));
-		} elseif(strlen($imageCloudinaryId) > 32); {
+		} elseif(strlen($imageCloudinaryId) > 32) {
 			throw(new \RangeException("ID is too long"));
 		}
 
