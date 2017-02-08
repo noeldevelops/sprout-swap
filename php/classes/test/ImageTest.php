@@ -14,7 +14,7 @@ class ImageTest extends SproutSwapTest {
 	protected $VALID_IMAGEID = null;
 	protected $VALID_IMAGECLOUDINARYID = "l0MqIbg2yVjaYzAj";
 	protected $INVALID_IMAGEID = 4294967296;
-	protected $INVALID_IMAGECLOUDINARYID = "$$$$$$";
+	protected $INVALID_IMAGECLOUDINARYID = 6;
 
 	public function testInsertValidImage() {
 		$numRows = $this->getConnection()->getRowCount("image");
@@ -30,7 +30,7 @@ class ImageTest extends SproutSwapTest {
 	 * @expectedException \PDOException
 	 */
 	public function testInsertInvalidImage() {
-		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image = new Image($this->INVALID_IMAGEID, $this->VALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 	}
 

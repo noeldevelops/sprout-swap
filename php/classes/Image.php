@@ -165,24 +165,23 @@ public function getImageId() {
 		} elseif(strlen($imageCloudinaryId) > 32) {
 			throw(new \RangeException("ID is too long"));
 		}
+			$query = "SELECT imageId, imageCloudinaryId FROM image WHERE imageCloudinaryId = :imageCloudinaryId";
+			$statement = $pdo->prepare($query);
 
-		$query = "SELECT imageId, imageCloudinaryId FROM image WHERE imageCloudinaryId = :imageCloudinaryId";
-		$statement = $pdo->prepare($query);
-
-		$parameters = ["imageCloudinaryId" => $imageCloudinaryId];
-		$statement->execute($parameters);
-		try {
-			$image = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$image = new Image($row["imageId"], $row["imageCloudinaryId"]);
+			$parameters = ["imageCloudinaryId" => $imageCloudinaryId];
+			$statement->execute($parameters);
+			try {
+				$image = null;
+				$statement->setFetchMode(\PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$image = new Image($row["imageId"], $row["imageCloudinaryId"]);
+				}
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($image);
+			return ($image);
 	}
 	/** gets all images related to a specific post
 	 * @param \PDO $pdo
