@@ -43,4 +43,32 @@ class ImageTest extends SproutSwapTest {
 		$image = new Image(null, $this->INVALID_IMAGECLOUDINARYID);
 		$image->insert($this->getPDO());
 	}
+	/*
+	 *test inserting an image and then deleting it
+	 */
+	public function testDeleteValidImage() {
+		$numRows = $this->getConnection()->getRowCount("image");
+
+		// create a new Tweet and insert to into mySQL
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image->insert($this->getPDO());
+
+		// delete the Tweet from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$image->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Tweet does not exist
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertNull($pdoImage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+	}
+	/**
+	 * test deleting an image that doesn't exist
+	 *  @expectedException \PDOException
+	 */
+	public function testDeleteInvalidImage() {
+		// create a Tweet and try to delete it without actually inserting it
+		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
+		$image->delete($this->getPDO());
+	}
 }
