@@ -455,7 +455,7 @@ class Profile {
 	 * get profile Id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of profile id found or null if not found
+	 * @return \SplFixedArray SplFixedArray of profiles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -486,7 +486,7 @@ class Profile {
 		 * get all profile image id
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @return \SplFixedArray SplFixedArray of profile image id found or null if not found
+		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
@@ -523,7 +523,7 @@ class Profile {
 		 *
 		 * @param \PDO $pdo PDO connection object
 		 * @param int $profileActivation profile activation to search for
-		 * @return Profile|null profile activation or null if not found
+		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
@@ -559,7 +559,7 @@ class Profile {
 		 *
 		 * @param \PDO $pdp PDO connection object
 		 * @param int $profileEmail profile email to search for
-		 * @return Profile|null profile email or null if not found
+		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
@@ -595,7 +595,7 @@ class Profile {
 		 *
 		 * @param \PDO $pdo PDO connection object
 		 * @param int $profileHandle profile handle to search for
-		 * @return Profile|null profile handle or null if not found
+		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
@@ -663,7 +663,15 @@ class Profile {
 				}
 			}
 			return ($profiles);
-
+		/**
+		 * get profile name by profile
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @param int $profileName profile name to search for
+		 * @return \SplFixedArray of profiles or null if not found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
 	}
 
 	public static function getAllProfiles(\PDO $pdo) {
@@ -686,4 +694,13 @@ class Profile {
 		}
 		return ($profiles);
 	}
+	/**
+	 * get profile name by profile
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileName profile name to search for
+	 * @return \SplFixedArray of profiles or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 }
