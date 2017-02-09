@@ -79,6 +79,11 @@ class ProfileTest extends SproutSwapTest {
 
 		//calculate the date (just use the time the unit test was setup...)
 		$this->VALID_PROFILEDATE = new \DateTime();
+
+		//creating salt and hash
+		$password = "123";
+		$this->VALID_PROFILESALT = bin2hex(random_bytes(16));
+		$this->VALID_PROFILEHASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILESALT, 262144);
 	}
 	/**
 	 * test inserting a valid Profile and verify that the actual mySQL data matches
