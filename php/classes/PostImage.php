@@ -190,6 +190,36 @@ class PostImage implements \JsonSerializable{
 		return($postImage);
 	}
 	/**
+	 * @param \PDO $pdo
+	 * @param int $postImagePostId
+	 * @return \SplFixedArray
+	 * @throws \Exception
+	 */
+	public static function getPostImagesByPostImagePostId(\PDO $pdo, int $postImagePostId){
+		if($postImagePostId <= 0){
+			throw(new \RangeException("postImagePostId must be greater than 0"));
+		}
+		//prepare query statement
+		$query = "SELECT postImageImageId, postImagePostId FROM postIMage WHERE postImagePostId = :postImagePostId";
+		$statement = $pdo->prepare($query);
+		//bind variables
+		$parameters = ["postImagePostId" => $postImagePostId];
+		$statement->execute($parameters);
+		//build array of images
+		$postImages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement) !== false){
+			try{
+				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
+				$postImages[$postImages->key()] = $postImage;
+				$postImages->next();
+			} catch(\Exception $exception){
+				throw(new \Exception($exception->getMessage(), 0, $exception));
+			}
+		}
+		return $postImages;
+	}
+	/**
 	 * JSON Serializable method
 	 * @return array of data to be serialized
 	 */
