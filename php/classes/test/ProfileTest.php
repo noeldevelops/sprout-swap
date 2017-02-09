@@ -13,9 +13,34 @@ require_once (dirname(__DIR__). "/autoload.php");
 class ProfileTest extends SproutSwapTest {
 	/**
 	 * valid profile activation is the variable
-	 * @var string $VALID_PROFILEACITVATION
+	 * @var string $VALID_PROFILEACTIVATION
 	 **/
-	protected $VALID_PROFILEACTIVATION
+	protected $VALID_PROFILEACTIVATION = "khemfpilcgwqukla";
+	/**
+	 * valid proilfe email is the variable
+	 * @var string $VALID_PROFILEEMAIL
+	 **/
+	protected $VALID_PROFILEEMAIL = "TRUMPH@TINYHANDS.RU";
+	/**
+	 * valid profile handle
+	 * @var string $VALID_PROFILEHANDLE
+	 **/
+	protected $VALID_PROFILEHANDLE = "SMURFTRUMP";
+	/**
+	 * valid profile name
+	 * @var string $VALID_PROFILENAME
+	 **/
+	protected $VALID_PROFILENAME = "DONNYT";
+	/**
+	 * valid profile hash
+	 * @var null $VALID_PROFILEHASH
+	 **/
+	protected $VALID_PROFILEHASH = null;
+	/**
+	 * valid profile salt
+	 * @var null $VALID_PROFILESALT
+	 **/
+	protected $VALID_PROFILESALT = null;
 	/**
 	 * content for profile
 	 * @var string $VALID_PROFILESUMMARY
