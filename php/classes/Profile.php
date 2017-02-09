@@ -39,7 +39,7 @@ class Profile {
 	private $profileHandle;
 	/**
 	 *timestamp will be created in sql database when profile is created
-	 * @var timestamp default current_timestamp not null
+	 * @var $profileTimestamp default current_timestamp not null
 	 **/
 	private $profileTimestamp;
 	/**
@@ -63,7 +63,7 @@ class Profile {
 	 **/
 	private $profileSummary;
 
-	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, string $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
@@ -242,7 +242,7 @@ class Profile {
 			return;
 		}
 		try {
-			$newProfileTimestamp = self::validatetime($newProfileTimestamp);
+			$newProfileTimestamp = self::validateDateTime($newProfileTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $rangeException) {
@@ -370,7 +370,6 @@ class Profile {
 		$statement->execute($parameters);
 		//update null profileId
 		$this->profileId = intval($pdo->lastInsertId());
-		$this->profileTimestamp = new \DateTime();
 	}
 
 	/**
@@ -444,7 +443,7 @@ class Profile {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profileId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profileId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 			}
 		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
