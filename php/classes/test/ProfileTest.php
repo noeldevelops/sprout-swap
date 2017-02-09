@@ -205,12 +205,10 @@ class ProfileTest extends SproutSwapTest {
 		//create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
 		$profile->insert($this->getPDO());
-		var_dump($profile);
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$results = Profile::getProfileByProfileSummary($this->getPDO(), $profile->getProfileSummary());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		var_dump($results);
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Profile", $results);
 

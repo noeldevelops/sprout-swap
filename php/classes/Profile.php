@@ -367,9 +367,10 @@ class Profile {
 		if($this->profileId !== null) {
 			throw(new \PDOException("not a new profile"));
 		}
-		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileImageId, :profileActivation, :profileEmail, :profileHandle, :profileName, :profilePasswordHash, :profileSalt, :profileSummary)";
+		$query = "INSERT INTO profile(profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary) VALUES (:profileImageId, :profileActivation, :profileEmail, :profileHandle, :profileTimestamp, :profileName, :profilePasswordHash, :profileSalt, :profileSummary)";
 		$statement = $pdo->prepare($query);
-		$parameters = ["profileImageId" => $this->profileImageId, "profileActivation" => $this->profileActivation, "profileEmail" => $this->profileEmail, "profileHandle" => $this->profileHandle, "profileName" => $this->profileName, "profilePasswordHash" => $this->profilePasswordHash, "profileSalt" => $this->profileSalt, "profileSummary" => $this->profileSummary];
+		$formattedDate = $this->profileTimestamp->format("Y-m-d H:i:s");
+		$parameters = ["profileImageId" => $this->profileImageId, "profileActivation" => $this->profileActivation, "profileEmail" => $this->profileEmail, "profileHandle" => $this->profileHandle, "profileTimestamp" => $formattedDate, "profileName" => $this->profileName, "profilePasswordHash" => $this->profilePasswordHash, "profileSalt" => $this->profileSalt, "profileSummary" => $this->profileSummary];
 		$statement->execute($parameters);
 		//update null profileId
 		$this->profileId = intval($pdo->lastInsertId());
@@ -388,7 +389,7 @@ class Profile {
 			throw(new \PDOException("cannot delete profile id that does not exist"));
 		}
 
-		$query = "DELETE FROM profile WHERE profileId = profileId";
+		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		//bind the member variables to the place holder in the template
 		$parameters = ["profileId" => $this->profileId];
@@ -409,8 +410,9 @@ class Profile {
 		}
 
 		//create query template
-		$query = "UPDATE profile SET profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary";
+		$query = "UPDATE profile SET profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle,profileTimestamp = :profileTimestamp, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary";
 		$statement = $pdo->prepare($query);
+		$formattedDate = $this->profileTimestamp->format("Y-m-d H:i:s");
 
 		//bind the member variables to the place holders in the template
 		$parameters = [
@@ -418,6 +420,7 @@ class Profile {
 			"profileActivation" => $this->profileActivation,
 			"profileEmail" => $this->profileEmail,
 			"profileHandle" => $this->profileHandle,
+			"profileTimestamp" => $formattedDate,
 			"profileName" => $this->profileName,
 			"profilePasswordHash" => $this->profilePasswordHash,
 			"profileSalt" => $this->profileSalt,
@@ -481,7 +484,7 @@ class Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 			} catch(\Exception $exception) {
 				throw (new \PDOException(($exception->getMessage()), 0, $exception));
 			}
@@ -516,7 +519,7 @@ class Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -552,7 +555,7 @@ class Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -588,7 +591,7 @@ class Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) {
 			try {
-				$profile = new Profile ($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profile = new Profile ($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
@@ -624,7 +627,7 @@ class Profile {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch() !== false)) {
 				try {
-					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
@@ -662,7 +665,7 @@ class Profile {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch() !== false)) {
 				try {
-					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
