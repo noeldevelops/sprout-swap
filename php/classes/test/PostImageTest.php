@@ -111,6 +111,9 @@ class PostImageTest extends SproutSwapTest{
 		$postImage = PostImage::getPostImageByPostImagePostId($this->getPDO(), "hope there's nothing -_-");
 		$this->assertEquals(0, $postImage);
 	}
+	/**
+	 *
+	 */
 	public function testGetValidPostImageByPostImageImageIdAndPostImagePostId(){
 		//store num rows to test against
 		$numRows = $this->getConnection()->getRowCount("postImage");
@@ -120,6 +123,25 @@ class PostImageTest extends SproutSwapTest{
 		//grab data from mySQL and compare
 		$pdoPostImage = PostImage::getPostImageByPostImageImageIdAndPostImagePostId($this->getPDO(), $postImage->getPostImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
+		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
+		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
+	}
+	/**
+	 *
+	 */
+	public function testGetPostImagesByPostImagePostId(){
+		//store num rows to test against
+		$numRows = $this->getConnection()->getRowCount("postImage");
+		//create new postImage and insert
+		$postImage = new PostImage($this->VALID_POSTIMAGEIMAGEID, $this->VALID_POSTIMAGEPOSTID);
+		$postImage->insert($this->getPDO());
+		//grab mySQL data
+		$results = PostImage::getPostImagesByPostImagePostId($this->getPDO(), $this->VALID_POSTIMAGEPOSTID);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\PostImage");
+		//test one
+		$pdoPostImage = $results[0];
 		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->VALID_POSTIMAGEIMAGEID);
 		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->VALID_POSTIMAGEPOSTID);
 	}
