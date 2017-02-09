@@ -184,36 +184,6 @@ public function getImageId() {
 			}
 			return ($image);
 	}
-	/** gets all images related to a specific post
-	 * @param \PDO $pdo
-	 * @throws \InvalidArgumentException if post doesn't exist
-	 * @throws \RangeException if postId is negative number
-	 * @returns \SplFixedArray $images
-	 **/
-	public static function getImagesByPostId(\PDO $pdo, int $postId) {
-		//throw an exception if postId is empty
-		if($postId === null) {
-			throw(new \InvalidArgumentException("this post doesn't exist"));
-		} else if($postId <= 0){
-			throw (new \RangeException("postId must be greater than zero"));
-		}
-		$query = "SELECT imageId, imageCloudinaryId FROM post WHERE postId = :postId";
-		$statement = $pdo->prepare($query);
-		$parameters = ["postId" => $postId];
-		$statement->execute($parameters);
-		$images = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$image = new Image($row["imageId"], $row["imageCloudinaryId"]);
-				$images[$images->key()] = $image;
-				$images->next();
-			} catch(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($images);
-	}
 	/**
 	 * formats the state variables for JSON serialization
 	 *
