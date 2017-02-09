@@ -134,9 +134,9 @@ class ProfileTest extends SproutSwapTest {
 		$profile->update($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileNameByProfileId($this->getPDO(), $profile->getProfileId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfikeId());
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY2);
 		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 		}

@@ -410,7 +410,7 @@ class Profile {
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
-		$parameters = ["profileId" => $this->profileId,
+		$parameters = [
 			"profileImageId" => $this->profileImageId,
 			"profileActivation" => $this->profileActivation,
 			"profileEmail" => $this->profileEmail,
@@ -620,18 +620,40 @@ class Profile {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			return($profileName);
-
-			/**
-			 * get profile name by profile
-			 *
-			 * @param \PDO $pdo PDO connection object
-			 * @param int $profileName profile name to search for
-			 * @return Profile|null profile name or null if not found
-			 * @throws \PDOException when mySQL related errors occur
-			 * @throws \TypeError when variables are not the correct data type
-			 **/
-
 		}
 	}
-}
-?>
+
+	/**
+	 * get profile name by profile
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileName profile name to search for
+	 * @return Profile|null profile name or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	public static function getProfileByProfileSummary(\PDO $pdo, string $profileSummary) {
+		$profileSummary = trim($profileSummary);
+		$profileSummary = filter_var($profileSummary, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileSummary) === true) {
+			throw(new \PDOException("profile name is invalid"));
+			$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileSummary = :profileSummary";
+			$statement = $pdo->prepare($query);
+
+			$parameters = ["profileSummary" => $profileSummary];
+			$statement->execute($parameters);
+
+			$profileSummary = new \SplFixedArray(($statement->rowCount()));
+			$statement->setFetch(PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch() !== false)) ;
+			try {
+				$profileSummary = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profileSummary[$profileSummary->key()] = $profileSummary;
+				$profileSummary->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($profileSummary);
+		}
+	}
