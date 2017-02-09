@@ -2,7 +2,7 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab project test
-use Edu\Cnm\SproutSwap\{Profile, ValidateDate};
+use Edu\Cnm\SproutSwap\{Profile, ValidateDate, Image};
 require_once("SproutSwapTest.php");
 
 //grab the profile class
@@ -11,17 +11,21 @@ require_once (dirname(__DIR__). "/autoload.php");
 //author Zak Abad <abad.zacaria@gmail.com>;
 
 class ProfileTest extends SproutSwapTest {
-	use Edu\Cnm\SproutSwap\{ValidateDate};
+	/**
+	 * valid profile activation is the variable
+	 * @var string $VALID_PROFILEACITVATION
+	 **/
+	protected $VALID_PROFILEACTIVATION
 	/**
 	 * content for profile
-	 * @var string $VALID_PROFILECONTENT
+	 * @var string $VALID_PROFILESUMMARY
 	 **/
-	protected $VALID_PROFILECONTENT = "PHPUnit test passing";
+	protected $VALID_PROFILESUMMARY = "PHPUnit test passing";
 	/**
 	 * content for the updated Profile
-	 * @var string $VALID_PROFILECONTENT2
+	 * @var string $VALID_PROFILESUMMARY2
 	 **/
-	protected $VALID_PROFILECONTENT2 = "PHPUnit test still passing";
+	protected $VALID_PROFILESUMMARY2 = "PHPUnit test still passing";
 	/**
 	 * timestamp of the profile; this starts as null and is assigned later
 	 * @var DateTime $VALID_PROFILEDATE
@@ -39,9 +43,9 @@ class ProfileTest extends SproutSwapTest {
 		//run the default setUp() method first
 		parent::setUp();
 
-		//create and insert a Profile to the own test to Profile
-		$this->profile = new Profile(null, 764736, "T0lwOTmIAh251cgB", "solomon.leyba@gmail.com", "twentyone", $this->VALID_PROFILEDATE, "solomon", "lOWXvPlng4ylCv10huXXzsjyCA0UwIluquBYwVeDzjOyffUm1uUHzB5r1FnlvL0C", "TMFNmjsZeb3qxmL6TmPrQvU65M7N66RQAS9U94gq792mis8R4We36OySAXJsBISP", "skgflashgfjahsdg summary");
-		$this->profile->insert($this->getPDO());
+		//create and insert a image to the own test to Image
+		$this->image = new Image(null, "764736");
+		$this->image->insert($this->getPDO());
 
 		//calculate the date (just use the time the unit test was setup...)
 		$this->VALID_PROFILEDATE = new \DateTime();
@@ -55,7 +59,7 @@ class ProfileTest extends SproutSwapTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->profile->getProfileId(), $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
+		$profile = new Profile(null, $this->$newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, string $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) $this->VALID_PROFILECONTENT, $this->VALID_PROFILEDATE);
 		$profile->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
