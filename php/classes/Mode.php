@@ -229,6 +229,7 @@ class Mode {
 		return ($modes);
 	}
 
+
 	public static function getAllModes(\PDO $pdo){
 		//create query template
 		$query = "SELECT modeId, modeName FROM mode";

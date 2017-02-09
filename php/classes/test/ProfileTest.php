@@ -36,9 +36,9 @@ class ProfileTest extends SproutSwapTest {
 	protected $VALID_PROFILENAME = "DONNYT";
 	/**
 	 * image
-	 * @var $image
+	 * @var Image $image
 	 **/
-	protected $image = null;
+	public $image = null;
 	/**
 	 * valid profile hash
 	 * @var null $VALID_PROFILEHASH
@@ -61,7 +61,7 @@ class ProfileTest extends SproutSwapTest {
 	protected $VALID_PROFILESUMMARY2 = "PHPUnit test still passing";
 	/**
 	 * timestamp of the profile; this starts as null and is assigned later
-	 * @var DateTime $VALID_PROFILEDATE
+	 * @var \DateTime $VALID_PROFILEDATE
 	 **/
 	protected $VALID_PROFILEDATE = null;
 	/**
@@ -98,6 +98,7 @@ class ProfileTest extends SproutSwapTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
+
 		//create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
 		$profile->insert($this->getPDO());
@@ -107,7 +108,7 @@ class ProfileTest extends SproutSwapTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -142,8 +143,9 @@ class ProfileTest extends SproutSwapTest {
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY2);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals(
+			$profile->getProfileSummary(), $this->VALID_PROFILESUMMARY2);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -154,8 +156,8 @@ class ProfileTest extends SproutSwapTest {
 
 	public function testUpdateInvalidProfile() {
 		//create a Profile, try to update it without actually updating it and watch it fail
-		$mode = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
-		$this->update($this->getPDO());
+		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->update($this->getPDO());
 	}
 
 	/**
@@ -203,10 +205,12 @@ class ProfileTest extends SproutSwapTest {
 		//create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
 		$profile->insert($this->getPDO());
+		var_dump($profile);
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$results = Profile::getProfileByProfileSummary($this->getPDO(), $profile->getProfileSummary());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		var_dump($results);
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Profile", $results);
 
