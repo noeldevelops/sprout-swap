@@ -114,7 +114,7 @@ class ProfileTest extends SproutSwapTest {
 	/**
 	 * test inserting a Profile that already exists
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testInsertInvalidProfile() {
@@ -151,7 +151,7 @@ class ProfileTest extends SproutSwapTest {
 	/**
 	 * test updating a Profile that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testUpdateInvalidProfile() {
@@ -185,7 +185,7 @@ class ProfileTest extends SproutSwapTest {
 	/**
 	 * test deleting a Profile that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testDeleteInvalidProfile() {

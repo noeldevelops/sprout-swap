@@ -39,7 +39,7 @@ class Profile {
 	private $profileHandle;
 	/**
 	 *timestamp will be created in sql database when profile is created
-	 * @var $profileTimestamp default current_timestamp not null
+	 * @var $profileTimestamp \DateTime current_timestamp
 	 **/
 	private $profileTimestamp;
 	/**
@@ -87,8 +87,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for messageId
-	 * @return int|null value of messageId
+	 * accessor method for profileId
+	 * @return int|null value of profileId
 	 **/
 	public function getProfileId() {
 		return ($this->profileId);
@@ -114,7 +114,7 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for Profile Id
+	 * accessor method for Profile Image Id
 	 * @return int $profileImageId
 	 **/
 
@@ -142,7 +142,7 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for Profile Image Id
+	 * accessor method for Profile Activation
 	 * @return int $profileActivation
 	 **/
 
@@ -169,9 +169,9 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile activation
+	 * accessor method for profile email
 	 *
-	 * @return \Profile activation valid for profile
+	 * @return string $profileEmail email for profile
 	 **/
 
 	public function getProfileEmail() {
@@ -197,8 +197,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile email
-	 * @return string
+	 * accessor method for profile handle
+	 * @return string $profileHandle
 	 */
 
 	public function getProfileHandle() {
@@ -208,7 +208,7 @@ class Profile {
 	/**
 	 * mutator method for profile handle
 	 * @param int $newProfileHandle
-	 * @throws \RangeException if $newProfileHandle is not positive
+	 * @throws \RangeException if $newProfileHandle greater than 21
 	 * @throws \TypeError if $newProfileHandle is not a string
 	 **/
 
@@ -223,8 +223,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile handle
-	 * @return string
+	 * accessor method for profile timestamp
+	 * @return \DateTime $profileTimestamp
 	 **/
 
 	public function getProfileTimestamp() {
@@ -234,6 +234,8 @@ class Profile {
 	/**
 	 * mutator method for profile timestamp
 	 * @param null $newProfileTimestamp
+	 * @throws \InvalidArgumentException if its not a valid date
+	 * @throws \RangeException if the date is before 1970
 	 **/
 
 	public function setProfileTimestamp($newProfileTimestamp = null) {
@@ -252,7 +254,7 @@ class Profile {
 	}
 
 	/** accessor method for profile timestamp
-	 * @return $this profile timestamp
+	 * @return $profileName
 	 **/
 
 	public function getProfileName() {
@@ -425,6 +427,7 @@ class Profile {
 	/**
 	 * delete function for mySQL
 	 * @param \PDO $pdo PDO connection object
+	 * @throws \RangeException if profile id is 0
 	 * @throws \PDOException when mySQL errors occur
 	 **/
 
@@ -439,16 +442,16 @@ class Profile {
 		$parameters = ["profileId" => $profileId];
 		$statement->execute($parameters);
 		try {
-			$profileId = null;
+			$profile = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profileId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 			}
 		} catch(\Exception $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($profileId);
+		return ($profile);
 	}
 
 	/**
@@ -471,16 +474,16 @@ class Profile {
 		$parameters = ["profileImageId" => $profileImageId];
 		$statement->execute($parameters);
 
-		$profileImageId = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profileImageId = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-			} catch(Exception $exception) {
-				throw (new \PDOException(($exception->getProfile()), 0, $exception));
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+			} catch(\Exception $exception) {
+				throw (new \PDOException(($exception->getMessage()), 0, $exception));
 			}
 		}
-		return ($profileImageId);
+		return ($profiles);
 
 		/**
 		 * get all profile image id
@@ -505,18 +508,18 @@ class Profile {
 		$parameters = ["profileActivation" => $profileActivation];
 		$statement->execute($parameters);
 
-		$profileActivations = new \SplFixedArray($statement->rowCount());
+		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) {
 			try {
-				$profileActivation = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profileActivations[$profileActivations->key()] = $profileActivations;
-				$profileActivations->next();
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($profileActivations);
+		return ($profiles);
 
 		/**
 		 * get the profile activation by profile
@@ -541,18 +544,18 @@ class Profile {
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
 
-		$profileEmail = new \SplFixedArray(($statement->rowCount()));
+		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch() !== false)) {
 			try {
-				$profileEmail = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profileEmail[$profileEmail->key()] = $profileEmail;
-				$profileEmail->next();
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], $row["profileTimestamp"], $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($profileEmail);
+		return ($profiles);
 
 		/**
 		 * get the profile email in class profile
@@ -621,7 +624,7 @@ class Profile {
 					$profiles[$profiles->key()] = $profile;
 					$profiles->next();
 				} catch(\Exception $exception) {
-					throw(new \PDOException($exception->getMesssage(), 0, $exception));
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
 				}
 			}
 			return ($profiles);
@@ -663,16 +666,15 @@ class Profile {
 				}
 			}
 			return ($profiles);
-		/**
-		 * get profile name by profile
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @param int $profileName profile name to search for
-		 * @return \SplFixedArray of profiles or null if not found
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError when variables are not the correct data type
-		 **/
 	}
+	/**
+	 * get profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of profiles or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
 	public static function getAllProfiles(\PDO $pdo) {
 		//create query template
@@ -694,13 +696,4 @@ class Profile {
 		}
 		return ($profiles);
 	}
-	/**
-	 * get profile name by profile
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $profileName profile name to search for
-	 * @return \SplFixedArray of profiles or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
 }
