@@ -32,6 +32,11 @@ class ProfileTest extends SproutSwapTest {
 	 **/
 	protected $VALID_PROFILENAME = "DONNYT";
 	/**
+	 * image
+	 * @var $image
+	 **/
+	protected $image = null;
+	/**
 	 * valid profile hash
 	 * @var null $VALID_PROFILEHASH
 	 **/
