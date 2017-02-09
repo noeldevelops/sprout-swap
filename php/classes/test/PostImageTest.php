@@ -1,7 +1,7 @@
 <?PHP
 namespace Edu\Cnm\SproutSwap\Test;
 
-use Edu\Cnm\SproutSwap\{Post, PostImage};
+use Edu\Cnm\SproutSwap\{Post, PostImage, Point};
 
 require_once ("SproutSwapTest.php");
 require_once(dirname(__DIR__)) . "/autoload.php";
@@ -15,12 +15,16 @@ require_once(dirname(__DIR__)) . "/autoload.php";
 class PostImageTest extends SproutSwapTest{
 	protected $VALID_POSTIMAGEIMAGEID = null;
 	protected $VALID_POSTIMAGEPOSTID = "free";
+	protected $VALID_LAT = 45.43;
+	protected $VALID_LONG = 90.432;
+	protected $newPoint = null;
 	/**
 	 * creating dependants
 	 */
 	public final function setUp(){
 		parent::setUp();
-		$this->post = new Post(null, null, null, "browser here or something", "post content here or something", "ip address", thisShouldBeAPoint, "vegetables", "different veggies tbh", null);
+		$newPoint = new Point($this->VALID_LAT, $this->VALID_LONG);
+		$this->post = new Post(null, null, "browser here or something", "post content here or something", "ip address", $newPoint, "vegetables", "different veggies tbh", null);
 	}
 	/**
 	 * testing insert method
