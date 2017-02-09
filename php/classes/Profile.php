@@ -358,8 +358,9 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile summary
-	 * @return string
+	 * insert method for profile
+	 * @param \PDO $pdo
+	 * @throws \PDOException if not a new profile
 	 **/
 
 	public function insert(\PDO $pdo) {
@@ -426,7 +427,9 @@ class Profile {
 
 	/**
 	 * delete function for mySQL
+	 *
 	 * @param \PDO $pdo PDO connection object
+	 * @param int profile id
 	 * @throws \RangeException if profile id is 0
 	 * @throws \PDOException when mySQL errors occur
 	 **/
@@ -486,9 +489,10 @@ class Profile {
 		return ($profiles);
 
 		/**
-		 * get all profile image id
+		 * get all profile getAllprofilesByActivation
 		 *
 		 * @param \PDO $pdo PDO connection object
+		 * @param string $profileActivation
 		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
@@ -522,10 +526,10 @@ class Profile {
 		return ($profiles);
 
 		/**
-		 * get the profile activation by profile
+		 * get profiles by the profile email
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @param int $profileActivation profile activation to search for
+		 * @param string $profileEmail profile email to search for
 		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
@@ -558,10 +562,10 @@ class Profile {
 		return ($profiles);
 
 		/**
-		 * get the profile email in class profile
+		 * get the profiles by profile handle
 		 *
-		 * @param \PDO $pdp PDO connection object
-		 * @param int $profileEmail profile email to search for
+		 * @param \PDO $pdo PDO connection object
+		 * @param string $profileHandle profile email to search for
 		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
@@ -594,10 +598,10 @@ class Profile {
 		return ($profiles);
 
 		/**
-		 * get the profile handle by profile
+		 * get the profile by profile name
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @param int $profileHandle profile handle to search for
+		 * @param string $profileName profile name to search for
 		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
@@ -632,10 +636,10 @@ class Profile {
 	}
 
 	/**
-	 * get profile name by profile
+	 * get profiles by profile summary
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $profileName profile name to search for
+	 * @param string $profileSummary profile summary to search for
 	 * @return \SplFixedArray of profiles or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
