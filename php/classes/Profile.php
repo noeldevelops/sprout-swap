@@ -253,8 +253,8 @@ class Profile {
 		$this->profileTimestamp = $newProfileTimestamp;
 	}
 
-	/** accessor method for profile timestamp
-	 * @return $profileName
+	/** accessor method for profile name
+	 * @return string $profileName
 	 **/
 
 	public function getProfileName() {
@@ -264,7 +264,7 @@ class Profile {
 	/**
 	 * mutator method for profile name
 	 * @param int $newProfileName
-	 * @throws \RangeException if $newProfileName is not positive
+	 * @throws \RangeException if $newProfileName greater than 30
 	 * @throws \TypeError if $newProfileName is not a string
 	 **/
 
@@ -279,8 +279,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile name
-	 * @return string
+	 * accessor method for profile password hash
+	 * @return string $profilePasswordHash
 	 **/
 
 	public function getProfilePasswordHash() {
@@ -289,8 +289,8 @@ class Profile {
 
 	/**
 	 * mutator method for profile password hash
-	 * @param int $newProfilePasswordHash
-	 * @throws \RangeException if $newProfilePasswordHash is not positive
+	 * @param string $newProfilePasswordHash
+	 * @throws \RangeException if $newProfilePasswordHash greater than 128
 	 * @throws \TypeError if $newProfilePasswordHash is not a string
 	 **/
 
@@ -305,8 +305,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile password hash
-	 * @return string
+	 * accessor method for profile password salt
+	 * @return string $profileSalt
 	 **/
 
 	public function getProfileSalt() {
@@ -315,8 +315,8 @@ class Profile {
 
 	/**
 	 * mutator method for profile salt
-	 * @param int $newProfileSalt
-	 * @throws \RangeException if $newProfileSalt is not positive
+	 * @param string $newProfileSalt
+	 * @throws \RangeException if $newProfileSalt greater than 64
 	 * @throws \TypeError if $newProfileSalt is not a string
 	 **/
 
@@ -331,8 +331,8 @@ class Profile {
 	}
 
 	/**
-	 * accessor method for profile salt
-	 * @return string
+	 * accessor method for profile summary
+	 * @return string $profileSummary
 	 **/
 
 	public function getProfileSummary() {
@@ -341,8 +341,8 @@ class Profile {
 
 	/**
 	 * mutator method for profile summary
-	 * @param int $newProfileSummary
-	 * @throws \RangeException if $newProfileSummary is not positive
+	 * @param string $newProfileSummary
+	 * @throws \RangeException if $newProfileSummary greater than 255
 	 * @throws \TypeError if $newProfileSummary is not a string
 	 **/
 
