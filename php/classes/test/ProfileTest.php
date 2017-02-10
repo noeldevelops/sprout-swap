@@ -220,6 +220,16 @@ class ProfileTest extends SproutSwapTest {
 	}
 
 	/**
+	 * test grabbing a Profile by image id that does not exist
+	 **/
+
+	public function testGetInvalidProfileByImageId() {
+		//grab profile by searching for image id that does not exist
+		$profile = Profile::getProfileByProfileImageId($this->getPDO(), 0);
+		$this->assertCount(0, $profile);
+	}
+
+	/**
 	 * test grabbing a Profile by profile activation
 	 **/
 
