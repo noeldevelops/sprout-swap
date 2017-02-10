@@ -294,6 +294,16 @@ class ProfileTest extends SproutSwapTest {
 	}
 
 	/**
+	 * test grabbing a Profile by handle that does not exist
+	 **/
+
+	public function testGetInvalidProfileByHandle() {
+		//grab profile by searching for handle that does not exist
+		$profile = Profile::getProfileByProfileHandle($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
+	}
+
+	/**
 	 * test grabbing a Profile by profile name
 	 **/
 
