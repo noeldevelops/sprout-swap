@@ -193,7 +193,30 @@ class ProfileTest extends SproutSwapTest {
 		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
 		$profile->delete($this->getPDO());
 	}
+	/**
+	 * test grabbing a Profile by profile name
+	 **/
 
+	public function testGetValidProfileByName() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfileName($this->getPDO(), $profile->getProfileName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Profile", $results);
+
+		//grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	}
 	/**
 	 * test grabbing a Profile by profile summary
 	 **/
