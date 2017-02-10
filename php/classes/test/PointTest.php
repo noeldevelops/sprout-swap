@@ -11,7 +11,7 @@ require_once (dirname(__DIR__) . "/autoload.php");
  * @author Solomon Leyba solomon.leyba@gmail.com
  */
 
-class PointTest extends PHPUnit_Framework_TestCase {
+class PointTest extends \PHPUnit_Framework_TestCase {
 	protected $VALID_LAT = 40.9384;
 	protected $VALID_LONG = 50.2342;
 	protected $INVALID_LAT = 100.4544;
