@@ -306,10 +306,10 @@ class Message implements \JsonSerializable {
 				throw (new \PDOException("message already exists in database"));
 			}
 			// create query template
-			$query = "INSERT INTO message(messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus) VALUES (:messagePostId, :messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus)";
+			$query = "INSERT INTO message(messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus) VALUES (:messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus)";
 			$statement = $pdo->prepare($query);
 			//bind variables
-			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
+			$parameters = ["messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
 			$statement->execute($parameters);
 			//update null messageId
 			$this->messageId = intval($pdo->lastInsertId());
@@ -332,25 +332,6 @@ class Message implements \JsonSerializable {
 			$parameters = ["messageId" => $this->messageId];
 			//execute parameters
 			$statement->execute($parameters);
-		}
-	/**
-	 * update method for message
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException if mySQL errors occur
-	 */
-		public function update(\PDO $pdo) {
-			//if messageId is null, it does not exist and therefore cannot be updated
-			if($this->messageId === null) {
-				throw(new \PDOException("cannot update a message that does not have an assigned messageId"));
-			}
-			//create query template
-			$query = "UPDATE message SET messagePostId = :messagePostId, messageReceiverProfileId = :messageReceiverProfileId, messageSenderProfileId = :messageSenderProfileId, messageBrowser = :messageBrowser, messageContent = :messageContent, messageIpAddress = :messageIpAddress, messageStatus = :messageStatus WHERE messageId = :messageId";
-			$statement = $pdo->prepare($query);
-			//bind variables
-			$parameters = ["messagePostId" => $this->messagePostId, "messageReceiveProfilerId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
-			//execute parameters
-			$statement->execute($parameters);
-			$this->messageTimestamp = new \DateTime();
 		}
 	/**
 	 * @param \PDO $pdo
