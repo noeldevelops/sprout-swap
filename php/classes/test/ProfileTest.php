@@ -120,7 +120,7 @@ class ProfileTest extends SproutSwapTest {
 	public function testInsertInvalidProfile() {
 		//create a Profile with a non null profile id and watch it fail
 		$profile = new Profile(SproutSwapTest::INVALID_KEY, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
-		$profile->update($this->getPDO());
+		$profile->insert($this->getPDO());
 	}
 
 	/**
@@ -214,9 +214,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
