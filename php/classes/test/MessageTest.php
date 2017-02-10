@@ -102,12 +102,12 @@ class MessageTest extends SproutSwapTest{
 		//grab data from mySQL to check against expected
 		$results = Message::getMessageByMessageSenderProfileId($this->getPDO(), $message->getMessageSenderProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\Message", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Message", $results);
 		//grab result from array and validate
 		$pdoMessage = $results[0];
-		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageId(), $message->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -134,12 +134,12 @@ class MessageTest extends SproutSwapTest{
 		//grab data from mySQL to check against expected
 		$results = Message::getMessageByMessageReceiverProfileId($this->getPDO(), $message->getMessageReceiverProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\classes\\Message", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Message", $results);
 		//grab result from array and validate
 		$pdoMessage = $results[0];
-		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageId(),  $message->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -166,12 +166,12 @@ class MessageTest extends SproutSwapTest{
 		//grab data from mySQL to check against expected
 		$results = Message::getMessagesByMessagePostId($this->getPDO(), $message->getMessagePostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\php\\classes\\Message", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Message", $results);
 		//grab result from array and validate
 		$pdoMessage = $results[0];
-		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageId(), $message->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -180,8 +180,9 @@ class MessageTest extends SproutSwapTest{
 	}
 	/**
 	 * test grabbing invalid message based on message post id
+	 * @expectedException \PDOException
 	 */
-	public function testGetInvalidMessageByMessagePostId(){
+	public function testGetInvalidMessagesByMessagePostId(){
 		$message = new Message(SproutSwapTest::INVALID_KEY, $this->VALID_MESSAGEPOSTID, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		$results = Message::getMessagesByMessagePostId($this->getPDO(), $message->getMessagePostId());
@@ -200,12 +201,12 @@ class MessageTest extends SproutSwapTest{
 		$results = Message::getMessageByMessageContent($this->getPDO(), $message->getMessageContent());
 		$this->assertCount(1, $results);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\php\\classes\\Message", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Message", $results);
 		//grab array result and verify
 		$pdoMessage = $results[0];
-		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageId(),  $message->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -231,9 +232,9 @@ class MessageTest extends SproutSwapTest{
 		//grab and validate
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
-		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());
-		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getMessageSenderProfileId());
+		$this->assertEquals($pdoMessage->getMessageId(),  $message->getMessageId());
+		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageSenderProfileId(), $this->senderProfile->getProfileId());
 		$this->assertEquals($pdoMessage->getMessageBrowser(), $this->VALID_MESSAGEBROWSER);
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), $this->VALID_MESSAGEIPADDRESS);
@@ -244,7 +245,7 @@ class MessageTest extends SproutSwapTest{
 	 * testing grabbing a non-existent message based on message id
 	 */
 	public function testGetInvalidMessageByMessageId(){
-		$message = Message::getMessageByMessageId($this->getPDO(), "nothing");
-		$this->assertCount(0, $message);
+		$message = Message::getMessageByMessageId($this->getPDO(), SproutSwapTest::INVALID_KEY);
+		$this->assertNull($message);
 	}
 }
