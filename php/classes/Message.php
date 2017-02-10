@@ -244,14 +244,13 @@ class Message implements \JsonSerializable {
 	 */
 	public function setMessageIpAddress(string $newMessageIpAddress) {
 		//detect the IP's format and assign it in binary mode
-		if(inet_pton($newMessageIpAddress) !== false){
+		if(@inet_pton($newMessageIpAddress) !== false){
 			$this->messageIpAddress = inet_pton($newMessageIpAddress);
-		} else if(inet_ntop($newMessageIpAddress) !== false){
+		} else if(@inet_ntop($newMessageIpAddress) !== false){
 			$this->messageIpAddress = $newMessageIpAddress;
 		} else{
 			throw(new \InvalidArgumentException("invalid message IP address"));
 		}
-
 	}
 	/**
 	 * accessor method for message status (read or unread)
@@ -406,7 +405,7 @@ class Message implements \JsonSerializable {
 	 * @throws \RangeException if messagePostId is an invalid int
 	 * @throws \PDOException when mySQL errors occur
 	 */
-		public static function getMessageByMessagePostId(\PDO $pdo, int $messagePostId){
+		public static function getMessagesByMessagePostId(\PDO $pdo, int $messagePostId){
 			//throws exception if messagePostId is null
 			if($messagePostId === null){
 				throw (new \InvalidArgumentException("messagePostId cannot be null in this situation"));
