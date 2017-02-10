@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap;
-require_once ("autoload.php");
+require_once("autoload.php");
 
 /**
  * This class is what is stored when users create a new Profile
@@ -8,7 +8,6 @@ require_once ("autoload.php");
  * @author A Zak Abad <abad.zacaria@gmail.com>
  * @version 1.0
  **/
-
 class Profile {
 	use ValidateDate;
 	/**
@@ -617,24 +616,25 @@ class Profile {
 		if(empty($profileName) === true) {
 			throw(new \PDOException("profile name is invalid"));
 		}
-		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileName = :profileName";
-			$statement = $pdo->prepare($query);
+		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileName LIKE :profileName";
+		$statement = $pdo->prepare($query);
 
-			$parameters = ["profileName" => $profileName];
-			$statement->execute($parameters);
+		$profileName = "%$profileName%";
+		$parameters = ["profileName" => $profileName];
+		$statement->execute($parameters);
 
-			$profiles = new \SplFixedArray(($statement->rowCount()));
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch() !== false)) {
-				try {
-					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-					$profiles[$profiles->key()] = $profile;
-					$profiles->next();
-				} catch(\Exception $exception) {
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+		$profiles = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch() !== false)) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($profiles);
+		}
+		return ($profiles);
 
 	}
 
@@ -655,25 +655,27 @@ class Profile {
 			throw(new \PDOException("profile summary is invalid"));
 		}
 		$query = "SELECT profileId, profileImageId, profileActivation, profileEmail, profileHandle, profileTimestamp, profileName, profilePasswordHash, profileSalt, profileSummary FROM profile WHERE profileSummary LIKE :profileSummary";
-			$statement = $pdo->prepare($query);
+		$statement = $pdo->prepare($query);
 
-			$profileSummary = "%$profileSummary%";
-			$parameters = ["profileSummary" => $profileSummary];
-			$statement->execute($parameters);
+		$profileSummary = "%$profileSummary%";
+		$parameters = ["profileSummary" => $profileSummary];
+		$statement->execute($parameters);
 
-			$profiles = new \SplFixedArray(($statement->rowCount()));
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch() !== false)) {
-				try {
-					$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-					$profiles[$profiles->key()] = $profile;
-					$profiles->next();
-				} catch(\Exception $exception) {
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+		$profiles = new \SplFixedArray(($statement->rowCount()));
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch() !== false)) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($profiles);
+		}
+		return ($profiles);
+
 	}
+
 	/**
 	 * get profiles
 	 *
