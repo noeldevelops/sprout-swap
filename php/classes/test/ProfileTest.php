@@ -245,6 +245,16 @@ class ProfileTest extends SproutSwapTest {
 	}
 
 	/**
+	 * test grabbing a Profile by activation that does not exist
+	 **/
+
+	public function testGetInvalidProfileByActivation() {
+		//grab profile by searching for activation that does not exist
+		$profile = Profile::getProfileByProfileActivation($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
+	}
+
+	/**
 	 * test grabbing a Profile by profile email
 	 **/
 
