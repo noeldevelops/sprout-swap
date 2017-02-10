@@ -55,7 +55,7 @@ class Mode {
 	/**
 	 * mutator method for mode id
 	 * @param int|null $newModeId
-	 * @throws \RangeException is mode id is not postive
+	 * @throws \RangeException is mode id is not positive
 	 **/
 
 	public function setModeId(int $newModeId = null) {
@@ -72,8 +72,8 @@ class Mode {
 	}
 
 	/**
-	 * accessor method for Mode Id
-	 * @return int $modeId
+	 * accessor method for Mode name
+	 * @return string $modeName
 	 **/
 
 	public function getModeName() {
@@ -161,11 +161,11 @@ class Mode {
 	}
 
 	/**
-	 * get the mode name by mode id
+	 * get the mode by mode id
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int $modeId mode id to search for
-	 * @return Mode|null mode name or null if not found
+	 * @return Mode|null mode id or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -193,10 +193,11 @@ class Mode {
 	}
 
 	/**
-	 * get mode id
+	 * get mode name
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray of mode id found or null if not found
+	 * @param string $modeName
+	 * @return \SplFixedArray of mode name found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -229,6 +230,14 @@ class Mode {
 		return ($modes);
 	}
 
+	/**
+	 * get modes
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of mode name found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 
 	public static function getAllModes(\PDO $pdo){
 		//create query template

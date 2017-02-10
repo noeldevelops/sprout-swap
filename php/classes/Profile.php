@@ -484,6 +484,8 @@ class Profile {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
 			} catch(\Exception $exception) {
 				throw (new \PDOException(($exception->getMessage()), 0, $exception));
 			}
@@ -516,7 +518,7 @@ class Profile {
 
 		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch() !== false)) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
@@ -552,7 +554,7 @@ class Profile {
 
 		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch() !== false)) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
@@ -588,7 +590,7 @@ class Profile {
 
 		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch() !== false)) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile ($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;
@@ -625,7 +627,7 @@ class Profile {
 
 		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch() !== false)) {
+		while(($row = $statement->fetch()) !== false) {
 			try {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 				$profiles[$profiles->key()] = $profile;

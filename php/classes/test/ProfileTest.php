@@ -143,6 +143,8 @@ class ProfileTest extends SproutSwapTest {
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfilePasswordHash(), $profile->getProfilePasswordHash());
+		$this->assertEquals($pdoProfile->getProfileSalt(), $profile->getProfileSalt());
 		$this->assertEquals(
 			$profile->getProfileSummary(), $this->VALID_PROFILESUMMARY2);
 		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
@@ -214,9 +216,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -225,7 +227,7 @@ class ProfileTest extends SproutSwapTest {
 
 	public function testGetInvalidProfileByImageId() {
 		//grab profile by searching for image id that does not exist
-		$profile = Profile::getProfileByProfileImageId($this->getPDO(), 0);
+		$profile = Profile::getProfileByProfileImageId($this->getPDO(), 1);
 		$this->assertCount(0, $profile);
 	}
 
@@ -249,9 +251,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -284,9 +286,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -319,9 +321,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
@@ -354,9 +356,9 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the result from the array and validate it
 		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
 	}
 
 	/**
