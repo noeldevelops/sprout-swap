@@ -12,12 +12,12 @@ require_once(dirname(__DIR__) . "/autoload.php");
 
 class ModeTest extends SproutSwapTest {
 	/**
-	 * name for modeId
-	 * @var int modeId
+	 * name for modeName
+	 * @var int modeName
 	 **/
 	protected $VALID_MODENAME = "Free";
 	/**
-	 * modeName for updated Mode
+	 * modeName2 for updated Mode
 	 * @var string $VALID_MODENAME2
 	 **/
 	protected $VALID_MODENAME2 = "Sell";
@@ -60,7 +60,7 @@ class ModeTest extends SproutSwapTest {
 	}
 
 	/**
-	 * test test inserting a Profile, editing it, and then updating it
+	 * test update a valid mode, editing it, and then updating it
 	 **/
 
 	public function testUpdateValidMode(){
@@ -82,9 +82,9 @@ class ModeTest extends SproutSwapTest {
 	}
 
 	/**
-	 * test updating a Mode that does not exist
+	 * test updating a invalid Mode that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testUpdateInvalidMode(){
@@ -94,7 +94,7 @@ class ModeTest extends SproutSwapTest {
 	}
 
 	/**
-	 * test creating a Mode and then deleting it
+	 * test create a valid Mode and then deleting it
 	 **/
 
 	public function testDeleteValidMode(){
@@ -118,7 +118,7 @@ class ModeTest extends SproutSwapTest {
 	/**
 	 * test deleting a Mode that does not exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \PDOException
 	 **/
 
 	public function testDeleteInvalidMode(){
@@ -128,7 +128,7 @@ class ModeTest extends SproutSwapTest {
 	}
 
 	/**
-	 * test grabbing a Mode by mode name
+	 * test grabbing a valid Mode by mode name
 	 **/
 
 	public function testGetValidModeByModeName(){
@@ -151,17 +151,17 @@ class ModeTest extends SproutSwapTest {
 	}
 
 	/**
-	 * test grabbing a Mode by name that does not exist
+	 * test grabbing a invalid Mode by modeName that does not exist
 	 **/
 
-	public function testGetInvalidModeByName(){
+	public function testGetInvalidModeByModeName(){
 	//grab mode by searching for name that does not exist
 	$mode = Mode::getModeByModeName($this->getPDO(), "you will find nothing");
 	$this->assertCount(0, $mode);
 }
 
 	/**
-	 * test grabbing all modes
+	 * test grabbing all valid modes
 	 **/
 
 	public function testGetAllValidModes(){
