@@ -268,6 +268,17 @@ class ProfileTest extends SproutSwapTest {
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
 		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 	}
+
+	/**
+	 * test grabbing a Profile by email that does not exist
+	 **/
+
+	public function testGetInvalidProfileByEmail() {
+		//grab profile by searching for email that does not exist
+		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
+	}
+
 	/**
 	 * test grabbing a Profile by profile handle
 	 **/
