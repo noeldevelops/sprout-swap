@@ -16,9 +16,13 @@ class MessageTest extends SproutSwapTest{
 	protected $VALID_MESSAGEBROWSER = "Message browser passing";
 	protected $VALID_MESSAGECONTENT = "Message content passing";
 	protected $VALID_MESSAGECONTENT2 = "Message updated content passing";
-	protected $VALID_MESSAGEIPADDRESS = "IP passing";
-	protected $VALID_MESSAGESTATUS = 2;
+	protected $VALID_MESSAGEIPADDRESS = "2600::dead:beef:cafe";
+	protected $VALID_MESSAGESTATUS = 1;
 	protected $VALID_MESSAGETIMESTAMP = null;
+	private $image = null;
+	private $receiverProfile = null;
+	private $senderProfile = null;
+
 	/**
 	 * set up for test
 	 * creating dependent objects before running the test
@@ -26,16 +30,19 @@ class MessageTest extends SproutSwapTest{
 	public final function setUp(){
 		parent::setUp();
 		$this->image = new Image(null, "sjnghsklguenghtls");
-		$this->receiverProfile = new Profile(null, null, "kjsdhkj", "solomon.leyba@gmail.com", "ranch.me", null, "Solomon Leyba", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "god damn i love unit testing");
-		$this->senderProfile = new Profile(null, null, "sdfsd", "djt@america.gov", "hello_us", null, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
+		$this->image->insert($this->getPDO());
 		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
-
+		$this->receiverProfile = new Profile(null, $this->image->getImageId(), "kjsdhkj", "solomon.leyba@gmail.com", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "we do THE BEST unit tests, tremmendous");
+		$this->receiverProfile->insert($this->getPDO());
+		$this->senderProfile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
+		$this->senderProfile->insert($this->getPDO());
 	}
 	public function testInsertValidMessage(){
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		var_dump($this->senderProfile);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		// enforce fields match expectation
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
@@ -55,7 +62,7 @@ class MessageTest extends SproutSwapTest{
 	 */
 	public function testInsertInvalidMessage(){
 		//create a message w non-null message id
-		$message = new Message(SproutSwapTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(SproutSwapTest::INVALID_KEY, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 	}
 
@@ -66,7 +73,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//edit the message and update in mySQL
 		$message->setMessageContent($this->VALID_MESSAGECONTENT2);
@@ -88,7 +95,7 @@ class MessageTest extends SproutSwapTest{
 	 * @expectedException \PDOException
 	 */
 	public function testUpdateInvalidMessage(){
-		$message = new Message(SproutSwapTest::INVALID_KEY, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(SproutSwapTest::INVALID_KEY, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 	}
 	/**
@@ -99,7 +106,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//delete message from mySQL
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
@@ -114,7 +121,7 @@ class MessageTest extends SproutSwapTest{
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidMessage(){
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(SproutSwapTest::INVALID_KEY, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->delete($this->getPDO());
 	}
 	/**
@@ -124,7 +131,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//grab data from mySQL to check against expected
 		$results = Message::getMessageByMessageSenderProfileId($this->getPDO(), $message->getMessageContent());
@@ -156,7 +163,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//grab data from mySQL to check against expected
 		$results = Message::getMessageByMessageReceiverProfileId($this->getPDO(), $message->getMessageContent());
@@ -188,7 +195,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//grab data from mySQL to check against expected
 		$results = Message::getMessageByMessagePostId($this->getPDO(), $message->getMessageContent());
@@ -219,7 +226,7 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		// grab mySQL data and enforce it matches expectations
 		$results = Message::getMessageByMessageContent($this->getPDO(), $message->getMessageContent());
@@ -251,10 +258,10 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->messageReceiverProfileId->getProfileId(), $this->messageSenderProfileId->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//grab and validate
-		$pdoMessage = Message::getMessageByMessageId();
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageId(), $this->getMessageId());
 		$this->assertEquals($pdoMessage->getMessageReceiverProfileId(), $this->receiverProfile->getMessageReceiverProfileId());

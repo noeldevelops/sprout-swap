@@ -69,7 +69,7 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError
 	 */
 	public function __construct
-	(int $newMessageId = null, int $newMessagePostId, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
+	(int $newMessageId = null, int $newMessagePostId = null, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, $newMessageTimestamp = null) {
 		try{
 			$this->setMessageId($newMessageId);
 			$this->setMessagePostId($newMessagePostId);
@@ -127,7 +127,7 @@ class Message implements \JsonSerializable {
 	 * @param int $newMessagePostId
 	 * @throws \RangeException if id is negative or zero
 	 */
-	public function setMessagePostId(int $newMessagePostId){
+	public function setMessagePostId(int $newMessagePostId = null){
 		//if null, then this is a new message not in reference to any particular post
 		if($newMessagePostId === null){
 			return;
@@ -241,19 +241,17 @@ class Message implements \JsonSerializable {
 	 * mutator method for message sender's ip address
 	 * @param $newMessageIpAddress
 	 * @throws \InvalidArgumentException
-	 * removed '@' symbol from in front of inet_pton (error suppression operator)
 	 */
 	public function setMessageIpAddress(string $newMessageIpAddress) {
-		//sanitize input
-		$newMessageIpAddress = trim($newMessageIpAddress);
-		$newMessageIpAddress = filter_var($newMessageIpAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		//if null, throws TypeError
-		if($newMessageIpAddress === null) {
-			throw(new \InvalidArgumentException("Ip address must be a string"));
+		//detect the IP's format and assign it in binary mode
+		if(inet_pton($newMessageIpAddress) !== false){
+			$this->messageIpAddress = inet_pton($newMessageIpAddress);
+		} else if(inet_ntop($newMessageIpAddress) !== false){
+			$this->messageIpAddress = $newMessageIpAddress;
+		} else{
+			throw(new \InvalidArgumentException("invalid message IP address"));
 		}
-		//convert and store string
-		$newMessageIpAddress = inet_pton($newMessageIpAddress);
-		$this->messageIpAddress = $newMessageIpAddress;
+
 	}
 	/**
 	 * accessor method for message status (read or unread)
