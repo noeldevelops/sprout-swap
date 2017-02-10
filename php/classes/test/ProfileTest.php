@@ -195,6 +195,31 @@ class ProfileTest extends SproutSwapTest {
 	}
 
 	/**
+	 * test grabbing a Profile by profile image id
+	 **/
+
+	public function testGetValidProfileByImageId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfileImageId($this->getPDO(), $profile->getProfileImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Profile", $results);
+
+		//grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	}
+
+	/**
 	 * test grabbing a Profile by profile activation
 	 **/
 
@@ -291,6 +316,16 @@ class ProfileTest extends SproutSwapTest {
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
 		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	}
+
+	/**
+	 * test grabbing a Profile by name that does not exist
+	 **/
+
+	public function testGetInvalidProfileByName() {
+		//grab profile by searching for name that does not exist
+		$profile = Profile::getProfileByProfileName($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
 	}
 	/**
 	 * test grabbing a Profile by profile summary
