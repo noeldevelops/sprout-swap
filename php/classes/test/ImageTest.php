@@ -92,21 +92,4 @@ class ImageTest extends SproutSwapTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->VALID_IMAGECLOUDINARYID);
 	}
-	/**
-	 * test getting images by Post ID
-	 */
-	public function testGetImagesByPostId() {
-		$numrows = $this->getConnection()->getRowCount("image");
-		$image = new Image(null, $this->VALID_IMAGECLOUDINARYID);
-		$image->insert($this->getPDO());
-
-		$results = Image::getImagesByPostId($this->getPDO(), $this->VALID_POSTID);
-		$this->assertEquals($numrows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Image", $results);
-
-		$pdoImage = $results[0];
-		$this->assertEquals($pdoImage->getImageId(), $this->image->getImageId());
-		$this->assertEquals($pdoImage->getImageCloudinaryId(), $this->VALID_IMAGECLOUDINARYID);
-	}
 }

@@ -53,7 +53,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 	/**
 	 * test insert invalid message
@@ -178,7 +178,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
 	}
 	/**
 	 * test grabbing invalid message based on message post id
@@ -213,7 +213,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
 	}
 	/**
 	 * testing grabbing invalid message based on message content
@@ -241,7 +241,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
 	}
 	/**
 	 * testing grabbing a non-existent message based on message id
