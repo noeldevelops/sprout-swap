@@ -292,6 +292,14 @@ class Message implements \JsonSerializable {
 				$this->messageTimestamp = new \DateTime();
 				return;
 			}
+			try {
+				$newMessageTimestamp = self::validateDateTime($newMessageTimestamp);
+			} catch(\InvalidArgumentException $invalidArgument) {
+				throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+			} catch(\RangeException $rangeException) {
+				throw (new \RangeException($rangeException->getmessage(), 0, $rangeException));
+			}
+			$this->messageTimestamp = $newMessageTimestamp;
 		}
 
 	/**
