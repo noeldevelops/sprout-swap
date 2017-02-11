@@ -18,9 +18,9 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 	protected $INVALID_LONG = 200.6666;
 
 	/**
-	 * test using valid coordinates
+	 * test inserting a point using valid coordinates
 	 */
-	public function testValidPoint(){
+	public function testInsertingValidPoint(){
 		$point = new Point($this->VALID_LAT, $this->VALID_LONG);
 		//use mutators to make a valid case
 		$point->setLat($this->VALID_LAT);
@@ -30,9 +30,9 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($point->getLong(), $this->VALID_LONG);
 	}
 	/**
-	 * test using invalid lat
+	 * test inserting a point using invalid latitude
 	 */
-	public function testInvalidPointLat(){
+	public function testInsertInvalidPoint(){
 		$point = new Point($this->INVALID_LAT, $this->VALID_LONG);
 		//use mutators to make an invalid case
 		$point->setLat($this->INVALID_LAT);
