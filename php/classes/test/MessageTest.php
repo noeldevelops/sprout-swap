@@ -112,7 +112,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
 	}
 	/**
 	 * testing searching for an invalid message based on sender profile id
@@ -144,7 +144,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $message->getMessageTimestamp());
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
 	}
 
 	/**
