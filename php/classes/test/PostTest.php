@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\{Profile, Post};
+use Edu\Cnm\SproutSwap\{Profile, Post, Image};
 
 require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -38,7 +38,7 @@ class PostTest extends SproutSwapTest {
 	public final function setUp() {
 		parent::setUp();
 		//create test Profile to make a test Post
-		$this->profile = new Profile(null, 2, "activation", "this@email.com", "handle", "timestamp", "My Name", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "This is my really cool profile.");
+		$this->profile = new Profile(null, $this->image->getImageId(), "activation", "this@email.com", "handle", "timestamp", "My Name", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "This is my really cool profile.");
 		$this->profile->insert($this->getPDO());
 		$this->VALID_POSTTIMESTAMP = new \DateTime();
 	}
