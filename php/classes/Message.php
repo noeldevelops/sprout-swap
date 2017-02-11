@@ -51,7 +51,7 @@ class Message implements \JsonSerializable {
 	private $messageStatus;
 	/**
 	 * Timestamp when message was sent
-	 * @var $messageTimeStamp \datetime
+	 * @var \Datetime $messageTimeStamp
 	 */
 	private $messageTimestamp;
 	/**
@@ -317,7 +317,7 @@ class Message implements \JsonSerializable {
 			$statement = $pdo->prepare($query);
 			$formattedDate = $this->messageTimestamp->format("Y-m-d H:i:s");
 			//bind variables
-			$parameters = ["messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $this->$formattedDate];
+			$parameters = ["messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $formattedDate];
 			$statement->execute($parameters);
 			//update null messageId
 			$this->messageId = intval($pdo->lastInsertId());
