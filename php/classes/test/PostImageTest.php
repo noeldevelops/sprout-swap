@@ -24,9 +24,9 @@ class PostImageTest extends SproutSwapTest{
 	 */
 	public final function setUp(){
 		parent::setUp();
-		$newPoint = new Point($this->VALID_LAT, $this->VALID_LONG);
+		$this->newPoint = new Point($this->VALID_LAT, $this->VALID_LONG);
 		$this->newPoint->insert($this->getPDO());
-		$this->post = new Post(null, $this->getPostModeId(), "browser here or something", "post content here or something", "2600::dead:beef:cafe", $newPoint, "vegetables", "different veggies tbh", null);
+		$this->post = new Post(null, $this->getPostModeId(), "browser here or something", "post content here or something", "2600::dead:beef:cafe", $this->newPoint->getPoint(), "vegetables", "different veggies tbh", null);
 		$this->post->insert($this->getPDO());
 	}
 	/**
