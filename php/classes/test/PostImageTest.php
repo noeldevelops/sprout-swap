@@ -18,13 +18,14 @@ class PostImageTest extends SproutSwapTest{
 	protected $VALID_LAT = 45.43;
 	protected $VALID_LONG = 90.432;
 	protected $newPoint = null;
+	protected $post = null;
 	/**
 	 * creating dependants
 	 */
 	public final function setUp(){
 		parent::setUp();
 		$newPoint = new Point($this->VALID_LAT, $this->VALID_LONG);
-		$this->post = new Post(null, null, "browser here or something", "post content here or something", "ip address", $newPoint, "vegetables", "different veggies tbh", null);
+		$this->post = new Post(null, $this->getPostModeId(), "browser here or something", "post content here or something", "2600::dead:beef:cafe", $newPoint, "vegetables", "different veggies tbh", null);
 	}
 	/**
 	 * testing insert method
