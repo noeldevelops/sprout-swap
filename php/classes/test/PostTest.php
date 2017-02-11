@@ -32,6 +32,8 @@ class PostTest extends SproutSwapTest {
 	 */
 	protected $VALID_POSTPROFILEID = null;
 
+	private $image = null;
+
 	/**
 	 * some dependent objects to run tests with
 	 **/
