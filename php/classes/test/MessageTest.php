@@ -32,8 +32,10 @@ class MessageTest extends SproutSwapTest{
 		$this->image = new Image(null, "sjnghsklguenghtls");
 		$this->image->insert($this->getPDO());
 		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
+
 		$this->receiverProfile = new Profile(null, $this->image->getImageId(), "kjsdhkj", "solomon.leyba@gmail.com", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "we do THE BEST unit tests, tremmendous");
 		$this->receiverProfile->insert($this->getPDO());
+
 		$this->senderProfile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
 		$this->senderProfile->insert($this->getPDO());
 	}
@@ -112,7 +114,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 	/**
 	 * testing searching for an invalid message based on sender profile id
@@ -144,7 +146,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 
 	/**
@@ -178,7 +180,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 	/**
 	 * test grabbing invalid message based on message post id
@@ -213,7 +215,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 	/**
 	 * testing grabbing invalid message based on message content
@@ -241,7 +243,7 @@ class MessageTest extends SproutSwapTest{
 		$this->assertEquals($pdoMessage->getMessageContent(), $this->VALID_MESSAGECONTENT);
 		$this->assertEquals($pdoMessage->getMessageIpAddress(), inet_pton($this->VALID_MESSAGEIPADDRESS));
 		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS);
-		$this->assertEquals($pdoMessage->getMessageTimestamp(), $messageTimestamp);
+		$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->VALID_MESSAGETIMESTAMP);
 	}
 	/**
 	 * testing grabbing a non-existent message based on message id

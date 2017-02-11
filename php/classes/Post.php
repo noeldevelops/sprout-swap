@@ -59,7 +59,7 @@ class Post implements \jsonSerializable {
 	private $postRequest;
 	/**
 	 * Timestamp when post is created
-	 * @var int $postTimestamp
+	 * @var \DateTime $postTimestamp
 	 */
 	private $postTimestamp;
 	/**
@@ -80,7 +80,7 @@ class Post implements \jsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, point $newPostLocation, string $newPostOffer, string $newPostRequest, int $newPostTimestamp ) {
+	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, point $newPostLocation, string $newPostOffer, string $newPostRequest, \DateTime $newPostTimestamp ) {
 		 try {
 			 $this->setPostId($newPostId);
 			 $this->setPostModeId($newPostModeId);
@@ -300,7 +300,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
-	  * @returns int $postTimeStamp value of current post timestamp
+	  * @returns \DateTime $postTimeStamp value of current post timestamp
 	  */
 	 public function getPostTimestamp() {
 	 	return($this->postTimestamp);
