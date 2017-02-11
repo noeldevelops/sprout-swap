@@ -64,7 +64,7 @@ class Message implements \JsonSerializable {
 	 * @param string $newMessageContent
 	 * @param string $newMessageIpAddress
 	 * @param int $newMessageStatus
-	 * @param null $newMessageTimestamp
+	 * @param \DateTime $newMessageTimestamp
 	 * @throws \Exception
 	 * @throws \TypeError
 	 */
@@ -355,7 +355,7 @@ class Message implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false){
 				try{
-					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
 					$messages[$messages->key()] = $message;
 					$messages->next();
 				} catch(\Exception $exception){
@@ -387,7 +387,7 @@ class Message implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
 					$messages[$messages->key()] = $message;
 					$messages->next();
 				} catch(\Exception $exception) {
@@ -425,7 +425,7 @@ class Message implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
 					$messages[$messages->key()] = $message;
 					$messages->next();
 				} catch(\Exception $exception) {
@@ -457,7 +457,7 @@ class Message implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			while(($row = $statement->fetch()) !== false) {
 				try {
-					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
 					$messages[$messages->key()] = $message;
 					$messages->next();
 				} catch(\Exception $exception) {
@@ -488,7 +488,7 @@ class Message implements \JsonSerializable {
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false){
-					$message = new Message ($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], $row["messageTimestamp"]);
+					$message = new Message ($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
 				}
 			} catch(\Exception $exception){
 				throw (new \PDOException($exception->getMessage(), 0, $exception));
