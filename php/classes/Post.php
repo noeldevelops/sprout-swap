@@ -247,7 +247,6 @@ class Post implements \jsonSerializable {
 	  */
 	 public function setPostLocation(Point $newPostLocation) {
 	 	$this->postLocation = new Point($this->setLat, $this->setLong);
-	 	$this->postLocation = $newPostLocation;
 	 }
 	 /**
 	  * accessor method for post offer

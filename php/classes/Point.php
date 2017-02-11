@@ -71,6 +71,52 @@ class Point implements \JsonSerializable {
 		{throw(new \RangeException("longitude is not within the range (-90, 90)"));}
 		$this->long=$newLong;
 	}
+
+	/**
+	 *insert this point into mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		if($this->lat !== null || $this->long !== null) {
+			throw(new \PDOException("not a new location"));
+		}
+		$query = "INSERT INTO point(lat, long) VALUES(:lat, :long)";
+		$statement = $pdo->prepare($query);
+		$parameters = ["lat" => $this->lat, "long" =>$this->long];
+		$statement->execute($parameters);
+	}
+	/**
+ *update a point object in mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ */
+	public function update(\PDO $pdo) {
+		if($this->lat === null || $this->long === null) {
+			throw(new \PDOException("cannot update a non-existant point"));
+		}
+		$query = "UPDATE point SET lat = :lat, long = :long";
+		$statement = $pdo->prepare($query);
+		$parameters = ["lat" => $this->lat, "long" =>$this->long];
+		$statement->execute($parameters);
+	}
+	/**
+	 *delete a point object from mySQL
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) {
+		if($this->lat === null || $this->long === null) {
+			throw(new \PDOException("cannot delete a non-existant point"));
+		}
+		$query = "DELETE FROM point WHERE lat = :lat";
+		$statement = $pdo->prepare($query);
+		$parameters = ["lat" => $this->lat, "long" =>$this->long];
+		$statement->execute($parameters);
+	}
 	public function JsonSerialize() {
 		$fields = [];
 		$fields["lat"] = $this->lat;

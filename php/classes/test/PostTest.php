@@ -36,9 +36,10 @@ class PostTest extends SproutSwapTest {
 
 	protected $VALID_POSTIPADDRESS = "2600::dead:beef:cafe";
 
-	private $point = null;
 	private $VALID_LAT = 40.9384;
 	private $VALID_LONG = 50.2342;
+	private $point = null;
+
 
 	/**
 	 * some dependent objects to run tests with
@@ -50,7 +51,6 @@ class PostTest extends SproutSwapTest {
 		$this->image->insert($this->getPDO());
 
 		$this->VALID_POSTTIMESTAMP = new \DateTime();
-
 		$this->point = new Point($this->VALID_LAT, $this->VALID_LONG);
 		$this->point->insert($this->getPDO());
 
@@ -66,7 +66,7 @@ class PostTest extends SproutSwapTest {
 		//count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("post");
 		//create a new Post and insert into mySqL
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->point->getPDO(), "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->point, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 		//get the mySQL data and enforce the fields match our expectations
 		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
