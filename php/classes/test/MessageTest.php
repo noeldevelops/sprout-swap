@@ -89,7 +89,7 @@ class MessageTest extends SproutSwapTest{
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidMessage(){
-		$message = new Message(SproutSwapTest::INVALID_KEY, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->delete($this->getPDO());
 	}
 	/**
