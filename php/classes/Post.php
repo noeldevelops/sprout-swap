@@ -80,7 +80,7 @@ class Post implements \jsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, point $newPostLocation, string $newPostOffer, string $newPostRequest, \DateTime $newPostTimestamp ) {
+	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, Point $newPostLocation, string $newPostOffer, string $newPostRequest, \DateTime $newPostTimestamp ) {
 		 try {
 			 $this->setPostId($newPostId);
 			 $this->setPostModeId($newPostModeId);
@@ -246,6 +246,7 @@ class Post implements \jsonSerializable {
 	  *
 	  */
 	 public function setPostLocation(Point $newPostLocation) {
+	 	$this->postLocation = new Point($this->setLat, $this->setLong);
 	 	$this->postLocation = $newPostLocation;
 	 }
 	 /**
