@@ -305,10 +305,11 @@ class Message implements \JsonSerializable {
 				throw (new \PDOException("message already exists in database"));
 			}
 			// create query template
-			$query = "INSERT INTO message(messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus) VALUES (:messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus)";
+			$query = "INSERT INTO message(messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp) VALUES (:messageReceiverProfileId, :messageSenderProfileId, :messageBrowser, :messageContent, :messageIpAddress, :messageStatus, :messageTimestamp)";
 			$statement = $pdo->prepare($query);
+			$formattedDate = $this->messageTimestamp->format("Y-m-d H:i:s");
 			//bind variables
-			$parameters = ["messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus];
+			$parameters = ["messageReceiverProfileId" => $this->messageReceiverProfileId, "messageSenderProfileId" => $this->messageSenderProfileId, "messageBrowser" => $this->messageBrowser, "messageContent" => $this->messageContent, "messageIpAddress" => $this->messageIpAddress, "messageStatus" => $this->messageStatus, "messageTimestamp" => $this->$formattedDate];
 			$statement->execute($parameters);
 			//update null messageId
 			$this->messageId = intval($pdo->lastInsertId());
