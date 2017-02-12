@@ -246,7 +246,7 @@ class Post implements \jsonSerializable {
 	  *
 	  */
 	 public function setPostLocation(Point $newPostLocation) {
-	 	$this->postLocation = new Point($this->setLat, $this->setLong);
+	 	$this->postLocation = $newPostLocation;
 	 }
 	 /**
 	  * accessor method for post offer
@@ -339,15 +339,17 @@ class Post implements \jsonSerializable {
 		if($this->postId !== null) {
 			throw(new \PDOException("Not a new post"));
 		}
-		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, POINT(:postLocationX, :postLocationY), :postOffer, :postRequest)";
+		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, POINT(:postLocationX, :postLocationY), :postOffer, :postRequest, :postTimestamp)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(),"postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
+		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
+
+		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(),"postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
 
 		$statement->execute($parameters);
 		//update null messageId
 		$this->postId = intval($pdo->lastInsertId());
-		$this->postTimestamp = new \DateTime();
+		//$this->postTimestamp = new \DateTime();
 	}
 	/**
 	 * deletes this post from mySQL

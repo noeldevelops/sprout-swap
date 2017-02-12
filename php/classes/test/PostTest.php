@@ -1,6 +1,6 @@
 <?php
 namespace Edu\Cnm\SproutSwap\Test;
-use Edu\Cnm\SproutSwap\{Profile, Post, Image, Point};
+use Edu\Cnm\SproutSwap\{Profile, Post, Image, Point, Mode};
 
 require_once("SproutSwapTest.php");
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -33,9 +33,10 @@ class PostTest extends SproutSwapTest {
 	protected $VALID_POSTPROFILEID = null;
 
 	private $image = null;
+	private $modeId = null;
 
 	protected $VALID_POSTIPADDRESS = "2600::dead:beef:cafe";
-
+	protected $VALID_POSTBROWSER = "Browser info passing";
 	protected $VALID_POINT = null;
 
 
@@ -49,10 +50,11 @@ class PostTest extends SproutSwapTest {
 		$this->image->insert($this->getPDO());
 
 		$this->VALID_POSTTIMESTAMP = new \DateTime();
-		$this->VALID_POINT = new Point(40.982, 50.232);
 
-		//create test Profile to make a test Post
-		$this->profile = new Profile(null, $this->image->getImageId(), "activation", "this@email.com", $this->VALID_POSTIPADDRESS, $this->VALID_POSTTIMESTAMP, "My Name", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "This is my really cool profile.");
+		$this->VALID_POINT = new Point(35.10964229145246, -106.69703244562174);
+
+		//create test Profile to make a test Post//
+		$this->profile = new Profile(null, $this->image->getImageId(), "activation", "this@email.com", "2600::dead:beef:cafe", $this->VALID_POSTTIMESTAMP, "My Name", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "This is my really cool profile.");
 		$this->profile->insert($this->getPDO());
 	}
 
@@ -63,7 +65,7 @@ class PostTest extends SproutSwapTest {
 		//count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("post");
 		//create a new Post and insert into mySqL
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), $this->VALID_POSTBROWSER, $this->VALID_POSTCONTENT, "2600", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 		//get the mySQL data and enforce the fields match our expectations
 		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
@@ -79,7 +81,7 @@ class PostTest extends SproutSwapTest {
 	 */
 	public function testInsertInvalidPost() {
 		//create a post with a non-null id and make sure it fails
-		$post = new Post(SproutSwapTest::INVALID_KEY, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(SproutSwapTest::INVALID_KEY, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 	}
 
@@ -90,7 +92,7 @@ class PostTest extends SproutSwapTest {
 		//count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("post");
 		//create a new Post and insert into mySqL
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 		//edit the post and update it
 		$post->setPostContent($this->VALID_POSTCONTENT2);
@@ -107,7 +109,7 @@ class PostTest extends SproutSwapTest {
 	 * test updating a post that doesn't exist
 	 */
 	public function testUpdateInvalidPost() {
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->update($this->getPDO());
 	}
 	/*
@@ -117,7 +119,7 @@ class PostTest extends SproutSwapTest {
 		//count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("post");
 		//create a new Post and insert into mySqL
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 		//delete the post from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
@@ -143,7 +145,7 @@ public function testGetValidPostByPostId() {
 	//count number of rows and save for later
 	$numRows = $this->getConnection()->getRowCount("post");
 	//create a new Post and insert into mySqL
-	$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+	$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 	$post->insert($this->getPDO());
 	// grab the data from mySQL and enforce the fields match our expectations
 		$results = Post::getPostByPostId($this->getPDO(), $post->getPostId());

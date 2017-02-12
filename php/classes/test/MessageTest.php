@@ -31,6 +31,7 @@ class MessageTest extends SproutSwapTest{
 		parent::setUp();
 		$this->image = new Image(null, "sjnghsklguenghtls");
 		$this->image->insert($this->getPDO());
+
 		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
 
 		$this->receiverProfile = new Profile(null, $this->image->getImageId(), "kjsdhkj", "solomon.leyba@gmail.com", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "we do THE BEST unit tests, tremmendous");
