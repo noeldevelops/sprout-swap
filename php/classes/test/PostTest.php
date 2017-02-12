@@ -135,7 +135,7 @@ class PostTest extends SproutSwapTest {
 	 **/
 	public function testDeleteInvalidPost() {
 		//create a post and try to delete it without actually inserting it
-		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", "location", "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post = new Post(null, 2, $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, "IP Address", $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->delete($this->getPDO());
 	}
 /*
