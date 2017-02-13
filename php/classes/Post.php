@@ -386,8 +386,9 @@ public function update(\PDO $pdo) {
 	}
 	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = POINT(:postLocationX, :postLocationY), postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
 	$statement = $pdo->prepare($query);
+	$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
-	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(), "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $this->postTimestamp];
+	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(), "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
 
 	$statement->execute($parameters);
 	$this->postTimestamp = new \DateTime();
@@ -401,7 +402,7 @@ public function update(\PDO $pdo) {
 	 * @return int $postId of one post with that id
 	 */
 
-	public static function getPostByPostId (\PDO $pdo, string $postId, $exception) {
+	public static function getPostByPostId (\PDO $pdo, string $postId) {
 		if($postId <= 0) {
 			throw(new \RangeException("Post ID must be positive"));
 		}
