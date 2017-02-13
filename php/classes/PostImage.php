@@ -126,7 +126,7 @@ class PostImage implements \JsonSerializable{
 		//grab postImage from mySQL
 		$postImages = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement) !== false){
+		while(($row = $statement->fetch()) !== false){
 			try{
 				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
 				$postImages[$postImages->key()] = $postImage;
@@ -157,9 +157,9 @@ class PostImage implements \JsonSerializable{
 		//grab postImage from mySQL
 		$postImages = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement) !== false){
+		while(($row = $statement->fetch()) !== false){
 			try{
-				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
+				$postImage = new PostImage($row["postImageImageId"], $row["postImagePostId"]);
 				$postImages[$postImages->key()] = $postImage;
 				$postImages->next();
 			} catch(\Exception $exception){
@@ -218,7 +218,7 @@ class PostImage implements \JsonSerializable{
 		//build array of images
 		$postImages = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement) !== false){
+		while(($row = $statement->fetch()) !== false){
 			try{
 				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
 				$postImages[$postImages->key()] = $postImage;

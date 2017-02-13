@@ -113,7 +113,8 @@ class PostImageTest extends SproutSwapTest{
 		$postImage = new PostImage($this->image->getImageId(), $this->post->getPostId());
 		$postImage->insert($this->getPDO());
 		//grab data from mySQL and compare to expected
-		$pdoPostImage = PostImage::getPostImageByPostImageImageId($this->getPDO(), $postImage->getPostImageImageId());
+		$results = PostImage::getPostImageByPostImageImageId($this->getPDO(), $postImage->getPostImageImageId());
+		$pdoPostImage = $results[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
 		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->image->getImageId());
 		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->post->getPostId());
@@ -145,7 +146,7 @@ class PostImageTest extends SproutSwapTest{
 	 */
 	public function testGetInvalidPostImageByPostImagePostId(){
 		$postImage = PostImage::getPostImageByPostImagePostId($this->getPDO(), $this->post->getPostId());
-		$this->assertEquals(0, $postImage);
+		$this->assertCount(0, $postImage);
 	}
 	/**
 	 * testing etValidPostImageByPostImageImageIdAndPostImagePostId (for composite key)
@@ -175,7 +176,7 @@ class PostImageTest extends SproutSwapTest{
 		$results = PostImage::getPostImagesByPostImagePostId($this->getPDO(), $postImage->getPostImagePostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("postImage"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\PostImage");
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\PostImage", $results);
 		//test one
 		$pdoPostImage = $results[0];
 		$this->assertEquals($pdoPostImage->getPostImageImageId(), $this->image->getImageId());
