@@ -453,7 +453,7 @@ class Message implements \JsonSerializable {
 		public static function getMessageByMessageContent(\PDO $pdo, string $messageContent){
 			//sanitize for security
 			$messageContent = trim($messageContent);
-			$messageContent = filter_var($messageContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+			$messageContent = filter_var($messageContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 			//create query template
 			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE messageContent LIKE :messageContent";
 			$statement = $pdo->prepare($query);

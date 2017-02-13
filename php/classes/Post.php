@@ -80,7 +80,7 @@ class Post implements \jsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 **/
-	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, Point $newPostLocation, string $newPostOffer, string $newPostRequest, \DateTime $newPostTimestamp ) {
+	 public function __construct(int $newPostId = null, int $newPostModeId, int $newPostProfileId, string $newPostBrowser, string $newPostContent, string $newPostIpAddress, Point $newPostLocation, string $newPostOffer, string $newPostRequest, $newPostTimestamp ) {
 		 try {
 			 $this->setPostId($newPostId);
 			 $this->setPostModeId($newPostModeId);
@@ -303,7 +303,7 @@ class Post implements \jsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
-	  * @returns \DateTime $postTimeStamp value of current post timestamp
+	  * @returns $postTimeStamp value of current post timestamp
 	  */
 	 public function getPostTimestamp() {
 	 	return($this->postTimestamp);
@@ -344,7 +344,6 @@ class Post implements \jsonSerializable {
 		}
 		$query = "INSERT INTO post(postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES(:postModeId, :postProfileId, :postBrowser, :postContent, :postIpAddress, POINT(:postLocationX, :postLocationY), :postOffer, :postRequest, :postTimestamp)";
 		$statement = $pdo->prepare($query);
-
 		$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
 		$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(),"postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
@@ -409,7 +408,7 @@ public function update(\PDO $pdo) {
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postId = :postId";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["postId => $postId"];
+		$parameters = ["postId" => $postId];
 		$statement->execute($parameters);
 
 		try {
@@ -432,13 +431,11 @@ public function update(\PDO $pdo) {
 		 * @throws \PDOException $exception when mySQL errors occur
 		 * @throws \TypeError when variables are not correct type
 		 */
-		public static function getPostByPostModeId (\PDO $pdo, int $postModeId, $exception) {
+		public static function getPostsByPostModeId (\PDO $pdo, int $postModeId) {
 			if($postModeId <= 0) {
 			throw(new \RangeException("Post mode ID must be positive"));
 			}
-			if($postModeId >= 3) {
-				throw(new \RangeException("Post Mode ID not valid"));
-			}
+
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postModeId = :postModeId";
 		$statement = $pdo->prepare($query);
 
@@ -461,7 +458,7 @@ public function update(\PDO $pdo) {
 	 * @throws \PDOException $exception when mySQL errors occur
 	 * @throws \TypeError when variables are not correct type
 	 */
-	public static function getPostByPostProfileId (\PDO $pdo, int $postProfileId, $exception) {
+	public static function getPostsByPostProfileId (\PDO $pdo, int $postProfileId) {
 		if($postProfileId <= 0) {
 			throw(new \RangeException("Post ID must be positive"));
 		}
@@ -495,18 +492,21 @@ public function update(\PDO $pdo) {
 	 * @throws \TypeError when variables are not correct type
 	 **/
 
-	public static function getPostByPostContent(\PDO $pdo, string $postContent) {
+	public static function getPostsByPostContent(\PDO $pdo, string $postContent) {
 		$postContent = trim($postContent);
-		$postContent = filter_var($postContent, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		$postContent = filter_var($postContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
 		if(empty($postContent) === true) {
 			throw(new \PDOException("Post content is invalid"));
 		}
+
+
 		//create new query template
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postContent LIKE :postContent";
 		$statement = $pdo->prepare($query);
 		//bind the parameters
 		$postContent = "%$postContent%";
-		$parameters = ["postContent => $postContent"];
+		$parameters = ["postContent" => $postContent];
 		$statement->execute($parameters);
 //build an array of posts
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -530,7 +530,7 @@ public function update(\PDO $pdo) {
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
 	 **/
-	public static function getPostByPostLocation (\PDO $pdo, point $postLocation) {
+	public static function getPostsByPostLocation (\PDO $pdo, point $postLocation) {
 		//sanitize
 		if(empty($postLocation) === true) {
 			throw(new \PDOException("Post location is not valid"));
@@ -539,7 +539,7 @@ public function update(\PDO $pdo) {
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
 		$statement = $pdo->prepare($query);
 		//bind parameters
-		$parameters = ["postLocation => $postLocation"];
+		$parameters = ["postLocation" => $postLocation];
 		$statement->execute($parameters);
 		//create an array of posts
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -563,9 +563,9 @@ public function update(\PDO $pdo) {
 	 * @throws \PDOException when mySQL errors occur
 	 * @throws \TypeError when variables are not correct type
 	 */
-	public static function getPostByPostOffer (\PDO $pdo, string $postOffer, $exception) {
+	public static function getPostsByPostOffer (\PDO $pdo, string $postOffer) {
 		$postOffer = trim($postOffer);
-		$postOffer = filter_var($postOffer, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		$postOffer = filter_var($postOffer, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($postOffer) === true) {
 			throw(new \PDOException("Post Offer is invalid"));
 		}
@@ -573,7 +573,7 @@ public function update(\PDO $pdo) {
 		$statement = $pdo->prepare($query);
 //bind the parameters
 		$postOffer = "%$postOffer%";
-		$parameters = ["postOffer => $postOffer"];
+		$parameters = ["postOffer" => $postOffer];
 		$statement->execute($parameters);
 		//make an array
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -595,9 +595,9 @@ public function update(\PDO $pdo) {
 	 * @param $exception
 	 * @return \SplFixedArray of posts found
 	 */
-	public static function getPostByPostRequest (\PDO $pdo, string $postRequest, $exception) {
+	public static function getPostsByPostRequest (\PDO $pdo, string $postRequest) {
 		$postRequest = trim($postRequest);
-		$postRequest = filter_var($postRequest, FILTER_FLAG_NO_ENCODE_QUOTES, FILTER_SANITIZE_STRING);
+		$postRequest = filter_var($postRequest, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($postRequest) === true) {
 			throw(new \PDOException("Post Request is invalid"));
 		}
@@ -605,7 +605,7 @@ public function update(\PDO $pdo) {
 		$statement = $pdo->prepare($query);
 //bind the parameters
 		$postRequest = "%$postRequest%";
-		$parameters = ["postRequest => $postRequest"];
+		$parameters = ["postRequest" => $postRequest];
 		$statement->execute($parameters);
 		//make an array
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -626,7 +626,7 @@ public function update(\PDO $pdo) {
 	 * @param $exception
 	 * @return \SplFixedArray of posts found
 	 */
-	public static function getPostByPostTimestamp (\PDO $pdo, int $postTimestamp, $exception) {
+	public static function getPostsByPostTimestamp (\PDO $pdo, int $postTimestamp) {
 		if(($postTimestamp) === null) {
 			throw(new \PDOException("Post Timestamp is null"));
 		}

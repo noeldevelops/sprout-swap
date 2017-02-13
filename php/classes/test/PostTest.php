@@ -74,7 +74,7 @@ class PostTest extends SproutSwapTest {
 		//get the mySQL data and enforce the fields match our expectations
 		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
-		$this->assertEquals($pdoPost->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_POSTCONTENT);
 		$this->assertEquals($pdoPost->getPostTimestamp(), $this->VALID_POSTTIMESTAMP);
 	}
@@ -104,7 +104,7 @@ class PostTest extends SproutSwapTest {
 		//get the mySQL data and enforce the fields match our expectations
 		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
-		$this->assertEquals($pdoPost->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_POSTCONTENT2);
 		$this->assertEquals($pdoPost->getPostTimestamp(), $this->VALID_POSTTIMESTAMP);
 	}
@@ -143,8 +143,8 @@ class PostTest extends SproutSwapTest {
 		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->delete($this->getPDO());
 	}
-/*
- * test getting a post by post id
+/**
+ * test getting a valid post by post id
  */
 public function testGetValidPostByPostId() {
 	//count number of rows and save for later
@@ -153,9 +153,120 @@ public function testGetValidPostByPostId() {
 	$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 	$post->insert($this->getPDO());
 	// grab the data from mySQL and enforce the fields match our expectations
-		$results = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+	}
+	/**
+	 * test getting a post by invalid post id
+	 * @expectedException \PDOException
+	 */
+	public function testGetPostByInvalidPostId() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("post");
+		//create a new Post and insert into mySqL
+		$post = new Post(32, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+	}
+	/**
+	 * test get all posts by Mode Id
+	 */
+	public function testGetPostsByPostModeId () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostModeId($this->getPDO(), $post->getPostModeId());
+
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap", $results);
-}
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get all posts by Profile Id
+	 */
+	public function testGetPostsByPostProfileId () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostProfileId($this->getPDO(), $post->getPostProfileId());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get posts by post content
+	 */
+	public function testGetPostsByPostContent () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+
+		$results = Post::getPostsByPostContent($this->getPDO(), $post->getPostContent());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get posts by location
+	 */
+	public function testGetPostsByPostLocation () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get posts by post offer
+	 */
+	public function testGetPostsByPostOffer () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostOffer($this->getPDO(), $post->getPostOffer());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get posts by request
+	 */
+	public function testGetPostsByPostRequest () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostRequest($this->getPDO(), $post->getPostRequest());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test get posts by location
+	 */
+	public function testGetPostsByPostTimestamp () {
+		$numRows = $this->getConnection()->getRowCount("post");
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
+
+		$results = Post::getPostsByPostTimestamp($this->getPDO(), $post->getPostTimestamp());
+
+		$this->assertCount(1, $results);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
 }
