@@ -158,6 +158,8 @@ class Profile {
 	 **/
 
 	public function setProfileActivation(string $newProfileActivation) {
+		$newProfileActivation = trim($newProfileActivation);
+		$newProfileActivation = filter_var($newProfileActivation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileActivation) === true) {
 			throw(new \InvalidArgumentException("profile activation is empty or insecure"));
 		}
@@ -185,6 +187,8 @@ class Profile {
 	 **/
 
 	public function setProfileEmail(string $newProfileEmail) {
+		$newProfileEmail = trim($newProfileEmail);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("Must have email address"));
 		}
@@ -212,6 +216,8 @@ class Profile {
 	 **/
 
 	public function setProfileHandle(string $newProfileHandle) {
+		$newProfileHandle = trim($newProfileHandle);
+		$newProfileHandle = filter_var($newProfileHandle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileHandle) === true) {
 			throw(new \InvalidArgumentException("must create unique profile handle"));
 		}
@@ -268,9 +274,11 @@ class Profile {
 	 **/
 
 	public function setProfileName(string $newProfileName) {
+		$newProfileName = trim($newProfileName);
+		$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileName) === true) {
 			throw(new \InvalidArgumentException("profile name must be a first and last name"));
-		}
+	}
 		if(strlen($newProfileName) > 30) {
 			throw(new \RangeException("profile name cannot contain more than 30 characters"));
 		}
@@ -294,6 +302,8 @@ class Profile {
 	 **/
 
 	public function setProfilePasswordHash(string $newProfilePasswordHash) {
+		$newProfilePasswordHash = trim($newProfilePasswordHash);
+		$newProfilePasswordHash = filter_var($newProfilePasswordHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfilePasswordHash) === true) {
 			throw(new \InvalidArgumentException("profile password hash will be created in the string"));
 		}
