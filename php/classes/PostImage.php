@@ -83,6 +83,7 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function insert(\PDO $pdo){
+
 		//create query template
 		$query = "INSERT INTO postImage(postImageImageId, postImagePostId) VALUES(:postImageImageId, :postImagePostId)";
 		$statement = $pdo->prepare($query);
@@ -95,6 +96,9 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function delete(\PDO $pdo){
+		if($this->postImageImageId === null || $this->postImageImageId === null){
+			throw(new \PDOException("Ids cannot be null"));
+		}
 		//create query template
 		$query = "DELETE FROM postImage WHERE postImageImageId = :postImageImageId AND postImagePostId = :postImagePostId";
 		$statement = $pdo->prepare($query);
@@ -102,11 +106,12 @@ class PostImage implements \JsonSerializable{
 		$parameters = ["postImageImageId" => $this->postImageImageId, "postImagePostId" => $this->postImagePostId];
 		$statement->execute($parameters);
 	}
+
 	/**
 	 * @param \PDO $pdo
 	 * @param int $postImageImageId
-	 * @return PostImage|null
-	 * @todo write spl fixed array methods
+	 * @return \SplFixedArray
+	 * @throws \Exception
 	 */
 	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
 		if($postImageImageId <= 0){
@@ -119,23 +124,25 @@ class PostImage implements \JsonSerializable{
 		$parameters = ["postImageImageId" => $postImageImageId];
 		$statement->execute($parameters);
 		//grab postImage from mySQL
-		try{
-			$postImage = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false){
-				$postImage = new PostImage ($row["postImageImageId"], $row["postImagePostId"]);
+		$postImages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement) !== false){
+			try{
+				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
+				$postImages[$postImages->key()] = $postImage;
+				$postImages->next();
+			} catch(\Exception $exception){
+				throw(new \Exception($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception){
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($postImage);
+		return $postImages;
 	}
+
 	/**
 	 * @param \PDO $pdo
 	 * @param int $postImagePostId
-	 * @return PostImage|null
-	 * @todo write spl fixed array methods
+	 * @return \SplFixedArray
+	 * @throws \Exception
 	 */
 	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
 		if($postImagePostId <= 0){
@@ -148,17 +155,18 @@ class PostImage implements \JsonSerializable{
 		$parameters = ["postImagePostId" => $postImagePostId];
 		$statement->execute($parameters);
 		//grab postImage from mySQL
-		try{
-			$postImage = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false){
-				$postImage = new PostImage ($row["postImageImageId"], $row["postImagePostId"]);
+		$postImages = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement) !== false){
+			try{
+				$postImage = new postImage($row["postImageImageId"], $row["postImagePostId"]);
+				$postImages[$postImages->key()] = $postImage;
+				$postImages->next();
+			} catch(\Exception $exception){
+				throw(new \Exception($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception){
-			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($postImage);
+		return $postImages;
 	}
 	/**
 	 * @param \PDO $pdo

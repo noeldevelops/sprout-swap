@@ -2,10 +2,10 @@
 	<testsuites>
 		<testsuite name="SproutSwap Unit Tests">
 			<!--<file>ModeTest.php</file>
-			<file>ImageTest.php</file>
-			<file>PostImageTest.php</file>-->
-			<file>MessageTest.php</file>
-			<!--<file>ProfileTest.php</file>
+			<file>ImageTest.php</file>-->
+			<file>PostImageTest.php</file>
+			<!--<file>MessageTest.php</file>
+			<file>ProfileTest.php</file>
 			<file>PostTest.php</file>
 			<file>PointTest.php</file>
 			<file>AntiAbuseTest.php</file>-->
