@@ -120,7 +120,7 @@ class PostImageTest extends SproutSwapTest{
 		$this->assertEquals($pdoPostImage->getPostImagePostId(), $this->post->getPostId());
 	}
 	/**
-	 * twsting invalid case
+	 * testing invalid case
 	 */
 	public function getInvalidPostImageByPostImageImageId(){
 		$postImage = PostImage::getPostImageByPostImageImageId($this->getPDO(), $this->image->getImageId());
@@ -149,7 +149,7 @@ class PostImageTest extends SproutSwapTest{
 		$this->assertCount(0, $postImage);
 	}
 	/**
-	 * testing etValidPostImageByPostImageImageIdAndPostImagePostId (for composite key)
+	 * testing getValidPostImageByPostImageImageIdAndPostImagePostId (for composite key)
 	 */
 	public function testGetValidPostImageByPostImageImageIdAndPostImagePostId(){
 		//store num rows to test against
