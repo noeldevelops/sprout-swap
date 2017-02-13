@@ -2,7 +2,7 @@
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab the project test
-use Edu\Cnm\SproutSwap\{Profile, Message, Image};
+use Edu\Cnm\SproutSwap\{Profile, Message, Image, Point, Mode, Post};
 
 require_once("SproutSwapTest.php");
 
@@ -19,9 +19,26 @@ class MessageTest extends SproutSwapTest{
 	protected $VALID_MESSAGEIPADDRESS = "2600::dead:beef:cafe";
 	protected $VALID_MESSAGESTATUS = 1;
 	protected $VALID_MESSAGETIMESTAMP = null;
+	protected $VALID_MODE = null;
+	protected $VALID_LAT = 45.43;
+	protected $VALID_LONG = 90.432;
 	private $image = null;
+	/**
+	 * @var Profile $receiverProfile
+	 */
 	private $receiverProfile = null;
+	/**
+	 * @var Profile $senderProfile
+	 */
 	private $senderProfile = null;
+	/**
+	 * @var Post $post
+	 */
+	private $post = null;
+	/**
+	 * @var Point $newPoint
+	 */
+	private $newPoint = null;
 
 	/**
 	 * set up for test
@@ -32,6 +49,8 @@ class MessageTest extends SproutSwapTest{
 		$this->image = new Image(null, "sjnghsklguenghtls");
 		$this->image->insert($this->getPDO());
 
+		$this->newPoint = new Point($this->VALID_LAT, $this->VALID_LONG);
+
 		$this->VALID_MESSAGETIMESTAMP = new \DateTime();
 
 		$this->receiverProfile = new Profile(null, $this->image->getImageId(), "kjsdhkj", "solomon.leyba@gmail.com", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba", "803AE81D0D6F67C1C0D307B39A99A93F6B6499B4C6E3F2ECE96718C5E2724B96", "5A929D9C14C5DF68BD2C97BBE2652754E26B3C9D23AC91978A0B9C0EAA3DE347", "we do THE BEST unit tests, tremmendous");
@@ -39,6 +58,12 @@ class MessageTest extends SproutSwapTest{
 
 		$this->senderProfile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
 		$this->senderProfile->insert($this->getPDO());
+
+		$this->VALID_MODE = new Mode(null, "Free");
+		$this->VALID_MODE->insert($this->getPDO());
+
+		$this->post = new Post(null, $this->VALID_MODE->getModeId(), $this->receiverProfile->getProfileId(), "browser here or something", "post content here or something", $this->VALID_MESSAGEIPADDRESS, $this->newPoint, "vegetables", "different veggies tbh", $this->VALID_MESSAGETIMESTAMP);
+		$this->post->insert($this->getPDO());
 	}
 	public function testInsertValidMessage(){
 		//store number of current rows to compare against
@@ -164,14 +189,13 @@ class MessageTest extends SproutSwapTest{
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
 		//create new message and insert
-		$message = new Message(null, $this->VALID_MESSAGEPOSTID, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, $this->post->getPostId(), $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 		//grab data from mySQL to check against expected
 		$results = Message::getMessagesByMessagePostId($this->getPDO(), $message->getMessagePostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Message", $results);
-		var_dump($results);
 		//grab result from array and validate
 		$pdoMessage = $results[0];
 		$this->assertEquals($pdoMessage->getMessageId(), $message->getMessageId());

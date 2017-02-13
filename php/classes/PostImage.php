@@ -55,7 +55,7 @@ class PostImage implements \JsonSerializable{
 	 * @throws \RangeException if postImageImageId is less than or equal to zero
 	 */
 	public function setPostImageImageId(int $newPostImageImageId) {
-		if($this->postImageImageId >= 0){
+		if($newPostImageImageId <= 0){
 			throw(new \RangeException("postImageImageId must be greater than zero"));
 		}
 		$this->postImageImageId = $newPostImageImageId;
@@ -73,8 +73,8 @@ class PostImage implements \JsonSerializable{
 	 * @throws \RangeException if postImagePostId is less than or equal to zero
 	 */
 	public function setPostImagePostId(int $newPostImagePostId){
-		if($this->postImagePostId >= 0){
-			throw(new \RangeException("postImageImageId must be greater than zero"));
+		if($newPostImagePostId <= 0){
+			throw(new \RangeException("postImagePostId must be greater than zero"));
 		}
 		$this->postImagePostId = $newPostImagePostId;
 	}
@@ -106,13 +106,14 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo
 	 * @param int $postImageImageId
 	 * @return PostImage|null
+	 * @todo write spl fixed array methods
 	 */
 	public static function getPostImageByPostImageImageId(\PDO $pdo, int $postImageImageId){
 		if($postImageImageId <= 0){
 			throw(new \RangeException("postImagePostId must be greater than 0"));
 		}
 		//create query template
-		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImagePostId = :postImagePostId";
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImageImageId = :postImageImageId";
 		$statement = $pdo->prepare($query);
 		//bind variables and execute
 		$parameters = ["postImageImageId" => $postImageImageId];
@@ -134,6 +135,7 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo
 	 * @param int $postImagePostId
 	 * @return PostImage|null
+	 * @todo write spl fixed array methods
 	 */
 	public static function getPostImageByPostImagePostId(\PDO $pdo, int $postImagePostId){
 		if($postImagePostId <= 0){
@@ -200,7 +202,7 @@ class PostImage implements \JsonSerializable{
 			throw(new \RangeException("postImagePostId must be greater than 0"));
 		}
 		//prepare query statement
-		$query = "SELECT postImageImageId, postImagePostId FROM postIMage WHERE postImagePostId = :postImagePostId";
+		$query = "SELECT postImageImageId, postImagePostId FROM postImage WHERE postImagePostId = :postImagePostId";
 		$statement = $pdo->prepare($query);
 		//bind variables
 		$parameters = ["postImagePostId" => $postImagePostId];

@@ -148,9 +148,6 @@ class Post implements \jsonSerializable {
 	 	if($newPostModeId <= 0) {
 	 		throw(new \RangeException("Mode Id must be positive"));
 		}
-		if($newPostModeId > 3) {
-	 		throw(new \RangeException("Mode Id is out of range"));
-		}
 		$this->postModeId = $newPostModeId;
 	 }
 	 /**
@@ -230,8 +227,14 @@ class Post implements \jsonSerializable {
 	  * @throws \InvalidArgumentException if IP address is not a valid ip address
 	  */
 	 public function setPostIpAddress(string $newPostIpAddress) {
-	 	$newPostIpAddress = filter_var($newPostIpAddress, FILTER_VALIDATE_IP);
-	 	$this->postIpAddress = $newPostIpAddress;
+		 //detect the IP's format and assign it in binary mode
+		 if(@inet_pton($newPostIpAddress) !== false){
+			 $this->postIpAddress = inet_pton($newPostIpAddress);
+		 } else if(@inet_ntop($newPostIpAddress) !== false){
+			 $this->postIpAddress = $newPostIpAddress;
+		 } else{
+			 throw(new \InvalidArgumentException("invalid message IP address"));
+		 }
 	 }
 	 /**
 	  * accessor method for post location
