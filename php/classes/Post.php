@@ -525,7 +525,7 @@ public function update(\PDO $pdo) {
 	/**
 	 * gets post by Post Location
 	 * @param \PDO $pdo PDO connection object
-	 * @param point $postLocation to search by
+	 * @param Point $postLocation to search by
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
@@ -592,7 +592,6 @@ public function update(\PDO $pdo) {
 	 * get post by post request
 	 * @param \PDO $pdo connection object
 	 * @param string $postRequest to search by
-	 * @param $exception
 	 * @return \SplFixedArray of posts found
 	 */
 	public static function getPostsByPostRequest (\PDO $pdo, string $postRequest) {
@@ -623,17 +622,16 @@ public function update(\PDO $pdo) {
 	 * get post by post request
 	 * @param \PDO $pdo connection object
 	 * @param int $postTimestamp to search by
-	 * @param $exception
 	 * @return \SplFixedArray of posts found
 	 */
-	public static function getPostsByPostTimestamp (\PDO $pdo, int $postTimestamp) {
+	public static function getPostsByPostTimestamp (\PDO $pdo, $postTimestamp) {
 		if(($postTimestamp) === null) {
 			throw(new \PDOException("Post Timestamp is null"));
 		}
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
 		$statement = $pdo->prepare($query);
 //bind the parameters
-		$parameters = ["postTimestamp => $postTimestamp"];
+		$parameters = ["postTimestamp" => $postTimestamp];
 		$statement->execute($parameters);
 		//make an array
 		$posts = new \SplFixedArray($statement->rowCount());

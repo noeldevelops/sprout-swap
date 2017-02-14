@@ -223,8 +223,8 @@ public function testGetValidPostByPostId() {
 
 		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation());
 
-		$this->assertCount(1, $results);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
 	}
 	/**
