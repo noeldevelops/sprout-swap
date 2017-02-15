@@ -232,8 +232,8 @@ class Post implements \jsonSerializable {
 			 $this->postIpAddress = inet_pton($newPostIpAddress);
 		 } else if(@inet_ntop($newPostIpAddress) !== false){
 			 $this->postIpAddress = $newPostIpAddress;
-		 } else{
-			 throw(new \InvalidArgumentException("invalid message IP address"));
+
+
 		 }
 	 }
 	 /**

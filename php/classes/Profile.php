@@ -330,6 +330,8 @@ class Profile {
 	 **/
 
 	public function setProfileSalt(string $newProfileSalt) {
+		$newProfileSalt = trim($newProfileSalt);
+		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileSalt) === true) {
 			throw(new \InvalidArgumentException("profile salt created by hash"));
 		}
@@ -356,6 +358,8 @@ class Profile {
 	 **/
 
 	public function setProfileSummary(string $newProfileSummary) {
+		$newProfileSummary = trim($newProfileSummary);
+		$newProfileSummary = filter_var($newProfileSummary, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileSummary) === true) {
 			throw(new \InvalidArgumentException(("profile summary created by user")));
 		}
