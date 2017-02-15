@@ -530,7 +530,7 @@ public function update(\PDO $pdo) {
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
 	 **/
-	public static function getPostsByPostLocation (\PDO $pdo, point $postLocation) {
+	public static function getPostsByPostLocation (\PDO $pdo, Point $postLocation) {
 		//sanitize
 		if(empty($postLocation) === true) {
 			throw(new \PDOException("Post location is not valid"));

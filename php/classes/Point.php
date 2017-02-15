@@ -58,6 +58,10 @@ class Point implements \JsonSerializable {
 	 * @throws \RangeException if $newLat is not between -180 and 180
 	 **/
 	public function setLat(float $newLat) {
+		$newLat = $newLat == 0.0 ? 0.0 : filter_var($newLat, FILTER_VALIDATE_FLOAT);
+		if($newLat === false) {
+			throw(new \InvalidArgumentException("latitude is not a valid data type"));
+		}
 		if($newLat < -90 || $newLat > 90) {
 			throw(new \RangeException("latitude is not within the range (-180,180)"));
 		}
@@ -78,6 +82,10 @@ class Point implements \JsonSerializable {
 	 * @throws \RangeException if $newLat is not between -90 and 90
 	 */
 	public function setLong(float $newLong) {
+		$newLong = $newLong == 0.0 ? 0.0 : filter_var($newLong, FILTER_VALIDATE_FLOAT);
+		if($newLong === false) {
+			throw(new \InvalidArgumentException("longitude is not a valid data type"));
+		}
 		if($newLong < -180 || $newLong > 180)
 		{throw(new \RangeException("longitude is not within the range (-90, 90)"));}
 		$this->long=$newLong;
