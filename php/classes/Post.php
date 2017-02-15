@@ -421,7 +421,7 @@ public function update(\PDO $pdo) {
 			} catch (\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		return($post);
+		return ($post);
 	}
 		/**
 		 * get post by post mode ID
@@ -619,19 +619,35 @@ public function update(\PDO $pdo) {
 		return($posts);
 	}
 	/**
-	 * get post by post request
+	 * get post by post timestamp
 	 * @param \PDO $pdo connection object
-	 * @param int $postTimestamp to search by
+	 * @param \DateTime $postSunriseDate to search by
+	 * @param \DateTime $postSunsetDate to search by
 	 * @return \SplFixedArray of posts found
+	 * @throws \PDOException when mySQL errors occur
+	 * @throws \TypeError when variables are not correct type
 	 */
-	public static function getPostsByPostTimestamp (\PDO $pdo, $postTimestamp) {
-		if(($postTimestamp) === null) {
-			throw(new \PDOException("Post Timestamp is null"));
+	public static function getPostsByPostTimestamp (\PDO $pdo, $postSunriseDate, $postSunsetDate) {
+		if((empty($postSunriseDate) === true) || (empty($postSunsetDate) === true)) {
+			throw(new \InvalidArgumentException("Post Date is empty"));
 		}
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :sunrise AND postTimestamp <= :sunset";
+		
+		try {
+			$postSunriseDate = self::validateDateTime($postSunriseDate);
+			$postSunsetDate = self::validateDateTime($postSunsetDate);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postTimestamp >= :postSunriseDate AND postTimestamp <= :postSunsetDate";
 		$statement = $pdo->prepare($query);
-//bind the parameters
-		$parameters = ["postTimestamp" => $postTimestamp];
+//format and bind the parameters
+		$formattedSunriseDate = $postSunriseDate->format("Y-m-d H:i:s");
+		$formattedSunsetDate = $postSunsetDate->format("Y-m-d H:i:s");
+		$parameters = ["postSunriseDate" => $formattedSunriseDate, "postSunsetDate" => $formattedSunsetDate];
+
 		$statement->execute($parameters);
 		//make an array
 		$posts = new \SplFixedArray($statement->rowCount());
@@ -639,6 +655,8 @@ public function update(\PDO $pdo) {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
