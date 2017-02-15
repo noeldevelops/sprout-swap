@@ -26,6 +26,9 @@ class PostTest extends SproutSwapTest {
 	 * @var \DateTime $VALID_POSTTIMESTAMP
 	 */
 	protected $VALID_POSTTIMESTAMP = null;
+	protected $VALID_POSTSUNRISEDATE = null;
+	protected $VALID_POSTSUNSETDATE = null;
+
 	/**
 	 * Id of the profile that created the post
 	 * @var int $VALID_POSTPROFILEID
@@ -39,7 +42,9 @@ class PostTest extends SproutSwapTest {
 	protected $VALID_POSTIPADDRESS = "2600::dead:beef:cafe";
 	protected $VALID_POSTBROWSER = "Browser info passing";
 	protected $VALID_POINT = null;
+	protected $VALID_USERLOCATION = null;
 	private $profile = null;
+	protected $distance = 5;
 
 	/**
 	 * some dependent objects to run tests with
@@ -55,6 +60,12 @@ class PostTest extends SproutSwapTest {
 
 		$this->VALID_POSTTIMESTAMP = new \DateTime();
 
+		$this->VALID_POSTSUNRISEDATE = new \DateTime();
+		$this->VALID_POSTSUNRISEDATE->sub(new \DateInterval("P10D"));
+
+		$this->VALID_POSTSUNSETDATE = new \DateTime();
+		$this->VALID_POSTSUNSETDATE->add(new \DateInterval("P10D"));
+		$this->VALID_USERLOCATION = new Point(35.10964229145246, -106.69703244562174);
 		$this->VALID_POINT = new Point(35.10964229145246, -106.69703244562174);
 
 		//create test Profile to make a test Post//
@@ -218,10 +229,17 @@ public function testGetValidPostByPostId() {
 	 */
 	public function testGetPostsByPostLocation () {
 		$numRows = $this->getConnection()->getRowCount("post");
-		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
+
+		$distance = 5;
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_USERLOCATION, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 
-		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation());
+
+		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getUserLocation(), $distance);
+		foreach($results as $post) {
+			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
+			$this->assertSame($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());
+		}
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
@@ -256,17 +274,22 @@ public function testGetValidPostByPostId() {
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
 	}
 	/**
-	 * test get posts by location
+	 * test get posts by timestamp
 	 */
 	public function testGetPostsByPostTimestamp () {
 		$numRows = $this->getConnection()->getRowCount("post");
+
 		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 
-		$results = Post::getPostsByPostTimestamp($this->getPDO(), $post->getPostTimestamp());
+		$results = Post::getPostsByPostTimestamp($this->getPDO(), $this->VALID_POSTSUNRISEDATE, $this->VALID_POSTSUNSETDATE);
+
 
 		$this->assertCount(1, $results);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+
+		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 	}
 }

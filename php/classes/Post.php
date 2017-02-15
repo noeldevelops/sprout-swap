@@ -525,21 +525,23 @@ public function update(\PDO $pdo) {
 	/**
 	 * gets post by Post Location
 	 * @param \PDO $pdo PDO connection object
-	 * @param Point $postLocation to search by
+	 * @param Point $userLocation to search by
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
 	 **/
-	public static function getPostsByPostLocation (\PDO $pdo, Point $postLocation) {
+	public static function getPostsByPostLocation (\PDO $pdo, Point $userLocation, float $distance) {
 		//sanitize
 		if(empty($postLocation) === true) {
 			throw(new \PDOException("Post location is not valid"));
 		}
 		//create query template
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postLocation = :postLocation";
+		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE haversine(postLocation, POINT(:userLocationX, :userLocationY)) < :distance";
+
 		$statement = $pdo->prepare($query);
 		//bind parameters
-		$parameters = ["postLocation" => $postLocation];
+		$parameters = ["distance" => $distance, "userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong()];
+
 		$statement->execute($parameters);
 		//create an array of posts
 		$posts = new \SplFixedArray($statement->rowCount());
