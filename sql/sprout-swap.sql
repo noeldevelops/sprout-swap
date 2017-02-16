@@ -83,3 +83,52 @@ CREATE TABLE postImage(
 	FOREIGN KEY (messageSenderProfileId) REFERENCES profile (profileId),
 	PRIMARY KEY (messageId)
 );
+
+-- this stored procedure was written by Zak Abad.
+-- with guidance and mathematics/statistics help from Dylan McDonald. @dylan-mcdonald
+
+DROP PROCEDURE IF EXISTS getPostsByPostLocation;
+DELIMITER $$
+CREATE PROCEDURE getPostsByPostLocation(IN postId INT UNSIGNED)
+	BEGIN
+		DECLARE varPostId INT UNSIGNED;
+		DECLARE varPostLocation POINT;
+
+		DECLARE done BOOLEAN DEFAULT FALSE;
+		DECLARE radiusCursor CURSOR FOR
+			SELECT postId, postLocation FROM post;
+		 DECLARE CONTINUE HANDLER FOR NOT FOUND
+			 SET done = TRUE;
+
+		DROP TEMPORARY TABLE IF EXISTS selectedPosts;
+		CREATE TEMPORARY TABLE selectedPosts(
+			postId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+			postModeId INT UNSIGNED NOT NULL,
+			postProfileId INT UNSIGNED NOT NULL,
+			postBrowser VARCHAR (255) NOT NULL,
+			postContent VARCHAR (250),
+			postIpAddress VARBINARY (16),
+			postLocation POINT NOT NULL,
+			postOffer VARCHAR (75) NOT NULL,
+			postRequest VARCHAR (75),
+			postTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			postDistance FLOAT
+		);
+		OPEN radiusCursor; -- open cursor
+		radiusLoop : LOOP
+
+			FETCH radiusCursor INTO varPostId, varPostLocation;
+
+			SET postDistance = haversine(varPostLocation, varUserLocation);
+			INSERT INTO selectedPosts(postId, postLocation) VALUES (varPostId, varPostLocation);
+
+
+			IF done THEN LEAVE radiusLoop; -- leaves rows
+			END IF;
+		END LOOP radiusLoop;
+		CLOSE radiusCursor;
+
+		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM selectedPosts WHERE postDistance -- finish line
+		ORDER BY postDistance;
+
+	END $$
