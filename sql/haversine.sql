@@ -2,14 +2,14 @@
 -- @see https://github.com/dylan-mcdonald/data-design/blob/master/sql/haversine.sql#L35
 
 -- drop the procedure if already defined
-DROP PROCEDURE IF EXISTS haversine;
+DROP FUNCTION IF EXISTS haversine;
 
 -- procedure to calculate the distance between two points
 -- @param POINT $origin point of origin
 -- @param POINT $destination point heading out
 -- @return DECIMAL distance between the points, in kilometers
-CREATE PROCEDURE haversine(IN origin POINT, destination POINT)
-		PROC:BEGIN
+CREATE FUNCTION haversine(origin POINT, destination POINT) RETURNS FLOAT
+		BEGIN
 		-- first, declare all variables; I don't think you can declare later
 		DECLARE radius DECIMAL(5, 1);
 		DECLARE latitudeAngle1 DECIMAL(12, 9);
@@ -33,6 +33,5 @@ CREATE PROCEDURE haversine(IN origin POINT, destination POINT)
 		SET corner = 2 * ASIN(SQRT(alpha));
 		SET distance = radius * corner;
 
-		-- what is "SELECT"ed here is what is returned
-		SELECT distance;
+		RETURN distance;
 	END;
