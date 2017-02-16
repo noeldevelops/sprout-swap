@@ -89,19 +89,28 @@ CREATE TABLE postImage(
 
 DROP PROCEDURE IF EXISTS getPostsByPostLocation;
 DELIMITER $$
-CREATE PROCEDURE getPostsByPostLocation(IN postId INT UNSIGNED)
+CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance FLOAT)
 	BEGIN
 		DECLARE varPostId INT UNSIGNED;
+		DECLARE varPostModeId INT UNSIGNED;
+		DECLARE varPostProfileId INT UNSIGNED;
+		DECLARE varPostBrowser VARCHAR (255);
+		DECLARE varPostContent VARCHAR (250);
+		DECLARE varPostIpAddress VARBINARY (16);
 		DECLARE varPostLocation POINT;
+		DECLARE varPostOffer VARCHAR (75);
+		DECLARE varPostRequest VARCHAR (75);
+		DECLARE varPostTimestamp TIMESTAMP;
+		DECLARE varPostDistance FLOAT;
 
 		DECLARE done BOOLEAN DEFAULT FALSE;
-		DECLARE radiusCursor CURSOR FOR
-			SELECT postId, postLocation FROM post;
+		DECLARE postCursor CURSOR FOR
+			SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post;
 		 DECLARE CONTINUE HANDLER FOR NOT FOUND
 			 SET done = TRUE;
 
-		DROP TEMPORARY TABLE IF EXISTS selectedPosts;
-		CREATE TEMPORARY TABLE selectedPosts(
+		DROP TEMPORARY TABLE IF EXISTS selectedPost;
+		CREATE TEMPORARY TABLE selectedPost(
 			postId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 			postModeId INT UNSIGNED NOT NULL,
 			postProfileId INT UNSIGNED NOT NULL,
@@ -114,21 +123,34 @@ CREATE PROCEDURE getPostsByPostLocation(IN postId INT UNSIGNED)
 			postTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			postDistance FLOAT
 		);
-		OPEN radiusCursor; -- open cursor
-		radiusLoop : LOOP
+		OPEN postCursor; -- open cursor
+		postLoop : LOOP
 
-			FETCH radiusCursor INTO varPostId, varPostLocation;
+			FETCH postCursor INTO
+				varPostId,
+				varPostModeId,
+				varPostProfileId,
+				varPostBrowser,
+				varPostContent,
+				varPostIpAddress,
+				varPostLocation,
+				varPostOffer,
+				varPostRequest,
+				varPostTimestamp;
 
-			SET postDistance = haversine(varPostLocation, varUserLocation);
-			INSERT INTO selectedPosts(postId, postLocation) VALUES (varPostId, varPostLocation);
+			SET varPostDistance = haversine(varPostLocation, userLocation);
+			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp);
 
 
-			IF done THEN LEAVE radiusLoop; -- leaves rows
+			IF done THEN LEAVE postLoop; -- leaves rows
 			END IF;
-		END LOOP radiusLoop;
-		CLOSE radiusCursor;
+		END LOOP postLoop;
+		CLOSE postCursor;
 
-		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM selectedPosts WHERE postDistance -- finish line
+		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp
+		FROM selectedPost
+		WHERE postDistance <= userDistance
 		ORDER BY postDistance;
 
 	END $$
+DELIMITER ;

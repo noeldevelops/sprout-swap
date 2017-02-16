@@ -39,12 +39,14 @@ class PostTest extends SproutSwapTest {
 
 	private $mode = null;
 
+	private $profile = null;
+
 	protected $VALID_POSTIPADDRESS = "2600::dead:beef:cafe";
 	protected $VALID_POSTBROWSER = "Browser info passing";
+
 	protected $VALID_POINT = null;
 	protected $VALID_USERLOCATION = null;
-	private $profile = null;
-	protected $distance = 5;
+
 
 	/**
 	 * some dependent objects to run tests with
@@ -65,6 +67,7 @@ class PostTest extends SproutSwapTest {
 
 		$this->VALID_POSTSUNSETDATE = new \DateTime();
 		$this->VALID_POSTSUNSETDATE->add(new \DateInterval("P10D"));
+
 		$this->VALID_USERLOCATION = new Point(35.10964229145246, -106.69703244562174);
 		$this->VALID_POINT = new Point(35.10964229145246, -106.69703244562174);
 
@@ -231,11 +234,13 @@ public function testGetValidPostByPostId() {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		$distance = 5;
-		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_USERLOCATION, "offer", "request", $this->VALID_POSTTIMESTAMP);
+
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 
 
-		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getUserLocation(), $distance);
+		$results = Post::getPostsByPostLocation($this->getPDO(), $this->VALID_USERLOCATION, $distance);
+
 		foreach($results as $post) {
 			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
 			$this->assertSame($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());

@@ -439,11 +439,16 @@ public function update(\PDO $pdo) {
 		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE postModeId = :postModeId";
 		$statement = $pdo->prepare($query);
 
+		$parameters = ["postModeId" => $postModeId];
+		$statement->execute($parameters);
+
 		$posts = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -526,21 +531,25 @@ public function update(\PDO $pdo) {
 	 * gets post by Post Location
 	 * @param \PDO $pdo PDO connection object
 	 * @param Point $userLocation to search by
+	 * @param float $distance from user location to search within
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
 	 **/
-	public static function getPostsByPostLocation (\PDO $pdo, Point $userLocation, float $distance) {
+	public static function getPostsByPostLocation (\PDO $pdo, Point $userLocation, float $userDistance) {
 		//sanitize
-		if(empty($postLocation) === true) {
-			throw(new \PDOException("Post location is not valid"));
+		if(empty($userLocation) === true) {
+			throw(new \PDOException("User location is not valid"));
 		}
 		//create query template
-		$query = "SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post WHERE haversine(postLocation, POINT(:userLocationX, :userLocationY)) < :distance";
+		$query = "CALL getPostsByPostLocation(POINT(:userLocationX, :userLocationY), :userDistance)";
 
 		$statement = $pdo->prepare($query);
 		//bind parameters
-		$parameters = ["distance" => $distance, "userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong()];
+		$parameters = ["userDistance" => $userDistance, "userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong()];
+
+
+		var_dump($parameters);
 
 		$statement->execute($parameters);
 		//create an array of posts
@@ -583,6 +592,8 @@ public function update(\PDO $pdo) {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
@@ -614,6 +625,8 @@ public function update(\PDO $pdo) {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
 			} catch(\Exception $exception) {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
