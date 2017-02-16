@@ -111,7 +111,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 		DROP TEMPORARY TABLE IF EXISTS selectedPost;
 		CREATE TEMPORARY TABLE selectedPost(
-			postId INT UNSIGNED AUTO_INCREMENT NOT NULL,
+			postId INT UNSIGNED NOT NULL,
 			postModeId INT UNSIGNED NOT NULL,
 			postProfileId INT UNSIGNED NOT NULL,
 			postBrowser VARCHAR (255) NOT NULL,
