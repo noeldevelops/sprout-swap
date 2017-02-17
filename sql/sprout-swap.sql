@@ -136,10 +136,11 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 				varPostLocation,
 				varPostOffer,
 				varPostRequest,
-				varPostTimestamp;
+				varPostTimestamp,
+				varPostDistance;
 
 			SET varPostDistance = haversine(varPostLocation, userLocation);
-			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp);
+			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp, varPostDistance);
 
 
 			IF done THEN LEAVE postLoop; -- leaves rows
@@ -149,7 +150,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp
 		FROM selectedPost
-		WHERE postDistance <= userDistance
+		WHERE postDistance <= userDistance -- where is user distance coming from??? should it be a variable in temp table?
 		ORDER BY postDistance;
 
 	END $$

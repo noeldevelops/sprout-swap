@@ -46,6 +46,7 @@ class PostTest extends SproutSwapTest {
 
 	protected $VALID_POINT = null;
 	protected $VALID_USERLOCATION = null;
+	protected $VALID_USERDISTANCE = null;
 
 
 	/**
@@ -70,6 +71,7 @@ class PostTest extends SproutSwapTest {
 
 		$this->VALID_USERLOCATION = new Point(35.10964229145246, -106.69703244562174);
 		$this->VALID_POINT = new Point(35.10964229145246, -106.69703244562174);
+		$this->VALID_USERDISTANCE = null;
 
 		//create test Profile to make a test Post//
 		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_POSTTIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
@@ -233,13 +235,11 @@ public function testGetValidPostByPostId() {
 	public function testGetPostsByPostLocation () {
 		$numRows = $this->getConnection()->getRowCount("post");
 
-		$distance = 5;
-
 		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 
 
-		$results = Post::getPostsByPostLocation($this->getPDO(), $this->VALID_USERLOCATION, $distance);
+		$results = Post::getPostsByPostLocation($this->getPDO(), $this->VALID_USERLOCATION, $this->VALID_USERDISTANCE);
 
 		foreach($results as $post) {
 			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
