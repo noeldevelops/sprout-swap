@@ -45,6 +45,7 @@ class Mode implements \JsonSerializable {
 
 	/**
 	 * accessor method for modeId
+	 *
 	 * @return int|null value of modeId
 	 **/
 
@@ -54,6 +55,7 @@ class Mode implements \JsonSerializable {
 
 	/**
 	 * mutator method for mode id
+	 *
 	 * @param int|null $newModeId
 	 * @throws \RangeException is mode id is not positive
 	 **/
@@ -73,6 +75,7 @@ class Mode implements \JsonSerializable {
 
 	/**
 	 * accessor method for Mode name
+	 *
 	 * @return string $modeName
 	 **/
 
@@ -82,6 +85,7 @@ class Mode implements \JsonSerializable {
 
 	/**
 	 * mutator method for mode name
+	 *
 	 * @param string $newModeName
 	 * @throws \InvalidArgumentException if $newModeName is insecure
 	 * @throws \RangeException if $newModeName is > 20 characters
@@ -102,6 +106,7 @@ class Mode implements \JsonSerializable {
 
 	/**
 	 * insert method for the mode class
+	 *
 	 * @param \PDO $pdo
 	 * @throws \PDOException mode id is not null
 	 **/
