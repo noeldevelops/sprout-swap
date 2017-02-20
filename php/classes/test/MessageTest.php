@@ -65,6 +65,10 @@ class MessageTest extends SproutSwapTest{
 		$this->post = new Post(null, $this->VALID_MODE->getModeId(), $this->receiverProfile->getProfileId(), "browser here or something", "post content here or something", $this->VALID_MESSAGEIPADDRESS, $this->newPoint, "vegetables", "different veggies tbh", $this->VALID_MESSAGETIMESTAMP);
 		$this->post->insert($this->getPDO());
 	}
+
+	/**
+	 *
+	 */
 	public function testInsertValidMessage(){
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
@@ -115,7 +119,7 @@ class MessageTest extends SproutSwapTest{
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidMessage(){
-		$message = new Message(null,$this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->delete($this->getPDO());
 	}
 	/**
