@@ -204,14 +204,14 @@ class Profile implements \JsonSerializable {
 	/**
 	 * mutator method for profile email
 	 *
-	 * @param int $newProfileEmail
+	 * @param string $newProfileEmail
 	 * @throws \RangeException if $newProfileEmail is not positive
 	 * @throws \TypeError if $newProfileEmail is not a string
 	 **/
 
 	public function setProfileEmail(string $newProfileEmail) {
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("Must have email address"));
 		}
