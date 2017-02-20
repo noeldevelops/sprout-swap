@@ -484,7 +484,8 @@ public function update(\PDO $pdo) {
 		}
 		return($posts);
 	}
-	/**gets the post by content
+	/**
+	 * gets the post by content
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $postContent post content to search
