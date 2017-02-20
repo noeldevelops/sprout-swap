@@ -155,7 +155,7 @@ class PostTest extends SproutSwapTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("post"));
 	}
 	/**
-	 * test deleting a post that doesn't exist
+	 * test deleting a post that does not exist
 	 * @expectedException \PDOException
 	 **/
 	public function testDeleteInvalidPost() {

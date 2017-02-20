@@ -70,7 +70,6 @@ class Point implements \JsonSerializable {
 
 	/**
 	 * accessor method for longitude
-	 * @param float $long
 	 * @return float $long vlaue of longitude
 	 */
 	public function getLong() {

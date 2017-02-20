@@ -43,19 +43,19 @@ class Image implements \jsonSerializable {
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
-/**
- * accessor method for image id
- * @returns int|null value of image id
- */
-public function getImageId() {
-	return($this->imageId);
-}
-/**
- * mutator method for image id
- * @param int|null $newImageId new value of image id
- * @throws \RangeException if $newImageId is not positive
- * @throws \TypeError if $newImageId is not an integer
- */
+	/**
+	 * accessor method for image id
+	 * @returns int|null value of image id
+	 */
+	public function getImageId() {
+		return($this->imageId);
+	}
+	/**
+	 * mutator method for image id
+	 * @param int|null $newImageId new value of image id
+	 * @throws \RangeException if $newImageId is not positive
+	 * @throws \TypeError if $newImageId is not an integer
+	 */
 	public function setImageId(int $newImageId = null) {
 		if($newImageId === null) {
 			$this->imageId = null;
@@ -87,6 +87,7 @@ public function getImageId() {
 		$this->imageCloudinaryId = $newImageCloudinaryId;
 	}
 	/**
+	 * insert an Image
 	 * @param \PDO $pdo
 	 * @throws \TypeError
 	 */
