@@ -8,7 +8,7 @@ require_once("autoload.php");
  * @author A Noel Cothren <noelcothren@gmail.com>
  * @version 1.0
  **/
-class Image implements \jsonSerializable {
+class Image implements \JsonSerializable {
 	/**
 	 * id for the image, this is the primary key
 	 * @var int $imageId
