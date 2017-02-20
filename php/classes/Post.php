@@ -131,14 +131,13 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for Post Mode Id
-	  * @return int
+	  * @return int $postModeId
 	  */
 	 public function getPostModeId() {
 	 	return($this->postModeId);
 	 }
 	 /**
 	  * mutator method for Post Mode Id
-	  *
 	  * @param int $newPostModeId
 	  * @throws \RangeException if $newPostModeId is not positive
 	  * @throws \RangeException if $newPostModeId is > 3
@@ -152,7 +151,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post profile id
-	  * @return int
+	  * @return int $postProfileId
 	  */
 	 public function getPostProfileId() {
 	 	return($this->postProfileId);
@@ -171,7 +170,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post browser
-	  * @return string
+	  * @return string $postBrowser
 	  */
 	 public function getPostBrowser() {
 	 	return($this->postBrowser);
@@ -192,7 +191,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  *accessor method for post content
-	  * @return string value of post content
+	  * @return string $postContent value of post content
 	  **/
 	 public function getPostContent() {
 	 		return($this->postContent);
@@ -216,7 +215,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for postIpAddress
-	  * @returns string value of users IP address
+	  * @returns string $postIpAddress value of users IP address
 	  */
 	 public function getPostIpAddress () {
 	 	return($this->postIpAddress);
@@ -238,7 +237,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post location
-	  * @returns Point value of post location
+	  * @returns Point $postLocation value of post location
 	  */
 	 public function getPostLocation() {
 	 	return($this->postLocation);
@@ -253,7 +252,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post offer
-	  * @returns string value of post offer
+	  * @returns string $postOffer value of post offer
 	  */
 	 public function getPostOffer() {
 	 	return($this->postOffer);
@@ -278,7 +277,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post request
-	  * @returns string value of post request
+	  * @returns string $postRequest value of post request
 	  */
 	 public function getPostRequest() {
 	 	return($this->postRequest);
@@ -303,7 +302,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
-	  * @returns $postTimeStamp value of current post timestamp
+	  * @returns \DateTime $postTimestamp current post timestamp
 	  */
 	 public function getPostTimestamp() {
 	 	return($this->postTimestamp);
@@ -333,7 +332,6 @@ class Post implements \JsonSerializable {
 	}
 	/**
 	 * inserts this post into mySQL
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -355,7 +353,6 @@ class Post implements \JsonSerializable {
 	}
 	/**
 	 * deletes this post from mySQL
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -374,7 +371,6 @@ class Post implements \JsonSerializable {
 
 /**
  * updates this post in mySQL
- *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError if $pdo is not a PDO connection object
@@ -393,8 +389,8 @@ public function update(\PDO $pdo) {
 	$this->postTimestamp = new \DateTime();
 }
 
-	/**gets the post by post Id
-	 *
+	/**
+	 * gets the post by post Id
 	 * @param \PDO $pdo PDO connection object
 	 * @param int|string $postId post Id to search
 	 * @param \Exception $exception

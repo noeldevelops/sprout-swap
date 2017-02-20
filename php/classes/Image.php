@@ -2,7 +2,7 @@
 namespace Edu\Cnm\SproutSwap;
 require_once("autoload.php");
 /**
- * This class is for images that users upload
+ * This class is for images that users upload to their posts
  *
  * @author SproutSwap
  * @author A Noel Cothren <noelcothren@gmail.com>
@@ -124,7 +124,8 @@ class Image implements \jsonSerializable {
 		$parameters = ["imageId" => $this->imageId];
 		$statement->execute($parameters);
 	}
-	/** gets an image by the imageId
+	/**
+	 * gets an image by the imageId
 	 * @param \PDO $pdo PDO Connection Object
 	 * @param int $imageId image id to search for
 	 * @return Image|null Image found or doesn't exist
@@ -153,7 +154,8 @@ class Image implements \jsonSerializable {
 		 }
 		 return($image);
 	}
-	/** gets an image by the imageCloudinaryId
+	/**
+	 * gets an image by the imageCloudinaryId
 	 * @param \PDO $pdo PDO Connection Object
 	 * @param string $imageCloudinaryId image id from Cloudinary API to search for
 	 * @return Image|null Image found or doesn't exist
