@@ -8,7 +8,7 @@ require_once("autoload.php");
  * @author A Zak Abad <abad.zacaria@gmail.com>
  * @version 1.0
  **/
-class Profile {
+class Profile implements \JsonSerializable {
 	use ValidateDate;
 	/**
 	 * id for the profile; this is a primary key
@@ -720,5 +720,16 @@ class Profile {
 			}
 		}
 		return ($profiles);
+	}
+
+	/**
+	 * formats variables for JSON serialization
+	 * @return array with state variable to serialize
+	 **/
+
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["profileTimestamp"] = $this->profileTimestamp->getTimestamp() * 1000;
+		return ($fields);
 	}
 }
