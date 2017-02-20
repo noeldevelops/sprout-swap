@@ -211,7 +211,7 @@ class Profile implements \JsonSerializable {
 
 	public function setProfileEmail(string $newProfileEmail) {
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("Must have email address"));
 		}
@@ -235,7 +235,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * mutator method for profile handle
 	 *
-	 * @param int $newProfileHandle
+	 * @param string $newProfileHandle
 	 * @throws \RangeException if $newProfileHandle greater than 21
 	 * @throws \TypeError if $newProfileHandle is not a string
 	 **/
@@ -255,7 +255,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * accessor method for profile timestamp
 	 *
-	 * @return \DateTime $profileTimestamp
+	 * @return \DateTime|$profileTimestamp
 	 **/
 
 	public function getProfileTimestamp() {
@@ -297,7 +297,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * mutator method for profile name
 	 *
-	 * @param int $newProfileName
+	 * @param string $newProfileName
 	 * @throws \RangeException if $newProfileName greater than 30
 	 * @throws \TypeError if $newProfileName is not a string
 	 **/
