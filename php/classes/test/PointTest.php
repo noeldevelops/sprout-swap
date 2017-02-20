@@ -31,6 +31,7 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 	}
 	/**
 	 * test inserting a point using invalid latitude
+	 * @expectedException \RangeException
 	 */
 	public function testInsertInvalidPoint(){
 		$point = new Point($this->INVALID_LAT, $this->VALID_LONG);
@@ -40,6 +41,7 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 	}
 	/**
 	 * test using invalid long
+	 * @expectedException \RangeException
 	 */
 	public function testInvalidPointLong(){
 		$point = new Point($this->VALID_LAT, $this->INVALID_LONG);
