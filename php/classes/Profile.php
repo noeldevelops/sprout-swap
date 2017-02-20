@@ -48,7 +48,7 @@ class Profile implements \JsonSerializable {
 	private $profileName;
 	/**
 	 * database will generate a hash value
-	 * @var $profilePasswordHash string (64)
+	 * @var $profilePasswordHash string (128)
 	 **/
 	private $profilePasswordHash;
 	/**
@@ -486,11 +486,13 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * delete function for mySQL
+	 * gets profile by the profile id
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int profile id
 	 * @throws \RangeException if profile id is 0
 	 * @throws \PDOException when mySQL errors occur
+	 * @return $profile with the id
 	 **/
 
 	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
@@ -517,10 +519,9 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * get profile Id
+	 * get profile with the certain image id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of profiles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
@@ -536,19 +537,19 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileImageId" => $profileImageId];
 		$statement->execute($parameters);
 
-		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				throw (new \PDOException(($exception->getMessage()), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			throw (new \PDOException(($exception->getMessage()), 0, $exception));
 		}
-		return ($profiles);
-
+		return ($profile);
+	}
 		/**
 		 * get all profile getAllprofilesByActivation
 		 *
@@ -558,7 +559,6 @@ class Profile implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-	}
 
 	public static function getProfileByProfileActivation(\PDO $pdo, string $profileActivation) {
 		$profileActivation = trim($profileActivation);
@@ -573,19 +573,19 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileActivation" => $profileActivation];
 		$statement->execute($parameters);
 
-		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			throw (new \PDOException(($exception->getMessage()), 0, $exception));
 		}
-		return ($profiles);
-
+		return ($profile);
+	}
 		/**
 		 * get profiles by the profile email
 		 *
@@ -595,7 +595,7 @@ class Profile implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-	}
+
 
 	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail) {
 		$profileEmail = trim($profileEmail);
@@ -609,19 +609,19 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
 
-		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			throw (new \PDOException(($exception->getMessage()), 0, $exception));
 		}
-		return ($profiles);
-
+		return ($profile);
+	}
 		/**
 		 * get the profiles by profile handle
 		 *
@@ -631,7 +631,6 @@ class Profile implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-	}
 
 	public static function getProfileByProfileHandle(\PDO $pdo, string $profileHandle) {
 		$profileHandle = trim($profileHandle);
@@ -645,18 +644,19 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileHandle" => $profileHandle];
 		$statement->execute($parameters);
 
-		$profiles = new \SplFixedArray(($statement->rowCount()));
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$profile = new Profile ($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileImageId"], $row ["profileActivation"], $row["profileEmail"], $row["profileHandle"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["profileTimestamp"]), $row["profileName"], $row["profilePasswordHash"], $row["profileSalt"], $row["profileSummary"]);
 			}
+		} catch(\Exception $exception) {
+			throw (new \PDOException(($exception->getMessage()), 0, $exception));
 		}
-		return ($profiles);
+		return ($profile);
+	}
 
 		/**
 		 * get the profile by profile name
@@ -667,7 +667,6 @@ class Profile implements \JsonSerializable {
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-	}
 
 	public static function getProfileByProfileName(\PDO $pdo, string $profileName) {
 		$profileName = trim($profileName);
