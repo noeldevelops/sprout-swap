@@ -148,7 +148,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 		END LOOP postLoop;
 		CLOSE postCursor;
 
-		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp
+		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance
 		FROM selectedPost
 		WHERE postDistance <= userDistance -- where is user distance coming from??? should it be a variable in temp table?
 		ORDER BY postDistance;

@@ -33,5 +33,5 @@ CREATE FUNCTION haversine(origin POINT, destination POINT) RETURNS FLOAT
 		SET corner = 2 * ASIN(SQRT(alpha));
 		SET distance = radius * corner;
 
-		RETURN distance; -- should this be a $variable?
+		RETURN distance;
 	END;

@@ -48,6 +48,7 @@ class PostTest extends SproutSwapTest {
 	protected $VALID_USERLOCATION = null;
 	protected $VALID_USERDISTANCE = null;
 
+	protected $INVALID_POSTLOCATION = null;
 
 	/**
 	 * some dependent objects to run tests with
@@ -70,8 +71,11 @@ class PostTest extends SproutSwapTest {
 		$this->VALID_POSTSUNSETDATE->add(new \DateInterval("P10D"));
 
 		$this->VALID_USERLOCATION = new Point(35.10964229145246, -106.69703244562174);
-		$this->VALID_POINT = new Point(35.10964229145246, -106.69703244562174);
-		$this->VALID_USERDISTANCE = null;
+		$this->VALID_POINT = new Point(35.084661, -106.655162);
+		$this->VALID_USERDISTANCE = 5;
+
+		/*a post location that is out of user's range*/
+		$this->INVALID_POSTLOCATION = new Point(55.752047, 37.617821);
 
 		//create test Profile to make a test Post//
 		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_POSTTIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
@@ -238,6 +242,27 @@ public function testGetValidPostByPostId() {
 		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 
+		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation(), 5);
+
+		var_dump($results);
+
+		foreach($results as $post) {
+			$this->assertEquals($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
+			$this->assertEquals($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());
+		}
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+	}
+	/**
+	 * test getting posts that are too far
+	 */
+	public function testGetInvalidPostsByPostLocation () {
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		$post = new Post(null, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->INVALID_POSTLOCATION, "offer", "request", $this->VALID_POSTTIMESTAMP);
+		$post->insert($this->getPDO());
 
 		$results = Post::getPostsByPostLocation($this->getPDO(), $this->VALID_USERLOCATION, $this->VALID_USERDISTANCE);
 

@@ -530,8 +530,8 @@ public function update(\PDO $pdo) {
 	/**
 	 * gets post by Post Location
 	 * @param \PDO $pdo PDO connection object
-	 * @param Point $userLocation to search by
-	 * @param float $distance from user location to search within
+	 * @param Point $userLocation user's geolocation to compare with Point postlocation
+	 * @param float $userDistance distance user chooses in UI to search within
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct type
 	 * @returns \SplFixedArray array of posts that are found
@@ -544,9 +544,12 @@ public function update(\PDO $pdo) {
 		//create query template
 		$query = "CALL getPostsByPostLocation(POINT(:userLocationX, :userLocationY), :userDistance)";
 
+
+
 		$statement = $pdo->prepare($query);
-		//bind parameters
+
 		$parameters = ["userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong(), "userDistance" => $userDistance];
+
 
 		$statement->execute($parameters);
 		//create an array of posts
