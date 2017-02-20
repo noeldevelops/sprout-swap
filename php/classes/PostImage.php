@@ -96,7 +96,7 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function delete(\PDO $pdo){
-		if($this->postImageImageId === null || $this->postImageImageId === null){
+		if($this->postImageImageId === null || $this->postImagePostId === null){
 			throw(new \PDOException("Ids cannot be null"));
 		}
 		//create query template
