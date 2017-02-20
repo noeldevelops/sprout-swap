@@ -163,7 +163,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * accessor method for Profile Activation
 	 *
-	 * @return int $profileActivation
+	 * @return string $profileActivation
 	 **/
 
 	public function getProfileActivation() {
