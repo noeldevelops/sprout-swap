@@ -328,18 +328,23 @@ class Profile implements \JsonSerializable {
 	 * mutator method for profile password hash
 	 *
 	 * @param string $newProfilePasswordHash
+	 * @throws \InvalidArgumentException if ProfilePasswordHash is empty
 	 * @throws \RangeException if $newProfilePasswordHash greater than 128
-	 * @throws \TypeError if $newProfilePasswordHash is not a string
+	 * @throws  \TypeError if $newProfilePasswordHash is not a string
 	 **/
 
 	public function setProfilePasswordHash(string $newProfilePasswordHash) {
 		$newProfilePasswordHash = trim($newProfilePasswordHash);
 		$newProfilePasswordHash = filter_var($newProfilePasswordHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfilePasswordHash) === true) {
-			throw(new \InvalidArgumentException("profile password hash will be created in the string"));
+			throw(new \InvalidArgumentException("profile password hash empty or insecure"));
 		}
-		if(strlen($newProfilePasswordHash) > 128) {
-			throw(new \RangeException("profile password hash cannot contain more than 128 characters"));
+
+		if(!ctype_xdigit($newProfilePasswordHash)) {
+			throw(new \InvalidArgumentException("profile password hash is empty or insecure"));
+		}
+		if(strlen($newProfilePasswordHash) !==128 ) {
+			throw(new \RangeException("profile password hash must be 128 characters"));
 		}
 		$this->profilePasswordHash = $newProfilePasswordHash;
 	}
@@ -368,8 +373,11 @@ class Profile implements \JsonSerializable {
 		if(empty($newProfileSalt) === true) {
 			throw(new \InvalidArgumentException("profile salt created by hash"));
 		}
-		if(strlen($newProfileSalt) > 64) {
-			throw(new \RangeException("profile salt cannot contain more than 64 characters"));
+		if(!ctype_xdigit($newProfileSalt)) {
+			throw(new \InvalidArgumentException("profile salt is empty or insecure"));
+		}
+		if(strlen($newProfileSalt) !== 64) {
+			throw(new \RangeException("profile salt must be 64 characters"));
 		}
 		$this->profileSalt = $newProfileSalt;
 	}
