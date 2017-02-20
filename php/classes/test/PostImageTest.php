@@ -103,7 +103,7 @@ class PostImageTest extends SproutSwapTest{
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidPostImage(){
-		$postImage = new PostImage($this->image->getImageId(), $this->post->getPostId());
+		$postImage = new PostImage(SproutSwapTest::INVALID_KEY, $this->post->getPostId());
 		$postImage->delete($this->getPDO());
 	}
 	/**
