@@ -62,6 +62,22 @@ class Profile implements \JsonSerializable {
 	 **/
 	private $profileSummary;
 
+	/**
+	 * Profile constructor.
+	 * @param int|null $newProfileId
+	 * @param int $newProfileImageId
+	 * @param string $newProfileActivation
+	 * @param string $newProfileEmail
+	 * @param string $newProfileHandle
+	 * @param \DateTime $newProfileTimestamp
+	 * @param string $newProfileName
+	 * @param string $newProfilePasswordHash
+	 * @param string $newProfileSalt
+	 * @param string $newProfileSummary
+	 * @throws \Exception
+	 * @throws \TypeError
+	 */
+
 	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
