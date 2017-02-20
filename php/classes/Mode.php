@@ -9,7 +9,7 @@ require_once ("autoload.php");
  * @version 1.0
  **/
 
-class Mode {
+class Mode implements \JsonSerializable {
 	/**
 	 * id for mode; this is the primary key
 	 * @var int for modeId
@@ -258,5 +258,16 @@ class Mode {
 			}
 		}
 		return($modes);
+	}
+
+	/**
+	 * formats variables for JSON serialization
+	 * @return array with state variable to serialize
+	 **/
+
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["modeId, modeName"] = $this->modeName->getName() * 1000;
+		return ($fields);
 	}
 }
