@@ -267,7 +267,6 @@ class Mode implements \JsonSerializable {
 
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["modeId, modeName"] = $this->modeName->getName() * 1000;
 		return ($fields);
 	}
 }
