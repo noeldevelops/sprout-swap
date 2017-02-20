@@ -108,6 +108,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for this Post id
+	  *
 	  * @return int|null value of post id
 	  **/
 	 public function getPostId() {
@@ -115,6 +116,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post ID
+	  *
 	  * @param int|null $newPostId new value of postID
 	  * @throws \RangeException if $newPostId is not positive
 	  * @throws \TypeError if $newPostId is not an integer
@@ -131,6 +133,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for Post Mode Id
+	  *
 	  * @return int $postModeId
 	  */
 	 public function getPostModeId() {
@@ -138,6 +141,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for Post Mode Id
+	  *
 	  * @param int $newPostModeId
 	  * @throws \RangeException if $newPostModeId is not positive
 	  * @throws \RangeException if $newPostModeId is > 3
@@ -151,6 +155,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post profile id
+	  *
 	  * @return int $postProfileId
 	  */
 	 public function getPostProfileId() {
@@ -158,6 +163,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post profile id
+	  *
 	  * @param int $newPostProfileId
 	  * @throws \RangeException if $newPostProfileId is not positive
 	  * @throws \TypeError if $newPostProfileId is not an integer
@@ -170,6 +176,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post browser
+	  *
 	  * @return string $postBrowser
 	  */
 	 public function getPostBrowser() {
@@ -177,6 +184,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post browser
+	  *
 	  * @param string $newPostBrowser new value of postBrowser
 	  * @throws \InvalidArgumentException if $newPostBrowser is insecure
 	  * @throws \RangeException if $newPostBrowser is > 255 characters
@@ -191,6 +199,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  *accessor method for post content
+	  *
 	  * @return string $postContent value of post content
 	  **/
 	 public function getPostContent() {
@@ -198,6 +207,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post content
+	  *
 	  * @param string $newPostContent new value of post content
 	  * @throws \InvalidArgumentException if $newPostContent is insecure
 	  * @throws \RangeException if $newPostContent is > 255 characters
@@ -215,6 +225,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for postIpAddress
+	  *
 	  * @returns string $postIpAddress value of users IP address
 	  */
 	 public function getPostIpAddress () {
@@ -222,6 +233,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for Post IP Address
+	  *
 	  * @param string $newPostIpAddress value of users IP Address
 	  * @throws \InvalidArgumentException if IP address is not a valid ip address
 	  */
@@ -237,6 +249,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post location
+	  *
 	  * @returns Point $postLocation value of post location
 	  */
 	 public function getPostLocation() {
@@ -244,6 +257,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post location
+	  *
 	  * @param Point $newPostLocation new value of post location
 	  *
 	  */
@@ -252,6 +266,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post offer
+	  *
 	  * @returns string $postOffer value of post offer
 	  */
 	 public function getPostOffer() {
@@ -259,6 +274,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post offer
+	  *
 	  * @param string $newPostOffer value of post offer
 	  * @throws \InvalidArgumentException if $newPostOffer is insecure or empty
 	  * @throws \RangeException if $newPostOffer is >75 characters
@@ -284,6 +300,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * mutator method for post request
+	  *
 	  * @param string $newPostRequest new value of post request
 	  * @throws \InvalidArgumentException if $newPostRequest is insecure or empty
 	  * @throws \RangeException if $newPostRequest is > 75 characters
@@ -302,6 +319,7 @@ class Post implements \JsonSerializable {
 	 }
 	 /**
 	  * accessor method for post timestamp
+	  *
 	  * @returns \DateTime $postTimestamp current post timestamp
 	  */
 	 public function getPostTimestamp() {
@@ -332,6 +350,7 @@ class Post implements \JsonSerializable {
 	}
 	/**
 	 * inserts this post into mySQL
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -353,6 +372,7 @@ class Post implements \JsonSerializable {
 	}
 	/**
 	 * deletes this post from mySQL
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -371,6 +391,7 @@ class Post implements \JsonSerializable {
 
 /**
  * updates this post in mySQL
+ *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError if $pdo is not a PDO connection object
@@ -391,6 +412,7 @@ public function update(\PDO $pdo) {
 
 	/**
 	 * gets the post by post Id
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int|string $postId post Id to search
 	 * @param \Exception $exception
@@ -421,6 +443,7 @@ public function update(\PDO $pdo) {
 	}
 		/**
 		 * get post by post mode ID
+		 *
 		 * @param \PDO $pdo connection object
 		 * @param int $postModeId mode to search by
 		 * @return \SplFixedArray of posts found
@@ -453,6 +476,7 @@ public function update(\PDO $pdo) {
 	}
 	/**
 	 * get post by post profile ID
+	 *
 	 * @param \PDO $pdo connection object
 	 * @param int $postProfileId profile ID to search by
 	 * @return \SplFixedArray of posts found
@@ -526,6 +550,7 @@ public function update(\PDO $pdo) {
 	}
 	/**
 	 * gets post by Post Location
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Point $userLocation user's geolocation to compare with Point postlocation
 	 * @param float $userDistance distance user chooses in UI to search within
@@ -565,6 +590,7 @@ public function update(\PDO $pdo) {
 	}
 	/**
 	 * get post by post offer
+	 *
 	 * @param \PDO $pdo connection object
 	 * @param string $postOffer to search by
 	 * @return \SplFixedArray of posts found
@@ -600,6 +626,7 @@ public function update(\PDO $pdo) {
 
 	/**
 	 * get post by post request
+	 *
 	 * @param \PDO $pdo connection object
 	 * @param string $postRequest to search by
 	 * @return \SplFixedArray of posts found
@@ -632,6 +659,7 @@ public function update(\PDO $pdo) {
 	}
 	/**
 	 * get post by post timestamp
+	 *
 	 * @param \PDO $pdo connection object
 	 * @param \DateTime $postSunriseDate to search by
 	 * @param \DateTime $postSunsetDate to search by
