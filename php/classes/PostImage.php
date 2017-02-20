@@ -83,7 +83,9 @@ class PostImage implements \JsonSerializable{
 	 * @param \PDO $pdo PHP data connection object
 	 */
 	public function insert(\PDO $pdo){
-
+		if($this->postImageImageId === null || $this->postImagePostId === null){
+			throw(new \PDOException("Ids cannot be null"));
+		}
 		//create query template
 		$query = "INSERT INTO postImage(postImageImageId, postImagePostId) VALUES(:postImageImageId, :postImagePostId)";
 		$statement = $pdo->prepare($query);
