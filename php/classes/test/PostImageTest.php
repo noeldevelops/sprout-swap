@@ -100,10 +100,11 @@ class PostImageTest extends SproutSwapTest{
 	}
 	/**
 	 * test invalid case; postImage has not been inserted
-	 * @expectedException \PDOException
+	 *
+	 * @expectedException /PDOException
 	 */
 	public function testDeleteInvalidPostImage(){
-		$postImage = new PostImage(SproutSwapTest::INVALID_KEY, $this->post->getPostId());
+		$postImage = new PostImage(SproutSwapTest::INVALID_KEY, SproutSwapTest::INVALID_KEY);
 		$postImage->delete($this->getPDO());
 	}
 	/**
