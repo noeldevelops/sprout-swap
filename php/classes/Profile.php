@@ -103,6 +103,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profileId
+	 *
 	 * @return int|null value of profileId
 	 **/
 	public function getProfileId() {
@@ -111,6 +112,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile id
+	 *
 	 * @param int|null $newProfileId
 	 * @throws \RangeException is profile id is not positive
 	 * @throws \TypeError if $newProfileId is not an integer
@@ -130,6 +132,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for Profile Image Id
+	 *
 	 * @return int $profileImageId
 	 **/
 
@@ -139,6 +142,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile image id
+	 *
 	 * @param int|null $newProfileImageId
 	 * @throws \RangeException is profile image id is not positive
 	 * @throws \TypeError if $newProfileImageId is not an integer
@@ -158,6 +162,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for Profile Activation
+	 *
 	 * @return int $profileActivation
 	 **/
 
@@ -167,6 +172,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile activation
+	 *
 	 * @param string $newProfileActivation
 	 * @throws \InvalidArgumentException if $newProfileActivation is insecure
 	 * @throws \RangeException if $newProfileActivation is > 16 characters
@@ -197,6 +203,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile email
+	 *
 	 * @param int $newProfileEmail
 	 * @throws \RangeException if $newProfileEmail is not positive
 	 * @throws \TypeError if $newProfileEmail is not a string
@@ -217,6 +224,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile handle
+	 *
 	 * @return string $profileHandle
 	 */
 
@@ -226,6 +234,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile handle
+	 *
 	 * @param int $newProfileHandle
 	 * @throws \RangeException if $newProfileHandle greater than 21
 	 * @throws \TypeError if $newProfileHandle is not a string
@@ -245,6 +254,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile timestamp
+	 *
 	 * @return \DateTime $profileTimestamp
 	 **/
 
@@ -254,6 +264,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile timestamp
+	 *
 	 * @param null $newProfileTimestamp
 	 * @throws \InvalidArgumentException if its not a valid date
 	 * @throws \RangeException if the date is before 1970
@@ -275,6 +286,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/** accessor method for profile name
+	 *
 	 * @return string $profileName
 	 **/
 
@@ -284,6 +296,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile name
+	 *
 	 * @param int $newProfileName
 	 * @throws \RangeException if $newProfileName greater than 30
 	 * @throws \TypeError if $newProfileName is not a string
@@ -303,6 +316,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile password hash
+	 *
 	 * @return string $profilePasswordHash
 	 **/
 
@@ -312,6 +326,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile password hash
+	 *
 	 * @param string $newProfilePasswordHash
 	 * @throws \RangeException if $newProfilePasswordHash greater than 128
 	 * @throws \TypeError if $newProfilePasswordHash is not a string
@@ -331,6 +346,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile password salt
+	 *
 	 * @return string $profileSalt
 	 **/
 
@@ -340,6 +356,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile salt
+	 *
 	 * @param string $newProfileSalt
 	 * @throws \RangeException if $newProfileSalt greater than 64
 	 * @throws \TypeError if $newProfileSalt is not a string
@@ -359,6 +376,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * accessor method for profile summary
+	 *
 	 * @return string $profileSummary
 	 **/
 
@@ -368,6 +386,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * mutator method for profile summary
+	 *
 	 * @param string $newProfileSummary
 	 * @throws \RangeException if $newProfileSummary greater than 255
 	 * @throws \TypeError if $newProfileSummary is not a string
@@ -388,6 +407,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * insert method for profile
+	 *
 	 * @param \PDO $pdo
 	 * @throws \PDOException if not a new profile
 	 **/
