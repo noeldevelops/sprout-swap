@@ -8,7 +8,7 @@ require_once("autoload.php");
  * @version 1.0
  **/
 
-class Post implements \jsonSerializable {
+class Post implements \JsonSerializable {
 	use ValidateDate;
 	/**
 	 * id for this Post; this is the primary key
