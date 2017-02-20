@@ -394,7 +394,7 @@ public function update(\PDO $pdo) {
 	 * @param \PDO $pdo PDO connection object
 	 * @param int|string $postId post Id to search
 	 * @param \Exception $exception
-	 * @return int $postId of one post with that id
+	 * @return $post post with that id
 	 */
 
 	public static function getPostByPostId (\PDO $pdo, string $postId) {

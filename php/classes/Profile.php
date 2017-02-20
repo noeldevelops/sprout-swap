@@ -459,7 +459,6 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * delete function for mySQL
-	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param int profile id
 	 * @throws \RangeException if profile id is 0
