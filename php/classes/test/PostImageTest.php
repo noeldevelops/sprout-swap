@@ -99,6 +99,7 @@ class PostImageTest extends SproutSwapTest{
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("postImage"));
 	}
 	/**
+	 * test invalid case; postImage has not been inserted
 	 * @expectedException \PDOException
 	 */
 	public function testDeleteInvalidPostImage(){
