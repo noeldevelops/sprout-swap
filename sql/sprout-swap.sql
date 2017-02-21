@@ -107,7 +107,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 		DECLARE done BOOLEAN DEFAULT FALSE;
 		DECLARE postCursor CURSOR FOR
-			SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post;
+			SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post;
 		 DECLARE CONTINUE HANDLER FOR NOT FOUND
 			 SET done = TRUE;
 
