@@ -76,7 +76,6 @@ class ProfileTest extends SproutSwapTest {
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
-		profilePasswordHash
 		//create and insert a image to the own test to Image
 		$this->image = new Image(null, "764736");
 		$this->image->insert($this->getPDO());
@@ -252,7 +251,7 @@ class ProfileTest extends SproutSwapTest {
 
 	public function testGetInvalidProfileByImageId() {
 		//grab profile by searching for image id that does not exist
-		$profile = Profile::getProfileByProfileImageId($this->getPDO(), 1);
+		$profile = Profile::getProfileByProfileImageId($this->getPDO(), $this->profile->getProfileId());
 		$this->assertCount(0, $profile);
 	}
 
