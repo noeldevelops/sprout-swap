@@ -52,7 +52,12 @@ class PostImageTest extends SproutSwapTest{
 		$this->VALID_MODE = new Mode(null, "Free");
 		$this->VALID_MODE->insert($this->getPDO());
 
-		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_TIMESTAMP, "Noel Cothren", "9BB789D2052F1E787C89A700A59EF22DE1AFAEACC0E2DE97D22DC1D04284E871", "4C703B281FB196C94B61CC075B1F3191A0D9A4CEE2A46E153449728D3EC18503", "god damn i STILL love unit testing");
+		//creating salt and hash
+		$password = "123";
+		$this->VALID_PROFILESALT = bin2hex(random_bytes(32));
+		$this->VALID_PROFILEHASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILESALT, 262144);
+
+		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_TIMESTAMP, "Noel Cothren", $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "god damn i STILL love unit testing");
 		$this->profile->insert($this->getPDO());
 
 		$this->post = new Post(null, $this->VALID_MODE->getModeId(), $this->profile->getProfileId(), "browser here or something", "post content here or something", $this->VALID_IPADDRESS, $this->newPoint, "vegetables", "different veggies tbh", $this->VALID_TIMESTAMP);

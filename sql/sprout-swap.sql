@@ -138,8 +138,8 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 				varPostLocation,
 				varPostOffer,
 				varPostRequest,
-				varPostTimestamp,
-				varPostDistance; -- try taking this shit out
+				varPostTimestamp;
+
 
 			SET varPostDistance = haversine(varPostLocation, userLocation);
 			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp, varPostDistance);

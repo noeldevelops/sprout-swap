@@ -570,7 +570,6 @@ public function update(\PDO $pdo) {
 
 		$parameters = ["userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong(), "userDistance" => $userDistance];
 
-
 		$statement->execute($parameters);
 		//create an array of posts
 		$posts = new \SplFixedArray($statement->rowCount());
