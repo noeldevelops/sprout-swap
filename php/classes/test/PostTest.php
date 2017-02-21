@@ -194,7 +194,6 @@ public function testGetValidPostByPostId() {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
-
 	}
 	/**
 	 * test get all posts by Mode Id
@@ -249,14 +248,13 @@ public function testGetValidPostByPostId() {
 		$post->insert($this->getPDO());
 
 		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation(), 5);
-
+var_dump($results);
 		foreach($results as $post) {
-			$this->assertEquals($post->getPostLocation()->getLat(), $this->VALID_POINT->getLat());
-			$this->assertEquals($post->getPostLocation()->getLong(), $this->VALID_POINT->getLong());
+			$this->assertEquals($post->getPostLocation()->getLat(), $this->VALID_POINT->getLat(), '', 0.6);
+			$this->assertEquals($post->getPostLocation()->getLong(), $this->VALID_POINT->getLong(), '', 0.6);
 		}
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
-		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
 	}
 	/**
@@ -271,8 +269,8 @@ public function testGetValidPostByPostId() {
 		$results = Post::getPostsByPostLocation($this->getPDO(), $this->VALID_USERLOCATION, $this->VALID_USERDISTANCE);
 
 		foreach($results as $post) {
-			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
-			$this->assertSame($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());
+			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat(), '', 0.6);
+			$this->assertSame($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong(), '', 0.6);
 		}
 		$this->assertEmpty($results);
 	}
