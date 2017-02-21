@@ -576,6 +576,7 @@ public function update(\PDO $pdo) {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
+				var_dump($row);
 				$post = new Post($row["postId"], $row["postModeId"], $row["postProfileId"], $row["postBrowser"], $row["postContent"], $row["postIpAddress"], new Point($row["postLocationX"], $row["postLocationY"]), $row["postOffer"], $row["postRequest"], $row["postTimestamp"]);
 				$posts[$posts->key()] = $post;
 				$posts->next();

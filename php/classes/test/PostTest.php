@@ -83,7 +83,7 @@ class PostTest extends SproutSwapTest {
 		$this->VALID_PROFILEHASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILESALT, 262144);
 
 		//create test Profile to make a test Post//
-		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "yourmom@america.gov", "2600::dead:beef:cafe", $this->VALID_POSTTIMESTAMP, "Noel Cothren", $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "god damn i STILL love unit testing");
+		$this->profile = new Profile(null, $this->image->getImageId(), "sdfsd", "trump.no@america.gov", "2600::dead:beef:cafe", $this->VALID_POSTTIMESTAMP, "Noel Cothren", $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "god damn i STILL love unit testing");
 		$this->profile->insert($this->getPDO());
 	}
 
@@ -250,11 +250,9 @@ public function testGetValidPostByPostId() {
 
 		$results = Post::getPostsByPostLocation($this->getPDO(), $post->getPostLocation(), 5);
 
-		var_dump($results);
-
 		foreach($results as $post) {
-			$this->assertEquals($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
-			$this->assertEquals($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());
+			$this->assertEquals($post->getPostLocation()->getLat(), $this->VALID_POINT->getLat());
+			$this->assertEquals($post->getPostLocation()->getLong(), $this->VALID_POINT->getLong());
 		}
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
@@ -276,10 +274,7 @@ public function testGetValidPostByPostId() {
 			$this->assertSame($post->getPostLocation->getLat(), $this->VALID_USERLOCATION->getLat());
 			$this->assertSame($post->getPostLocation->getLong(), $this->VALID_USERLOCATION->getLong());
 		}
-
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Post", $results);
+		$this->assertEmpty($results);
 	}
 	/**
 	 * test get posts by post offer

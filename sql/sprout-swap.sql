@@ -107,7 +107,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 		DECLARE done BOOLEAN DEFAULT FALSE;
 		DECLARE postCursor CURSOR FOR
-			SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, ST_X(postLocation) AS postLocationX, ST_Y(postLocation) AS postLocationY, postOffer, postRequest, postTimestamp FROM post;
+			SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp FROM post;
 		 DECLARE CONTINUE HANDLER FOR NOT FOUND
 			 SET done = TRUE;
 
@@ -119,7 +119,8 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 			postBrowser VARCHAR (255) NOT NULL,
 			postContent VARCHAR (250),
 			postIpAddress VARBINARY (16),
-			postLocation POINT NOT NULL,
+			postLocationX FLOAT NOT NULL,
+			postLocationY FLOAT NOT NULL,
 			postOffer VARCHAR (75) NOT NULL,
 			postRequest VARCHAR (75),
 			postTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -142,7 +143,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 
 			SET varPostDistance = haversine(varPostLocation, userLocation);
-			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp, varPostDistance);
+			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocationX, postLocationY, postOffer, postRequest, postTimestamp, postDistance) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, ST_X(varPostLocation), ST_Y(varPostLocation), varPostOffer, varPostRequest, varPostTimestamp, varPostDistance);
 
 
 			IF done THEN LEAVE postLoop; -- leaves rows
@@ -150,7 +151,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 		END LOOP postLoop;
 		CLOSE postCursor;
 
-		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance
+		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocationX, postLocationY, postOffer, postRequest, postTimestamp, postDistance
 		FROM selectedPost
 		WHERE postDistance <= userDistance
 		ORDER BY postDistance;
