@@ -76,7 +76,7 @@ class ProfileTest extends SproutSwapTest {
 	public final function setUp() {
 		//run the default setUp() method first
 		parent::setUp();
-
+		profilePasswordHash
 		//create and insert a image to the own test to Image
 		$this->image = new Image(null, "764736");
 		$this->image->insert($this->getPDO());
