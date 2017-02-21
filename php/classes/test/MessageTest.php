@@ -1,4 +1,4 @@
-<?PHP
+<?php
 namespace Edu\Cnm\SproutSwap\Test;
 
 //grab the project test
