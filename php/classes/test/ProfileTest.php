@@ -86,7 +86,7 @@ class ProfileTest extends SproutSwapTest {
 
 		//creating salt and hash
 		$password = "123";
-		$this->VALID_PROFILESALT = bin2hex(random_bytes(16));
+		$this->VALID_PROFILESALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILEHASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILESALT, 262144);
 	}
 
@@ -212,6 +212,23 @@ class ProfileTest extends SproutSwapTest {
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 	}
+
+	/**
+	 * test getting a profile by invalid profile id
+	 * @expectedException \PDOException
+	 */
+
+	public function testGetInvalidProfileByProfileId(){
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+		//create a new Profile and insert into mySQL
+		$profile = new Profile(32, $this->profile->getProfileId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->insert($this->getPDO());
+		//grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+	}
+
 	/**
 	 * test grabbing a Profile by profile image id
 	 **/
