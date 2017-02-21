@@ -214,14 +214,15 @@ class ProfileTest extends SproutSwapTest {
 
 	/**
 	 * test getting a profile by invalid profile id
+	 *
 	 * @expectedException \PDOException
 	 */
 
-	public function testGetInvalidProfileByProfileId(){
+	public function testGetProfileByInvalidProfileId(){
 		//count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		//create a new Profile and insert into mySQL
-		$profile = new Profile(32, $this->profile->getProfileId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile = new Profile(SproutSwapTest::INVALID_KEY, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
 		$profile->insert($this->getPDO());
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
@@ -247,19 +248,22 @@ class ProfileTest extends SproutSwapTest {
 
 	/**
 	 * test grabbing a Profile by image id that does not exist
+	 *
+	 * @expectedException \PDOException
 	 **/
 
-	public function testGetInvalidProfileByImageId() {
-		//grab profile by searching for image id that does not exist
-		$profile = Profile::getProfileByProfileImageId($this->getPDO(), $this->profile->getProfileId());
-		$this->assertCount(0, $profile);
+	public function testGetProfileByInvalidImageId() {
+
+		$results = Profile::getProfileByProfileImageId($this->getPDO(), "nothing to see here!");
+
+		$this->assertCount(0, $results);
 	}
 
 	/**
 	 * test grabbing a Profile by profile activation
 	 **/
 
-	public function testGetValidProfileByActivation() {
+	public function testGetProfileByValidActivation() {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -269,24 +273,21 @@ class ProfileTest extends SproutSwapTest {
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$results = Profile::getProfileByProfileActivation($this->getPDO(), $profile->getProfileActivation());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\SproutSwap\\Profile", $results);
 
-		//grab the result from the array and validate it
-		$pdoProfile = $results[0];
-		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileSummary(), $this->VALID_PROFILESUMMARY);
-		$this->assertEquals($pdoProfile->getProfileTimestamp(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+
 	}
 
 	/**
 	 * test grabbing a Profile by activation that does not exist
+	 *
+	 * @expectedException \PDOException
 	 **/
 
 	public function testGetInvalidProfileByActivation() {
-		//grab profile by searching for activation that does not exist
-		$profile = Profile::getProfileByProfileActivation($this->getPDO(), "you will find nothing");
+
+		$profile = Profile::getProfileByProfileActivation($this->getPDO(), $this->profile->getProfileActivation());
+
 		$this->assertCount(0, $profile);
 	}
 
@@ -309,12 +310,19 @@ class ProfileTest extends SproutSwapTest {
 
 	/**
 	 * test grabbing a Profile by email that does not exist
+	 *
+	 * @expectedException \PDOException
 	 **/
 
 	public function testGetInvalidProfileByEmail() {
 		//grab profile by searching for email that does not exist
-		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "you will find nothing");
-		$this->assertCount(0, $profile);
+		$numRows = $this->getConnection()->getRowCount("profile");
+		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, 1, $this->VALID_PROFILEHANDLE, $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->insert($this->getPDO());
+
+		$results = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 	}
 
 	/**
@@ -336,12 +344,20 @@ class ProfileTest extends SproutSwapTest {
 
 	/**
 	 * test grabbing a Profile by handle that does not exist
+	 *
+	 * @expectedException \PDOException
 	 **/
 
 	public function testGetInvalidProfileByHandle() {
-		//grab profile by searching for handle that does not exist
-		$profile = Profile::getProfileByProfileHandle($this->getPDO(), "you will find nothing");
-		$this->assertCount(0, $profile);
+		$numRows = $this->getConnection()->getRowCount("profile");
+		$profile = new Profile(null, $this->image->getImageId(), $this->VALID_PROFILEACTIVATION, $this->VALID_PROFILEEMAIL, "handle!!", $this->VALID_PROFILEDATE, $this->VALID_PROFILENAME, $this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, $this->VALID_PROFILESUMMARY);
+		$profile->insert($this->getPDO());
+
+		$results = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile = Profile::getProfileByProfileHandle($this->getPDO(), $profile->getProfileEmail());
+
 	}
 
 	/**

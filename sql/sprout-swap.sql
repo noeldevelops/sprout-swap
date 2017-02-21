@@ -38,6 +38,8 @@ CREATE TABLE profile (
 	profileSalt CHAR (64),
 	profileSummary VARCHAR (255),
 
+	UNIQUE (profileEmail),
+	UNIQUE (profileHandle),
 	FOREIGN KEY (profileImageId) REFERENCES image (imageId),
 	PRIMARY KEY (profileId)
 );
@@ -137,7 +139,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 				varPostOffer,
 				varPostRequest,
 				varPostTimestamp,
-				varPostDistance;
+				varPostDistance; -- try taking this shit out
 
 			SET varPostDistance = haversine(varPostLocation, userLocation);
 			INSERT INTO selectedPost(postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance) VALUES (varPostId, varPostModeId, varPostProfileId,varPostBrowser, varPostContent, varPostIpAddress, varPostLocation, varPostOffer, varPostRequest, varPostTimestamp, varPostDistance);
@@ -150,7 +152,7 @@ CREATE PROCEDURE getPostsByPostLocation(IN userLocation POINT, IN userDistance F
 
 		SELECT postId, postModeId, postProfileId, postBrowser, postContent, postIpAddress, postLocation, postOffer, postRequest, postTimestamp, postDistance
 		FROM selectedPost
-		WHERE postDistance <= userDistance -- where is user distance coming from??? should it be a variable in temp table?
+		WHERE postDistance <= userDistance
 		ORDER BY postDistance;
 
 	END $$

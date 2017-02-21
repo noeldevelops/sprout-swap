@@ -187,8 +187,9 @@ public function testGetValidPostByPostId() {
 		$post = new Post(32, $this->mode->getModeId(), $this->profile->getProfileId(), "browser", $this->VALID_POSTCONTENT, $this->VALID_POSTIPADDRESS, $this->VALID_POINT, "offer", "request", $this->VALID_POSTTIMESTAMP);
 		$post->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$results = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+
 	}
 	/**
 	 * test get all posts by Mode Id

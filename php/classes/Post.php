@@ -566,8 +566,6 @@ public function update(\PDO $pdo) {
 		//create query template
 		$query = "CALL getPostsByPostLocation(POINT(:userLocationX, :userLocationY), :userDistance)";
 
-
-
 		$statement = $pdo->prepare($query);
 
 		$parameters = ["userLocationX" => $userLocation->getLat(), "userLocationY" => $userLocation->getLong(), "userDistance" => $userDistance];
