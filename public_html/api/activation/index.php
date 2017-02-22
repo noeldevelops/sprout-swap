@@ -93,30 +93,44 @@ try {
 
 			//make sure profile name is correct
 			if(empty($requestObject->profileName) === true){
+				throw(new \InvalidArgumentException("No Profile Name"));
+			}
 
+			//make sure profile password hash is correct
+			if(empty($requestObject->profilePasswordHash) === true){
+				throw (new \InvalidArgumentException("No Profile Password Hash"));
+			}
+
+			//make sure profile salt must be correct
+			if(empty($requestObject->profileSalt) === true){
+				throw (new \InvalidArgumentException("No Profile Salt"));
 			}
 
 		//perform the actual put or post
 		if($method === "PUT") {
 
 			// retrieve the tweet to update
-			$tweet = Tweet::getTweetByTweetId($pdo, $id);
-			if($tweet === null) {
-				throw(new RuntimeException("Tweet does not exist", 404));
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile === null) {
+				throw(new RuntimeException("Profile does not exist", 404));
 			}
 
 			// update all attributes
-			$tweet->setTweetDate($requestObject->tweetDate);
-			$tweet->setTweetContent($requestObject->tweetContent);
-			$tweet->update($pdo);
+			$profile->setProfileActivation($requestObject->profileActivation);
+			$profile->setProfileEmail($requestObject->profileEmail);
+			$profile->setProfileHandle($requestObject->profileHandle);
+			$profile->setProfileName($requestObject->profileName);
+			$profile->setProfilePasswordHash($requestObject->profilePasswordHash);
+			$profile->setProflieSalt($requestObject->profileSalt);
+			$profile->update($pdo);
 
 			// update reply
-			$reply->message = "Tweet updated OK";
+			$reply->message = "Profile updated OK";
 
 		} else if($method === "POST") {
 
-			// create new tweet and insert into the database
-			$tweet = new Tweet(null, $requestObject->profileId, $requestObject->tweetContent, null);
+			// create new profile and insert into the database
+			$profile = new Profile(null, $requestObject->profileId, $requestObject->tweetContent, null);
 			$tweet->insert($pdo);
 
 			// update reply
