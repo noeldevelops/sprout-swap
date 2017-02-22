@@ -130,27 +130,27 @@ try {
 		} else if($method === "POST") {
 
 			// create new profile and insert into the database
-			$profile = new Profile(null, $requestObject->profileId, $requestObject->tweetContent, null);
+			$profile = new Profile(null, $requestObject->profileId, $requestObject->profileEmail, null);
 			$tweet->insert($pdo);
 
 			// update reply
-			$reply->message = "Tweet created OK";
+			$reply->message = "Profile created OK";
 		}
 
 	} else if($method === "DELETE") {
 		verifyXsrf();
 
-		// retrieve the Tweet to be deleted
-		$tweet = Tweet::getTweetByTweetId($pdo, $id);
-		if($tweet === null) {
-			throw(new RuntimeException("Tweet does not exist", 404));
+		// retrieve the Profile to be deleted
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile does not exist", 404));
 		}
 
 		// delete activation
 		$activation->delete($pdo);
 
 		// update reply
-		$reply->message = "Tweet deleted OK";
+		$reply->message = "Profile deleted OK";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
