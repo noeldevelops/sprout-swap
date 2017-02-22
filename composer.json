@@ -1,0 +1,7 @@
+{
+  "require": {
+    "mailgun/mailgun-php": "@stable",
+    "php-http/guzzle6-adapter": "@stable",
+    "cloudinary/cloudinary_php": "dev-master"
+  }
+}
