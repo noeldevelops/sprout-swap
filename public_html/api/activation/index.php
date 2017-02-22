@@ -50,45 +50,51 @@ try {
 		//get a specific Sign up based on the given field
 		$emailActivation = filter_input(INPUT_GET, "emailActivation", FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($emailActivation)) {
-			throw(new \RangeException("No Activation Profile"));
+			throw(new \RangeException("No Activation"));
 		}
 		$profile = Profile::getProfileByProfileActivation($pdo, $emailActivation);
-		} else if(empty($profileId) === false) {
-			$tweets = Tweet::getTweetByTweetProfileId($pdo, $profileId);
-			if($tweets !== null) {
-				$reply->data = $tweets;
-			}
-		} else if(empty($content) === false) {
-			$tweets = Tweet::getTweetByTweetContent($pdo, $content);
-			if($tweets !== null) {
-				$reply->data = $tweets;
-			}
-		} else {
-			$tweets = Tweet::getAllTweets($pdo);
-			if($tweets !== null) {
-				$reply->data = $tweets;
-			}
+		if(empty($profile)) {
+			throw(new \InvalidArgumentException("No profile for Activation"));
 		}
-	} else if($method === "PUT" || $method === "POST") {
+		$profile->setProfileActivation(null);
+		$profile->update($pdo);
+		$reply->message = "Profile Activated";
+	}else{
+		throw (new\Exception("Invalid HTTP method"));
+		}
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//make sure tweet content is available (required field)
-		if(empty($requestObject->tweetContent) === true) {
-			throw(new \InvalidArgumentException ("No content for Tweet.", 405));
-		}
-
-		// make sure tweet date is accurate (optional field)
-		if(empty($requestObject->tweetDate) === true) {
-			$requestObject->tweetDate = new \DateTime();
-		}
-
-		//  make sure profileId is available
+		//make sure profile id is available (required field)
 		if(empty($requestObject->profileId) === true) {
-			throw(new \InvalidArgumentException ("No Profile ID.", 405));
+			throw(new \InvalidArgumentException ("No Profile Id", 405));
 		}
+
+		// make sure profile image id is accurate (optional field)
+		if(empty($requestObject->profileImageId) === true) {
+			throw (new \InvalidArgumentException("No Profile Image Id");
+		}
+
+		//  make sure profile activation is available
+		if(empty($requestObject->profileActivation) === true) {
+			throw(new \InvalidArgumentException ("No Profile Activation"));
+		}
+
+		// make sure profile email is correct
+		if(empty($requestObject->profileEmail) === true){
+			throw(new \InvalidArgumentException("No Profile Email"));
+
+			//make sure profile handle is correct
+			if(empty($requestObject->profileHandle) === true){
+				throw(new \InvalidArgumentException("No Profile Handle"));
+			}
+
+			//make sure profile name is correct
+			if(empty($requestObject->profileName) === true){
+
+			}
 
 		//perform the actual put or post
 		if($method === "PUT") {
@@ -126,8 +132,8 @@ try {
 			throw(new RuntimeException("Tweet does not exist", 404));
 		}
 
-		// delete tweet
-		$tweet->delete($pdo);
+		// delete activation
+		$activation->delete($pdo);
 
 		// update reply
 		$reply->message = "Tweet deleted OK";
@@ -139,9 +145,13 @@ try {
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+	header("Content-type: application/json");
+	echo json_encode($reply);
 } catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
+	$reply->trace = $typeError->getTraceAsString();
 }
 
 header("Content-type: application/json");
