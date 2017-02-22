@@ -39,7 +39,7 @@ try {
 	$timestamp = ;
 	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$passwordHash = filter_input(INPUT_GET, "passwordHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$passwordSalt = filter_input(INPUT_GET, "passwordSalt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$salt = filter_input(INPUT_GET, "salt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$summary = filter_input(INPUT_GET, "summary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
@@ -113,6 +113,66 @@ try {
 		if(empty($requestObject->profileTimestamp) === true) {
 			$requestObject->profileTimestamp = new \DateTime();
 		}
-	}
 
+		//perform the actual put or post
+		if($method === "PUT"){
+
+			//retrieve the profile to be updated
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile === null){
+				throw(new RuntimeException("Profile does not exist", 404));
+			}
+
+			//update all attributes
+			$profile->setProfileImageId($requestObject->profileImageId);
+			$profile->setProfileActivation($requestObject->profileActivation);
+			$profile->setProfileEmail($requestObject->profileEmail);
+			$profile->setProfileHandle($requestObject->profileEmail);
+			$profile->setProfileHandle($requestObject->profileHandle);
+			$profile->setProfileName($requestObject->profileName);
+			$profile->setProfilePasswordHash($requestObject->profilePasswordHash);
+			$profile->setProfileSalt($requestObject->profileSalt);
+			$profile->setProfileSummary($requestObject->profileSummary);
+			$profile->update($pdo);
+		} else if($method === "POST"){
+
+			//create new profile and insert into database
+			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileHandle, $requestObject->profileTimestamp, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
+			$profile->insert($pdo);
+
+			//update reply
+			$reply->message = "Profile created ok";
+		}
+	} else if($method === "DELETE"){
+		verifyXsrf();
+
+		//retrieve profile to be deleted
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null){
+			throw(new RuntimeException("Profile does not exist", 404));
+		}
+
+		//delete profile
+		$profile->delete($pdo);
+
+		//update reply
+		$reply->message = "profile deleted ok";
+	} else{
+		throw(new InvalidArgumentException("Invalid HTTP method request"));
+	}
+		//update reply with exception information
+} catch(Exception $exception){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
+
+header("Content-type: application/json");
+if($reply->data === null){
+	unset($reply->data);
+}
+
+//encode and return reply to front end caller
+echo json_encode($reply);
