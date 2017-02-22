@@ -28,7 +28,7 @@ CREATE TABLE mode (
 
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	profileImageId INT UNSIGNED NOT NULL,
+	profileImageId INT UNSIGNED,
 	profileActivation CHAR (16),
 	profileEmail VARCHAR (255) NOT NULL,
 	profileHandle VARCHAR (21) NOT NULL,
