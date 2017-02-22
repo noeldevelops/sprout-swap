@@ -37,8 +37,6 @@ try {
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$handle = filter_input(INPUT_GET, "handle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$passwordHash = filter_input(INPUT_GET, "passwordHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$salt = filter_input(INPUT_GET, "salt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$summary = filter_input(INPUT_GET, "summary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
@@ -109,8 +107,12 @@ try {
 			throw(new \InvalidArgumentException("No profile handle found", 405));
 		}
 		//make sure profile timestamp is accurate (optional field)
-		if(empty($requestObject->profileTimestamp) === true) {
+		if(empty($requestObject->profileTimestamp) === true){
 			$requestObject->profileTimestamp = new \DateTime();
+		}
+		//check for image id and explicitly assign to null if none (optional field)
+		if(empty($requestObject->profileImageId) === true){
+			$requestObject->profileImageId = null;
 		}
 
 		//perform the actual put or post
@@ -126,7 +128,6 @@ try {
 			$profile->setProfileImageId($requestObject->profileImageId);
 			$profile->setProfileActivation($requestObject->profileActivation);
 			$profile->setProfileEmail($requestObject->profileEmail);
-			$profile->setProfileHandle($requestObject->profileEmail);
 			$profile->setProfileHandle($requestObject->profileHandle);
 			$profile->setProfileName($requestObject->profileName);
 			$profile->setProfilePasswordHash($requestObject->profilePasswordHash);

@@ -35,10 +35,7 @@ try{
 	$postId = filter_input(INPUT_GET, "postId", FILTER_VALIDATE_INT);
 	$receiverId = filter_input(INPUT_GET, "receiverId", FILTER_VALIDATE_INT);
 	$senderId = filter_input(INPUT_GET, "senderId", FILTER_VALIDATE_INT);
-	$browser = filter_input(INPUT_GET, "browser", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$content = filter_input(INPUT_GET, "content", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$ipAddress = filter_input(INPUT_GET, "ipAddress", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$status = filter_input(INPUT_GET, "status", FILTER_VALIDATE_INT);
 
 	//make sure id is valid for methods that require it
 	if(($method ==="DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)){
