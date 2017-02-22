@@ -97,20 +97,84 @@ if ($method === "GET") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-
-	/** @todo figure out what goes here! one statement for each attribute?
-	 * **/
-	//make sure post content is available <-Dylan's note
+	/** @todo find out if I need more of these if statements **/
+	//make sure post content is available
 	if(empty($requestObject->postContent)==true) {
 		throw(new \InvalidArgumentException("No content for Post", 405));
 	}
 
+	//make sure post date is accurate
+	if(empty($requestObject->postTimestamp) === true) {
+		$requestObject->postTimestamp = new \DateTime();
+	}
+
+	//make sure postProfileId is available
+	if(empty($requestObject->postProfileId) === true) {
+		throw(new \InvalidArgumentException("No profile ID for Post", 405));
+	}
+
 	if($method === "PUT") {
+		//retrieve the post
+		$post = Post::getPostByPostId($pdo, $postId);
+		if($post === null) {
+			throw(new RuntimeException("Post does not exist", 404));
+		}
+		//update all attributes
+		$post->setPostModeId($requestObject->postModeId);
+		$post->setPostContent($requestObject->postContent);
+		$post->setPostLocation($requestObject->postLocation);
+		$post->setPostOffer($requestObject->postOffer);
+		$post->setPostRequest($requestObject->postRequest);
+		$post->setPostTimestamp($requestObject->postTimestamp);
+		$post->update($pdo);
+
+		//update reply
+		$reply->message = "Post was successfully updated";
 
 	} elseif($method === "POST") {
+		//create a new post and insert into database
+		/** @todo what do we do with browser and ip address? */
+		$post = new Post(null, $requestObject->postModeId, null, $requestObject->postContent,$requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest,$requestObject->postTimestamp);
+		$post->insert($pdo);
 
+		//update reply
+		$reply->message = "New post sucessful.";
 	}
-} elseif($method === "DELETE") {
 
+} elseif($method === "DELETE") {
+	verifyXsrf();
+
+	//retrieve the post to be deleted
+	$post = Post::getPostByPostId($pdo, $postId);
+	if($post === null) {
+		throw(new RuntimeException("Post does not exist", 404));
+	}
+
+	//delete the post
+	$post->delete($pdo);
+
+	//update reply
+	$reply->message = "Post was deleted.";
+
+} else {
+		throw (new InvalidArgumentException("Invalid HTTP method request"));
 }
-} catch
+
+//update reply with exception information
+
+} catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+
+} catch(TypeError $typeError) {
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
+}
+
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+//encode and return reply to front end caller
+echo json_encode($reply);
