@@ -6,6 +6,10 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Image;
 
+require 'Cloudinary.php';
+require 'Uploader.php';
+require 'Api.php';
+
 /**
  * api for the Image class
  *
@@ -25,6 +29,8 @@ $reply->data = null;
 try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/image.ini");
+
+	/** @todo insert cloudinary stuff here **/
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];

@@ -83,9 +83,9 @@ if ($method === "GET") {
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
-		} /** @todo figure out what variables go here! **/
+		} /** @todo figure out what variables go here and how! **/
 		elseif(empty($postLocation) === false) {
-			$posts = Post::getPostsByPostLocation($pdo, $postLocation, $userDistance);
+			$posts = Post::getPostsByPostLocation($pdo, $userLocation, $userDistance);
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
@@ -99,9 +99,9 @@ if ($method === "GET") {
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
-		} /** @todo figure out what goes here! **/
+		} /** @todo figure out what goes here and how! **/
 		elseif(empty($postTimestamp) === false) {
-			$posts = Post::getPostsByPostTimestamp($pdo, $postTimestamp);
+			$posts = Post::getPostsByPostTimestamp($pdo, $postSunriseDate, $postSunsetDate);
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
@@ -112,7 +112,8 @@ if ($method === "GET") {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-	/** @todo find out if I need more of these if statements **/
+
+	/** @todo find out if I need more of these if statements? *only 'not null' things!**/
 	//make sure post content is available
 	if(empty($requestObject->postContent)==true) {
 		throw(new \InvalidArgumentException("No content for Post", 405));
@@ -148,8 +149,8 @@ if ($method === "GET") {
 
 	} elseif($method === "POST") {
 		//create a new post and insert into database
-		/** @todo what do we do with browser and ip address? */
-		$post = new Post(null, $requestObject->postModeId, null, $requestObject->postContent,$requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest,$requestObject->postTimestamp);
+		/** @todo what do we do with browser and ip address - see message */
+		$post = new Post(null, $requestObject->postModeId, null, $requestObject->postContent,$requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
 		$post->insert($pdo);
 
 		//update reply
