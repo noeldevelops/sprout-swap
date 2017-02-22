@@ -70,7 +70,7 @@ if ($method === "GET") {
 			}
 		} /** @todo figure out what variables go here! **/
 		elseif(empty($postLocation) === false) {
-			$posts = Post::getPostsByPostLocation($pdo, $postLocation);
+			$posts = Post::getPostsByPostLocation($pdo, $postLocation, $userDistance);
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
