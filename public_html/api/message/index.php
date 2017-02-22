@@ -54,10 +54,88 @@ try{
 			if($message !== null){
 				$reply->data = $message;
 			}
+		} else if(empty($receiverId) === false){
+			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $receiverId);
+			if($messages !== null){
+				$reply->data = $messages;
+			}
+		} else if(empty($senderId) === false) {
+			$messages = Message::getMessageByMessageSenderProfileId($pdo, $senderId);
+			if($messages !== null) {
+				$reply->data = $messages;
+			}
+		} else if(empty($postId) === false){
+			$messages = Message::getMessagesByMessagePostId($pdo, $postId);
+			if($messages !== null){
+				$reply->data = $messages;
+			}
+		} else if(empty($content) !== false){
+			$messages = Message::getMessageByMessageContent($pdo, $content);
+			if($messages !== null){
+				$reply->data = $messages;
+			}
+		}
+	} else if($method === "PUT" || $method === "POST"){
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//make sure message content is available
+		if(empty($requestObject->messageContent) === true){
+			throw(new \InvalidArgumentException("No message content", 405));
+		}
+		//make sure messageTimestamp is accurate
+		if(empty($requestObject->messageTimestamp) === true){
+			$requestObject->messageTimestamp = new \Datetime();
+		}
+		//make sure messageId is available
+		if(empty($requestObject->messageId) === true){
+			throw(new \InvalidArgumentException("Message does not exist", 405));
+		}
+
+		//perform the actual PUT or POST
+		if($method === "POST"){
+
+			//create new message and insert into the database
+			$message = new Message(null, $requestObject->postId, $requestObject->receiverId, $requestObject->senderId, $requestObject->browser, $requestObject->content, $requestObject->ipAddress, $requestObject->status, null);
+			$message->insert($pdo);
+
+			//update reply
+			$reply->message = "Message created ok";
+		} else if($method === "DELETE"){
+			verifyXsrf();
+
+			//retrieve message to be deleted
+			$message = Message::getMessageByMessageId($pdo, $id);
+			if($message === null){
+				throw(new RuntimeException("Message does not exist", 404));
+			}
+
+			//delete message
+			$message->delete($pdo);
+
+			//update reply
+			$reply->message = "Tweet deleted ok";
+		} else{
+			throw (new InvalidArgumentException("Invalid HTTP method request"));
 		}
 	}
+} catch(Exception $exception){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+} catch(TypeError $typeError){
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
 
+header("content-type: application/json");
+if($reply->data === null){
+	unset($reply->data);
+}
+
+//encode and return to front end caller
+echo json_encode($reply);
 
 
 
