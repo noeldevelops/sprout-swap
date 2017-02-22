@@ -36,7 +36,6 @@ try {
 	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$handle = filter_input(INPUT_GET, "handle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$timestamp = ;
 	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$passwordHash = filter_input(INPUT_GET, "passwordHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$salt = filter_input(INPUT_GET, "salt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
