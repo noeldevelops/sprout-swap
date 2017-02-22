@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
-require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once "/etc/apache2/capstone-mysql/encrypted-config.php";
 
 use Edu\Cnm\SproutSwap\Message;
@@ -24,21 +24,21 @@ $reply->data = null;
 
 try {
 	//grab mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/message.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprout-swap.ini");
 
 	//determines which HTTP method needs to be processed and stores it in $method
 	$method = array_key_exists("HTTP_x_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//stores primary key for the GET, DELETE, and PUT methods in $id
 	//sanitize input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$postId = filter_input(INPUT_GET, "postId", FILTER_VALIDATE_INT);
-	$receiverId = filter_input(INPUT_GET, "receiverId", FILTER_VALIDATE_INT);
-	$senderId = filter_input(INPUT_GET, "senderId", FILTER_VALIDATE_INT);
-	$content = filter_input(INPUT_GET, "content", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$messageId = filter_input(INPUT_GET, "messageId", FILTER_VALIDATE_INT);
+	$messagePostId = filter_input(INPUT_GET, "messagePostId", FILTER_VALIDATE_INT);
+	$messageReceiverId = filter_input(INPUT_GET, "messageReceiverId", FILTER_VALIDATE_INT);
+	$messageSenderId = filter_input(INPUT_GET, "messageSenderId", FILTER_VALIDATE_INT);
+	$messageContent = filter_input(INPUT_GET, "messageContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($messageId) === true || $messageId < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -49,28 +49,28 @@ try {
 		setXsrfCookie();
 
 		//get a specific message or all messages and update reply
-		if(empty($id) === false) {
-			$message = Message::getMessageByMessageId($pdo, $id);
+		if(empty($messageId) === false) {
+			$message = Message::getMessageByMessageId($pdo, $messageId);
 			if($message !== null) {
 				$reply->data = $message;
 			}
-		} else if(empty($receiverId) === false) {
-			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $receiverId);
+		} else if(empty($messageReceiverId) === false) {
+			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverId);
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
-		} else if(empty($senderId) === false) {
-			$messages = Message::getMessageByMessageSenderProfileId($pdo, $senderId);
+		} else if(empty($messageSenderId) === false) {
+			$messages = Message::getMessageByMessageSenderProfileId($pdo, $messageSenderId);
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
-		} else if(empty($postId) === false) {
-			$messages = Message::getMessagesByMessagePostId($pdo, $postId);
+		} else if(empty($messagePostId) === false) {
+			$messages = Message::getMessagesByMessagePostId($pdo, $messagePostId);
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
-		} else if(empty($content) !== false) {
-			$messages = Message::getMessageByMessageContent($pdo, $content);
+		} else if(empty($messageContent) === false) {
+			$messages = Message::getMessageByMessageContent($pdo, $messageContent);
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
@@ -80,6 +80,7 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+		var_dump($requestObject);
 
 		//make sure message content is available
 		if(empty($requestObject->messageContent) === true) {
@@ -100,7 +101,7 @@ try {
 
 		//perform the actual POST; there is no PUT method since messages cannot be updated
 		//create new message and insert into the database
-		$message = new Message(null, $requestObject->postId, $requestObject->receiverId, $requestObject->senderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->content, $_SERVER["REMOTE_ADDR"], $requestObject->status, null);
+		$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 		$message->insert($pdo);
 
 		//update reply
@@ -109,7 +110,7 @@ try {
 		verifyXsrf();
 
 		//retrieve message to be deleted
-		$message = Message::getMessageByMessageId($pdo, $id);
+		$message = Message::getMessageByMessageId($pdo, $messageId);
 		if($message === null) {
 			throw(new RuntimeException("Message does not exist", 404));
 		}
@@ -122,6 +123,7 @@ try {
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
