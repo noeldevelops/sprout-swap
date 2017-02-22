@@ -72,7 +72,7 @@ try {
 		if($method == "POST") {
 
 			//create a new mode and insert it into database
-			$mode = new Mode(null, $requestObject->imageCloudinaryId);
+			$mode = new Mode(null, $requestObject->modeName);
 			$mode->insert($pdo);
 
 			$reply->message = "New mode was created";

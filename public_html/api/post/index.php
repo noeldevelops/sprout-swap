@@ -38,8 +38,8 @@ try {
 	$postLocationLng = filter_input(INPUT_GET, "postLocationLng", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$postOffer = filter_input(INPUT_GET, "postOffer", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postRequest = filter_input(INPUT_GET, "postRequest", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$postTimestampSunrise = filter_input(INPUT_GET, "postTimestampSunrise", FILTER_VALIDATE_INT);
-	$postTimestampSunset = filter_input(INPUT_GET, "postTimestampSunset", FILTER_VALIDATE_INT);
+	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
+	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
 	$userDistance = filter_input(INPUT_GET, "userDistance", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
 	// searching by location? get to the point!
@@ -49,9 +49,9 @@ try {
 	}
 
 	// TODO: <insert Sunset Blvd Reference here>
-	if(empty($postTimestampSunrise) === false && empty($postTimestampSunset) === false) {
-		$postTimestampSunrise = \DateTime::createFromFormat("U", $postTimestampSunrise / 1000);
-		$postTimestampSunset = \DateTime::createFromFormat("U", $postTimestampSunset / 1000);
+	if(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
+		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
+		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
 	}
 
 	//make sure the postId is valid for methods that require it

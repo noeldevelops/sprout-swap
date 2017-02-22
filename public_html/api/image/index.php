@@ -6,9 +6,9 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Image;
 
-require 'Cloudinary.php';
-require 'Uploader.php';
-require 'Api.php';
+//require 'Cloudinary.php';
+//require 'Uploader.php';
+//require 'Api.php';
 
 /**
  * api for the Image class
