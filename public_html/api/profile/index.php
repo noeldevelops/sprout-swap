@@ -124,15 +124,30 @@ try {
 				throw(new RuntimeException("Profile does not exist", 404));
 			}
 
-			//update all attributes
+			//update all non password attributes
 			$profile->setProfileImageId($requestObject->profileImageId);
-			$profile->setProfileActivation($requestObject->profileActivation);
 			$profile->setProfileEmail($requestObject->profileEmail);
 			$profile->setProfileHandle($requestObject->profileHandle);
 			$profile->setProfileName($requestObject->profileName);
-			$profile->setProfilePasswordHash($requestObject->profilePasswordHash);
-			$profile->setProfileSalt($requestObject->profileSalt);
 			$profile->setProfileSummary($requestObject->profileSummary);
+
+			//change password if requested
+			if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->confirmProfilePassword) === false) {
+				if($requestObject->newProfilePassword !== $requestObject->confirmProfilePassword) {
+					throw(new RuntimeException("your typing skillz are underwhelming", 401));
+				}
+
+				$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
+				if($currentPasswordHash !== $profile->getProfilePasswordHash()) {
+					throw(new \RuntimeException("you fail at teh passwords", 401));
+				}
+
+				$newPasswordSalt = bin2hex(random_bytes(16));
+				$newPasswordHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newPasswordSalt, 262144);
+				$profile->setProfilePasswordHash($newPasswordHash);
+				$profile->setProfileSalt($newPasswordSalt);
+			}
+
 			$profile->update($pdo);
 		} else if($method === "POST"){
 
