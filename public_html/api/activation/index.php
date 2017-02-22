@@ -4,7 +4,7 @@ require_once "autoloader.php";
 require_once "/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Zabad1\SproutSwap;
+use Edu\Cnm\SproutSwap\Profile;
 
 
 /**
@@ -74,7 +74,7 @@ try {
 
 		// make sure profile image id is accurate (optional field)
 		if(empty($requestObject->profileImageId) === true) {
-			throw (new \InvalidArgumentException("No Profile Image Id");
+			throw (new \InvalidArgumentException("No Profile Image Id"));
 		}
 
 		//  make sure profile activation is available
@@ -130,7 +130,7 @@ try {
 		} else if($method === "POST") {
 
 			// create new profile and insert into the database
-			$profile = new Profile(null, $requestObject->profileId, $requestObject->profileEmail, null);
+			$profile = new Profile(null, $requestObject->profileId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, null);
 			$tweet->insert($pdo);
 
 			// update reply
