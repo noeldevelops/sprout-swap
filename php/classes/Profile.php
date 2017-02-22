@@ -590,7 +590,6 @@ class Profile implements \JsonSerializable {
 		 *
 		 * @param \PDO $pdo PDO connection object
 		 * @param string $profileEmail profile email to search for
-		 * @return \SplFixedArray of profiles or null if not found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
