@@ -78,7 +78,7 @@ try{
 				$reply->data = $messages;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST"){
+	} else if($method === "POST"){
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -97,7 +97,7 @@ try{
 			throw(new \InvalidArgumentException("Message does not exist", 405));
 		}
 
-		//perform the actual PUT or POST
+		//perform the actual POST; there is no PUT method since messages cannot be updated
 		if($method === "POST"){
 
 			//create new message and insert into the database
