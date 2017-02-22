@@ -67,93 +67,10 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//make sure profile id is available (required field)
-		if(empty($requestObject->profileId) === true) {
-			throw(new \InvalidArgumentException ("No Profile Id", 405));
-		}
-
-		// make sure profile image id is accurate (optional field)
-		if(empty($requestObject->profileImageId) === true) {
-			throw (new \InvalidArgumentException("No Profile Image Id"));
-		}
-
 		//  make sure profile activation is available
 		if(empty($requestObject->profileActivation) === true) {
 			throw(new \InvalidArgumentException ("No Profile Activation"));
 		}
-
-		// make sure profile email is correct
-		if(empty($requestObject->profileEmail) === true){
-			throw(new \InvalidArgumentException("No Profile Email"));
-
-			//make sure profile handle is correct
-			if(empty($requestObject->profileHandle) === true){
-				throw(new \InvalidArgumentException("No Profile Handle"));
-			}
-
-			//make sure profile name is correct
-			if(empty($requestObject->profileName) === true){
-				throw(new \InvalidArgumentException("No Profile Name"));
-			}
-
-			//make sure profile password hash is correct
-			if(empty($requestObject->profilePasswordHash) === true){
-				throw (new \InvalidArgumentException("No Profile Password Hash"));
-			}
-
-			//make sure profile salt must be correct
-			if(empty($requestObject->profileSalt) === true){
-				throw (new \InvalidArgumentException("No Profile Salt"));
-			}
-
-		//perform the actual put or post
-		if($method === "PUT") {
-
-			// retrieve the tweet to update
-			$profile = Profile::getProfileByProfileId($pdo, $id);
-			if($profile === null) {
-				throw(new RuntimeException("Profile does not exist", 404));
-			}
-
-			// update all attributes
-			$profile->setProfileActivation($requestObject->profileActivation);
-			$profile->setProfileEmail($requestObject->profileEmail);
-			$profile->setProfileHandle($requestObject->profileHandle);
-			$profile->setProfileName($requestObject->profileName);
-			$profile->setProfilePasswordHash($requestObject->profilePasswordHash);
-			$profile->setProflieSalt($requestObject->profileSalt);
-			$profile->update($pdo);
-
-			// update reply
-			$reply->message = "Profile updated OK";
-
-		} else if($method === "POST") {
-
-			// create new profile and insert into the database
-			$profile = new Profile(null, $requestObject->profileId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, null);
-			$tweet->insert($pdo);
-
-			// update reply
-			$reply->message = "Profile created OK";
-		}
-
-	} else if($method === "DELETE") {
-		verifyXsrf();
-
-		// retrieve the Profile to be deleted
-		$profile = Profile::getProfileByProfileId($pdo, $id);
-		if($profile === null) {
-			throw(new RuntimeException("Profile does not exist", 404));
-		}
-
-		// delete activation
-		$activation->delete($pdo);
-
-		// update reply
-		$reply->message = "Profile deleted OK";
-	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
-	}
 
 	// update reply with exception information
 } catch(Exception $exception) {
