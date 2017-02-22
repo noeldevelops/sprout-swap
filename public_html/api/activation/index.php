@@ -1,7 +1,7 @@
 <?php
 
-require_once "autoloader.php";
-require_once "/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Profile;
@@ -31,14 +31,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize activation input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$activation = filter_input(INPUT_GET, "activate", FILTER_VALIDATE_STRING);
-	$content = filter_input(INPUT_GET, "content", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
-		throw(new InvalidArgumentException("Invalid Activation"));
-	}
+	$activation = filter_input(INPUT_GET, "profile activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 
 	// handle GET request - if id is present, that activation is returned, otherwise all activations are returned
@@ -47,12 +40,7 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific Sign up based on the given field
-		$emailActivation = filter_input(INPUT_GET, "emailActivation", FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($emailActivation)) {
-			throw(new \RangeException("No Activation"));
-		}
-		$profile = Profile::getProfileByProfileActivation($pdo, $emailActivation);
+		$profile = Profile::getProfileByProfileActivation($pdo, $activation);
 		if(empty($profile)) {
 			throw(new \InvalidArgumentException("No profile for Activation"));
 		}
@@ -61,15 +49,6 @@ try {
 		$reply->message = "Profile Activated";
 	}else{
 		throw (new\Exception("Invalid HTTP method"));
-		}
-
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
-
-		//  make sure profile activation is available
-		if(empty($requestObject->profileActivation) === true) {
-			throw(new \InvalidArgumentException ("No Profile Activation"));
 		}
 
 	// update reply with exception information
