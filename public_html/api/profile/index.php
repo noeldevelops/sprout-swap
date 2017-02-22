@@ -137,26 +137,12 @@ try {
 		} else if($method === "POST"){
 
 			//create new profile and insert into database
-			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileHandle, $requestObject->profileTimestamp, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
+			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileHandle, null, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
 			$profile->insert($pdo);
 
 			//update reply
 			$reply->message = "Profile created ok";
 		}
-	} else if($method === "DELETE"){
-		verifyXsrf();
-
-		//retrieve profile to be deleted
-		$profile = Profile::getProfileByProfileId($pdo, $id);
-		if($profile === null){
-			throw(new RuntimeException("Profile does not exist", 404));
-		}
-
-		//delete profile
-		$profile->delete($pdo);
-
-		//update reply
-		$reply->message = "profile deleted ok";
 	} else{
 		throw(new InvalidArgumentException("Invalid HTTP method request"));
 	}
