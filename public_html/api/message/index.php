@@ -92,9 +92,13 @@ try{
 		if(empty($requestObject->messageTimestamp) === true){
 			$requestObject->messageTimestamp = new \Datetime();
 		}
-		//make sure messageId is available
-		if(empty($requestObject->messageId) === true){
-			throw(new \InvalidArgumentException("Message does not exist", 405));
+		//make sure messageSenderId is available
+		if(empty($requestObject->messageSenderProfileId) === true){
+			throw(new \InvalidArgumentException("Message sender does not exist", 405));
+		}
+		//make sure messageReceiverId is available
+		if(empty($requestObject->messageReceiverProfileId) === true){
+			throw(new \InvalidArgumentException("Message receiver does not exist", 405));
 		}
 
 		//perform the actual POST; there is no PUT method since messages cannot be updated

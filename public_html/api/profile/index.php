@@ -95,6 +95,24 @@ try {
 				$reply->data = $profiles;
 			}
 		}
+	} else if($method === "PUT" || $method === "POST"){
+
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//make sure profile email is available (required field)
+		if(empty($requestObject->profileEmail) === true){
+			throw(new \InvalidArgumentException("No profile email found", 405));
+		}
+		//make sure profile handle is available (required field)
+		if(empty($requestObject->profileHandle) === true){
+			throw(new \InvalidArgumentException("No profile handle found", 405));
+		}
+		//make sure profile timestamp is accurate (optional field)
+		if(empty($requestObject->profileTimestamp) === true) {
+			$requestObject->profileTimestamp = new \DateTime();
+		}
 	}
 
 }
