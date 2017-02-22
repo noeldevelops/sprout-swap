@@ -1,11 +1,8 @@
 <?php
 
-/*grabs composers autoload file - this was done in mail scrum meeting*/
-//require_once (dirname(__DIR__, 4) . "/vendor/autoload.php");
-
-require_once dirname(__DIR__, 2) . "/classes/autoload.php";
-require_once dirname(__DIR__, 2) . "/lib/xsrf.php";
-require_once dirname(__DIR__, 2) . "/lib/mail.php";
+require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "php/lib/mailgun.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Profile;
