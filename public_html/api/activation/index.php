@@ -31,7 +31,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize activation input
-	$activation = filter_input(INPUT_GET, "profile activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$activation = filter_input(INPUT_GET, "profileActivation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 
 	// handle GET request - if id is present, that activation is returned, otherwise all activations are returned

@@ -179,7 +179,11 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $newProfileActivation is not a string
 	 **/
 
-	public function setProfileActivation(string $newProfileActivation) {
+	public function setProfileActivation(string $newProfileActivation = null) {
+		if($newProfileActivation === null){
+			$this->profileActivation = null;
+			return;
+		}
 		$newProfileActivation = trim($newProfileActivation);
 		$newProfileActivation = filter_var($newProfileActivation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileActivation) === true) {
