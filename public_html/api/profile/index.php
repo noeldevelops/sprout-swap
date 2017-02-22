@@ -24,7 +24,7 @@ $reply->data = null;
 
 try {
 	//grab mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/message.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/profile.ini");
 
 	//determines which HTTP method needs to be processed and stores it in $method
 	$method = array_key_exists("HTTP_x_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
