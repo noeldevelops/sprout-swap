@@ -4,7 +4,7 @@ require_once dirname(__DIR__,3)."/php/classes/autoload.php";
 require_once dirname(__DIR__, 3)."/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\SproutSwap\Post;
+use Edu\Cnm\SproutSwap\{Post, Point};
 
 /**
  * api for Post class
@@ -34,10 +34,25 @@ try {
 	$postModeId = filter_input(INPUT_GET, "postModeId", FILTER_VALIDATE_INT);
 	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$postLocation = filter_input(INPUT_GET, "postLocation", FILTER_VALIDATE_POINT);
+	$postLocationLat = filter_input(INPUT_GET, "postLocationLat", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+	$postLocationLng = filter_input(INPUT_GET, "postLocationLng", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$postOffer = filter_input(INPUT_GET, "postOffer", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postRequest = filter_input(INPUT_GET, "postRequest", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$postTimestamp = filter_input(INPUT_GET, "postTimestamp", FILTER_VALIDATE_DATETIME);
+	$postTimestampSunrise = filter_input(INPUT_GET, "postTimestampSunrise", FILTER_VALIDATE_INT);
+	$postTimestampSunset = filter_input(INPUT_GET, "postTimestampSunset", FILTER_VALIDATE_INT);
+	$userDistance = filter_input(INPUT_GET, "userDistance", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+	// searching by location? get to the point!
+	$postLocation = null;
+	if(empty($postLocationLat) === false && empty($postLocationLng) === false) {
+		$postLocation = new Point($postLocationLat, $postLocationLng);
+	}
+
+	// TODO: <insert Sunset Blvd Reference here>
+	if(empty($postTimestampSunrise) === false && empty($postTimestampSunset) === false) {
+		$postTimestampSunrise = \DateTime::createFromFormat("U", $postTimestampSunrise / 1000);
+		$postTimestampSunset = \DateTime::createFromFormat("U", $postTimestampSunset / 1000);
+	}
 
 	//make sure the postId is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($postId) === true || $postId < 0)) {
