@@ -33,13 +33,68 @@ try {
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageId = filter_input(INPUT_GET, "imageId", FILTER_VALIDATE_INT);
-	$profileActivation = filter_input(INPUT_GET, "profileActivation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileHandle = filter_input(INPUT_GET, "profileHandle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileTimestamp = ;
-	$profileName = filter_input(INPUT_GET, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profilePasswordHash = filter_input(INPUT_GET, "profilePasswordHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profilePasswordSalt = filter_input(INPUT_GET, "profilePasswordSalt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$profileSummary = filter_input(INPUT_GET, "profileSummary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$handle = filter_input(INPUT_GET, "handle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$timestamp = ;
+	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$passwordHash = filter_input(INPUT_GET, "passwordHash", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$passwordSalt = filter_input(INPUT_GET, "passwordSalt", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$summary = filter_input(INPUT_GET, "summary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+	//ensure id is valid for methods requiring it
+	if(($method === "DELETE" || $method === "PUT") && empty($id) === true || $id < 0){
+		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
+
+	//handle GET requests, if id is present then grab that profile otherwise grab array
+	if($method === "GET"){
+
+		//set XSRF cookie
+		setXsrfCookie();
+
+		//get a specific profile or all applicable profiles and update reply
+		if(empty($id) === false){
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null){
+				$reply->data = $profile;
+			}
+		} else if(empty($imageId) === false){
+			$profile = Profile::getProfileByProfileImageId($pdo, $imageId);
+			if($profile !== null){
+				$reply->data = $profile;
+			}
+		} else if(empty($activation) === false) {
+			$profile = Profile::getProfileByProfileActivation($pdo, $activation);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($email) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $email);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+		} else if(empty($handle) === false){
+			$profile = Profile::getProfileByProfileHandle($pdo, $handle);
+			if($profile !== null){
+				$reply->data = $profile;
+			}
+		} else if(empty($name) === false){
+			$profiles = Profile::getProfileByProfileName($pdo, $name);
+			if($profiles !== null){
+				$reply->data = $profiles;
+			}
+		} else if(empty($summary) === false){
+			$profiles = Profile::getProfileByProfileSummary($pdo, $summary);
+			if($profiles !== null){
+				$reply->data = $profiles;
+			}
+		} else{
+			$profiles = Profile::getAllProfiles($pdo);
+			if($profiles !== null){
+				$reply->data = $profiles;
+			}
+		}
+	}
 
 }
