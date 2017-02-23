@@ -107,11 +107,6 @@ try {
 		if(empty($requestObject->profileHandle) === true){
 			throw(new \InvalidArgumentException("No profile handle found", 405));
 		}
-		//make sure profile timestamp is accurate (optional field)
-		//TODO: make sure this is necessary
-		if(empty($requestObject->profileTimestamp) === true){
-			$requestObject->profileTimestamp = new \DateTime();
-		}
 		//check for image id and explicitly assign to null if none (optional field)
 		if(empty($requestObject->profileImageId) === true){
 			$requestObject->profileImageId = null;
