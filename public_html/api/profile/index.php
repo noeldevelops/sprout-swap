@@ -152,7 +152,7 @@ try {
 		} else if($method === "POST"){
 
 			//create new profile and insert into database
-			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, $requestObject->profileHandle, null, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
+			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, null, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
 			$profile->insert($pdo);
 
 			//update reply
