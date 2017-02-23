@@ -2,7 +2,7 @@
 
 require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
-require_once dirname(__DIR__, 3) . "php/lib/mailgun.php";
+require_once dirname(__DIR__, 3) . "/php/lib/mailgun.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Profile;
@@ -37,7 +37,7 @@ try {
 	//perform the post
 
 	if($method === "POST") {
-		/*verifyXsrf();*/
+		//verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 

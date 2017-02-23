@@ -68,7 +68,7 @@ try {
 
 		//verify hash is correct
 
-		if($hash !== $profile->getProfileHash()) {
+		if($hash !== $profile->getProfilePasswordHash()) {
 			throw(new \InvalidArgumentException("Password or email is incorrect."));
 		}
 

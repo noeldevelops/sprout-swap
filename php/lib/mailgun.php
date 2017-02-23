@@ -1,14 +1,17 @@
 <?php
+
 /**
  * function for the activation email
  *
  * @author Zak Abad <abad.zacaria@gmail.com adapted from project flek
  **/
+
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
-require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
+//require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 
 function mailGunslinger ($senderName, $senderEmail, $receiverName, $receiverEmail, $subject, $message) {
 	$config = readConfig("/etc/apache2/capstone-mysql/sprout-swap.ini");
+	var_dump($config);
 	$mailgun = json_decode($config["mailgun"]);
 
 // now $mailgun->domain and $mailgun->apiKey exist

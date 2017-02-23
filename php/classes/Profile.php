@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError
 	 */
 
-	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
@@ -189,8 +189,8 @@ class Profile implements \JsonSerializable {
 		if(empty($newProfileActivation) === true) {
 			throw(new \InvalidArgumentException("profile activation is empty or insecure"));
 		}
-		if(strlen($newProfileActivation) > 16) {
-			throw(new \RangeException("profile activation cannot be more than 16 characters"));
+		if(strlen($newProfileActivation) > 64) {
+			throw(new \RangeException("profile activation cannot be more than 64 characters"));
 		}
 		$this->profileActivation = $newProfileActivation;
 	}
