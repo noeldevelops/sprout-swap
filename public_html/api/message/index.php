@@ -38,7 +38,7 @@ try {
 	$messageContent = filter_input(INPUT_GET, "messageContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($messageId) === true || $messageId < 0)) {
+	if(($method === "DELETE") && (empty($messageId) === true || $messageId < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -55,22 +55,22 @@ try {
 				$reply->data = $message;
 			}
 		} else if(empty($messageReceiverId) === false) {
-			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverId);
+			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverId)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
 		} else if(empty($messageSenderId) === false) {
-			$messages = Message::getMessageByMessageSenderProfileId($pdo, $messageSenderId);
+			$messages = Message::getMessageByMessageSenderProfileId($pdo, $messageSenderId)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
 		} else if(empty($messagePostId) === false) {
-			$messages = Message::getMessagesByMessagePostId($pdo, $messagePostId);
+			$messages = Message::getMessagesByMessagePostId($pdo, $messagePostId)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
 		} else if(empty($messageContent) === false) {
-			$messages = Message::getMessageByMessageContent($pdo, $messageContent);
+			$messages = Message::getMessageByMessageContent($pdo, $messageContent)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
@@ -87,6 +87,7 @@ try {
 			throw(new \InvalidArgumentException("No message content", 405));
 		}
 		//make sure messageTimestamp is accurate
+		//TODO: make sure this is necessary
 		if(empty($requestObject->messageTimestamp) === true) {
 			$requestObject->messageTimestamp = new \Datetime();
 		}
@@ -101,6 +102,7 @@ try {
 
 		//perform the actual POST; there is no PUT method since messages cannot be updated
 		//create new message and insert into the database
+		//TODO: enforce the session profile matches the sender profile id
 		$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 		$message->insert($pdo);
 
@@ -110,6 +112,7 @@ try {
 		verifyXsrf();
 
 		//retrieve message to be deleted
+		//TODO: enforce the session profile matches the sender profile id
 		$message = Message::getMessageByMessageId($pdo, $messageId);
 		if($message === null) {
 			throw(new RuntimeException("Message does not exist", 404));
@@ -139,22 +142,3 @@ if($reply->data === null) {
 
 //encode and return to front end caller
 echo json_encode($reply);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

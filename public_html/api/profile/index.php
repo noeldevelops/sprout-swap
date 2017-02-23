@@ -31,6 +31,7 @@ try {
 
 	//stores primary key for the GET, DELETE, and PUT methods in $id
 	//sanitize input
+	//TODO: rename these
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageId = filter_input(INPUT_GET, "imageId", FILTER_VALIDATE_INT);
 	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -77,17 +78,17 @@ try {
 				$reply->data = $profile;
 			}
 		} else if(empty($name) === false){
-			$profiles = Profile::getProfileByProfileName($pdo, $name);
+			$profiles = Profile::getProfileByProfileName($pdo, $name)->toArray();
 			if($profiles !== null){
 				$reply->data = $profiles;
 			}
 		} else if(empty($summary) === false){
-			$profiles = Profile::getProfileByProfileSummary($pdo, $summary);
+			$profiles = Profile::getProfileByProfileSummary($pdo, $summary)->toArray();
 			if($profiles !== null){
 				$reply->data = $profiles;
 			}
 		} else{
-			$profiles = Profile::getAllProfiles($pdo);
+			$profiles = Profile::getAllProfiles($pdo)->toArray();
 			if($profiles !== null){
 				$reply->data = $profiles;
 			}
@@ -107,6 +108,7 @@ try {
 			throw(new \InvalidArgumentException("No profile handle found", 405));
 		}
 		//make sure profile timestamp is accurate (optional field)
+		//TODO: make sure this is necessary
 		if(empty($requestObject->profileTimestamp) === true){
 			$requestObject->profileTimestamp = new \DateTime();
 		}
@@ -134,12 +136,12 @@ try {
 			//change password if requested
 			if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->confirmProfilePassword) === false) {
 				if($requestObject->newProfilePassword !== $requestObject->confirmProfilePassword) {
-					throw(new RuntimeException("your typing skillz are underwhelming", 401));
+					throw(new RuntimeException("New passwords do not match", 401));
 				}
 
 				$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
 				if($currentPasswordHash !== $profile->getProfilePasswordHash()) {
-					throw(new \RuntimeException("you fail at teh passwords", 401));
+					throw(new \RuntimeException("Old password is incorrect", 401));
 				}
 
 				$newPasswordSalt = bin2hex(random_bytes(16));
