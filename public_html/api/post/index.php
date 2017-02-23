@@ -150,7 +150,7 @@ if ($method === "GET") {
 	} elseif($method === "POST") {
 		//create a new post and insert into database
 		/** @todo what do we do with browser and ip address - see message */
-		$post = new Post(null, $requestObject->postModeId, null, $requestObject->postContent,$requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
+		$post = new Post(null, $requestObject->postModeId, null, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
 		$post->insert($pdo);
 
 		//update reply
