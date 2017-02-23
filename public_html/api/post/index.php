@@ -40,6 +40,8 @@ try {
 	$postRequest = filter_input(INPUT_GET, "postRequest", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
 	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
+	//todo wtf
+	$userLocation = filter_input(INPUT_GET, "userLocation", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$userDistance = filter_input(INPUT_GET, "userDistance", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
 	// searching by location? get to the point!
@@ -48,7 +50,6 @@ try {
 		$postLocation = new Point($postLocationLat, $postLocationLng);
 	}
 
-	// TODO: <insert Sunset Blvd Reference here>
 	if(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
 		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
 		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
@@ -69,39 +70,38 @@ if ($method === "GET") {
 				$reply->data = $post;
 			}
 		} elseif(empty($postModeId) === false) {
-			$posts = Post::getPostsByPostModeId($pdo, $postModeId);
+			$posts = Post::getPostsByPostModeId($pdo, $postModeId)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
 		} elseif(empty($postProfileId) === false) {
-			$posts = Post::getPostsByPostProfileId($pdo, $postProfileId);
+			$posts = Post::getPostsByPostProfileId($pdo, $postProfileId)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
 		} elseif(empty($postContent) === false) {
-			$posts = Post::getPostsByPostContent($pdo, $postContent);
+			$posts = Post::getPostsByPostContent($pdo, $postContent)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
-		} /** @todo figure out what variables go here and how! **/
+		} /** @todo make a point **/
 		elseif(empty($postLocation) === false) {
-			$posts = Post::getPostsByPostLocation($pdo, $userLocation, $userDistance);
+			$posts = Post::getPostsByPostLocation($pdo, $userLocation, $userDistance)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
 		} elseif(empty($postOffer) === false) {
-			$posts = Post::getPostsByPostOffer($pdo, $postOffer);
+			$posts = Post::getPostsByPostOffer($pdo, $postOffer)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
 		} elseif(empty($postRequest) === false) {
-			$posts = Post::getPostsByPostRequest($pdo, $postRequest);
+			$posts = Post::getPostsByPostRequest($pdo, $postRequest)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
-		} /** @todo figure out what goes here and how! **/
-		elseif(empty($postTimestamp) === false) {
-			$posts = Post::getPostsByPostTimestamp($pdo, $postSunriseDate, $postSunsetDate);
+		} elseif(empty($postTimestamp) === false) {
+			$posts = Post::getPostsByPostTimestamp($pdo, $postSunriseDate, $postSunsetDate)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
@@ -113,15 +113,10 @@ if ($method === "GET") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-	/** @todo find out if I need more of these if statements? *only 'not null' things!**/
+	/** @todo all 'not null' things!**/
 	//make sure post content is available
-	if(empty($requestObject->postContent)==true) {
+	if(empty($requestObject->postContent) === true) {
 		throw(new \InvalidArgumentException("No content for Post", 405));
-	}
-
-	//make sure post date is accurate
-	if(empty($requestObject->postTimestamp) === true) {
-		$requestObject->postTimestamp = new \DateTime();
 	}
 
 	//make sure postProfileId is available
@@ -149,12 +144,11 @@ if ($method === "GET") {
 
 	} elseif($method === "POST") {
 		//create a new post and insert into database
-		/** @todo what do we do with browser and ip address - see message */
 		$post = new Post(null, $requestObject->postModeId, null, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
 		$post->insert($pdo);
 
 		//update reply
-		$reply->message = "New post sucessful.";
+		$reply->message = "New post successful.";
 	}
 
 } elseif($method === "DELETE") {

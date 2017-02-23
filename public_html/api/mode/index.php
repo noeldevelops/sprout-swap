@@ -16,7 +16,7 @@ use Edu\Cnm\SproutSwap\Mode;
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-
+//TODO delete everything except GET
 //prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
