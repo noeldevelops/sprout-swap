@@ -40,8 +40,8 @@ try {
 	$postRequest = filter_input(INPUT_GET, "postRequest", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
 	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
-	//todo wtf
-	$userLocation = filter_input(INPUT_GET, "userLocation", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+	$userLocationX = filter_input(INPUT_GET, "userLocationX", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+	$userLocationY = filter_input(INPUT_GET, "userLocationY", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$userDistance = filter_input(INPUT_GET, "userDistance", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
 	// searching by location? get to the point!
@@ -84,9 +84,8 @@ if ($method === "GET") {
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
-		} /** @todo make a point **/
-		elseif(empty($postLocation) === false) {
-			$posts = Post::getPostsByPostLocation($pdo, $userLocation, $userDistance)->toArray();
+		} elseif(empty($postLocation) === false) {
+			$posts = Post::getPostsByPostLocation($pdo, new Point($userLocationX, $userLocationY), $userDistance)->toArray();
 			if($posts !== null) {
 				$reply->data = $posts;
 			}
@@ -113,10 +112,9 @@ if ($method === "GET") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-	/** @todo all 'not null' things!**/
-	//make sure post content is available
-	if(empty($requestObject->postContent) === true) {
-		throw(new \InvalidArgumentException("No content for Post", 405));
+	//make sure modeId is available
+	if(empty($requestObject->postModeId) === true) {
+		throw(new \InvalidArgumentException("No Mode available", 405));
 	}
 
 	//make sure postProfileId is available
@@ -124,12 +122,27 @@ if ($method === "GET") {
 		throw(new \InvalidArgumentException("No profile ID for Post", 405));
 	}
 
+	//make sure post browser info is available
+	if(empty($requestObject->postBrowser) === true) {
+		throw(new \InvalidArgumentException("No browser information", 405));
+	}
+
+	if(empty($requestObject->postLocation) === true) {
+		throw (new \InvalidArgumentException("No location?!", 405));
+	}
+
+	if(empty($requestObject->postOffer) === true) {
+		throw (new \InvalidArgumentException("No offer for post", 405));
+	}
+
+
 	if($method === "PUT") {
 		//retrieve the post
 		$post = Post::getPostByPostId($pdo, $postId);
 		if($post === null) {
 			throw(new RuntimeException("Post does not exist", 404));
 		}
+
 		//update all attributes
 		$post->setPostModeId($requestObject->postModeId);
 		$post->setPostContent($requestObject->postContent);
