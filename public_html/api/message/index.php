@@ -85,12 +85,7 @@ try {
 		//make sure message content is available
 		if(empty($requestObject->messageContent) === true) {
 			throw(new \InvalidArgumentException("No message content", 405));
-		}
-		//make sure messageTimestamp is accurate
-		//TODO: make sure this is necessary
-		if(empty($requestObject->messageTimestamp) === true) {
-			$requestObject->messageTimestamp = new \Datetime();
-		}
+		}https://app.asana.com/0/256424297438823/277452407489545
 		//make sure messageSenderId is available
 		if(empty($requestObject->messageSenderProfileId) === true) {
 			throw(new \InvalidArgumentException("Message sender does not exist", 405));
