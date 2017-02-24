@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
-require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
-//require_once dirname(__DIR__, 3) . "/php/lib/mailgun.php";
+require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
+require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
+require_once (dirname(__DIR__, 3) . "/php/lib/mailgun.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Profile;
@@ -70,7 +70,7 @@ try {
 
 		//create a new profile
 
-		$profile = new Profile(null,$requestObject->profileImageId, $profileActivationToken, $requestObject->profileEmail, $requestObject->profileHandle, null, $requestObject->profileName, $hash, $salt, $requestObject->profileSummary);
+		$profile = new Profile(null,$requestObject->profileImageId=null, $profileActivationToken, $requestObject->profileEmail, $requestObject->profileHandle, null, $requestObject->profileName, $hash, $salt, $requestObject->profileSummary);
 		$profile->insert($pdo);
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.

@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError
 	 */
 
-	public function __construct(int $newProfileId = null, int $newProfileImageId, string $newProfileActivation, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId = null, string $newProfileActivation = null, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
