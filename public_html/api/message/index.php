@@ -85,8 +85,7 @@ try {
 		//make sure message content is available
 		if(empty($requestObject->messageContent) === true) {
 			throw(new \InvalidArgumentException("No message content", 405));
-		}https://app.asana.com/0/256424297438823/277452407489545
-		//make sure messageSenderId is available
+		}
 		if(empty($requestObject->messageSenderProfileId) === true) {
 			throw(new \InvalidArgumentException("Message sender does not exist", 405));
 		}
@@ -98,9 +97,9 @@ try {
 		//perform the actual POST; there is no PUT method since messages cannot be updated
 		//create new message and insert into the database
 		//enforce the session profile matches the sender profile id
-		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
-			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
-		}
+//		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
+//			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
+//		}
 
 		$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 		$message->insert($pdo);
@@ -112,6 +111,7 @@ try {
 
 		//retrieve message to be deleted
 		//TODO: enforce the session profile matches the sender profile id
+
 		$message = Message::getMessageByMessageId($pdo, $messageId);
 		if($message === null) {
 			throw(new RuntimeException("Message does not exist", 404));
