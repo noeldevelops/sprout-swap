@@ -16,7 +16,6 @@ use Edu\Cnm\SproutSwap\Mode;
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-//TODO delete everything except GET
 //prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
@@ -32,11 +31,6 @@ try {
 	//sanitize input
 	$modeId = filter_input(INPUT_GET, "modeId", FILTER_VALIDATE_INT);
 	$modeName = filter_input(INPUT_GET, "modeName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-	//make sure id is valid
-	if(($method === "DELETE" || $method === "PUT") && (empty($modeId) === true || $modeId < 0)) {
-		throw(new InvalidArgumentException("modeId cannot be empty or negative", 405));
-	}
 
 	//handle GET request
 	if($method == "GET") {
@@ -60,36 +54,6 @@ try {
 				$reply->data = $modes;
 			}
 		}
-	} elseif($method === "POST") {
-
-		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
-
-		if(empty($requestObject->modeName) === true) {
-			throw(new \InvalidArgumentException("No Mode Name", 405));
-		}
-		if($method == "POST") {
-
-			//create a new mode and insert it into database
-			$mode = new Mode(null, $requestObject->modeName);
-			$mode->insert($pdo);
-
-			$reply->message = "New mode was created";
-		}
-	} elseif($method === "DELETE") {
-		verifyXsrf();
-
-		$mode = Mode::getModeByModeId($pdo, $modeId);
-		if($mode === null) {
-			throw(new RuntimeException("Mode does not exist", 404));
-		}
-		//delete the mode
-		$mode->delete($pdo);
-
-		$reply->message = "Mode successfully deleted";
-	} else {
-		throw(new InvalidArgumentException("Invalid HTTP Method Request"));
 	}
 
 } catch(Exception $exception) {
