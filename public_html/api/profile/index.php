@@ -31,17 +31,16 @@ try {
 
 	//stores primary key for the GET, DELETE, and PUT methods in $id
 	//sanitize input
-	//TODO: rename these
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$imageId = filter_input(INPUT_GET, "imageId", FILTER_VALIDATE_INT);
-	$activation = filter_input(INPUT_GET, "activation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$handle = filter_input(INPUT_GET, "handle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$name = filter_input(INPUT_GET, "name", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$summary = filter_input(INPUT_GET, "summary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
+	$profileImageId = filter_input(INPUT_GET, "profileImageId", FILTER_VALIDATE_INT);
+	$profileActivation = filter_input(INPUT_GET, "profileActivation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileHandle = filter_input(INPUT_GET, "profileHandle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileName = filter_input(INPUT_GET, "profileName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileSummary = filter_input(INPUT_GET, "profileSummary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
-	if(($method === "DELETE" || $method === "PUT") && empty($id) === true || $id < 0){
+	if(($method === "DELETE" || $method === "PUT") && empty($profileId) === true || $profileId < 0){
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -52,38 +51,38 @@ try {
 		setXsrfCookie();
 
 		//get a specific profile or all applicable profiles and update reply
-		if(empty($id) === false){
-			$profile = Profile::getProfileByProfileId($pdo, $id);
+		if(empty($profileId) === false){
+			$profile = Profile::getProfileByProfileId($pdo, $profileId);
 			if($profile !== null){
 				$reply->data = $profile;
 			}
-		} else if(empty($imageId) === false){
-			$profile = Profile::getProfileByProfileImageId($pdo, $imageId);
+		} else if(empty($profileImageId) === false){
+			$profile = Profile::getProfileByProfileImageId($pdo, $profileImageId);
 			if($profile !== null){
 				$reply->data = $profile;
 			}
-		} else if(empty($activation) === false) {
-			$profile = Profile::getProfileByProfileActivation($pdo, $activation);
+		} else if(empty($profileActivation) === false) {
+			$profile = Profile::getProfileByProfileActivation($pdo, $profileActivation);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($email) === false) {
-			$profile = Profile::getProfileByProfileEmail($pdo, $email);
+		} else if(empty($profileEmail) === false) {
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($handle) === false){
-			$profile = Profile::getProfileByProfileHandle($pdo, $handle);
+		} else if(empty($profileHandle) === false){
+			$profile = Profile::getProfileByProfileHandle($pdo, $profileHandle);
 			if($profile !== null){
 				$reply->data = $profile;
 			}
-		} else if(empty($name) === false){
-			$profiles = Profile::getProfileByProfileName($pdo, $name)->toArray();
+		} else if(empty($profileName) === false){
+			$profiles = Profile::getProfileByProfileName($pdo, $profileName)->toArray();
 			if($profiles !== null){
 				$reply->data = $profiles;
 			}
-		} else if(empty($summary) === false){
-			$profiles = Profile::getProfileByProfileSummary($pdo, $summary)->toArray();
+		} else if(empty($profileSummary) === false){
+			$profiles = Profile::getProfileByProfileSummary($pdo, $profileSummary)->toArray();
 			if($profiles !== null){
 				$reply->data = $profiles;
 			}
@@ -116,7 +115,7 @@ try {
 		if($method === "PUT"){
 
 			//retrieve the profile to be updated
-			$profile = Profile::getProfileByProfileId($pdo, $id);
+			$profile = Profile::getProfileByProfileId($pdo, $profileId);
 			if($profile === null){
 				throw(new RuntimeException("Profile does not exist", 404));
 			}
