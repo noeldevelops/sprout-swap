@@ -69,7 +69,7 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError
 	 */
 	public function __construct
-	(int $newMessageId = null, int $newMessagePostId = null, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus = null, \DateTime $newMessageTimestamp) {
+	(int $newMessageId = null, int $newMessagePostId = null, int $newMessageReceiverProfileId, int $newMessageSenderProfileId, string $newMessageBrowser, string $newMessageContent, string $newMessageIpAddress, int $newMessageStatus, \DateTime $newMessageTimestamp = null) {
 		try{
 			$this->setMessageId($newMessageId);
 			$this->setMessagePostId($newMessagePostId);
