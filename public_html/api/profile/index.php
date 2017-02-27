@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__,3)."/lib/xsrf.php";
+require_once dirname(__DIR__,3)."/php/lib/xsrf.php";
 require_once "/etc/apache2/capstone-mysql/encrypted-config.php";
 
 use Edu\Cnm\SproutSwap\Profile;
@@ -40,8 +40,8 @@ try {
 	$profileSummary = filter_input(INPUT_GET, "profileSummary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
-	if(($method === "DELETE" || $method === "PUT") && empty($profileId) === true || $profileId < 0){
-		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	if(($method === "DELETE" || $method === "PUT") && (empty($profileId) === true || $profileId < 0)){
+		throw(new InvalidArgumentException("Profile ID is empty or invalid.", 405));
 	}
 
 	//handle GET requests, if id is present then grab that profile otherwise grab array
@@ -92,22 +92,23 @@ try {
 				$reply->data = $profiles;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST"){
+	} else if($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
 		//make sure profile email is available (required field)
-		if(empty($requestObject->profileEmail) === true){
+		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException("No profile email found", 405));
 		}
 		//make sure profile handle is available (required field)
-		if(empty($requestObject->profileHandle) === true){
+		if(empty($requestObject->profileHandle) === true) {
 			throw(new \InvalidArgumentException("No profile handle found", 405));
 		}
+
 		//check for image id and explicitly assign to null if none (optional field)
-		if(empty($requestObject->profileImageId) === true){
+		if(empty($requestObject->profileImageId) === true) {
 			$requestObject->profileImageId = null;
 		}
 

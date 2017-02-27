@@ -80,7 +80,6 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		var_dump($requestObject);
 
 		//make sure message content is available
 		if(empty($requestObject->messageContent) === true) {
@@ -141,8 +140,8 @@ try {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 } catch(TypeError $typeError) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
 
 header("content-type: application/json");
