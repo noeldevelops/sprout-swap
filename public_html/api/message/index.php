@@ -86,11 +86,11 @@ try {
 		if(empty($requestObject->messageContent) === true) {
 			throw(new \InvalidArgumentException("No message content", 405));
 		}
-		if(empty($requestObject->messageSenderProfileId) === true) {
+		if(empty($requestObject->messageSenderId) === true) {
 			throw(new \InvalidArgumentException("Message sender does not exist", 405));
 		}
 		//make sure messageReceiverId is available
-		if(empty($requestObject->messageReceiverProfileId) === true) {
+		if(empty($requestObject->messageReceiverId) === true) {
 			throw(new \InvalidArgumentException("Message receiver does not exist", 405));
 		}
 
