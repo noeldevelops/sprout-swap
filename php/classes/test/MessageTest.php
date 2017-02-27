@@ -19,6 +19,7 @@ class MessageTest extends SproutSwapTest{
 	protected $VALID_MESSAGEIPADDRESS = "2600::dead:beef:cafe";
 	protected $VALID_MESSAGESTATUS = 0;
 	protected $VALID_MESSAGESTATUS2 = 1;
+	protected $INVALID_MESSAGESTATUS = 5;
 	protected $VALID_MESSAGETIMESTAMP = null;
 	protected $VALID_MODE = null;
 	protected $VALID_LAT = 45.43;
@@ -81,6 +82,9 @@ class MessageTest extends SproutSwapTest{
 		$this->post->insert($this->getPDO());
 	}
 
+	/**
+	 * testing updating message status when valid
+	 */
 	public function testUpdateValidMessage(){
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
@@ -91,11 +95,24 @@ class MessageTest extends SproutSwapTest{
 
 		//edit message status and update in database
 		$message->setMessageStatus($this->VALID_MESSAGESTATUS2);
-		$message->insert($this->getPDO());
+		$message->update($this->getPDO());
 
 		//grab data from mySQL and enforce fields match expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertEquals($pdoMessage->getMessageStatus, $this->VALID_MESSAGESTATUS2);
+
+	}
+
+	/**
+	 * testing updating the status of a message that has not been inserted
+	 *
+	 * @expectedException \PDOException
+	 */
+
+	public function testUpdateInvalidMessageStatus(){
+		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message->update($this->getPDO());
 	}
 
 	/**
