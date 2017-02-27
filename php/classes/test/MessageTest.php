@@ -69,10 +69,10 @@ class MessageTest extends SproutSwapTest{
 		$this->VALID_PROFILESALT = bin2hex(random_bytes(32));
 		$this->VALID_PROFILEHASH = hash_pbkdf2("sha512", $password, $this->VALID_PROFILESALT, 262144);
 
-		$this->receiverProfile = new Profile(null, $this->image->getImageId(), "kjsdhkj", "solomon.leyba@gmail.com", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba",$this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "we do THE BEST unit tests, tremmendous");
+		$this->receiverProfile = new Profile(null, $this->image->getImageId(), null, "solomon.leiba@gmail.com","handle1", $this->VALID_MESSAGETIMESTAMP, "Solomon Leyba",$this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "we do THE BEST unit tests, tremmendous");
 		$this->receiverProfile->insert($this->getPDO());
 
-		$this->senderProfile = new Profile(null, $this->image->getImageId(), "sdfsd", "djt@america.gov", "2600::dead:beef:cafe", $this->VALID_MESSAGETIMESTAMP, "Noel Cothren",$this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "god damn i STILL love unit testing");
+		$this->senderProfile = new Profile(null, $this->image->getImageId(), null, "djt@america.gov", "handle2", $this->VALID_MESSAGETIMESTAMP, "Noel Cothren",$this->VALID_PROFILEHASH, $this->VALID_PROFILESALT, "god damn i STILL love unit testing");
 		$this->senderProfile->insert($this->getPDO());
 
 		$this->VALID_MODE = new Mode(null, "Free");
@@ -100,7 +100,7 @@ class MessageTest extends SproutSwapTest{
 		//grab data from mySQL and enforce fields match expectations
 		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-		$this->assertEquals($pdoMessage->getMessageStatus, $this->VALID_MESSAGESTATUS2);
+		$this->assertEquals($pdoMessage->getMessageStatus(), $this->VALID_MESSAGESTATUS2);
 
 	}
 
