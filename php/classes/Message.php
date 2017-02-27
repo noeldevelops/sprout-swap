@@ -342,6 +342,23 @@ class Message implements \JsonSerializable {
 			$statement->execute($parameters);
 		}
 	/**
+	 * update function for mySQL (only updates message status)
+	 * @param \PDO $pdo
+	 */
+		public function update(\PDO $pdo){
+			//if messageId is null throw an exception
+			if($this->messageId ===  null){
+				throw (new \PDOException("cannot delete a message without an assigned messageId"));
+			}
+			//create query
+			$query = "UPDATE message WHERE messageId = $this->messageId";
+			$statement = $pdo->prepare($query);
+			//bind variables
+			$parameters = ["messageStatus" => $this->messageStatus];
+			//execute
+			$statement->execute($parameters);
+		}
+	/**
 	 * @param \PDO $pdo
 	 * @param int $messageSenderProfileId
 	 * @return \SplFixedArray of all messages associated with a sender id

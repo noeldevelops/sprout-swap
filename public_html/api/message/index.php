@@ -96,7 +96,7 @@ try {
 
 		//perform the actual POST; there is no PUT method since messages cannot be updated
 		//create new message and insert into the database
-		//enforce the session profile matches the sender profile id
+		//TODO: enforce the session profile matches the sender profile id
 //		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
 //			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
 //		}
