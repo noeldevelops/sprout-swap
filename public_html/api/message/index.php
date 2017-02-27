@@ -75,7 +75,7 @@ try {
 				$reply->data = $messages;
 			}
 		}
-	} else if($method === "POST") {
+	} else if($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -100,31 +100,42 @@ try {
 //		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
 //			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
 //		}
+		if($method === "POST") {
+			$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
+			$message->insert($pdo);
 
-		$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
-		$message->insert($pdo);
+			//update reply
+			$reply->message = "Message created ok";
+		} else if($method === "PUT") {
+			$message = Message::getMessageByMessageId($pdo, $messageId);
+			if($message === null) {
+				throw(new RuntimeException("Message does not exist", 404));
+			}
 
-		//update reply
-		$reply->message = "Message created ok";
-	} else if($method === "DELETE") {
-		verifyXsrf();
+			//update message status
+			$message->setMessageStatus($requestObject->messageStatus);
+			$message->update($pdo);
+		} else if($method === "DELETE") {
+			verifyXsrf();
 
-		//retrieve message to be deleted
-		//TODO: enforce the session profile matches the sender profile id
+			//retrieve message to be deleted
+			//TODO: enforce the session profile matches the sender profile id
 
-		$message = Message::getMessageByMessageId($pdo, $messageId);
-		if($message === null) {
-			throw(new RuntimeException("Message does not exist", 404));
+			$message = Message::getMessageByMessageId($pdo, $messageId);
+			if($message === null) {
+				throw(new RuntimeException("Message does not exist", 404));
+			}
+
+			//delete message
+			$message->delete($pdo);
+
+			//update reply
+			$reply->message = "Tweet deleted ok";
 		}
-
-		//delete message
-		$message->delete($pdo);
-
-		//update reply
-		$reply->message = "Tweet deleted ok";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}
+
 
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
