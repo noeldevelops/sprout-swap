@@ -351,7 +351,7 @@ class Message implements \JsonSerializable {
 				throw (new \PDOException("cannot delete a message without an assigned messageId"));
 			}
 			//create query
-			$query = "UPDATE message WHERE messageId = $this->messageId";
+			$query = "UPDATE message SET messageStatus = :messageStatus";
 			$statement = $pdo->prepare($query);
 			//bind variables
 			$parameters = ["messageStatus" => $this->messageStatus];
