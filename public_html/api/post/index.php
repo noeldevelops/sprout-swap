@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__, 3)."/php/lib/xsrf.php";
+require_once dirname(__DIR__,3)."/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\{Post, Point};
@@ -112,19 +112,22 @@ if ($method === "GET") {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-	//make sure modeId is available
-	if(empty($requestObject->postModeId) === true) {
-		throw(new \InvalidArgumentException("No Mode available", 405));
-	}
+		//take the lat and long in postLocation and make it a new Point
+		$postLocation = new Point($requestObject->postLocation[0], $requestObject->postLocation[1]);
 
-	//make sure postProfileId is available
-	if(empty($requestObject->postProfileId) === true) {
-		throw(new \InvalidArgumentException("No profile ID for Post", 405));
-	}
+		var_dump($requestObject);
 
 	//make sure post browser info is available
 	if(empty($requestObject->postBrowser) === true) {
 		throw(new \InvalidArgumentException("No browser information", 405));
+	}
+	//make sure postProfileId is available
+	if(empty($requestObject->postProfileId) === true) {
+		throw(new \InvalidArgumentException("No profile ID for Post", 405));
+	}
+	//make sure modeId is available
+	if(empty($requestObject->postModeId) === true) {
+		throw(new \InvalidArgumentException("No Mode available", 405));
 	}
 
 	if(empty($requestObject->postLocation) === true) {
