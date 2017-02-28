@@ -33,7 +33,6 @@ try {
 	//sanitize activation input
 	$activation = filter_input(INPUT_GET, "profileActivation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-
 	// handle GET request - if id is present, that activation is returned, otherwise all activations are returned
 	if($method === "GET") {
 
@@ -44,8 +43,10 @@ try {
 		if(empty($profile)) {
 			throw(new \InvalidArgumentException("No profile for Activation"));
 		}
+
 		$profile->setProfileActivation(null);
 		$profile->update($pdo);
+
 		$reply->message = "Profile Activated";
 	}else{
 		throw (new\Exception("Invalid HTTP method"));
@@ -56,7 +57,7 @@ try {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 	$reply->trace = $exception->getTraceAsString();
-	header("Content-type: application/json");
+	//header("Content-type: application/json");
 	echo json_encode($reply);
 } catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
@@ -64,7 +65,7 @@ try {
 	$reply->trace = $typeError->getTraceAsString();
 }
 
-header("Content-type: application/json");
+//header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
 }

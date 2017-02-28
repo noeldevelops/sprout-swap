@@ -471,12 +471,13 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "UPDATE profile SET profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle,profileTimestamp = :profileTimestamp, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary";
+		$query = "UPDATE profile SET  profileImageId = :profileImageId, profileActivation = :profileActivation, profileEmail = :profileEmail, profileHandle = :profileHandle,profileTimestamp = :profileTimestamp, profileName = :profileName, profilePasswordHash = :profilePasswordHash, profileSalt = :profileSalt, profileSummary = :profileSummary WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		$formattedDate = $this->profileTimestamp->format("Y-m-d H:i:s");
 
 		//bind the member variables to the place holders in the template
 		$parameters = [
+			"profileId" => $this->profileId,
 			"profileImageId" => $this->profileImageId,
 			"profileActivation" => $this->profileActivation,
 			"profileEmail" => $this->profileEmail,

@@ -146,6 +146,7 @@ try {
 			}
 
 			$profile->update($pdo);
+
 		} else if($method === "POST"){
 
 			//create new profile and insert into database
