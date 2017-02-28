@@ -400,7 +400,8 @@ public function update(\PDO $pdo) {
 	if($this->postId === null) {
 		throw(new \PDOException("Cannot update a post that doesn't exist"));
 	}
-	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = POINT(:postLocationX, :postLocationY), postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp";
+	$query = "UPDATE post SET postModeId = :postModeId, postProfileId = :postProfileId, postBrowser =:postBrowser, postContent = :postContent, postIpAddress = :postIpAddress, postLocation = POINT(:postLocationX, :postLocationY), postOffer = :postOffer, postRequest = :postRequest, postTimestamp = :postTimestamp WHERE postId = :postId";
+
 	$statement = $pdo->prepare($query);
 	$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
