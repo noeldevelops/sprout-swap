@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__, 3)."/lib/xsrf.php";
+require_once dirname(__DIR__, 3)."/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\{Post, Point};
@@ -144,6 +144,7 @@ if ($method === "GET") {
 		}
 
 		//update all attributes
+//		$post->setPostProfileId($requestObject->postProfileId);
 		$post->setPostModeId($requestObject->postModeId);
 		$post->setPostContent($requestObject->postContent);
 		$post->setPostLocation($requestObject->postLocation);
@@ -157,7 +158,7 @@ if ($method === "GET") {
 
 	} elseif($method === "POST") {
 		//create a new post and insert into database
-		$post = new Post(null, $requestObject->postModeId, null, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
+		$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
 		$post->insert($pdo);
 
 		//update reply
