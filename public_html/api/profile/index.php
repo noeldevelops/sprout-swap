@@ -129,8 +129,8 @@ try {
 			$profile->setProfileSummary($requestObject->profileSummary);
 
 			//change password if requested
-			if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->confirmProfilePassword) === false) {
-				if($requestObject->newProfilePassword !== $requestObject->confirmProfilePassword) {
+			if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->profileConfirmPassword) === false) {
+				if($requestObject->newProfilePassword !== $requestObject->profileConfirmPassword) {
 					throw(new RuntimeException("New passwords do not match", 401));
 				}
 
@@ -163,8 +163,8 @@ try {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 } catch(TypeError $typeError){
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
+	$reply->status = $typeError->getCode();
+	$reply->message = $typeError->getMessage();
 }
 
 header("Content-type: application/json");

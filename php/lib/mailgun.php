@@ -11,7 +11,6 @@ require_once dirname(__DIR__, 2) . "/vendor/autoload.php";
 
 function mailGunslinger ($senderName, $senderEmail, $receiverName, $receiverEmail, $subject, $message) {
 	$config = readConfig("/etc/apache2/capstone-mysql/sprout-swap.ini");
-	var_dump($config);
 	$mailgun = json_decode($config["mailgun"]);
 
 // now $mailgun->domain and $mailgun->apiKey exist
