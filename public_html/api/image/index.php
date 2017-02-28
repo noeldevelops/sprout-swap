@@ -4,11 +4,13 @@ require_once dirname(__DIR__,3)."/php/classes/autoload.php";
 require_once dirname(__DIR__, 3)."/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
+require 'Cloudinary.php';
+require 'Uploader.php';
+require 'Api.php';
+
 use Edu\Cnm\SproutSwap\Image;
 
-//require 'Cloudinary.php';
-//require 'Uploader.php';
-//require 'Api.php';
+
 
 /**
  * api for the Image class
@@ -30,7 +32,10 @@ try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprout-swap.ini");
 
-	/** @todo insert cloudinary stuff here **/
+	/** Cloudinary API stuff**/
+	$config = readConfig("/etc/apache2/capstone-mysql/encrypted-config.ini");
+	$cloudinary = json_decode($config["cloudinary"]);
+	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -64,20 +69,30 @@ try {
 	} elseif($method === "POST") {
 
 		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
+//		$requestContent = file_get_contents("php://input");
+//		$requestObject = json_decode($requestContent);
 
 		//make sure image cloudinary ID is available
-		if(empty($requestObject->imageCloudinaryId) === true) {
-			throw(new \InvalidArgumentException("No image cloudinary ID", 405));
-		}
+//		if(empty($requestObject->imageCloudinaryId) === true) {
+//			throw(new \InvalidArgumentException("No image cloudinary ID", 405));
+//		}
 		if($method === "POST") {
 
-			$image = new Image(null, $requestObject->imageCloudinaryId);
+//assigning variables to the user image name, MIME type, and image extension
+			$tempUserFileName = $_FILES["userImage"]["tmp_name"];
+			$userFileType = $_FILES["userImage"]["type"];
+			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
+
+			//upload image to cloudinary and get public id
+			$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["userImage"]["tmp_name"]);
+
+			//after sending the image to Cloudinary, grab the public id and create a new image
+			$image = new Image(null, $cloudinaryResult["public_id"]);
 			$image->insert($pdo);
 
-			$reply->message = "Image created ok";
+			$reply->message = "Image upload ok";
 		}
+
 	} elseif($method === "DELETE") {
 		verifyXsrf();
 

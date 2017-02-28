@@ -113,7 +113,7 @@ if ($method === "GET") {
 		$requestObject = json_decode($requestContent);
 
 		//take the lat and long in postLocation and make it a new Point
-		$postLocation = new Point($requestObject->postLocation[0], $requestObject->postLocation[1]);
+		$postLocation = new Point($requestObject->postLocation->lat, $requestObject->postLocation->lng);
 
 		var_dump($requestObject);
 
@@ -150,7 +150,7 @@ if ($method === "GET") {
 //		$post->setPostProfileId($requestObject->postProfileId);
 		$post->setPostModeId($requestObject->postModeId);
 		$post->setPostContent($requestObject->postContent);
-		$post->setPostLocation($requestObject->postLocation);
+		$post->setPostLocation($postLocation);
 		$post->setPostOffer($requestObject->postOffer);
 		$post->setPostRequest($requestObject->postRequest);
 		$post->setPostTimestamp($requestObject->postTimestamp);
@@ -161,7 +161,7 @@ if ($method === "GET") {
 
 	} elseif($method === "POST") {
 		//create a new post and insert into database
-		$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $requestObject->postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
+		$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
 		$post->insert($pdo);
 
 		//update reply
