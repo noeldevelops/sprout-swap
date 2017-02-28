@@ -100,7 +100,7 @@ try {
 //			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
 //		}
 		if($method === "POST") {
-			$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverId, $requestObject->messageSenderId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
+			$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverProfileId, $requestObject->messageSenderProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 			$message->insert($pdo);
 
 			//update reply
