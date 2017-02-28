@@ -33,8 +33,8 @@ try {
 	//sanitize input
 	$messageId = filter_input(INPUT_GET, "messageId", FILTER_VALIDATE_INT);
 	$messagePostId = filter_input(INPUT_GET, "messagePostId", FILTER_VALIDATE_INT);
-	$messageReceiverId = filter_input(INPUT_GET, "messageReceiverId", FILTER_VALIDATE_INT);
-	$messageSenderId = filter_input(INPUT_GET, "messageSenderId", FILTER_VALIDATE_INT);
+	$messageReceiverProfileId = filter_input(INPUT_GET, "messageReceiverProfileId", FILTER_VALIDATE_INT);
+	$messageSenderProfileId = filter_input(INPUT_GET, "messageSenderProfileId", FILTER_VALIDATE_INT);
 	$messageContent = filter_input(INPUT_GET, "messageContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure id is valid for methods that require it
@@ -54,13 +54,13 @@ try {
 			if($message !== null) {
 				$reply->data = $message;
 			}
-		} else if(empty($messageReceiverId) === false) {
-			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverId)->toArray();
+		} else if(empty($messageReceiverProfileId) === false) {
+			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverProfileId)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
-		} else if(empty($messageSenderId) === false) {
-			$messages = Message::getMessageByMessageSenderProfileId($pdo, $messageSenderId)->toArray();
+		} else if(empty($messageSenderProfileId) === false) {
+			$messages = Message::getMessageByMessageSenderProfileId($pdo, $messageSenderProfileId)->toArray();
 			if($messages !== null) {
 				$reply->data = $messages;
 			}
