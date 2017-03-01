@@ -61,6 +61,9 @@ try {
 	if(($method === "DELETE" || $method === "PUT") && (empty($postId) === true || $postId < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
+	if(($method === "DELETE" || $method === "PUT") && (empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id || $_SESSION["profile"]->getProfileId() !== $postProfileId)) {
+		throw(new \InvalidArgumentException("You are not allowed to modify this post"));
+	}
 
 	//handle GET requests
 	if($method === "GET") {
@@ -111,13 +114,12 @@ try {
 	} elseif($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
+		
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
 		//take the lat and long in postLocation and make it a new Point
 		$postLocation = new Point($requestObject->postLocation->lat, $requestObject->postLocation->lng);
-
-		var_dump($requestObject);
 
 		//make sure post browser info is available
 		if(empty($requestObject->postBrowser) === true) {
@@ -162,6 +164,10 @@ try {
 			$reply->message = "Post was successfully updated";
 
 		} elseif($method === "POST") {
+
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+				throw(new \InvalidArgumentException("You are not allowed to access this."));
+			}
 			//create a new post and insert into database
 			$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
 			$post->insert($pdo);
