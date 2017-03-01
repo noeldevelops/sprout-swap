@@ -50,7 +50,7 @@ try {
 
 		//get a specific message or all messages and update reply
 		if(empty($messageId) === false) {
-//@todo clean this up
+		//@todo clean this up
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
 				throw(new \InvalidArgumentException("You are not allowed."));
 			}

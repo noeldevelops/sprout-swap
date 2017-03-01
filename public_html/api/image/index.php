@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__,3)."/vendor/autoload.php";
-require_once dirname(__DIR__, 3)."/php/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 //require 'Cloudinary.php';
@@ -12,7 +12,6 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\SproutSwap\Image;
 
 
-
 /**
  * api for the Image class
  *
@@ -20,7 +19,7 @@ use Edu\Cnm\SproutSwap\Image;
  **/
 
 //verify the session, start if inactive
-if (session_status() !== PHP_SESSION_ACTIVE) {
+if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
@@ -46,7 +45,7 @@ try {
 	$imageCloudinaryId = filter_input(INPUT_GET, "imageCloudinaryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($imageId) === true || $imageId < 0)) {
+	if(($method === "DELETE") && (empty($imageId) === true || $imageId < 0)) {
 		throw (new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -70,24 +69,33 @@ try {
 	} elseif($method === "POST") {
 
 		verifyXsrf();
-//@todo throw an exception if the user is not logged in
+
+		//verifying the user is logged in before creating an image
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+			throw(new \InvalidArgumentException("You are not allowed."));
+		}
+
 		//assigning variables to the user image name, MIME type, and image extension
-		var_dump($_FILES);
-			$tempUserFileName = $_FILES["userImage"]["tmp_name"];
-			$userFileType = $_FILES["userImage"]["type"];
-			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
+		$tempUserFileName = $_FILES["userImage"]["tmp_name"];
+		$userFileType = $_FILES["userImage"]["type"];
+		$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
-			//upload image to cloudinary and get public id
-			$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["userImage"]["tmp_name"]);
+		//upload image to cloudinary and get public id
+		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["userImage"]["tmp_name"]);
 
-			//after sending the image to Cloudinary, grab the public id and create a new image
-			$image = new Image(null, $cloudinaryResult["public_id"]);
-			$image->insert($pdo);
+		//after sending the image to Cloudinary, grab the public id and create a new image
+		$image = new Image(null, $cloudinaryResult["public_id"]);
+		$image->insert($pdo);
 
-			$reply->message = "Image upload ok";
+		$reply->message = "Image upload ok";
 
 	} elseif($method === "DELETE") {
 		verifyXsrf();
+
+		//verifying the user who posted these images is logged in before deleting
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+			throw(new \InvalidArgumentException("You are not allowed."));
+		}
 
 		//retrieve the image to be deleted
 		$image = Image::getImageByImageId($pdo, $imageId);
