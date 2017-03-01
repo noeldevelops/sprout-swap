@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__,3)."/php/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once "/etc/apache2/capstone-mysql/encrypted-config.php";
 
 use Edu\Cnm\SproutSwap\Profile;
@@ -13,7 +13,7 @@ use Edu\Cnm\SproutSwap\Profile;
  */
 
 //check session status; if not active then starts the session
-if(session_status() !== PHP_SESSION_ACTIVE){
+if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
 
@@ -31,7 +31,7 @@ try {
 
 	//stores primary key for the GET, DELETE, and PUT methods in $id
 	//sanitize input
-	$profileId = filter_input(INPUT_GET, "profileId", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$profileImageId = filter_input(INPUT_GET, "profileImageId", FILTER_VALIDATE_INT);
 	$profileActivation = filter_input(INPUT_GET, "profileActivation", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -40,25 +40,25 @@ try {
 	$profileSummary = filter_input(INPUT_GET, "profileSummary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
-	if(($method === "DELETE" || $method === "PUT") && (empty($profileId) === true || $profileId < 0)){
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("Profile ID is empty or invalid.", 405));
 	}
 
 	//handle GET requests, if id is present then grab that profile otherwise grab array
-	if($method === "GET"){
+	if($method === "GET") {
 
 		//set XSRF cookie
 		setXsrfCookie();
 
 		//get a specific profile or all applicable profiles and update reply
-		if(empty($profileId) === false){
-			$profile = Profile::getProfileByProfileId($pdo, $profileId);
-			if($profile !== null){
+		if(empty($id) === false) {
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($profileImageId) === false){
+		} else if(empty($profileImageId) === false) {
 			$profile = Profile::getProfileByProfileImageId($pdo, $profileImageId);
-			if($profile !== null){
+			if($profile !== null) {
 				$reply->data = $profile;
 			}
 		} else if(empty($profileActivation) === false) {
@@ -71,30 +71,34 @@ try {
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($profileHandle) === false){
+		} else if(empty($profileHandle) === false) {
 			$profile = Profile::getProfileByProfileHandle($pdo, $profileHandle);
-			if($profile !== null){
+			if($profile !== null) {
 				$reply->data = $profile;
 			}
-		} else if(empty($profileName) === false){
+		} else if(empty($profileName) === false) {
 			$profiles = Profile::getProfileByProfileName($pdo, $profileName)->toArray();
-			if($profiles !== null){
+			if($profiles !== null) {
 				$reply->data = $profiles;
 			}
-		} else if(empty($profileSummary) === false){
+		} else if(empty($profileSummary) === false) {
 			$profiles = Profile::getProfileByProfileSummary($pdo, $profileSummary)->toArray();
-			if($profiles !== null){
+			if($profiles !== null) {
 				$reply->data = $profiles;
 			}
-		} else{
+		} else {
 			$profiles = Profile::getAllProfiles($pdo)->toArray();
-			if($profiles !== null){
+			if($profiles !== null) {
 				$reply->data = $profiles;
 			}
 		}
-	} else if($method === "PUT" || $method === "POST") {
+	} else if($method === "PUT") {
 
 		verifyXsrf();
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+			throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+		}
+
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
@@ -112,64 +116,52 @@ try {
 			$requestObject->profileImageId = null;
 		}
 
-		//perform the actual put or post
-		if($method === "PUT"){
-
-			//retrieve the profile to be updated
-			$profile = Profile::getProfileByProfileId($pdo, $profileId);
-			if($profile === null){
-				throw(new RuntimeException("Profile does not exist", 404));
-			}
-
-			//update all non password attributes
-			$profile->setProfileImageId($requestObject->profileImageId);
-			$profile->setProfileEmail($requestObject->profileEmail);
-			$profile->setProfileHandle($requestObject->profileHandle);
-			$profile->setProfileName($requestObject->profileName);
-			$profile->setProfileSummary($requestObject->profileSummary);
-
-			//change password if requested
-			if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->profileConfirmPassword) === false) {
-				if($requestObject->newProfilePassword !== $requestObject->profileConfirmPassword) {
-					throw(new RuntimeException("New passwords do not match", 401));
-				}
-
-				$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
-				if($currentPasswordHash !== $profile->getProfilePasswordHash()) {
-					throw(new \RuntimeException("Old password is incorrect", 401));
-				}
-
-				$newPasswordSalt = bin2hex(random_bytes(16));
-				$newPasswordHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newPasswordSalt, 262144);
-				$profile->setProfilePasswordHash($newPasswordHash);
-				$profile->setProfileSalt($newPasswordSalt);
-			}
-
-			$profile->update($pdo);
-
-		} else if($method === "POST"){
-
-			//create new profile and insert into database
-			$profile = new Profile(null, $requestObject->profileImageId, $requestObject->profileActivation, $requestObject->profileEmail, $requestObject->profileHandle, null, $requestObject->profileName, $requestObject->profilePasswordHash, $requestObject->profileSalt, $requestObject->profileSummary);
-			$profile->insert($pdo);
-
-			//update reply
-			$reply->message = "Profile created ok";
+		//retrieve the profile to be updated
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw(new RuntimeException("Profile does not exist", 404));
 		}
-	} else{
+
+		//update all non password attributes
+		$profile->setProfileImageId($requestObject->profileImageId);
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->setProfileHandle($requestObject->profileHandle);
+		$profile->setProfileName($requestObject->profileName);
+		$profile->setProfileSummary($requestObject->profileSummary);
+
+		//change password if requested
+		if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false && empty($requestContent->profileConfirmPassword) === false) {
+			if($requestObject->newProfilePassword !== $requestObject->profileConfirmPassword) {
+				throw(new RuntimeException("New passwords do not match", 401));
+			}
+
+			$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
+			if($currentPasswordHash !== $profile->getProfilePasswordHash()) {
+				throw(new \RuntimeException("Old password is incorrect", 401));
+			}
+
+			$newPasswordSalt = bin2hex(random_bytes(16));
+			$newPasswordHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newPasswordSalt, 262144);
+			$profile->setProfilePasswordHash($newPasswordHash);
+			$profile->setProfileSalt($newPasswordSalt);
+		}
+
+		$profile->update($pdo);
+
+	} else {
 		throw(new InvalidArgumentException("Invalid HTTP method request"));
 	}
-		//update reply with exception information
-} catch(Exception $exception){
+	//update reply with exception information
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
-} catch(TypeError $typeError){
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
 
 header("Content-type: application/json");
-if($reply->data === null){
+if($reply->data === null) {
 	unset($reply->data);
 }
 
