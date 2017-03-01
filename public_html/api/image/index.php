@@ -89,22 +89,22 @@ try {
 
 		$reply->message = "Image upload ok";
 
-	} elseif($method === "DELETE") {
-		verifyXsrf();
-
-		//verifying the user who posted these images is logged in before deleting
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
-			throw(new \InvalidArgumentException("You are not allowed."));
-		}
-
-		//retrieve the image to be deleted
-		$image = Image::getImageByImageId($pdo, $imageId);
-		if($image === null) {
-			throw(new RuntimeException("Image does not exist", 404));
-		}
-		$image->delete($pdo);
-
-		$reply->message = "Image successfully deleted.";
+//	} elseif($method === "DELETE") {
+//		verifyXsrf();
+//
+//		//verifying the user who posted these images is logged in before deleting
+//		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+//			throw(new \InvalidArgumentException("You are not allowed."));
+//		}
+//
+//		//retrieve the image to be deleted
+//		$image = Image::getImageByImageId($pdo, $imageId);
+//		if($image === null) {
+//			throw(new RuntimeException("Image does not exist", 404));
+//		}
+//		$image->delete($pdo);
+//
+//		$reply->message = "Image successfully deleted.";
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}

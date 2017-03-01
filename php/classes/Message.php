@@ -423,6 +423,45 @@ class Message implements \JsonSerializable {
 			}
 			return($messages);
 		}
+
+	/**
+	 * method returning thread of messages between two users
+	 *
+	 * @param \PDO $pdo
+	 * @param int $messageSenderProfileId
+	 * @param int $messageReceiverProfileId
+	 * @return \SplFixedArray
+	 */
+
+		public static function getMessageThread(\PDO $pdo, int $messageSenderProfileId, int $messageReceiverProfileId){
+			//throws exception if ids are invalid
+			if($messageSenderProfileId <= 0 || $messageReceiverProfileId <= 0) {
+				throw(new \RangeException("profile Id's must be greater than zero"));
+			}
+
+			//create query template
+			$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE ((messageSenderProfileId = :messageSenderProfileId) AND (messageReceiverProfileId = :messageReceiverProfileId) OR (messageSenderProfileId = :messageReceiverProfileId) AND (messageReceiverProfileId = :messageSenderProfileId))";
+			$statement = $pdo->prepare($query);
+
+			//bind variables
+			$parameters = ["messageReceiverProfileId" => $messageReceiverProfileId, "messageSenderProfileId" => $messageSenderProfileId];
+			$statement->execute($parameters);
+
+			//build array of messages
+			$messages = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$message = new Message($row["messageId"], $row["messagePostId"], $row["messageReceiverProfileId"], $row["messageSenderProfileId"], $row["messageBrowser"], $row["messageContent"], $row["messageIpAddress"], $row["messageStatus"], \DateTime::createFromFormat("Y-m-d H:i:s", $row["messageTimestamp"]));
+					$messages[$messages->key()] = $message;
+					$messages->next();
+				} catch(\Exception $exception) {
+					//throws if row can't be converted
+					throw (new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return($messages);
+		}
 	/**
 	 * @param \PDO $pdo
 	 * @param int $messagePostId
