@@ -50,6 +50,11 @@ try {
 
 		//get a specific message or all messages and update reply
 		if(empty($messageId) === false) {
+//@todo clean this up
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+				throw(new \InvalidArgumentException("You are not allowed."));
+			}
+
 			$message = Message::getMessageByMessageId($pdo, $messageId);
 			if($message !== null) {
 				$reply->data = $message;
@@ -78,6 +83,7 @@ try {
 	} else if($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
+
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
