@@ -462,7 +462,7 @@ class Message implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE ((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId))";
+		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE ((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId)) ORDER BY messageTimestamp";
 		$statement = $pdo->prepare($query);
 
 		//bind variables
@@ -501,7 +501,7 @@ class Message implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE (((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId))) AND messagePostId = :messagePostId";
+		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE (((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId))) AND messagePostId = :messagePostId ORDER BY messageTimestamp";
 		$statement = $pdo->prepare($query);
 
 		//bind variables
