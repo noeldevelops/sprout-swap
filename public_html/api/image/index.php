@@ -1,12 +1,13 @@
 <?php
 
 require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__, 3)."/lib/xsrf.php";
+require_once dirname(__DIR__,3)."/vendor/autoload.php";
+require_once dirname(__DIR__, 3)."/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-require 'Cloudinary.php';
-require 'Uploader.php';
-require 'Api.php';
+//require 'Cloudinary.php';
+//require 'Uploader.php';
+//require 'Api.php';
 
 use Edu\Cnm\SproutSwap\Image;
 
@@ -33,7 +34,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprout-swap.ini");
 
 	/** Cloudinary API stuff**/
-	$config = readConfig("/etc/apache2/capstone-mysql/encrypted-config.ini");
+	$config = readConfig("/etc/apache2/capstone-mysql/sprout-swap.ini");
 	$cloudinary = json_decode($config["cloudinary"]);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
@@ -69,16 +70,9 @@ try {
 	} elseif($method === "POST") {
 
 		verifyXsrf();
-//		$requestContent = file_get_contents("php://input");
-//		$requestObject = json_decode($requestContent);
-
-		//make sure image cloudinary ID is available
-//		if(empty($requestObject->imageCloudinaryId) === true) {
-//			throw(new \InvalidArgumentException("No image cloudinary ID", 405));
-//		}
-		if($method === "POST") {
-
-//assigning variables to the user image name, MIME type, and image extension
+//@todo throw an exception if the user is not logged in
+		//assigning variables to the user image name, MIME type, and image extension
+		var_dump($_FILES);
 			$tempUserFileName = $_FILES["userImage"]["tmp_name"];
 			$userFileType = $_FILES["userImage"]["type"];
 			$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
@@ -91,7 +85,6 @@ try {
 			$image->insert($pdo);
 
 			$reply->message = "Image upload ok";
-		}
 
 	} elseif($method === "DELETE") {
 		verifyXsrf();
