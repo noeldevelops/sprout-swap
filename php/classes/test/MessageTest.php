@@ -245,7 +245,7 @@ class MessageTest extends SproutSwapTest{
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		//create new message and insert
-		$message = new Message(null, null, $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
+		$message = new Message(null, $this->post->getPostId(), $this->receiverProfile->getProfileId(), $this->senderProfile->getProfileId(), $this->VALID_MESSAGEBROWSER, $this->VALID_MESSAGECONTENT, $this->VALID_MESSAGEIPADDRESS, $this->VALID_MESSAGESTATUS, $this->VALID_MESSAGETIMESTAMP);
 		$message->insert($this->getPDO());
 
 		//grab data from mysql and compare against expected

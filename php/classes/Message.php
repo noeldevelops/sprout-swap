@@ -375,7 +375,7 @@ class Message implements \JsonSerializable {
 		$query = "UPDATE message SET messageStatus = :messageStatus WHERE messageId = :messageId";
 		$statement = $pdo->prepare($query);
 		//bind variables
-		$parameters = ["messageStatus" => $this->messageStatus];
+		$parameters = ["messageId" => $this->messageId, "messageStatus" => $this->messageStatus];
 		//execute
 		$statement->execute($parameters);
 	}
@@ -466,7 +466,7 @@ class Message implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind variables
-		$parameters = ["messageReceiverProfileId" => $messageCurrentUserId, "messageSenderProfileId" => $messagePassiveUserId];
+		$parameters = ["messagePassiveUserId" => $messagePassiveUserId, "messageCurrentUserId" => $messageCurrentUserId];
 		$statement->execute($parameters);
 
 		//build array of messages
@@ -501,11 +501,11 @@ class Message implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE ((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId)) AND messagePostId = :messagePostId";
+		$query = "SELECT messageId, messagePostId, messageReceiverProfileId, messageSenderProfileId, messageBrowser, messageContent, messageIpAddress, messageStatus, messageTimestamp FROM message WHERE (((messageSenderProfileId = :messageCurrentUserId) AND (messageReceiverProfileId = :messagePassiveUserId)) OR ((messageSenderProfileId = :messagePassiveUserId) AND (messageReceiverProfileId = :messageCurrentUserId))) AND messagePostId = :messagePostId";
 		$statement = $pdo->prepare($query);
 
 		//bind variables
-		$parameters = ["messageReceiverProfileId" => $messageCurrentUserId, "messageSenderProfileId" => $messagePassiveUserId, "messagePostId" => $messagePostId];
+		$parameters = ["messageCurrentUserId" => $messageCurrentUserId, "messagePassiveUserId" => $messagePassiveUserId, "messagePostId" => $messagePostId];
 		$statement->execute($parameters);
 
 		//build array of messages
