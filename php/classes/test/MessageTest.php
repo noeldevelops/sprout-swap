@@ -237,6 +237,9 @@ class MessageTest extends SproutSwapTest{
 		$this->assertCount(0, $message);
 	}
 
+	/**
+	 * testing valid case for grabbing a thread of messages between two users in relation to a specific post
+	 */
 	public function testGetValidMessagePostThread(){
 		//store number of current rows to compare against
 		$numRows = $this->getConnection()->getRowCount("message");
@@ -263,10 +266,10 @@ class MessageTest extends SproutSwapTest{
 	}
 
 	/**
-	 *
+	 *testing invalid case for grabbing message post thread
 	 */
 	public function testGetInvalidMessagePostThread(){
-		$message = Message::getMessagePostThread($this->getPDO(), $this->senderProfile->getProfileId(), $this->receiverProfile->getProfileId(), $post->getPostId());
+		$message = Message::getMessagePostThread($this->getPDO(), $this->senderProfile->getProfileId(), $this->receiverProfile->getProfileId(), $this->post->getPostId());
 		$this->assertCount(0, $message);
 	}
 
