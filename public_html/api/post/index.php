@@ -1,10 +1,12 @@
 <?php
 
-require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__,3)."/php/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
+require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\SproutSwap\{Post, Point};
+use Edu\Cnm\SproutSwap\{
+	Post, Point
+};
 
 /**
  * api for Post class
@@ -61,7 +63,7 @@ try {
 	}
 
 	//handle GET requests
-if ($method === "GET") {
+	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
 		if(empty($postId) === false) {
@@ -106,7 +108,7 @@ if ($method === "GET") {
 			}
 		}
 
-} elseif($method === "PUT" || $method === "POST") {
+	} elseif($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
@@ -117,75 +119,75 @@ if ($method === "GET") {
 
 		var_dump($requestObject);
 
-	//make sure post browser info is available
-	if(empty($requestObject->postBrowser) === true) {
-		throw(new \InvalidArgumentException("No browser information", 405));
-	}
-	//make sure postProfileId is available
-	if(empty($requestObject->postProfileId) === true) {
-		throw(new \InvalidArgumentException("No profile ID for Post", 405));
-	}
-	//make sure modeId is available
-	if(empty($requestObject->postModeId) === true) {
-		throw(new \InvalidArgumentException("No Mode available", 405));
-	}
+		//make sure post browser info is available
+		if(empty($requestObject->postBrowser) === true) {
+			throw(new \InvalidArgumentException("No browser information", 405));
+		}
+		//make sure postProfileId is available
+		if(empty($requestObject->postProfileId) === true) {
+			throw(new \InvalidArgumentException("No profile ID for Post", 405));
+		}
+		//make sure modeId is available
+		if(empty($requestObject->postModeId) === true) {
+			throw(new \InvalidArgumentException("No Mode available", 405));
+		}
 
-	if(empty($requestObject->postLocation) === true) {
-		throw (new \InvalidArgumentException("No location?!", 405));
-	}
+		if(empty($requestObject->postLocation) === true) {
+			throw (new \InvalidArgumentException("No location?!", 405));
+		}
 
-	if(empty($requestObject->postOffer) === true) {
-		throw (new \InvalidArgumentException("No offer for post", 405));
-	}
+		if(empty($requestObject->postOffer) === true) {
+			throw (new \InvalidArgumentException("No offer for post", 405));
+		}
 
 
-	if($method === "PUT") {
-		//retrieve the post
+		if($method === "PUT") {
+			//retrieve the post
+			$post = Post::getPostByPostId($pdo, $postId);
+			if($post === null) {
+				throw(new RuntimeException("Post does not exist", 404));
+			}
+
+			//update all attributes
+//		$post->setPostProfileId($requestObject->postProfileId);
+			$post->setPostModeId($requestObject->postModeId);
+			$post->setPostContent($requestObject->postContent);
+			$post->setPostLocation($postLocation);
+			$post->setPostOffer($requestObject->postOffer);
+			$post->setPostRequest($requestObject->postRequest);
+			$post->setPostTimestamp($requestObject->postTimestamp);
+			$post->update($pdo);
+
+			//update reply
+			$reply->message = "Post was successfully updated";
+
+		} elseif($method === "POST") {
+			//create a new post and insert into database
+			$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
+			$post->insert($pdo);
+
+			//update reply
+			$reply->message = "New post successful.";
+		}
+
+	} elseif($method === "DELETE") {
+		verifyXsrf();
+
+		//retrieve the post to be deleted
 		$post = Post::getPostByPostId($pdo, $postId);
 		if($post === null) {
 			throw(new RuntimeException("Post does not exist", 404));
 		}
 
-		//update all attributes
-//		$post->setPostProfileId($requestObject->postProfileId);
-		$post->setPostModeId($requestObject->postModeId);
-		$post->setPostContent($requestObject->postContent);
-		$post->setPostLocation($postLocation);
-		$post->setPostOffer($requestObject->postOffer);
-		$post->setPostRequest($requestObject->postRequest);
-		$post->setPostTimestamp($requestObject->postTimestamp);
-		$post->update($pdo);
+		//delete the post
+		$post->delete($pdo);
 
 		//update reply
-		$reply->message = "Post was successfully updated";
+		$reply->message = "Post was deleted.";
 
-	} elseif($method === "POST") {
-		//create a new post and insert into database
-		$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent,$_SERVER["REMOTE_ADDR"], $postLocation,$requestObject->postOffer, $requestObject->postRequest, null);
-		$post->insert($pdo);
-
-		//update reply
-		$reply->message = "New post successful.";
-	}
-
-} elseif($method === "DELETE") {
-	verifyXsrf();
-
-	//retrieve the post to be deleted
-	$post = Post::getPostByPostId($pdo, $postId);
-	if($post === null) {
-		throw(new RuntimeException("Post does not exist", 404));
-	}
-
-	//delete the post
-	$post->delete($pdo);
-
-	//update reply
-	$reply->message = "Post was deleted.";
-
-} else {
+	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
-}
+	}
 
 //update reply with exception information
 
