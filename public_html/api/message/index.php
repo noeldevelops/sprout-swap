@@ -80,6 +80,7 @@ try {
 				$reply->data = $messages;
 			}
 		}
+
 	} else if($method === "PUT" || $method === "POST") {
 
 		verifyXsrf();

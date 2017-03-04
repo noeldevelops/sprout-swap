@@ -105,6 +105,7 @@ try {
 //		$image->delete($pdo);
 //
 //		$reply->message = "Image successfully deleted.";
+
 	} else {
 		throw (new InvalidArgumentException("Invalid HTTP method request"));
 	}

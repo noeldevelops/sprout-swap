@@ -701,6 +701,7 @@ public function update(\PDO $pdo) {
 		}
 		return($posts);
 	}
+
 	/**
 	 * formats the state variables for JSON serialization
 	 *
