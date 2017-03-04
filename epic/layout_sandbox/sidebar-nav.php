@@ -1,3 +1,4 @@
+<!--this is the sidebar navigation-->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,25 +21,13 @@
 		<title>Sprout-Swap</title>
 	</head>
 	<body>
-		<header id="nav">
-			<!--inject header-nav.php here-->
-		</header>
-		<main>
-			<div class="container">
-				<!--inject sidebar navigation here-->
-
-				<!--this is the main center div-->
-				<div class="col-md-6" id="main-body">
-					<!--feed view-->
-					<div class="post">
-						<img id="profile-img">
-						<p id="handle"></p>
-						<img src="#" alt="" id="post-img">
-						<p id="post-rundown"></p>
-					</div>
-				</div>
-			</div>
-		</main>
-
+		<!--sidebar navigation-->
+		<div class="col-md-3" id="modal-nav">
+			<ul id="side-nav">
+				<li><a href="#"></a></li>
+				<li><a href="#"></a></li>
+				<li><a href="#"></a></li>
+				<li><a href="#"></a></li>
+			</ul>
+		</div>
 	</body>
-</html>

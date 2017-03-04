@@ -22,31 +22,13 @@
 	<body>
 		<header>
 			<div class="container">
-				<!--this contains our header/logo and navbar-->
-				<div class="col-md-12" id="header-logo">
-					<img id="logo">
-				</div>
-				<div class="col-md-12" id="header-nav">
-					<ul class="navbar">
-						<li class="navigation"><a></a></li>
-						<li class="navigation"><a></a></li>
-						<li class="navigation"><a></a></li>
-						<li class="navigation"><a>Search</a></li>
-					</ul>
-				</div>
+				<!--inject our header/logo and navbar-->
 			</div>
 		</header>
 		<main>
 			<div class="container">
-				<!--sidebar navigation (changes depending on if user is logged in)-->
-				<div class="col-md-3" id="modal-nav">
-					<ul id="side-nav">
-						<li><a href="#"></a></li>
-						<li><a href="#"></a></li>
-						<li><a href="#"></a></li>
-						<li><a href="#"></a></li>
-					</ul>
-				</div>
+				<!--inject sidebar navigation (changes depending on if user is logged in)-->
+
 				<!--main center div-->
 				<div class="col-md-6" id="main-body">
 					<!--profile view-->
