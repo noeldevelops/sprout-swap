@@ -38,7 +38,7 @@
 		</header>
 		<main>
 			<div class="container">
-				<!--sidebar navigation-->
+				<!--sidebar navigation (changes depending on if user is logged in)-->
 				<div class="col-md-3" id="modal-nav">
 					<ul id="side-nav">
 						<li><a href="#"></a></li>
@@ -54,6 +54,8 @@
 						<div class="row">
 							<div class="col-md-2">
 								<img id="profile-img">
+								<!--edit button is hidden unless user is signed-in and viewing their own profile-->
+								<button id="edit"></button>
 								<p id="handle"></p>
 								<p id="name"></p>
 								<p id="email"></p>
@@ -62,8 +64,11 @@
 								<p class="summary-text"></p>
 							</div>
 						</div>
-
-
+						<div class="row">
+							<div class="col-md-6" id="profile-history">
+								<!-- inject posts from this user, with edit buttons if user is logged in like above -->
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
