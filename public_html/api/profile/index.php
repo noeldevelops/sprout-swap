@@ -40,7 +40,7 @@ try {
 	$profileSummary = filter_input(INPUT_GET, "profileSummary", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//ensure id is valid for methods requiring it
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("Profile ID is empty or invalid.", 405));
 	}
 
