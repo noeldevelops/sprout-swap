@@ -31,7 +31,7 @@ try {
 
 	//stores primary key for the GET, DELETE, and PUT methods in $id
 	//sanitize input
-	$messageId = filter_input(INPUT_GET, "messageId", FILTER_VALIDATE_INT);
+	$messageId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$messagePostId = filter_input(INPUT_GET, "messagePostId", FILTER_VALIDATE_INT);
 	$messageReceiverProfileId = filter_input(INPUT_GET, "messageReceiverProfileId", FILTER_VALIDATE_INT);
 	$messageSenderProfileId = filter_input(INPUT_GET, "messageSenderProfileId", FILTER_VALIDATE_INT);
@@ -50,12 +50,11 @@ try {
 
 		//get a specific message or all messages and update reply
 		if(empty($messageId) === false) {
-			//@todo clean this up by getting message sender/receiver ids
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
+			$message = Message::getMessageByMessageId($pdo, $messageId);
+
+			if(empty($_SESSION["profile"]) === true || ($_SESSION["profile"]->getProfileId() !== $message->getMessageSenderProfileId() && $_SESSION["profile"]->getProfileId() !== $message->getMessageReceiverProfileId())) {
 				throw(new \InvalidArgumentException("You are not allowed."));
 			}
-
-			$message = Message::getMessageByMessageId($pdo, $messageId);
 			if($message !== null) {
 				$reply->data = $message;
 			}
@@ -106,6 +105,7 @@ try {
 //		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
 //			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
 //		}
+
 		if($method === "POST") {
 			$message = new Message(null, $messagePostId, $requestObject->messageReceiverProfileId, $requestObject->messageSenderProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 			$message->insert($pdo);
@@ -121,25 +121,25 @@ try {
 			//update message status
 			$message->setMessageStatus($requestObject->messageStatus);
 			$message->update($pdo);
-		} else if($method === "DELETE") {
-			verifyXsrf();
-
-			//retrieve message to be deleted
-			//TODO: enforce the session profile matches the sender profile id
-
-			$message = Message::getMessageByMessageId($pdo, $messageId);
-			if($message === null) {
-				throw(new RuntimeException("Message does not exist", 404));
-			}
-
-			//delete message
-			$message->delete($pdo);
-
-			//update reply
-			$reply->message = "Tweet deleted ok";
 		}
+	} else if($method === "DELETE") {
+		verifyXsrf();
+
+		//retrieve message to be deleted
+		//TODO: enforce the session profile matches the sender profile id
+
+		$message = Message::getMessageByMessageId($pdo, $messageId);
+		if($message === null) {
+			throw(new RuntimeException("Message does not exist", 404));
+		}
+
+		//delete message
+		$message->delete($pdo);
+
+		//update reply
+		$reply->message = "Message deleted ok";
 	} else {
-		throw (new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
 
 
