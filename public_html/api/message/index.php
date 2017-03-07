@@ -50,7 +50,7 @@ try {
 
 		//get a specific message or all messages and update reply
 		if(empty($messageId) === false) {
-		//@todo clean this up
+			//@todo clean this up by getting message sender/receiver ids
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
 				throw(new \InvalidArgumentException("You are not allowed."));
 			}
@@ -99,7 +99,7 @@ try {
 		if(empty($requestObject->messageReceiverProfileId) === true) {
 			throw(new \InvalidArgumentException("Message receiver does not exist", 405));
 		}
-
+		$messagePostId = $requestObject->messagePostId ?? null;
 		//perform the actual POST; there is no PUT method since messages cannot be updated
 		//create new message and insert into the database
 		//TODO: enforce the session profile matches the sender profile id
@@ -107,7 +107,7 @@ try {
 //			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
 //		}
 		if($method === "POST") {
-			$message = new Message(null, $requestObject->messagePostId, $requestObject->messageReceiverProfileId, $requestObject->messageSenderProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
+			$message = new Message(null, $messagePostId, $requestObject->messageReceiverProfileId, $requestObject->messageSenderProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
 			$message->insert($pdo);
 
 			//update reply

@@ -96,7 +96,7 @@ try {
 
 		verifyXsrf();
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
-			throw(new \InvalidArgumentException("You are not allowed to access this profile"));
+			throw(new \InvalidArgumentException("You are not allowed to access this profile", 405));
 		}
 
 		$requestContent = file_get_contents("php://input");
