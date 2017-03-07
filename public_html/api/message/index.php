@@ -117,7 +117,9 @@ try {
 			if($message === null) {
 				throw(new RuntimeException("Message does not exist", 404));
 			}
-
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $message->getMessageReceiverProfileId()) {
+				throw(new \InvalidArgumentException("You can't update this message status."));
+			}
 			//update message status
 			$message->setMessageStatus($requestObject->messageStatus);
 			$message->update($pdo);
