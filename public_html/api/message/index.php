@@ -99,12 +99,8 @@ try {
 			throw(new \InvalidArgumentException("Message receiver does not exist", 405));
 		}
 		$messagePostId = $requestObject->messagePostId ?? null;
-		//perform the actual POST; there is no PUT method since messages cannot be updated
+		//perform the actual POST;
 		//create new message and insert into the database
-		//TODO: enforce the session profile matches the sender profile id
-//		if($_SESSION["profile"]->getProfileId() !== $requestObject->getMessageSenderProfileId()) {
-//			throw(new \InvalidArgumentException("Session profile id does not match message sender id", 403));
-//		}
 
 		if($method === "POST") {
 			$message = new Message(null, $messagePostId, $requestObject->messageReceiverProfileId, $requestObject->messageSenderProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->messageContent, $_SERVER["REMOTE_ADDR"], $requestObject->messageStatus, null);
@@ -112,6 +108,7 @@ try {
 
 			//update reply
 			$reply->message = "Message created ok";
+			//update message status to read from unread
 		} else if($method === "PUT") {
 			$message = Message::getMessageByMessageId($pdo, $messageId);
 			if($message === null) {
