@@ -124,22 +124,22 @@ try {
 			$message->setMessageStatus($requestObject->messageStatus);
 			$message->update($pdo);
 		}
-	} else if($method === "DELETE") {
-		verifyXsrf();
-
-		//retrieve message to be deleted
-		//TODO: enforce the session profile matches the sender profile id
-
-		$message = Message::getMessageByMessageId($pdo, $messageId);
-		if($message === null) {
-			throw(new RuntimeException("Message does not exist", 404));
-		}
-
-		//delete message
-		$message->delete($pdo);
-
-		//update reply
-		$reply->message = "Message deleted ok";
+//	} else if($method === "DELETE") {
+//		verifyXsrf();
+//
+//		//retrieve message to be deleted
+//		$message = Message::getMessageByMessageId($pdo, $messageId);
+//		if($message === null) {
+//			throw(new RuntimeException("Message does not exist", 404));
+//		}
+//		if(empty($_SESSION["profile"]) === true || ($_SESSION["profile"]->getProfileId() !== $message->getMessageSenderProfileId() && $_SESSION["profile"]->getProfileId() !== $message->getMessageReceiverProfileId())) {
+//			throw(new \InvalidArgumentException("You are not allowed."));
+//		}
+//		//delete message
+//		$message->delete($pdo);
+//
+//		//update reply
+//		$reply->message = "Message deleted ok";
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP method request"));
 	}
