@@ -32,7 +32,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$postId = filter_input(INPUT_GET, "postId", FILTER_VALIDATE_INT);
+	$postId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$postModeId = filter_input(INPUT_GET, "postModeId", FILTER_VALIDATE_INT);
 	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -56,13 +56,9 @@ try {
 		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
 		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
 	}
-
 	//make sure the postId is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($postId) === true || $postId < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
-	}
-	if(($method === "DELETE" || $method === "PUT") && (empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id || $_SESSION["profile"]->getProfileId() !== $postProfileId)) {
-		throw(new \InvalidArgumentException("You are not allowed to modify this post"));
 	}
 
 	//handle GET requests
@@ -121,10 +117,6 @@ try {
 		//take the lat and long in postLocation and make it a new Point
 		$postLocation = new Point($requestObject->postLocation->lat, $requestObject->postLocation->lng);
 
-		//make sure post browser info is available
-		if(empty($requestObject->postBrowser) === true) {
-			throw(new \InvalidArgumentException("No browser information", 405));
-		}
 		//make sure postProfileId is available
 		if(empty($requestObject->postProfileId) === true) {
 			throw(new \InvalidArgumentException("No profile ID for Post", 405));
@@ -146,10 +138,14 @@ try {
 		if($method === "PUT") {
 			//retrieve the post
 			$post = Post::getPostByPostId($pdo, $postId);
+			var_dump($post);
+
 			if($post === null) {
 				throw(new RuntimeException("Post does not exist", 404));
 			}
-
+			if(empty($_SESSION["profile"]) === true || ($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId())) {
+				throw(new \InvalidArgumentException("You are not allowed to update this post.", 401));
+			}
 			//update all attributes
 //		$post->setPostProfileId($requestObject->postProfileId);
 			$post->setPostModeId($requestObject->postModeId);
@@ -164,10 +160,11 @@ try {
 			$reply->message = "Post was successfully updated";
 
 		} elseif($method === "POST") {
-
-			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
-				throw(new \InvalidArgumentException("You are not allowed to access this."));
+//var_dump($_SESSION);
+			if(empty($_SESSION["profile"]->getProfileId() ) === true) {
+				throw(new \InvalidArgumentException("You are not allowed to make a post unless you're logged in.", 401));
 			}
+
 			//create a new post and insert into database
 			$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
 			$post->insert($pdo);
@@ -184,7 +181,9 @@ try {
 		if($post === null) {
 			throw(new RuntimeException("Post does not exist", 404));
 		}
-
+		if(empty($_SESSION["profile"]) === true || ($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId())) {
+			throw(new \InvalidArgumentException("You are not allowed to delete this post.", 401));
+		}
 		//delete the post
 		$post->delete($pdo);
 
