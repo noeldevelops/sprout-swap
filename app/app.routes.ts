@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
-import {HomeComponent} from "./components/home-component";
-import {SignUpComponent} from "./components/signup-component";
-import {ChatComponent} from "./components/chat-component";
+import {HomeComponent} from "./component/home-component";
+import {SignUpComponent} from "./component/signup-component";
+import {ChatComponent} from "./component/chat-component";
 
 
 export const allAppComponents = [ChatComponent, HomeComponent, SignUpComponent];
