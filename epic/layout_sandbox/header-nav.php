@@ -38,8 +38,7 @@
 							<li class="navigation"><a href="#">Sign In/Sign Up</a></li>
 						</ul>
 						<!--						<li class="navigation"><a></a></li>-->
-						<form class="navbar-form navbar-right" id="search" name="search"><input label="search"
-																														id="search-input" type="text">Search</input>
+						<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />
 						</form>
 					</div>
 				</div>

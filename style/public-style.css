@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Palanquin');
+
+
 .main {
-	background-color: #117004;
+	background: url("../images/soil-bkgd.jpg");
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -21,4 +24,19 @@
 	min-height: 700px;
 	background-color: white;
 	border: 2px solid black;
+	overflow: scroll;
+}
+
+li.navigation > a {
+	color: white;
+	font-family: 'Palanquin';
+	font-size: large;
+}
+li.navigation > a:hover {
+	background-color: #f1dcb8;
+	color: black;
+}
+
+#header-nav {
+	background-color: #117004;
 }
