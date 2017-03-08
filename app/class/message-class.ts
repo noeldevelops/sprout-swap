@@ -1,5 +1,3 @@
-import DateTimeFormat = Intl.DateTimeFormat;
-
 export class Message{
 	constructor(
 		public messageId: number,

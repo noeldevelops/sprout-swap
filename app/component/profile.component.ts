@@ -15,7 +15,7 @@ import {Status} from "../class/status";
 
 export class ProfileComponent implements OnInit{
 	status: Status = null;
-	post: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
+	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
 	constructor(
 
 	)

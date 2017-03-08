@@ -13,7 +13,7 @@ import {Status} from "../class/status";
 
 export class ImageComponent implements OnInit{
 	status: Status = null;
-	post: Image = new Image(0, "");
+	image: Image = new Image(0, "");
 	constructor(
 
 	)
