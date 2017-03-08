@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__DIR__,3)."/php/classes/autoload.php";
-require_once dirname(__DIR__, 3)."/lib/xsrf.php";
+require_once dirname(__DIR__, 3)."/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\SproutSwap\Mode;
@@ -29,7 +29,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$modeId = filter_input(INPUT_GET, "modeId", FILTER_VALIDATE_INT);
+	$modeId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$modeName = filter_input(INPUT_GET, "modeName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//handle GET request

@@ -32,7 +32,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$postId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$postModeId = filter_input(INPUT_GET, "postModeId", FILTER_VALIDATE_INT);
 	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -42,9 +42,12 @@ try {
 	$postRequest = filter_input(INPUT_GET, "postRequest", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
 	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
+	$postTimestamp = filter_input(INPUT_GET, "postTimestamp", FILTER_VALIDATE_INT);
 	$userLocationX = filter_input(INPUT_GET, "userLocationX", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$userLocationY = filter_input(INPUT_GET, "userLocationY", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 	$userDistance = filter_input(INPUT_GET, "userDistance", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+
 
 	// searching by location? get to the point!
 	$postLocation = null;
@@ -56,8 +59,9 @@ try {
 		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
 		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
 	}
+
 	//make sure the postId is valid for methods that require it
-	if(($method === "DELETE" || $method === "PUT") && (empty($postId) === true || $postId < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 
@@ -65,8 +69,8 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		if(empty($postId) === false) {
-			$post = Post::getPostByPostId($pdo, $postId);
+		if(empty($id) === false) {
+			$post = Post::getPostByPostId($pdo, $id);
 			if($post !== null) {
 				$reply->data = $post;
 			}
@@ -113,7 +117,6 @@ try {
 		
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-
 		//take the lat and long in postLocation and make it a new Point
 		$postLocation = new Point($requestObject->postLocation->lat, $requestObject->postLocation->lng);
 
@@ -137,8 +140,9 @@ try {
 
 		if($method === "PUT") {
 			//retrieve the post
-			$post = Post::getPostByPostId($pdo, $postId);
-			var_dump($post);
+			$post = Post::getPostByPostId($pdo, $id);
+
+
 
 			if($post === null) {
 				throw(new RuntimeException("Post does not exist", 404));
@@ -147,20 +151,21 @@ try {
 				throw(new \InvalidArgumentException("You are not allowed to update this post.", 401));
 			}
 			//update all attributes
-//		$post->setPostProfileId($requestObject->postProfileId);
+
 			$post->setPostModeId($requestObject->postModeId);
 			$post->setPostContent($requestObject->postContent);
 			$post->setPostLocation($postLocation);
 			$post->setPostOffer($requestObject->postOffer);
 			$post->setPostRequest($requestObject->postRequest);
-			$post->setPostTimestamp($requestObject->postTimestamp);
+
+
 			$post->update($pdo);
 
 			//update reply
 			$reply->message = "Post was successfully updated";
 
 		} elseif($method === "POST") {
-//var_dump($_SESSION);
+
 			if(empty($_SESSION["profile"]->getProfileId() ) === true) {
 				throw(new \InvalidArgumentException("You are not allowed to make a post unless you're logged in.", 401));
 			}
@@ -177,7 +182,7 @@ try {
 		verifyXsrf();
 
 		//retrieve the post to be deleted
-		$post = Post::getPostByPostId($pdo, $postId);
+		$post = Post::getPostByPostId($pdo, $id);
 		if($post === null) {
 			throw(new RuntimeException("Post does not exist", 404));
 		}

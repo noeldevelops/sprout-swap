@@ -71,8 +71,8 @@ try {
 		verifyXsrf();
 
 		//verifying the user is logged in before creating an image
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== $id) {
-			throw(new \InvalidArgumentException("You are not allowed."));
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("You are not allowed to upload images unless you are logged in.", 401));
 		}
 
 		//assigning variables to the user image name, MIME type, and image extension

@@ -405,8 +405,9 @@ public function update(\PDO $pdo) {
 	$statement = $pdo->prepare($query);
 	$formattedDate = $this->postTimestamp->format("Y-m-d H:i:s");
 
-	$parameters = ["postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(), "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
 
+
+	$parameters = ["postId" => $this->getPostId(),"postModeId" => $this->postModeId, "postProfileId" => $this->postProfileId, "postBrowser" =>$this->postBrowser, "postContent" => $this->postContent, "postIpAddress" => $this->postIpAddress, "postLocationX"=>$this->postLocation->getLat(), "postLocationY"=>$this->postLocation->getLong(), "postOffer"=>$this->postOffer, "postRequest"=>$this->postRequest, "postTimestamp" => $formattedDate];
 	$statement->execute($parameters);
 	$this->postTimestamp = new \DateTime();
 }
