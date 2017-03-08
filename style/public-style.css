@@ -1,0 +1,24 @@
+.main {
+	background-color: #117004;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	margin: 0;
+	padding: 0;
+}
+
+#logo {
+	margin: 0 auto;
+	text-shadow: black;
+	display: flex;
+	text-align: center;
+	padding-bottom: 0;
+}
+
+.display {
+	min-width: 500px;
+	min-height: 700px;
+	background-color: white;
+	border: 2px solid black;
+}

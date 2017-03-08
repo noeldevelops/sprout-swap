@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link type="text/css" rel="stylesheet" href="../style/style1.css"/>
+		<link type="text/css" rel="stylesheet" href="../style/erd-style.css"/>
 		<meta charset="utf-8" />
 		<title>Conceptual Model</title>
 	</head>
