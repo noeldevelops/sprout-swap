@@ -18,8 +18,15 @@ import {Status} from "../class/status";
 })
 
 export class PostComponent implements OnInit{
+	status: Status = null;
+	post: Post = new Post(0, 0, 0, "", [], "", "","", 0);
+	constructor(
 
-	post: new Post(0, 0, 0, "", [], "", "","", 0);
+	)
+	{
+	}
+
+
 	selectedPost: Post
 
 
