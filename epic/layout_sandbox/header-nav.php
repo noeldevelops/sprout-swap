@@ -28,7 +28,7 @@
 			<div class="container-fluid">
 				<div class="row"><!--this contains our header/logo and navbar-->
 					<div class="col-md-12" id="header-logo">
-						<img id="logo" src="../../images/sprout-swap.logo.png" alt="logo">
+						<img class="img-responsive" id="logo" src="../../images/sprout-swap.logo.png" alt="logo">
 					</div>
 				</div>
 				<div class="row">
@@ -47,7 +47,28 @@
 		<div class="container-fluid">
 			<div class="row main">
 				<div class="col-md-3"></div>
-				<div class="col-md-6 display"></div>
+				<div class="col-md-6 display">
+					<div class="row post">
+						<div class="col-md-3">
+							<img src="../../images/farmer.jpg" id="profile-img">
+							<p id="handle">JoeGrows</p>
+						</div>
+						<div class="col-md-9">
+							<img src="../../images/zuccs.jpg" alt="" id="post-img">
+							<p id="post-rundown">Please buy my extra zucchini!!!</p>
+						</div>
+					</div>
+					<div class="row post">
+						<div class="col-md-3">
+							<img src="../../images/FarmerJohn.jpg" id="profile-img">
+							<p id="handle">WeFarmIt</p>
+						</div>
+						<div class="col-md-9">
+							<img src="../../images/carrots.jpg" alt="" id="post-img">
+							<p id="post-rundown">Anyone want to trade for carrots?</p>
+						</div>
+					</div>
+				</div>
 				<div class="col-md-3"></div>
 			</div>
 		</div>
