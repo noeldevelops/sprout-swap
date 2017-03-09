@@ -31,4 +31,6 @@ export class ImageService extends BaseService {
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
+
+	getImageBy
 }
