@@ -16,31 +16,56 @@
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
+		<!--Custom CSS -->
+		<link rel="stylesheet" href="../../style/public-style.css">
+
 		<meta charset="utf-8">
 		<title>Sprout-Swap</title>
 	</head>
-	<body>
-		<div id="signup-modal">
-			<div id="logo">
-				<!--insert logo here-->
-			</div>
-			<div id="signup-text">
-				<p>Sign up for Sprout Swap and start trading veggies today!</p>
-			</div>
-			<form action="POST">
-				<input type="text" id="name">
-				<input type="text" id="handle">
-				<input type="email" class="email">
-				<input type="text" id="password">
-				<input type="text" id="confirm-pass">
-				<button id="submit">Sign Up!</button>
-			</form>
-			<!--hidden div that shows after valid form submitted-->
-			<div id="activate">
-				<p>Almost done! check your email to confirm. Please allow ample time for the email to arrive.</p>
-			</div>
-			
-		</div>
 
-	</body>
+
+	<div class="container">
+		<div class="col-xs-12 col-md-6" id="login-modal">
+
+			<button id="cancel">
+				<!-- closes form -->
+			</button>
+			<div class="logo">
+				<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+			</div>
+			<!--instructions for users -->
+			<div id="login-text">
+				<p>Please enter your information to sign-up for Sprout-Swap</p>
+			</div>
+
+			<!--actual form-->
+			<form action="POST" id="signup-form">
+				<!--user's email-->
+				<div class="formgroup">
+					<p>Email:</p>
+					<input type="email" id="signup-email">
+				</div>
+				<!--user enters password-->
+				<div class="formgroup">
+					<p>Password:</p>
+					<input type="password" id="signup-password">
+				</div>
+				<!--confirm password-->
+				<div class="formgroup">
+					<p>Confirm Password:</p>
+					<input type="password" id="signup-password-confirm">
+				</div>
+				<!--set a handle-->
+				<div class="formgroup">
+					<p>Choose a unique username:</p>
+					<input type="text" id="signup-handle">
+				</div>
+				<!--submit the information-->
+				<div class="formgroup" id="sign-in-final-formgroup">
+					<button id="submit">Submit</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
 </html>
