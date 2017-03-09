@@ -14,8 +14,8 @@ export class PostService extends BaseService {
 
 	private postUrl = "api/post/";
 
-	deletePost(postId: number) : Observable<Status> {
-		return(this.http.delete(this.postUrl + postId)
+	deletePost(id: number) : Observable<Status> {
+		return(this.http.delete(this.postUrl + id)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}
@@ -38,8 +38,8 @@ export class PostService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	getPost(postId: number) : Observable<Post> {
-		return(this.http.get(this.postUrl + postId)
+	getPost(id: number) : Observable<Post> {
+		return(this.http.get(this.postUrl + id)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}

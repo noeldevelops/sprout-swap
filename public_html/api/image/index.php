@@ -54,7 +54,7 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific post or all posts and update reply
+		//get a specific image or all images and update reply
 		if(empty($imageId) === false) {
 			$image = Image::getImageByImageId($pdo, $imageId);
 			if($image !== null) {
