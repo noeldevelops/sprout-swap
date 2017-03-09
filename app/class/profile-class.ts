@@ -1,3 +1,4 @@
+import {Image} from "./image-class";
 
 export class Profile{
 	constructor(
@@ -10,7 +11,6 @@ export class Profile{
 		public profilePassword: string,
 		public profileConfirmPassword: string,
 		public profileSummary: string
-	)
-	{
+	){
 	}
 }
