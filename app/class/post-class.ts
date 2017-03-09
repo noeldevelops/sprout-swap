@@ -1,7 +1,8 @@
+import {Point} from "./point-class";
 
 export class Post {
 	constructor (
-		public postId: number,
+		public id: number,
 		public postModeId: number,
 		public postProfileId: number,
 		public postContent: string,
@@ -11,6 +12,5 @@ export class Post {
 		public postSummary: string,
 		public postTimestamp: number
 	){
-
 	}
 }
