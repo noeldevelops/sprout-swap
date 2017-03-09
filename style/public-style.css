@@ -136,3 +136,55 @@ input {
 #sign-in-final-formgroup{
 	margin-bottom: 15px;
 }
+
+/* Styles for modal side-nav */
+
+#modal-nav{
+	background-color: black;
+	text-align: left;
+	padding: 1px 1px;
+}
+
+#side-nav{
+	padding:1px;
+	align-items: center;
+	margin: auto auto;
+}
+
+#modal-nav ul li{
+	background-color: black;
+	font-family: 'Palanquin';
+	font-size: .9em;
+	color: white;
+	list-style: none;
+	padding: 2px;
+	margin:1px 1px;
+	border: 1px solid white;
+}
+
+#modal-nav ul li a{
+	color: white;
+	padding: auto auto;
+	margin: auto auto;
+}
+
+#modal-nav ul li a:hover{
+	text-decoration: none;
+	text-underline: none;
+	font-weight: bolder;
+}
+
+#modal-nav ul li a:active{
+	text-decoration: none;
+	text-underline: none;
+}
+
+#modal-nav ul li a:visited{
+	text-decoration: none;
+	text-underline: none;
+}
+
+#modal-nav ul li a:focus{
+	text-decoration: none;
+	text-underline: none;
+}

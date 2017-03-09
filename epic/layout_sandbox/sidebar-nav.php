@@ -1,4 +1,3 @@
-<!--this is the sidebar navigation-->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,17 +16,22 @@
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
+		<!--Custom CSS -->
+		<link rel="stylesheet" href="../../style/public-style.css">
+
 		<meta charset="utf-8">
 		<title>Sprout-Swap</title>
 	</head>
 	<body>
 		<!--sidebar navigation-->
-		<div class="col-md-3" id="modal-nav">
-			<ul id="side-nav">
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-				<li><a href="#"></a></li>
-			</ul>
+		<div class="container">
+			<div class="col-md-1" id="modal-nav">
+				<ul id="side-nav">
+					<li><a href="#">My Profile</a></li>
+					<li><a href="#">New Post</a></li>
+					<li><a href="#">Messages</a></li>
+					<li><a href="#">Logout</a></li>
+				</ul>
+			</div>
 		</div>
 	</body>
