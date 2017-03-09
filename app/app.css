@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Palanquin');
+
+/*************************************
+*** main styles
+ ***************************************/
+
+p {
+	font-family: "Palanquin", sans-serif;
+	font-size: large;
+}
+
+.main {
+	background: url("images/soil-bkgd.jpg");
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	margin: 0 -20px;
+	padding: 0;
+}
+
+#logo {
+	margin: 0 auto;
+	text-shadow: black;
+	display: flex;
+	text-align: center;
+	padding-bottom: 0;
+}
+
+.display {
+	min-width: 500px;
+
+	background-color: white;
+	border-bottom: 2px solid black;
+	overflow: scroll;
+}
+
+li.navigation > a {
+	color: white;
+	font-family: 'Palanquin';
+	font-size: large;
+}
+
+li.navigation > a:hover {
+	background-color: #f1dcb8;
+	color: black;
+}
+
+#header-nav {
+	background-color: #117004;
+}
+
+#profile-img {
+	max-width: 100px;
+	max-height: 100px;
+}
+
+.post {
+	padding: 10px;
+	border: 1px solid #117004;
+}
+
+#post-image {
+	max-width: 150px;
+	max-height: 100px;
+	-moz-box-shadow: 3px 3px 5px 6px #ccc;
+	-webkit-box-shadow: 3px 3px 5px 6px #ccc;
+	box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+#new-post-modal {
+	margin: 100px 25%;
+	border: 2px solid black;
+}
+
+#cancel-post {
+	height: 15px;
+	width: 15px;
+	background-color: red;
+	float: right;
+	margin: 10px 0;
+}
+
+#logo {
+	max-width: 100%;
+	margin: 5px auto;
+}
+
+#logo img {
+	margin: auto auto;
+	max-height: 100px;
+	max-width: 100px;
+}
+
+#new-post-text {
+	font-size: 1.5em;
+	margin: 5px auto;
+	border-bottom: 1px solid black;
+}
+
+#new-post-form {
+
+}
+
+.formgroup {
+	margin: 10px 0;
+}
+
+#post-image {
+	box-shadow: none;
+}
+
+#post-summary {
+	max-width: 100%;
+}
+
+input {
+	width: 100%;
+}
+
+#final-formgroup{
+	margin-bottom: 15px;
+}
