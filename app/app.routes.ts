@@ -1,15 +1,17 @@
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./component/home-component";
 import {SignUpComponent} from "./component/signup-component";
-import {ChatComponent} from "./component/chat-component";
+import {ProfileComponent} from "./component/profile.component";
 
 
-export const allAppComponents = [ChatComponent, HomeComponent, SignUpComponent];
+export const allAppComponents = [HomeComponent, SignUpComponent, ProfileComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
-	{path: "signup", component: SignUpComponent},
-	{path: "chat", component: ChatComponent}
+	{path: "profile", component: ProfileComponent},
+	{path: "message", component: MessageComponent},
+	{path: "post", component: PostComponent},
+	{path: "**", component: NotFound}
 ];
 
 export const appRoutingProviders: any[] = [];
