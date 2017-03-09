@@ -1,4 +1,5 @@
 <!--the main view of a single post (it will populate the post feed and the new post modal)-->
+<!--todo delete fake images and words-->
 
 <div class="row main">
 	<div class="col-md-6 display">

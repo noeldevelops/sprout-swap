@@ -19,16 +19,14 @@ import {Status} from "../class/status";
 })
 
 export class PostComponent implements OnInit{
+	allPosts: Post[] = [];
 	status: Status = null;
 	post: Post = new Post(0, 0, 0, "", [], "", "","", 0);
-	constructor(
+	constructor(){}
 
-	)
-	{
+
+	ngOnInit(): void {
+		this.getAllPosts();
 	}
-
-
-	selectedPost: Post
-
 
 }
