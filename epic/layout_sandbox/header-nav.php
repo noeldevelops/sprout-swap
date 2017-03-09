@@ -60,11 +60,11 @@
 					</div>
 					<div class="row post">
 						<div class="col-md-3">
-							<img src="../../images/FarmerJohn.jpg" id="profile-img">
+							<img class="img-responsive" src="../../images/FarmerJohn.jpg" id="profile-img">
 							<p id="handle">WeFarmIt</p>
 						</div>
 						<div class="col-md-9">
-							<img src="../../images/carrots.jpg" alt="" id="post-img">
+							<img class="img-responsive" src="../../images/carrots.jpg" alt="" id="post-img">
 							<p id="post-rundown">Anyone want to trade for carrots?</p>
 						</div>
 					</div>
