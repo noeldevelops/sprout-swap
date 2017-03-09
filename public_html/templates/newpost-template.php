@@ -13,7 +13,7 @@
 	<!--actual form-->
 	<form action="POST">
 		<!--an image of the produce they are offering-->
-		<input type="file" id="post-image" value="image">
+		<input type="file" id="post-image">
 		<!--up to 75 characters; what they're giving away or selling-->
 		<input type="text" id="post-offer">
 		<!--the mode: for free, for sale, or for trade-->
@@ -22,7 +22,7 @@
 			<option value="sell">Sell</option>
 			<option value="trade">Trade</option>
 		</select>
-		<!--what they are looking for: cash or other veggies.  only shows up if mode is not 'free' -->
+		<!--what they are looking for: cash or other veggies.  only shows up if selected mode is not 'free' -->
 		<input type="text" id="post-request">
 		<!--allows users to write in further details about what they're offering -->
 		<input type="text" id="post-summary">

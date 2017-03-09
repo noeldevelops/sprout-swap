@@ -28,7 +28,7 @@
 			<div class="container-fluid">
 				<div class="row"><!--this contains our header/logo and navbar-->
 					<div class="col-md-12" id="header-logo">
-						<img class="img-responsive" id="logo" src="../../images/sprout-swap.logo.png" alt="logo">
+						<img class="img-responsive" id="logo" src="../../images/sprout-swap-logo.png" alt="logo">
 					</div>
 				</div>
 				<div class="row">

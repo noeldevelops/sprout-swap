@@ -8,6 +8,7 @@ p {
 	font-family: "Palanquin", sans-serif;
 	font-size: large;
 }
+
 .main {
 	background: url("../images/soil-bkgd.jpg");
 	-webkit-background-size: cover;
@@ -39,6 +40,7 @@ li.navigation > a {
 	font-family: 'Palanquin';
 	font-size: large;
 }
+
 li.navigation > a:hover {
 	background-color: #f1dcb8;
 	color: black;
@@ -61,7 +63,56 @@ li.navigation > a:hover {
 #post-image {
 	max-width: 150px;
 	max-height: 100px;
-	-moz-box-shadow:    3px 3px 5px 6px #ccc;
+	-moz-box-shadow: 3px 3px 5px 6px #ccc;
 	-webkit-box-shadow: 3px 3px 5px 6px #ccc;
-	box-shadow:         3px 3px 5px 6px #ccc;
+	box-shadow: 3px 3px 5px 6px #ccc;
+}
+
+#new-post-modal {
+	margin: 100px 25%;
+}
+
+#cancel-post {
+	height: 15px;
+	width: 15px;
+	background-color: red;
+	float: right;
+	margin: 5px 5px;
+}
+
+#logo {
+	max-width: 100%;
+	margin: 5px auto;
+}
+
+#logo img {
+	margin: auto auto;
+	max-height: 100px;
+	max-width: 100px;
+}
+
+#new-post-text {
+	font-size: 1.5em;
+	margin: 5px auto;
+	border-bottom: 1px solid black;
+}
+
+#new-post-form {
+
+}
+
+.formgroup {
+	margin: 10px 0;
+}
+
+#post-image {
+	box-shadow: none;
+}
+
+#post-summary {
+	max-width: 100%;
+}
+
+input {
+	width: 100%;
 }
