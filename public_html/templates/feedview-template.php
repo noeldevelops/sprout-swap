@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<header id="nav">
-			<!--inject header-nav.php here-->
+			<main-nav></main-nav>
 		</header>
 		<main>
 			<div class="container">
