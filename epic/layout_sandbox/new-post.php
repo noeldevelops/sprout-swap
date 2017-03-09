@@ -28,7 +28,7 @@
 			<button id="cancel-post">
 				<!-- closes form -->
 			</button>
-			<div id="logo">
+			<div class="logo">
 				<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
 			</div>
 			<!--instructions for users -->
@@ -68,7 +68,7 @@
 					</textarea>
 				</div>
 				<!--submit the information-->
-				<div class="formgroup" id="final-formgroup">
+				<div class="formgroup" id="new-post-final-formgroup">
 					<button id="submit">Submit</button>
 				</div>
 			</form>

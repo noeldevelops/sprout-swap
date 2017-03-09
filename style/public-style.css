@@ -68,12 +68,14 @@ li.navigation > a:hover {
 	box-shadow: 3px 3px 5px 6px #ccc;
 }
 
+/* Styling for new post modal window */
+
 #new-post-modal {
 	margin: 100px 25%;
 	border: 2px solid black;
 }
 
-#cancel-post {
+#cancel {
 	height: 15px;
 	width: 15px;
 	background-color: red;
@@ -81,12 +83,12 @@ li.navigation > a:hover {
 	margin: 10px 0;
 }
 
-#logo {
+.logo {
 	max-width: 100%;
 	margin: 5px auto;
 }
 
-#logo img {
+.logo img {
 	margin: auto auto;
 	max-height: 100px;
 	max-width: 100px;
@@ -96,10 +98,6 @@ li.navigation > a:hover {
 	font-size: 1.5em;
 	margin: 5px auto;
 	border-bottom: 1px solid black;
-}
-
-#new-post-form {
-
 }
 
 .formgroup {
@@ -118,6 +116,23 @@ input {
 	width: 100%;
 }
 
-#final-formgroup{
+/* Styling for login modal window */
+
+#login-modal{
+	margin: 100px 25%;
+	border: 2px solid black;
+}
+
+#new-post-final-formgroup{
+	margin-bottom: 15px;
+}
+
+#login-text{
+	font-size: 1.5em;
+	margin: 5px auto;
+	border-bottom: 1px solid black;
+}
+
+#sign-in-final-formgroup{
 	margin-bottom: 15px;
 }
