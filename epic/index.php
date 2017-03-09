@@ -2,6 +2,13 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
+
+		<!--Favicon image icon-->
+		<link rel="apple-touch-icon" sizes="180x180" href="../images/sprout-swap.favi.png">
+		<link rel="icon" type="image/png" href="../images/sprout-swap.favi.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="../images/sprout-swap.favi.png" sizes="16x16">
+		<link rel="mask-icon" href="../images/sprout-swap.favi.png">
+
 		<title>Index and Executive Summary</title>
 	</head>
 	<body>
