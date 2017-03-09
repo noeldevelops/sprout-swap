@@ -4,18 +4,17 @@ import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
 import {Status} from "../class/status";
 import {Profile} from "../class/profile-class";
-import {Signup} from "../class/signup-class";
 
 @Injectable()
-export class SignupService extends BaseService {
+export class SignUpService extends BaseService {
 	constructor(protected http: Http) {
 		super(http);
 	}
 
-	private signupUrl = "api/signup/";
+	private signUpUrl = "api/signup/";
 
 	postSignup(profile:Profile) : Observable<Status> {
-		return(this.http.post(this.signupUrl, profile)
+		return(this.http.post(this.signUpUrl, profile)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}
