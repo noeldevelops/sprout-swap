@@ -5,8 +5,6 @@ import {MessageService} from "../service/message-service";
 import {Observable} from "rxjs/Observable"
 import {Message} from "../class/message-class";
 
-import {Message} from "../class/message-class";
-
 import {Status} from "../class/status";
 
 @Component({
