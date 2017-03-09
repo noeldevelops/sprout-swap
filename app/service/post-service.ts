@@ -32,47 +32,47 @@ export class PostService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	getPostsByPostLocation(postLocation: any) : Observable<post[]> {
+	getPostsByPostLocation(postLocation: any) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postLocation)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getPost(postId: number) : Observable<post> {
+	getPost(postId: number) : Observable<Post> {
 		return(this.http.get(this.postUrl + postId)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getPostsByPostModeId(postModeId: number) : Observable<post[]> {
+	getPostsByPostModeId(postModeId: number) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postModeId)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-	getPostsByPostProfileId(postProfileId: number) : Observable<post[]> {
+	getPostsByPostProfileId(postProfileId: number) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postProfileId)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getPostsByPostContent(postContent: string) : Observable<post[]> {
+	getPostsByPostContent(postContent: string) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postContent)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getPostsByPostOffer(postOffer: string) : Observable<post[]> {
+	getPostsByPostOffer(postOffer: string) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postOffer)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getPostsByPostRequest(postRequest: string) : Observable<post[]> {
+	getPostsByPostRequest(postRequest: string) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postRequest)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-	getPostsByPostTimestamp(postTimestamp: DateTimeFormat) : Observable<post[]> {
+	getPostsByPostTimestamp(postTimestamp: DateTimeFormat) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postTimestamp)
 			.map(this.extractData)
 			.catch(this.handleError));
