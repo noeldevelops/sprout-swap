@@ -27,7 +27,7 @@ export class PostService extends BaseService {
 	}
 
 	editPost(post: Post) : Observable<Status> {
-		return(this.http.put(this.postUrl + post.postId, post)
+		return(this.http.put(this.postUrl + post.id, post)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}
