@@ -1,4 +1,4 @@
-<!--this is the header and main page navigation-->
+<!--this is the header and main page navigation - it is in the sproutswap-app.php file and this file isn't actually  being used !!-->
 <!DOCTYPE html>
 <html>
 	<head>
