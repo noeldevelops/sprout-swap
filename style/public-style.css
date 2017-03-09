@@ -110,6 +110,7 @@ li.navigation > a:hover {
 
 #post-summary {
 	max-width: 100%;
+	resize: none;
 }
 
 input {
