@@ -41,7 +41,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
-	$imageId = filter_input(INPUT_GET, "imageId", FILTER_VALIDATE_INT);
+	$imageId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageCloudinaryId = filter_input(INPUT_GET, "imageCloudinaryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
