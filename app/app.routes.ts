@@ -4,9 +4,10 @@ import {SignUpComponent} from "./component/signup-component";
 import {ProfileComponent} from "./component/profile.component";
 import {MessageComponent} from "./component/message.component";
 import {PostComponent} from "./component/newpost.component";
+import {ImageComponent} from "./component/image.component";
 
 
-export const allAppComponents = [HomeComponent, SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NotFoundComponent];
+export const allAppComponents = [HomeComponent, SignUpComponent, ProfileComponent, MessageComponent, PostComponent, ImageComponent, NotFoundComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},

@@ -6,10 +6,11 @@ import {Observable} from "rxjs/Observable"
 import {Status} from "../class/status";
 
 @Component({
+
 	templateUrl: "./templates/navbar-template.php"
 })
 
-export class NavBarComponent implements OnInit{
+export class NavbarComponent implements OnInit{
 	status: Status = null;
 	constructor(
 

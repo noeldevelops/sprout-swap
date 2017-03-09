@@ -15,7 +15,6 @@ export class ImageComponent implements OnInit{
 	status: Status = null;
 	image: Image = new Image(0, "");
 	constructor(
-
 	)
 	{
 	}
