@@ -68,7 +68,7 @@
 					</textarea>
 				</div>
 				<!--submit the information-->
-				<div class="formgroup">
+				<div class="formgroup" id="final-formgroup">
 					<button id="submit">Submit</button>
 				</div>
 			</form>
