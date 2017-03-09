@@ -1,3 +1,5 @@
+//we might not need this component bc the main nav is on the main app view
+
 import{Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable"

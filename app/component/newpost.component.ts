@@ -1,3 +1,4 @@
+//this is the modal that pops up when "create new post" is clicked
 import{Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {PostService} from "../service/post-service";
@@ -16,7 +17,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/newpost-template.php"
 })
 
-export class PostComponent implements OnInit{
+export class NewPostComponent implements OnInit{
 	status: Status = null;
 	newpost: Post = new Post(0, 0, 0, "", [], "", "","", 0);
 	constructor(

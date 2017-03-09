@@ -1,3 +1,5 @@
+// this is the basic post view that will be used on the single post view modal and the main post feed
+
 import{Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {PostService} from "../service/post-service";
