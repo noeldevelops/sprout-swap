@@ -2,8 +2,8 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
-import {Post} from "./post-service";
-import {Status} from "../classes/status";
+import {Post} from "../class/post-class";
+import {Status} from "../class/status";
 import DateTimeFormat = Intl.DateTimeFormat;
 
 @Injectable()

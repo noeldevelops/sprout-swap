@@ -1,3 +1,4 @@
+
 export class Post {
 	constructor (
 		public postId: number,
