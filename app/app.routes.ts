@@ -8,9 +8,10 @@ import {SideNavComponent} from "./component/sidenav.component";
 import {NavbarComponent} from "./component/navbar.component";
 import {NewMessageComponent} from "./component/newmessage.component";
 import {PostComponent} from "./component/post.component";
+import {HomeComponent} from "./component/home.component";
 
 
-export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NavbarComponent, NewMessageComponent];
+export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NavbarComponent, NewMessageComponent, HomeComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},

@@ -32,5 +32,4 @@ export class ImageService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	getImageBy
 }
