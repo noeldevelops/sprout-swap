@@ -2,10 +2,15 @@ import {RouterModule, Routes} from "@angular/router";
 import {SignUpComponent} from "./component/signup.component";
 import {ProfileComponent} from "./component/profile.component";
 import {MessageComponent} from "./component/message.component";
-import {PostComponent} from "./component/newpost.component";
+import {NewPostComponent} from "./component/newpost.component";
+import {SignInComponent} from "./component/signin.component";
+import {SideNavComponent} from "./component/sidenav.component";
+import {NavbarComponent} from "./component/navbar.component";
+import {NewMessageComponent} from "./component/newmessage.component";
+import {PostComponent} from "./component/post.component";
 
 
-export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent];
+export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NavbarComponent, NewMessageComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
