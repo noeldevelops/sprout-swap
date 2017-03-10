@@ -1,5 +1,5 @@
 import {RouterModule, Routes} from "@angular/router";
-import {SignUpComponent} from "./component/signup-component";
+import {SignUpComponent} from "./component/signup.component";
 import {ProfileComponent} from "./component/profile.component";
 import {MessageComponent} from "./component/message.component";
 import {PostComponent} from "./component/newpost.component";
