@@ -10,7 +10,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/signup-template.php"
 })
 
-export class SignUpComponent implements OnInit{
+export class SignUpComponent {
 	status: Status = null;
 	constructor(
 

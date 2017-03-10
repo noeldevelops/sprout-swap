@@ -10,7 +10,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/navbar-template.php"
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent  {
 	status: Status = null;
 	constructor() {
 	}

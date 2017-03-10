@@ -13,7 +13,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/newmessage-template.php"
 })
 
-export class NewMessageComponent implements OnInit{
+export class NewMessageComponent {
 	status: Status = null;
 	newMessage: Message = new Message(0, 0, 0, 0, "", 0, 0);
 	constructor(

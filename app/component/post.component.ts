@@ -18,15 +18,11 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/post-template.php"
 })
 
-export class PostComponent implements OnInit{
+export class PostComponent {
 	allPosts: Post[] = [];
 	status: Status = null;
 	post: Post = new Post(0, 0, 0, "", [], "", "","", 0);
 	constructor(){}
 
-
-	ngOnInit(): void {
-		this.getAllPosts();
-	}
 
 }

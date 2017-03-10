@@ -17,7 +17,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/newpost-template.php"
 })
 
-export class NewPostComponent implements OnInit{
+export class NewPostComponent {
 	status: Status = null;
 	newpost: Post = new Post(0, 0, 0, "", [], "", "","", 0);
 	constructor(

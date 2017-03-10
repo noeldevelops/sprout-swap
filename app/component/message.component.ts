@@ -11,7 +11,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/message-template.php"
 })
 
-export class MessageComponent implements OnInit{
+export class MessageComponent {
 	status: Status = null;
 	message: Message = new Message(0, 0, 0, 0, "", 0, 0);
 	constructor(

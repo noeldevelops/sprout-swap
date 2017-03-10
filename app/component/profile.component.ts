@@ -13,7 +13,7 @@ import {Status} from "../class/status";
 	templateUrl: "./templates/profile-template.php"
 })
 
-export class ProfileComponent implements OnInit{
+export class ProfileComponent {
 	status: Status = null;
 	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
 	constructor(
