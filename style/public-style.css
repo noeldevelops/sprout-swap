@@ -119,73 +119,73 @@ input {
 
 /* Styling for login modal window */
 
-#login-modal{
+#login-modal {
 	margin: 100px 25%;
 	border: 2px solid black;
 }
 
-#new-post-final-formgroup{
+#new-post-final-formgroup {
 	margin-bottom: 15px;
 }
 
-#login-text{
+#login-text {
 	font-size: 1.5em;
 	margin: 5px auto;
 	border-bottom: 1px solid black;
 }
 
-#sign-in-final-formgroup{
+#sign-in-final-formgroup {
 	margin-bottom: 15px;
 }
 
 /* Styles for modal side-nav */
 
-#modal-nav{
+#modal-nav {
 	background-color: black;
 	text-align: left;
 	padding: 1px 1px;
 }
 
-#side-nav{
-	padding:1px;
+#side-nav {
+	padding: 1px;
 	align-items: center;
 	margin: auto auto;
 }
 
-#modal-nav ul li{
+#modal-nav ul li {
 	background-color: black;
 	font-family: 'Palanquin';
 	font-size: .9em;
 	color: white;
 	list-style: none;
 	padding: 2px;
-	margin:1px 1px;
+	margin: 1px 1px;
 	border: 1px solid white;
 }
 
-#modal-nav ul li a{
+#modal-nav ul li a {
 	color: white;
 	padding: auto auto;
 	margin: auto auto;
 }
 
-#modal-nav ul li a:hover{
+#modal-nav ul li a:hover {
 	text-decoration: none;
 	text-underline: none;
 	font-weight: bolder;
 }
 
-#modal-nav ul li a:active{
+#modal-nav ul li a:active {
 	text-decoration: none;
 	text-underline: none;
 }
 
-#modal-nav ul li a:visited{
+#modal-nav ul li a:visited {
 	text-decoration: none;
 	text-underline: none;
 }
 
-#modal-nav ul li a:focus{
+#modal-nav ul li a:focus {
 	text-decoration: none;
 	text-underline: none;
 }
@@ -203,59 +203,73 @@ input {
 	border-bottom: 1px solid black;
 }
 
-#message-content{
+#message-content {
 	max-width: 100%;
 	resize: none;
 }
 
 /*#main {*/
-	/*align-items:				;n-self: center;*/
+/*align-items:				;n-self: center;*/
 /*}*/
 
 /* Styling for profile view */
 
-#profile{
+#profile {
 	margin: 100px 25%;
 	border: 2px solid black;
 }
 
-#edit{
-	display:inline;
+button#edit {
+	margin: 5px auto;
+	display: block;
 }
 
-#profile-left{
+#profile-left {
 	margin: 5px 0;
 	float: left;
 	width: 50%;
 }
 
-#profile-right{
+#profile-left > p {
+	padding: 0 5px;
+}
+
+
+#profile-right {
 	margin: 5px 0;
 	float: right;
 	width: 50%;
 	min-height: 100%;
 }
 
-#summary-text{
+#profile-right > p {
+	padding: 0 5px;
+}
+
+#summary-text {
 	margin: 0;
 	padding: 0;
 	float: right;
 	vertical-align: bottom;
 }
 
-#img-wrap{
-	height:100px;
-	width: 100px;
-	margin: 2px auto;
+#img-wrap {
+	height: 150px;
+	width: 150px;
+	margin: 5px auto;
 	border: 2px solid grey;
 	padding: 1px 1px;
 }
 
-#profile-img{
-	max-height: 100%;
-	margin: auto auto;
-}
+#profile-img {
+	/* Set rules to fill background */
+	min-height: 100%;
+	min-width: 100%;
 
-#edit{
-	margin: 2px auto;
+	/* Set up proportionate scaling */
+	width: 100%;
+	height: auto;
+
+	/* Set up positioning */
+	position: relative;
 }
