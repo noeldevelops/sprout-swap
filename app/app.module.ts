@@ -13,7 +13,7 @@ const moduleDeclarations = [AppComponent];
 @NgModule({
 	imports: [BrowserModule, FormsModule, HttpModule, routing],
 	//tells angular which componenents/ must declare every component, directive, and pipe
-	declarations: [...allAppComponents],
+	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap: [AppComponent],
 	providers: [appRoutingProviders, SignInService, SignUpService]
 })
