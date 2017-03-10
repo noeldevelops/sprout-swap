@@ -207,3 +207,55 @@ input {
 	max-width: 100%;
 	resize: none;
 }
+
+/*#main {*/
+	/*align-items:				;n-self: center;*/
+/*}*/
+
+/* Styling for profile view */
+
+#profile{
+	margin: 100px 25%;
+	border: 2px solid black;
+}
+
+#edit{
+	display:inline;
+}
+
+#profile-left{
+	margin: 5px 0;
+	float: left;
+	width: 50%;
+}
+
+#profile-right{
+	margin: 5px 0;
+	float: right;
+	width: 50%;
+	min-height: 100%;
+}
+
+#summary-text{
+	margin: 0;
+	padding: 0;
+	float: right;
+	vertical-align: bottom;
+}
+
+#img-wrap{
+	height:100px;
+	width: 100px;
+	margin: 2px auto;
+	border: 2px solid grey;
+	padding: 1px 1px;
+}
+
+#profile-img{
+	max-height: 100%;
+	margin: auto auto;
+}
+
+#edit{
+	margin: 2px auto;
+}
