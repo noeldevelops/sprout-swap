@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {Profile} from "../class/profile-class";
 import {Status} from "../class/status";
 import {SignUpService} from "../service/signup-service";
+import {ActivationService} from "../service/activation-service";
 declare var $: any;
 
 @Component({
@@ -19,7 +20,7 @@ export class SignUpComponent implements OnInit{
 	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
 	status: Status = null;
 
-	constructor(private SignUpService: SignUpService, private router: Router){}
+	constructor(private SignUpService: SignUpService, private ActivationService: ActivationService, private router: Router){}
 
 	ngOnInit(): void {
 	}
