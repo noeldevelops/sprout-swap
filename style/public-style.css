@@ -155,9 +155,9 @@ button#edit {
 }
 
 #profile-left {
-	margin: 5px 0;
+	/*margin: 5px 0;*/
 	float: left;
-	width: 50%;
+	width: 40%;
 }
 
 #profile-left > p {
@@ -166,10 +166,10 @@ button#edit {
 
 
 #profile-right {
-	margin: 5px 0;
+	/*margin: 5px 0;*/
 	float: right;
-	width: 50%;
-	min-height: 100%;
+	width: 40%;
+	/*min-height: 100%;*/
 }
 
 #profile-right > p {
