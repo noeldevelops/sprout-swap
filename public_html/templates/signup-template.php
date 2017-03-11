@@ -38,7 +38,7 @@
 					  [ngClass]="status.type" role="alert">
 
 					{{ status.message }}
-
+				</div>
 			</form>
 		</div>
 	</div>
