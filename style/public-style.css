@@ -117,21 +117,49 @@ input {
 	width: 100%;
 }
 
-/* Styling for login modal window */
-
-#signin-modal {
-	margin: 100px 25%;
-	border: 2px solid black;
-}
-
 #new-post-final-formgroup {
 	margin-bottom: 15px;
 }
 
-#login-text {
+/* Styling for signin modal window */
+
+
+#signin-modal {
+	margin: 100px 25%;
+}
+
+#signin-modal {
+>>>>>>> Stashed changes
+	border: 2px solid black;
+}
+
+
+#signin-text {
 	font-size: 1.5em;
-	margin: 5px auto;
+	margin: 5px 5px;
 	border-bottom: 1px solid black;
+}
+
+
+#signin-final-formgroup {
+}
+
+#signin-email{
+	margin: auto 5px;
+	width: auto;
+}
+
+.signin-labels{
+	margin: auto 5px;
+}
+
+#signin-password{
+	margin: auto 5px;
+	width: auto;
+}
+
+#signin-submit{
+	margin: auto 5px;
 }
 
 #signin-final-formgroup {

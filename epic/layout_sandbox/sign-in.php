@@ -8,13 +8,14 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 				integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
 		<!-- Latest compiled and minified JavaScript for Bootstrap -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 				  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 				  crossorigin="anonymous"></script>
 
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
 		<!--Custom CSS -->
 		<link rel="stylesheet" href="../../style/public-style.css">
@@ -23,38 +24,42 @@
 		<title>Sprout-Swap</title>
 	</head>
 
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Large modal
+	</button>
 
-	<div class="container">
-		<div class="col-xs-12 col-md-6" id="signin-modal">
 
-			<button id="cancel">
-				<!-- closes form -->
-			</button>
-			<div class="logo">
-				<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+
+		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+			  id="signin-modal">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="logo">
+						<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+					</div>
+
+					<!--instructions for users -->
+					<div id="signin-text">
+						<p>Please enter your email and password to log-in</p>
+
+					</div>
+					<!--actual form-->
+					<form action="POST" id="signin-form">
+						<!--user's email-->
+						<div class="formgroup">
+							<p class="signin-labels">Email:</p>
+							<input type="email" id="signin-email">
+						</div>
+						<!--up to 75 characters; what they're giving away or selling-->
+						<div class="formgroup">
+							<p class="signin-labels">Password:</p>
+							<input type="password" id="signin-password">
+						</div>
+						<!--submit the information-->
+						<div class="formgroup" id="signin-final-formgroup">
+							<button id="signin-submit">Submit</button>
+						</div>
+					</form>
+				</div>
 			</div>
-			<!--instructions for users -->
-			<div id="login-text">
-				<p>Please enter your email and password to log-in</p>
-			</div>
-			<!--actual form-->
-			<form action="POST" id="login-form">
-				<!--user's email-->
-				<div class="formgroup">
-					<p>Email:</p>
-					<input type="email" id="signin-email">
-				</div>
-				<!--up to 75 characters; what they're giving away or selling-->
-				<div class="formgroup">
-					<p>Password:</p>
-					<input type="password" id="login-password">
-				</div>
-				<!--submit the information-->
-				<div class="formgroup" id="signin-final-formgroup">
-					<button id="submit">Submit</button>
-				</div>
-			</form>
 
-		</div>
-	</div>
 </html>
