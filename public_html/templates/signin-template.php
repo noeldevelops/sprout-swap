@@ -27,7 +27,7 @@
 				</div>
 				<!--submit the information-->
 				<div class="formgroup" id="signin-final-formgroup">
-					<button type="submit" id="submit" [disabled]="signin-form.invalid" class="modal-submit">Submit</button>
+					<button type="submit" id="submit" [disabled]="signInForm.invalid" class="modal-submit">Submit</button>
 				</div>
 			</form>
 		</div>
