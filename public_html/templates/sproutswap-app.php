@@ -13,6 +13,7 @@
 						<li class="navigation"><a href="#">Home</a></li>
 						<li class="navigation"><a href="#">Sign In/Sign Up</a></li>
 						<signup-component></signup-component>
+						<signin-component></signin-component>
 					</ul>
 					<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />
 					</form>

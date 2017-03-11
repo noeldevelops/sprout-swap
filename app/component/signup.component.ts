@@ -13,8 +13,7 @@ declare var $: any;
 	selector: "signup-component"
 })
 
-//I copied this stuff from Growify and made appropriate changes, but... we probably need to fix it!!
-export class SignupComponent implements OnInit{
+export class SignUpComponent implements OnInit{
 	@ViewChild("signup-form") signUpForm : any;
 	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
 	status: Status = null;
@@ -26,7 +25,7 @@ export class SignupComponent implements OnInit{
 
 	createProfile() : void {
 
-		this.SignUpService.postSignup(this.profile)
+		this.SignUpService.postSignUp(this.profile)
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
