@@ -119,7 +119,7 @@ input {
 
 /* Styling for login modal window */
 
-#login-modal {
+#signin-modal {
 	margin: 100px 25%;
 	border: 2px solid black;
 }
@@ -134,7 +134,7 @@ input {
 	border-bottom: 1px solid black;
 }
 
-#sign-in-final-formgroup {
+#signin-final-formgroup {
 	margin-bottom: 15px;
 }
 

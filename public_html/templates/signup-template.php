@@ -1,6 +1,6 @@
 <!--the modal that pops up when you click "sign up"-->
 <div class="container">
-	<div class="col-xs-12 col-md-6" id="login-modal">
+	<div class="col-xs-12 col-md-6" id="signup-modal">
 
 		<button id="cancel">
 			<!-- closes form -->
@@ -36,7 +36,7 @@
 				<input type="text" id="signup-handle">
 			</div>
 			<!--submit the information-->
-			<div class="formgroup" id="sign-in-final-formgroup">
+			<div class="formgroup" id="signin-final-formgroup">
 				<button id="submit">Submit</button>
 			</div>
 		</form>

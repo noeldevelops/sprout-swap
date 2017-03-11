@@ -25,7 +25,7 @@
 
 
 	<div class="container">
-		<div class="col-xs-12 col-md-6" id="login-modal">
+		<div class="col-xs-12 col-md-6" id="signin-modal">
 
 			<button id="cancel">
 				<!-- closes form -->
@@ -50,7 +50,7 @@
 					<input type="password" id="login-password">
 				</div>
 				<!--submit the information-->
-				<div class="formgroup" id="sign-in-final-formgroup">
+				<div class="formgroup" id="signin-final-formgroup">
 					<button id="submit">Submit</button>
 				</div>
 			</form>
