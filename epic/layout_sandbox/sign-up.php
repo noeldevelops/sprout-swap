@@ -35,36 +35,36 @@
 							aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">Enter your information to sign-up for Sprout-Swap!</h4>
 				</div>
-				<div class="logo">
-					<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
-				</div>
 
 				<!--actual form-->
-				<form action="POST" id="signup-form">
+				<form #signupForm="ngForm" name="signupForm" (ngSubmit)="createProfile();">
 					<!--user's email-->
 					<div class="formgroup">
 						<p class="modal-labels">Email:</p>
-						<input type="email" class="modal-inputs">
+						<input type="email" name ="email" class="modal-inputs" required [(ngModel)]="profile.profileEmail" #profileEmail="ngModel">
 					</div>
 					<!--user enters password-->
 					<div class="formgroup">
 						<p class="modal-labels">Password:</p>
-						<input type="password" class="modal-inputs">
+						<input type="password" name="password" class="modal-inputs" required [(ngModel)]="profile.profilePassword" #profilePassword="ngModel">
 					</div>
 					<!--confirm password-->
 					<div class="formgroup">
 						<p class="modal-labels">Confirm Password:</p>
-						<input type="password" class="modal-inputs">
+						<input type="password" name="confirmPassword" class="modal-inputs" required [(ngModel)]="profile.profileConfirmPassword" #profileConfirmPassword="ngModel">
 					</div>
 					<!--set a handle-->
 					<div class="formgroup">
 						<p class="modal-labels">Choose a unique username:</p>
-						<input type="text" class="modal-inputs">
+						<input type="text" name="handle" class="modal-inputs" required [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
 					</div>
 					<!--submit the information-->
-					<div class="formgroup modal-final-formgroup">
-						<button class="modal-submit">Submit</button>
-					</div>
+					<input type="submit" name="signup" class="modal-submit" value="signup">
+					<div *ngIf="status !== null" class="alert alert-dismissible"
+						  [ngClass]="status.type" role="alert">
+
+						{{ status.message }}
+
 				</form>
 			</div>
 		</div>
