@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit{
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					this.signUpForm.reset()
+					this.signUpForm.reset();
 					alert("Please check your email and click the link to activate your account. Thanks!");
 					setTimeout(function(){$("#signup-modal").modal('hide');},1000);
 				}

@@ -14,10 +14,11 @@ import {HomeComponent} from "./component/home.component";
 export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent];
 
 export const routes: Routes = [
+	{path: "", component: HomeComponent},
 	{path: "profile", component: ProfileComponent},
 	{path: "message", component: MessageComponent},
-	{path: "post", component: PostComponent},
-	{path: "", component: HomeComponent},
+	{path: "post", component: PostComponent}
+
 ];
 
 export const appRoutingProviders: any[] = [];
