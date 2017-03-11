@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signin-modal">Sign In</button>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
