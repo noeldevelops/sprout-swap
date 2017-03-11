@@ -13,7 +13,7 @@
 			</div>
 
 			<!--actual form-->
-			<form #signin-form="ngForm" name="signin-form" id="signin-form"
+			<form #signInForm="ngForm" name="signInForm" id="signInForm"
 					(ngSubmit)="signIn();">
 				<!--user's email-->
 				<div class="formgroup">

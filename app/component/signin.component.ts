@@ -14,7 +14,7 @@ declare var $: any;
 })
 
 export class SignInComponent implements OnInit {
-	@ViewChild("signin-form") signInForm : any;
+	@ViewChild("signInForm") signInForm : any;
 
 	signin: SignIn = new SignIn("", "");
 	status: Status = null;
