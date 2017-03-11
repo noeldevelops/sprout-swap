@@ -1,37 +1,35 @@
-<!--this is the modal that shows when someone clicks "sign in"-->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signin-modal">Sign In</button>
 
-<div class="container">
-	<div class="col-xs-12 col-md-6" id="signin-modal">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Enter your email and password to login</h4>
+			</div>
+			<div class="logo">
+				<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+			</div>
 
-		<button id="cancel">
-			<!-- closes form -->
-		</button>
-		<div class="logo">
-			<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+			<!--actual form-->
+			<form #signin-form="ngForm" name="signin-form" id="signin-form"
+					(ngSubmit)="signIn();">
+				<!--user's email-->
+				<div class="formgroup">
+					<label for="signin-email" class="modal-labels">Email:</label>
+					<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="signin.profileEmail" #profileEmail="ngModel" class="modal-inputs">
+				</div>
+				<!--user's password-->
+				<div class="formgroup">
+					<label for="signin-password" class="modal-labels">Password:</label>
+					<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel" class="modal-inputs">
+				</div>
+				<!--submit the information-->
+				<div class="formgroup" id="signin-final-formgroup">
+					<button type="submit" id="submit" [disabled]="signin-form.invalid" class="modal-submit">Submit</button>
+				</div>
+			</form>
 		</div>
-		<!--instructions for users -->
-		<div id="login-text">
-			<p>Please enter your email and password to login.</p>
-		</div>
-		<!--actual form-->
-		<form #signin-form="ngForm" name="signin-form" id="signin-form"
-				(ngSubmit)="signIn();">
-			<!--user's email -->
-			<div class="formgroup">
-				<label for="signin-email">Email:</label>
-				<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="signin.profileEmail" #profileEmail="ngModel">
-			</div>
-<!--			user's password-->
-			<div class="formgroup">
-				<label for="signin-password">Password:</label>
-				<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel">
-			</div>
-			<!--submit the information-->
-			<div class="formgroup" id="signin-final-formgroup">
-				<button type="submit" id="submit" [disabled]="signin-form.invalid">Submit</button>
-			</div>
-		</form>
-
 	</div>
 </div>
