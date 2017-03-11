@@ -31,42 +31,39 @@
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Enter your information to sign-up for Sprout-Swap!</h4>
 				</div>
 				<div class="logo">
 					<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
-				</div>
-
-				<!--instructions for users -->
-				<div id="signin-text">
-					<p>Enter your information to sign-up!</p>
 				</div>
 
 				<!--actual form-->
 				<form action="POST" id="signup-form">
 					<!--user's email-->
 					<div class="formgroup">
-						<p class="signup-labels">Email:</p>
-						<input type="email" id="signup-email">
+						<p class="modal-labels">Email:</p>
+						<input type="email" class="modal-inputs">
 					</div>
 					<!--user enters password-->
 					<div class="formgroup">
-						<p class="signup-labels">Password:</p>
-						<input type="password" id="signup-password">
+						<p class="modal-labels">Password:</p>
+						<input type="password" class="modal-inputs">
 					</div>
 					<!--confirm password-->
 					<div class="formgroup">
-						<p class="signup-labels">Confirm Password:</p>
-						<input type="password" id="signup-password-confirm">
+						<p class="modal-labels">Confirm Password:</p>
+						<input type="password" class="modal-inputs">
 					</div>
 					<!--set a handle-->
 					<div class="formgroup">
-						<p class="signup-labels">Choose a unique username:</p>
-						<input type="text" id="signup-handle">
+						<p class="modal-labels">Choose a unique username:</p>
+						<input type="text" class="modal-inputs">
 					</div>
 					<!--submit the information-->
-					<div class="formgroup" id="signup-final-formgroup">
-						<button id="signup-submit">Submit</button>
+					<div class="formgroup modal-final-formgroup">
+						<button class="modal-submit">Submit</button>
 					</div>
 				</form>
 			</div>

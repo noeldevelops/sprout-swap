@@ -68,94 +68,6 @@ li.navigation > a:hover {
 	box-shadow: 3px 3px 5px 6px #ccc;
 }
 
-/* Styling for new post modal window */
-
-#new-post-modal {
-	margin: 100px 25%;
-	border: 2px solid black;
-}
-
-#cancel {
-	height: 15px;
-	width: 15px;
-	background-color: red;
-	float: right;
-	margin: 10px 0;
-}
-
-.logo {
-	max-width: 100%;
-	margin: 5px auto;
-}
-
-.logo img {
-	margin: auto auto;
-	max-height: 100px;
-	max-width: 100px;
-}
-
-#new-post-text {
-	font-size: 1.5em;
-	margin: 5px auto;
-	border-bottom: 1px solid black;
-}
-
-.formgroup {
-	margin: 10px 0;
-}
-
-#post-image {
-	box-shadow: none;
-}
-
-#post-summary {
-	max-width: 100%;
-	resize: none;
-}
-
-input {
-	width: 100%;
-}
-
-#new-post-final-formgroup {
-	margin-bottom: 15px;
-}
-
-/* Styling for signin modal window */
-
-#signin-modal {
-	margin: 100px 25%;
-	border: 2px solid black;
-}
-
-#signin-text {
-	font-size: 1.5em;
-	margin: 5px 5px;
-	border-bottom: 1px solid black;
-}
-
-#signin-email{
-	margin: auto 5px;
-	width: auto;
-}
-
-.signin-labels{
-	margin: auto 5px;
-}
-
-#signin-password{
-	margin: auto 5px;
-	width: auto;
-}
-
-#signin-submit{
-	margin: auto 5px;
-}
-
-#signin-final-formgroup {
-	margin-bottom: 15px;
-}
-
 /* Styles for modal side-nav */
 
 #modal-nav {
@@ -292,64 +204,22 @@ button#edit {
 	position: relative;
 }
 
-/*Styles for singup modal window*/
-
-#signup-modal {
-	border: 2px solid black;
-}
-
-#signup-text {
-	font-size: 1.5em;
-	margin: 5px 5px;
-	border-bottom: 1px solid black;
-}
-
-#signup-email{
-	margin: auto 5px;
-	width: auto;
-}
-
-.signup-labels{
-	margin: auto 5px;
-}
-
-#signup-password{
-	margin: auto 5px;
-	width: auto;
-}
-
-#signup-password-confirm{
-	margin: auto 5px;
-	width: auto;
-}
-
-#signup-submit{
-	margin: auto 5px;
-}
-
-#signup-final-formgroup {
-	margin-bottom: 15px;
-}
-
-#signup-handle{
-	margin: auto 5px;
-	width: auto;
-}
-
-.signup-labels{
-	margin: auto 5px;
-}
 
 /*Creating classes for all text and boxes on modal forms*/
+.logo {
+	max-width: 100%;
+	margin: 5px auto;
+}
 
-.modal-windows {
-	border: 2px solid black;
+.logo img {
+	margin: auto auto;
+	max-height: 100px;
+	max-width: 100px;
 }
 
 .modal-text {
-	font-size: 1.5em;
+	font-size: .9em;
 	margin: 5px 5px;
-	border-bottom: 1px solid black;
 }
 
 .modal-inputs{
@@ -357,23 +227,8 @@ button#edit {
 	width: auto;
 }
 
-.modal-email{
-	margin: auto 5px;
-	width: auto;
-}
-
 .modal-labels{
 	margin: auto 5px;
-}
-
-.modal-password{
-	margin: auto 5px;
-	width: auto;
-}
-
-.modal-password-confirm{
-	margin: auto 5px;
-	width: auto;
 }
 
 .modal-submit{
@@ -384,11 +239,23 @@ button#edit {
 	margin-bottom: 15px;
 }
 
-.modal-handle{
-	margin: auto 5px;
-	width: auto;
-}
-
 .modal-labels{
 	margin: auto 5px;
+}
+
+.formgroup {
+	margin: 10px 0;
+}
+
+input{
+	box-shadow: none;
+}
+
+#post-image {
+	box-shadow: none;
+}
+
+textarea{
+	min-width: 95%;
+	resize: none;
 }

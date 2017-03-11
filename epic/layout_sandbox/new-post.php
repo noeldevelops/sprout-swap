@@ -30,14 +30,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Make a post and start trading!</h4>
 				</div>
 				<div class="logo">
 					<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
 				</div>
-				<!--instructions for users -->
-				<div id="new-post-text">
-					<p class="modal-text">Make a post and start trading!</p>
-				</div>
+
 				<!--actual form-->
 				<form action="POST" id="new-post-form">
 					<!--an image of the produce they are offering-->
@@ -67,8 +65,7 @@
 					<!--allows users to write in further details about what they're offering -->
 					<div class="formgroup">
 						<p class="modal-labels">Give more details about your produce!</p>
-						<textarea class="form-control modal-inputs" id="post-summary" rows="5" name="post-summary"
-									 placeholder="Max 500 characters">
+						<textarea class="form-control modal-inputs" id="post-summary" rows="5" name="post-summary" placeholder="Max 500 characters">
 					</textarea>
 					</div>
 					<!--submit the information-->
