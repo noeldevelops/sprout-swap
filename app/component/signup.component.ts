@@ -16,7 +16,7 @@ declare var $: any;
 })
 
 export class SignUpComponent implements OnInit{
-	@ViewChild("signup-form") signUpForm : any;
+	@ViewChild("signUpForm") signUpForm : any;
 	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
 	status: Status = null;
 

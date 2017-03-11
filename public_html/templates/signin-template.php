@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signin-modal">Sign In</button>
 
-<div class="modal fade" tabindex="-1" role="dialog">
+<div class="modal fade" tabindex="-1" role="dialog" id="signin-modal">
 	<div class="modal-dialog modal-sm" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -9,7 +9,7 @@
 				<h4 class="modal-title">Enter your email and password to login</h4>
 			</div>
 			<div class="logo">
-				<img src="../../images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
+				<img src="images/sprout-swap-favi.png" alt="Welcome to Sprout-Swap!">
 			</div>
 
 			<!--actual form-->
