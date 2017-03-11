@@ -1,8 +1,9 @@
 //this is the modal that pops up when "sign-up" is clicked
+// todo does this need an activation service?
 
 import{Component, ViewChild, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable"
+// import {Observable} from "rxjs/Observable"
 import {Profile} from "../class/profile-class";
 import {Status} from "../class/status";
 import {SignUpService} from "../service/signup-service";

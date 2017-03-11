@@ -28,7 +28,7 @@ export class SignInComponent implements OnInit {
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					this.router.navigate(['main-app']);
+					this.router.navigate(['sproutswap-app']);
 				}
 			});
 	}
