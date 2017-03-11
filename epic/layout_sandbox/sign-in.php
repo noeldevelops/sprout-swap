@@ -24,10 +24,7 @@
 		<title>Sprout-Swap</title>
 	</head>
 
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Large modal
-	</button>
-
-
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Sign In</button>
 
 		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
 			  id="signin-modal">
@@ -49,7 +46,7 @@
 							<p class="signin-labels">Email:</p>
 							<input type="email" id="signin-email">
 						</div>
-						<!--up to 75 characters; what they're giving away or selling-->
+						<!--user's password-->
 						<div class="formgroup">
 							<p class="signin-labels">Password:</p>
 							<input type="password" id="signin-password">
