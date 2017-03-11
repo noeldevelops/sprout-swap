@@ -1,4 +1,5 @@
 <!--this is the modal that shows when someone clicks "sign in"-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signin-modal">Sign In</button>
 
 <div class="container">
 	<div class="col-xs-12 col-md-6" id="signin-modal">
