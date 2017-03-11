@@ -9,6 +9,7 @@ import {Profile} from "../class/profile-class";
 
 @Injectable ()
 export class ProfileService extends BaseService {
+
 	constructor(protected http: Http) {
 		super(http);
 	}
