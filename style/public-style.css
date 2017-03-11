@@ -339,3 +339,56 @@ button#edit {
 .signup-labels{
 	margin: auto 5px;
 }
+
+/*Creating classes for all text and boxes on modal forms*/
+
+.modal-windows {
+	border: 2px solid black;
+}
+
+.modal-text {
+	font-size: 1.5em;
+	margin: 5px 5px;
+	border-bottom: 1px solid black;
+}
+
+.modal-inputs{
+	margin:auto 5px;
+	width: auto;
+}
+
+.modal-email{
+	margin: auto 5px;
+	width: auto;
+}
+
+.modal-labels{
+	margin: auto 5px;
+}
+
+.modal-password{
+	margin: auto 5px;
+	width: auto;
+}
+
+.modal-password-confirm{
+	margin: auto 5px;
+	width: auto;
+}
+
+.modal-submit{
+	margin: auto 5px;
+}
+
+.modal-final-formgroup {
+	margin-bottom: 15px;
+}
+
+.modal-handle{
+	margin: auto 5px;
+	width: auto;
+}
+
+.modal-labels{
+	margin: auto 5px;
+}
