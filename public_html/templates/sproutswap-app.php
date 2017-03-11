@@ -10,10 +10,9 @@
 			<div class="row">
 				<div class="col-md-12" id="header-nav">
 					<ul class="nav navbar-nav navbar-left">
-						<li class="navigation"><a href="#">Home</a></li>
-						<li class="navigation"><a href="#">Sign In/Sign Up</a></li>
-						<signup-component></signup-component>
-						<signin-component></signin-component>
+						<li class="navigation"><a routerLink="">Home</a></li>
+						<li class="navigation"><signup-component></signup-component></li>
+						<li class="navigation"><signin-component></signin-component></li>
 					</ul>
 					<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />
 					</form>
