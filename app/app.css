@@ -68,76 +68,6 @@ li.navigation > a:hover {
 	box-shadow: 3px 3px 5px 6px #ccc;
 }
 
-/* Styling for new post modal window */
-
-#new-post-modal {
-	margin: 100px 25%;
-	border: 2px solid black;
-}
-
-#cancel {
-	height: 15px;
-	width: 15px;
-	background-color: red;
-	float: right;
-	margin: 10px 0;
-}
-
-.logo {
-	max-width: 100%;
-	margin: 5px auto;
-}
-
-.logo img {
-	margin: auto auto;
-	max-height: 100px;
-	max-width: 100px;
-}
-
-#new-post-text {
-	font-size: 1.5em;
-	margin: 5px auto;
-	border-bottom: 1px solid black;
-}
-
-.formgroup {
-	margin: 10px 0;
-}
-
-#post-image {
-	box-shadow: none;
-}
-
-#post-summary {
-	max-width: 100%;
-	resize: none;
-}
-
-input {
-	width: 100%;
-}
-
-/* Styling for login modal window */
-
-#signin-modal {
-	margin: 100px 25%;
-	border: 2px solid black;
-}
-
-#new-post-final-formgroup {
-	margin-bottom: 15px;
-}
-
-#login-text {
-	font-size: 1.5em;
-	margin: 5px auto;
-	border-bottom: 1px solid black;
-}
-
-#signin-final-formgroup {
-	margin-bottom: 15px;
-}
-
 /* Styles for modal side-nav */
 
 #modal-nav {
@@ -225,9 +155,9 @@ button#edit {
 }
 
 #profile-left {
-	margin: 5px 0;
+	/*margin: 5px 0;*/
 	float: left;
-	width: 50%;
+	width: 40%;
 }
 
 #profile-left > p {
@@ -236,10 +166,10 @@ button#edit {
 
 
 #profile-right {
-	margin: 5px 0;
+	/*margin: 5px 0;*/
 	float: right;
-	width: 50%;
-	min-height: 100%;
+	width: 40%;
+	/*min-height: 100%;*/
 }
 
 #profile-right > p {
@@ -272,4 +202,60 @@ button#edit {
 
 	/* Set up positioning */
 	position: relative;
+}
+
+
+/*Creating classes for all text and boxes on modal forms*/
+.logo {
+	max-width: 100%;
+	margin: 5px auto;
+}
+
+.logo img {
+	margin: auto auto;
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.modal-text {
+	font-size: .9em;
+	margin: 5px 5px;
+}
+
+.modal-inputs{
+	margin:auto 5px;
+	width: auto;
+}
+
+.modal-labels{
+	margin: auto 5px;
+}
+
+.modal-submit{
+	margin: auto 5px;
+}
+
+.modal-final-formgroup {
+	margin-bottom: 15px;
+}
+
+.modal-labels{
+	margin: auto 5px;
+}
+
+.formgroup {
+	margin: 10px 0;
+}
+
+input{
+	box-shadow: none;
+}
+
+#post-image {
+	box-shadow: none;
+}
+
+textarea{
+	min-width: 95%;
+	resize: none;
 }
