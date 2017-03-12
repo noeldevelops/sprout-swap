@@ -30,6 +30,9 @@ export class SignInComponent implements OnInit {
 				this.status = status;
 				if(status.status === 200) {
 					this.router.navigate(['']);
+				} else{
+					console.log(status.status);
+					console.log(this.signin);
 				}
 			});
 	}

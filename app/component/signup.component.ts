@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit{
 					alert("Please check your email and click the link to activate your account. Thanks!");
 					setTimeout(function(){$("#signup-modal").modal('hide');},1000);
 				} else {
-					console.log(this.profile);
+					console.log(status.status);
 				}
 			});
 	}

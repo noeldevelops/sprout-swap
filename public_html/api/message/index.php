@@ -58,6 +58,11 @@ try {
 			if($message !== null) {
 				$reply->data = $message;
 			}
+		} else if((empty($messageReceiverProfileId) === false) && (empty($messageSenderProfileId) === false)){
+			$messages= Message::getMessageThread($pdo, $messageReceiverProfileId, $messageSenderProfileId)->toArray();
+			if($messages !== null){
+				$reply->data = $messages;
+			}
 		} else if(empty($messageReceiverProfileId) === false) {
 			$messages = Message::getMessageByMessageReceiverProfileId($pdo, $messageReceiverProfileId)->toArray();
 			if($messages !== null) {
