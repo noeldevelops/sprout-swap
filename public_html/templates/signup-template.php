@@ -28,17 +28,18 @@
 				</div>
 				<!--set a handle-->
 				<div class="formgroup">
-					<input for="handle" class="modal-labels">Choose a unique username:</input>
+					<label for="handle" class="modal-labels">Choose a unique username:</label>
 					<input type="text" id="handle" name="handle" class="modal-inputs" required [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
 				</div>
 				<!--submit the information-->
 				<input type="submit" name="signup" class="modal-submit" value="signup">
-				<div *ngIf="status !== null" class="alert alert-dismissible"
-					  [ngClass]="status.type" role="alert">
-
-					{{ status.message }}
-				</div>
 			</form>
+<!--				<div *ngIf="status !== null" class="alert alert-dismissible"-->
+<!--					  [ngClass]="status.type" role="alert">-->
+<!---->
+<!--					{{ status.message }}-->
+<!--				</div>-->
+
 		</div>
 	</div>
 </div>

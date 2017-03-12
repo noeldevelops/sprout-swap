@@ -1,4 +1,4 @@
-import {Image} from "./image-class";
+// import {Image} from "./image-class";
 
 export class Profile{
 	constructor(
