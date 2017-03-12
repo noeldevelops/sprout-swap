@@ -49,9 +49,6 @@ try {
 		if(empty($requestObject->profileHandle) === true) {
 			throw(new \InvalidArgumentException("Must fill in Handle"));
 		}
-		if(empty($requestObject->profileName) === true) {
-			throw(new \InvalidArgumentException("Must fill in Name."));
-		}
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException("Must fill in password."));
 		} else {
@@ -70,7 +67,7 @@ try {
 
 		//create a new profile
 
-		$profile = new Profile(null,$requestObject->profileImageId=null, $profileActivationToken, $requestObject->profileEmail, $requestObject->profileHandle, null, $requestObject->profileName, $hash, $salt, $requestObject->profileSummary);
+		$profile = new Profile(null, null, $profileActivationToken, $requestObject->profileEmail, $requestObject->profileHandle, null, null, $hash, $salt, null);
 		$profile->insert($pdo);
 
 //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.

@@ -1,6 +1,7 @@
 //this is the modal that pops up when "sign-in" is clicked
 
 import{Component, ViewChild, OnInit} from "@angular/core";
+
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable"
 import {Status} from "../class/status";

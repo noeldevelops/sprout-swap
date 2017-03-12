@@ -1,7 +1,7 @@
 //this is the modal that pops up when "sign-up" is clicked
 // todo does this need activation service?
 
-import{Component, ViewChild, OnInit} from "@angular/core";
+import{Component, ViewChild, OnInit, EventEmitter, Output} from "@angular/core";
 import {Router} from "@angular/router";
 // import {Observable} from "rxjs/Observable"
 import {Profile} from "../class/profile-class";
@@ -17,7 +17,7 @@ declare var $: any;
 
 export class SignUpComponent implements OnInit{
 	@ViewChild("signUpForm") signUpForm : any;
-	profile: Profile = new Profile(0, 0, "", "", 0, "","", "", "");
+	profile: Profile = new Profile(null, null, "", "", null, "", "", "", "");
 	status: Status = null;
 
 	constructor(private SignUpService: SignUpService, private router: Router){}
@@ -34,6 +34,8 @@ export class SignUpComponent implements OnInit{
 					this.signUpForm.reset()
 					alert("Please check your email and click the link to activate your account. Thanks!");
 					setTimeout(function(){$("#signup-modal").modal('hide');},1000);
+				} else {
+					console.log(this.profile);
 				}
 			});
 	}

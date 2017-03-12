@@ -15,16 +15,19 @@
 			<!--actual form-->
 			<form #signInForm="ngForm" name="signInForm" id="signInForm"
 					(ngSubmit)="signIn();">
+
 				<!--user's email-->
 				<div class="formgroup">
 					<label for="signin-email" class="modal-labels">Email:</label>
 					<input type="email" name="signin-email" id="signin-email" required [(ngModel)]="signin.profileEmail" #profileEmail="ngModel" class="modal-inputs">
 				</div>
+
 				<!--user's password-->
 				<div class="formgroup">
 					<label for="signin-password" class="modal-labels">Password:</label>
 					<input type="password" id="signin-password" name="signin-password" required [(ngModel)]="signin.profilePassword" #profilePassword="ngModel" class="modal-inputs">
 				</div>
+
 				<!--submit the information-->
 				<div class="formgroup" id="signin-final-formgroup">
 					<button type="submit" id="submit" [disabled]="signInForm.invalid" class="modal-submit">Submit</button>
