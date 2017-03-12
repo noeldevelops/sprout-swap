@@ -41,11 +41,10 @@
 			<!--allows users to write in further details about what they're offering -->
 			<div class="formgroup">
 				<p>Give more details about your produce!</p>
-				<textarea class="form-control" id="postSummary" rows="5" name="postSummary" placeholder="Max 500 characters" required [(ngModel)]="post.postSummary" #postSummary="ngModel">
-					</textarea>
+				<textarea class="form-control" id="postSummary" rows="5" name="postSummary" placeholder="Max 500 characters" required [(ngModel)]="post.postSummary" #postSummary="ngModel"></textarea>
 			</div>
 			<!--submit the information-->
-			<input type="submit" name="signup" class="modal-submit" value="signup">
+			<input type="submit" name="newPost" id="newPost" class="modal-submit" value="Submit">
 		</form>
 	</div>
 </div>
