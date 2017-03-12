@@ -138,9 +138,6 @@ li.navigation > a:hover {
 	resize: none;
 }
 
-/*#main {*/
-/*align-items:				;n-self: center;*/
-/*}*/
 
 /* Styling for profile view */
 
@@ -259,6 +256,13 @@ textarea{
 	min-width: 95%;
 	resize: none;
 }
+/*******
+* nav bar buttons
+ ********/
+ button.btn.btn-primary {
+	 background-color: #117004;
+	 color: white;
+ }
 
 /**********************
 *** footer stuff
@@ -272,6 +276,9 @@ footer {
 	font-family: 'Palanquin';
 }
 
+footer > ul {
+	list-style: none;
+}
 /*corrects IE min-height bug - thanks to @rlewis2892*/
 html { display: flex;}
 body { width: 100%;}
