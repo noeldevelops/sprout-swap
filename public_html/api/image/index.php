@@ -81,6 +81,7 @@ try {
 		$userFileExtension = strtolower(strrchr($_FILES["userImage"]["name"], "."));
 
 		//upload image to cloudinary and get public id
+		// @todo add array with transformation-> ex on cloudinary = ::upload("file.jpg", array("width"=>500, "crop"=>"scale")
 		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["userImage"]["tmp_name"]);
 
 		//after sending the image to Cloudinary, grab the public id and create a new image
