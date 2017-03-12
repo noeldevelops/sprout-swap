@@ -17,7 +17,7 @@ declare var $: any;
 
 export class SignUpComponent implements OnInit{
 	@ViewChild("signUpForm") signUpForm : any;
-	profile: Profile = new Profile(null, null, "", "", null, "", "", "", "");
+	profile: Profile = new Profile(null, null, "", "", null, "", "", "", "durrr this is empty");
 	status: Status = null;
 
 	constructor(private SignUpService: SignUpService, private router: Router){}

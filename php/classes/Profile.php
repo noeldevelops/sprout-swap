@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError
 	 */
 
-	public function __construct(int $newProfileId = null, int $newProfileImageId = null, string $newProfileActivation = null, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary) {
+	public function __construct(int $newProfileId = null, int $newProfileImageId = null, string $newProfileActivation = null, string $newProfileEmail, string $newProfileHandle, \DateTime $newProfileTimestamp = null, string $newProfileName, string $newProfilePasswordHash, string $newProfileSalt, string $newProfileSummary=null) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileImageId($newProfileImageId);
@@ -404,11 +404,12 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $newProfileSummary is not a string
 	 **/
 
-	public function setProfileSummary(string $newProfileSummary) {
+	public function setProfileSummary(string $newProfileSummary=null) {
 		$newProfileSummary = trim($newProfileSummary);
 		$newProfileSummary = filter_var($newProfileSummary, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileSummary) === true) {
-			throw(new \InvalidArgumentException(("profile summary created by user")));
+			$this->profileSummary = null;
+			return;
 		}
 		if(strlen($newProfileSummary) > 255) {
 			throw(new \RangeException("profile summary cannot contain more than 255 characters"));

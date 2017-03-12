@@ -12,27 +12,32 @@
 			<!--actual form-->
 			<form #signupForm="ngForm" name="signupForm" (ngSubmit)="createProfile();">
 				<!--user's email-->
-				<div class="formgroup">
+				<div class="form-group">
+					<label for="name" class="modal-labels">Name:</label>
+					<input type="name" id="name" name ="name" class="modal-inputs" required [(ngModel)]="profile.profileName" #profileName="ngModel">
+				</div>
+				<div class="form-group">
 					<label for="email" class="modal-labels">Email:</label>
 					<input type="email" id="email" name ="email" class="modal-inputs" required [(ngModel)]="profile.profileEmail" #profileEmail="ngModel">
 				</div>
 				<!--user enters password-->
-				<div class="formgroup">
+				<div class="form-group">
 					<label for="password" class="modal-labels">Password:</label>
 					<input type="password" id="password" name="password" class="modal-inputs" required [(ngModel)]="profile.profilePassword" #profilePassword="ngModel">
 				</div>
 				<!--confirm password-->
-				<div class="formgroup">
+				<div class="form-group">
 					<label for="confirmPassword" class="modal-labels">Confirm Password:</label>
 					<input type="password" id="confirmPassword" name="confirmPassword" class="modal-inputs" required [(ngModel)]="profile.profileConfirmPassword" #profileConfirmPassword="ngModel">
 				</div>
 				<!--set a handle-->
-				<div class="formgroup">
+				<div class="form-group">
 					<label for="handle" class="modal-labels">Choose a unique username:</label>
 					<input type="text" id="handle" name="handle" class="modal-inputs" required [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
 				</div>
 				<!--submit the information-->
 				<input type="submit" name="signup" class="modal-submit" value="signup">
+<!--<div>{{status.message}}</div>-->
 			</form>
 		</div>
 	</div>
