@@ -34,12 +34,6 @@
 				<!--submit the information-->
 				<input type="submit" name="signup" class="modal-submit" value="signup">
 			</form>
-<!--				<div *ngIf="status !== null" class="alert alert-dismissible"-->
-<!--					  [ngClass]="status.type" role="alert">-->
-<!---->
-<!--					{{ status.message }}-->
-<!--				</div>-->
-
 		</div>
 	</div>
 </div>
