@@ -18,7 +18,6 @@ export const routes: Routes = [
 	{path: "profile", component: ProfileComponent},
 	{path: "message", component: MessageComponent},
 	{path: "post", component: PostComponent}
-
 ];
 
 export const appRoutingProviders: any[] = [];
