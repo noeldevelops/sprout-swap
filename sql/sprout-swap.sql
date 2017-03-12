@@ -86,6 +86,10 @@ CREATE TABLE postImage(
 	PRIMARY KEY (messageId)
 );
 
+INSERT INTO mode (modeId, modeName) VALUES (1, "free");
+INSERT INTO mode (modeId, modeName) VALUES (2, "trade");
+INSERT INTO mode (modeId, modeName) VALUES (3, "sell");
+
 -- this stored procedure was written by Zak Abad.
 -- with guidance and mathematics/statistics help from Dylan McDonald. @dylan-mcdonald
 
