@@ -262,9 +262,15 @@ textarea{
 
 /**********************
 *** footer stuff
-* Flexbox Sticky Footer
+* Flexbox Sticky Footer c/o
 * http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
  *************************/
+
+footer {
+	background-color: #117004;
+	color: white;
+	font-family: 'Palanquin';
+}
 
 /*corrects IE min-height bug - thanks to @rlewis2892*/
 html { display: flex;}
