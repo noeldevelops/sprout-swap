@@ -138,9 +138,6 @@ li.navigation > a:hover {
 	resize: none;
 }
 
-/*#main {*/
-/*align-items:				;n-self: center;*/
-/*}*/
 
 /* Styling for profile view */
 
@@ -258,4 +255,40 @@ input{
 textarea{
 	min-width: 95%;
 	resize: none;
+}
+/*******
+* nav bar buttons
+ ********/
+button.btn.btn-primary {
+	background-color: #117004;
+	color: white;
+}
+
+/**********************
+*** footer stuff
+* Flexbox Sticky Footer c/o
+* http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+ *************************/
+
+footer {
+	background-color: #117004;
+	color: white;
+	font-family: 'Palanquin';
+}
+
+footer > ul {
+	list-style: none;
+}
+/*corrects IE min-height bug - thanks to @rlewis2892*/
+html { display: flex;}
+body { width: 100%;}
+
+body.sfooter > * {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.sfooter-content {
+	flex: 1 0 auto;
 }
