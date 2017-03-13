@@ -16,19 +16,19 @@
 				<div class="form-group">
 					<label for="postImage" class="modal-labels">Upload an image</label>
 					<input type="file" name="postImage" id="postImage" class="modal-inputs" required
-							 [(ngModel)]="post.postImageId" #postImageId="ngModel">
+							 [(ngModel)]="newpost.postImageId" #postImageId="ngModel">
 				</div>
 				<!--up to 75 characters; what they're giving away or selling-->
 				<div class="form-group">
 					<label for="postOffer" class="modal-labels">Tell us what you have for offer</label>
-					<input type="text" id="postOffer" class="modal-inputs" required [(ngModel)]="post.postOffer"
+					<input type="text" id="postOffer" name="postOffer" class="modal-inputs" required [(ngModel)]="newpost.postOffer"
 							 #postOffer="ngModel">
 				</div>
 				<!--the mode: for free, for sale, or for trade-->
 				<div class="form-group">
 					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to
 						trade?</label>
-					<select id="postMode" name="postMode" class="modal-inputs" required [(ngModel)]="post.postModeId"
+					<select id="postMode" name="postMode" class="modal-inputs" required [(ngModel)]="newpost.postModeId"
 							  #postMode="ngModel">
 						<option value="1">Free</option>
 						<option value="2">Sell</option>
@@ -39,13 +39,13 @@
 				<div class="form-group">
 					<label for="postRequest" class="modal-labels"> What do you want in return?</label>
 					<input type="text" name="postRequest" id="postRequest" class="modal-inputs" required
-							 [(ngModel)]="post.postRequest" #postRequest="ngModel">
+							 [(ngModel)]="newpost.postRequest" #postRequest="ngModel">
 				</div>
 				<!--allows users to write in further details about what they're offering -->
 				<div class="form-group">
 					<label for="postContent" class="modal-labels">Give more details about your produce!</label>
 					<textarea class="form-control modal-inputs" id="postContent" rows="5" name="postContent"
-								 placeholder="Max 500 characters" required [(ngModel)]="post.postContent"
+								 placeholder="Max 500 characters" required [(ngModel)]="newpost.postContent"
 								 #postContent="ngModel"></textarea>
 				</div>
 				<!--submit the information-->
