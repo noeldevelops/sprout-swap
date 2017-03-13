@@ -13,7 +13,7 @@ import {ActivationComponent} from "./component/activation.component";
 import {EditProfileComponent} from "./component/edit-profile.component";
 
 
-export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent, ActivationComponent];
+export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent, ActivationComponent, EditProfileComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},

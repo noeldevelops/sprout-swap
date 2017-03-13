@@ -13,6 +13,7 @@ import {ImageService} from "./service/image-service";
 import {BaseService} from "./service/base-service";
 import {MessageService} from "./service/message-service";
 import {SignOutService} from "./service/signout-service";
+import {ActivationService} from"./service/activation-service";
 
 const moduleDeclarations = [AppComponent];
 

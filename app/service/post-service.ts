@@ -72,11 +72,9 @@ export class PostService extends BaseService {
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-	getPostsByPostTimestamp(postTimestamp: DateTimeFormat) : Observable<Post[]> {
+	getPostsByPostTimestamp(postTimestamp: number) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postTimestamp)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-
-
 }

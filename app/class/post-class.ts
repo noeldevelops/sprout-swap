@@ -10,7 +10,6 @@ export class Post {
 		public postLocation: Point[],
 		public postOffer: string,
 		public postRequest: string,
-		public postSummary: string,
 		public postTimestamp: number
 	){
 	}
