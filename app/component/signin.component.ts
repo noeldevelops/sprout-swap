@@ -21,14 +21,21 @@ export class SignInComponent {
 	status: Status = null;
 
 	constructor(private SignInService: SignInService, private router: Router){}
+	isSignedIn = false;
 
+	ngOnChanges (): void{
+		this.isSignedIn = this.SignInService.isSignedIn;
+
+	}
 
 	signIn() : void {
 		this.SignInService.postSignIn(this.signin)
 			.subscribe(status => {
 				this.status = status;
+				this.SignInService.isSignedIn = false;
 				if(status.status === 200) {
 					this.router.navigate([""]);
+					this.SignInService.isSignedIn = true;
 					this.signInForm.reset();
 					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				}

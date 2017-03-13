@@ -12,6 +12,7 @@ export class SignInService extends BaseService {
 	}
 
 	private signInUrl = "api/signin/";
+	public isSignedIn = false;
 
 	postSignIn(signIn:SignIn) : Observable<Status> {
 	return(this.http.post(this.signInUrl, signIn)
@@ -19,3 +20,4 @@ export class SignInService extends BaseService {
 		.catch(this.handleError));
 	}
 }
+
