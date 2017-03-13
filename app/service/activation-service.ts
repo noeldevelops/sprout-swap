@@ -11,12 +11,12 @@ export class ActivationService extends BaseService {
 		super(http);
 	}
 
-	private activationUrl = "api/activation/?activation=";
+	private activationUrl = "api/activation/";
 	/* activate account through emailed link
 	 * based on session */
 
 	getActivation(activation: string): Observable<Status>{
-		return(this.http.get(this.activationUrl+activation)
+		return(this.http.get(this.activationUrl+"?profileActivation"+activation)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}

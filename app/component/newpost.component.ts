@@ -14,7 +14,8 @@ import {Point} from "../class/point-class";
 import {Status} from "../class/status";
 
 @Component({
-	templateUrl: "./templates/newpost-template.php"
+	templateUrl: "./templates/newpost-template.php",
+	selector: "newPost"
 })
 
 export class NewPostComponent {

@@ -1,6 +1,6 @@
 //this is the modal that pops up when "sign-in" is clicked
 
-import{Component, ViewChild, OnInit} from "@angular/core";
+import{Component, ViewChild} from "@angular/core";
 
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable"
@@ -14,7 +14,7 @@ declare var $: any;
 	selector: "signin-component"
 })
 
-export class SignInComponent implements OnInit {
+export class SignInComponent {
 	@ViewChild("signInForm") signInForm : any;
 
 	signin: SignIn = new SignIn("", "");
@@ -22,7 +22,6 @@ export class SignInComponent implements OnInit {
 
 	constructor(private SignInService: SignInService, private router: Router){}
 
-	ngOnInit(): void {}
 
 	signIn() : void {
 		this.SignInService.postSignIn(this.signin)
