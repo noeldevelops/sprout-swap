@@ -3,13 +3,11 @@
 		<div id="img-wrap">
 			<img id="profile-img" src="../../images/farmer.jpg">
 		</div>
-		<div *ngIf="profile.profileId === <?php $_SESSION['profile']->getProfileId() ?>">
+		<!--edit button is hidden unless user is signed-in and viewing their own profile-->
 			<button id="edit">Edit Profile</button>
-		</div>
 	</div>
 	<div class="row">
 		<div id="profile-left">
-			<!--edit button is hidden unless user is signed-in and viewing their own profile-->
 			<p id="profile-handle">{{ profile.profileHandle }}</p>
 			<p id="profile-name">{{ profile.profileName }}</p>
 			<p id="profile-email">{{ profile.profileEmail }}</p>
