@@ -7,8 +7,7 @@ import "rxjs/add/operator/switchMap";
 
 
 @Component({
-	templateUrl: "./templates/editprofile-template.php",
-	selector: "profile-edit"
+	templateUrl: "./templates/editprofile-template.php"
 })
 
 export class EditProfileComponent implements OnInit {

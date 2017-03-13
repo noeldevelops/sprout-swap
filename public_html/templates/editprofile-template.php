@@ -3,8 +3,6 @@
 		<div id="img-wrap">
 			<img id="profile-img" src="../../images/farmer.jpg">
 		</div>
-		<!--edit button is hidden unless user is signed-in and viewing their own profile-->
-		<button id="edit">Edit Profile</button>
 	</div>
 	<form #editProfileForm="ngForm" name="editProfileForm" (ngSubmit)="editProfile();">
 		<div class="row">
@@ -25,5 +23,6 @@
 						 [(ngModel)]="profile.profileSummary" #profileSummary="ngModel">
 			</div>
 		</div>
+		<input type="submit" name="editProfile" id="editProfile" class="modal-submit" value="Submit">
 	</form>
 </div>
