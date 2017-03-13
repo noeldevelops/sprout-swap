@@ -14,6 +14,7 @@
 						<li class="navigation"><signup-component></signup-component></li>
 						<li class="navigation"><signin-component></signin-component></li>
 						<li><a routerLink="/profile">Profile</a></li>
+						<li class="navigation"><newPost></newPost></li>
 					</ul>
 					<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />
 					</form>
