@@ -42,10 +42,10 @@
 				</div>
 				<!--allows users to write in further details about what they're offering -->
 				<div class="form-group">
-					<label for="postSummary" class="modal-labels">Give more details about your produce!</label>
-					<textarea class="form-control modal-inputs" id="postSummary" rows="5" name="postSummary"
-								 placeholder="Max 500 characters" required [(ngModel)]="post.postSummary"
-								 #postSummary="ngModel"></textarea>
+					<label for="postContent" class="modal-labels">Give more details about your produce!</label>
+					<textarea class="form-control modal-inputs" id="postContent" rows="5" name="postContent"
+								 placeholder="Max 500 characters" required [(ngModel)]="post.postContent"
+								 #postContent="ngModel"></textarea>
 				</div>
 				<!--submit the information-->
 				<input type="submit" name="newPost" id="newPost" class="modal-submit" value="Submit">
