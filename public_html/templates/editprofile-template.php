@@ -26,8 +26,3 @@
 			</div>
 		</div>
 </div>
-</form>
-<!--	<div id="profile-post-view">-->
-<!--		<!-- will show all posts from a user or placeholder if they have made none-->
-<!--	</div>-->
-</div>

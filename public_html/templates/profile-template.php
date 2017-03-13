@@ -16,7 +16,4 @@
 			<p id="summary-text">More Info: {{ profile.profileSummary }}</p>
 		</div>
 	</div>
-	<!--	<div id="profile-post-view">-->
-	<!--		<!-- will show all posts from a user or placeholder if they have made none-->
-	<!--	</div>-->
 </div>
