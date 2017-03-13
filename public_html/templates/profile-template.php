@@ -8,15 +8,15 @@
 	</div>
 	<div class="row">
 		<div id="profile-left">
-			<p id="profile-handle">{{ profile.profileHandle }}</p>
-			<p id="profile-name">{{ profile.profileName }}</p>
-			<p id="profile-email">{{ profile.profileEmail }}</p>
+			<p id="profile-handle">Handle: {{ profile.profileHandle }}</p>
+			<p id="profile-name">Name: {{ profile.profileName }}</p>
+			<p id="profile-email">Email: {{ profile.profileEmail }}</p>
 		</div>
 		<div id="profile-right">
-			<p id="summary-text">{{ profile.profileSummary }}</p>
+			<p id="summary-text">More Info: {{ profile.profileSummary }}</p>
 		</div>
 	</div>
 	<!--	<div id="profile-post-view">-->
-	<!--		<!-- will show all posts from a user or placeholder if they have made none-->-->
+	<!--		<!-- will show all posts from a user or placeholder if they have made none-->
 	<!--	</div>-->
 </div>
