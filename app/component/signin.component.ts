@@ -1,6 +1,6 @@
 //this is the modal that pops up when "sign-in" is clicked
 
-import{Component, ViewChild} from "@angular/core";
+import{Component, ViewChild, EventEmitter, Output} from "@angular/core";
 
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable"
@@ -28,7 +28,9 @@ export class SignInComponent {
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					this.router.navigate(['']);
+					this.router.navigate([""]);
+					this.signInForm.reset();
+					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				} else{
 					console.log(status.status);
 					console.log(this.signin);
