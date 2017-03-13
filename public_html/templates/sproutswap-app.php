@@ -11,10 +11,10 @@
 				<div class="col-md-12" id="header-nav">
 					<ul class="nav navbar-nav navbar-left">
 						<li class="navigation"><a routerLink="">Home</a></li>
-						<li class="navigation"><signup-component></signup-component></li>
-						<li class="navigation"><signin-component></signin-component></li>
-						<li><a routerLink="/profile">Profile</a></li>
-						<li class="navigation"><newPost></newPost></li>
+						<li class="navigation" *ngIf="!signInComponent.isSignedIn"><signup-component></signup-component></li>
+						<li class="navigation" *ngIf="!signInComponent.isSignedIn"><signin-component></signin-component></li>
+						<li *ngIf="signInComponent.isSignedIn"><a routerLink="/profile">Profile</a></li>
+						<li class="navigation" *ngIf="signInComponent.isSignedIn"><newPost></newPost></li>
 					</ul>
 <!--					<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />-->
 <!--					</form>-->
