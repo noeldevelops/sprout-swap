@@ -9,8 +9,7 @@
 			<div class="form-group">
 				<div id="profile-left">
 					<label for="edit-profile-handle">Handle: </label>
-					<input type="text" id="edit-profile-handle" placeholder="{{ profile.profileHandle }}" required
-							 [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
+					<input type="text" id="edit-profile-handle" placeholder="{{ profile.profileHandle }}" required [(ngModel)]="profile.profileHandle" #profileHandle="ngModel">
 					<label for="edit-profile-name">Name: </label>
 					<input id="edit-profile-name" placeholder="{{ profile.profileName }}" required
 							 [(ngModel)]="profile.profileName" #profileName="ngModel">

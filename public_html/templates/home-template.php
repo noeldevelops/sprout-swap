@@ -1,6 +1,6 @@
-<?php if ($_SESSION["profile"]){?>
-<sidenav ></sidenav>
-<?php }?>
+
+<sidenav></sidenav>
+
 
 <div>
 	Welcome TO SPROUT SWAP!!!!

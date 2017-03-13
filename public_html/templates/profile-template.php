@@ -4,7 +4,7 @@
 			<img id="profile-img" src="../../images/farmer.jpg">
 		</div>
 		<!--edit button is hidden unless user is signed-in and viewing their own profile-->
-			<a routerLink="edit-profile/:id" class="btn btn-default">Edit Profile</a>
+			<a routerLink="/edit-profile/:id" class="btn btn-default">Edit Profile</a>
 	</div>
 	<div class="row">
 		<div id="profile-left">
