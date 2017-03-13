@@ -25,4 +25,5 @@
 						 [(ngModel)]="profile.profileSummary" #profileSummary="ngModel">
 			</div>
 		</div>
+	</form>
 </div>

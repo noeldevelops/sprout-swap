@@ -1,1 +1,1 @@
-<!-- message layout html goes here! -->
+<div></div>
