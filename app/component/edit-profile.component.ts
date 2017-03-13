@@ -11,7 +11,7 @@ import "rxjs/add/operator/switchMap";
 	selector: "profile-edit"
 })
 
-export class ProfileComponent implements OnInit {
+export class EditProfileComponent implements OnInit {
 	status: Status = null;
 	profile: Profile = new Profile(0, 0, "", "", 0, "", "", "", "");
 
