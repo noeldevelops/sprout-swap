@@ -11,6 +11,7 @@
 				<p class="post-rundown">{{ post.postOffer }}</p>
 				<p class="post-rundown">{{ post.postModeId }}</p>
 				<p class="post-rundown">{{ post.postRequest }}</p>
+				<p class="post-rundown">{{ post.postSummary}}</p>
 			</div>
 		</div>
 	</div>

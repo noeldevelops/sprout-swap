@@ -1,6 +1,4 @@
-// this is the basic post view that will be used on the single post view modal and the main post feed
-
-import{Component, OnInit} from "@angular/core";
+import{Component, OnInit, Input} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {PostService} from "../service/post-service";
 
@@ -15,10 +13,12 @@ import {Point} from "../class/point-class";
 import {Status} from "../class/status";
 
 @Component({
+	selector: 'post',
 	templateUrl: "./templates/post-template.php"
 })
 
 export class PostComponent implements OnInit{
+	@Input() postInfo : Post;
 	allPosts: Post[] = [];
 	status: Status = null;
 	post: Post = new Post(0, 0, 0, 0, "", [], "", "","", 0);

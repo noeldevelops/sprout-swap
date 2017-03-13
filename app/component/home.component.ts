@@ -10,7 +10,7 @@ import {Point} from "../class/point-class";
 	templateUrl: "./templates/home-template.php"
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 	status: Status = null;
 	post: Post = null;
 	posts: Post[] = [];
@@ -25,6 +25,10 @@ export class HomeComponent {
 
 	constructor(private postService: PostService
 	){}
+
+	ngOnInit(): void{
+		this.getPostByPostLocation();
+	}
 
 	getPostByPostLocation(): void {
 		this.postService.getPostsByPostLocation(this.postLocation)
