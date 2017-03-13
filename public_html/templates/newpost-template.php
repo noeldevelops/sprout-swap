@@ -15,8 +15,10 @@
 				<!--an image of the produce they are offering-->
 				<div class="form-group">
 					<label for="postImage" class="modal-labels">Upload an image</label>
-					<input type="file" name="postImage" id="postImage" class="modal-inputs" required
-							 [(ngModel)]="image.imageId" #imageId="ngModel">
+					<form #newImageForm="ngForm" name="newImageForm" (ngSubmit)="createImage();">
+						<input type="file" name="postImage" id="postImage" class="modal-inputs" required
+								 [(ngModel)]="image.imageId" #imageId="ngModel">
+					</form>
 				</div>
 				<!--up to 75 characters; what they're giving away or selling-->
 				<div class="form-group">
@@ -26,7 +28,8 @@
 				</div>
 				<!--the mode: for free, for sale, or for trade-->
 				<div class="form-group">
-					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to trade?</label>
+					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to
+						trade?</label>
 					<select id="postMode" name="postMode" class="modal-inputs" required [(ngModel)]="post.postModeId"
 							  #postMode="ngModel">
 						<option value="1">Free</option>
