@@ -21,10 +21,10 @@ export class ProfileComponent implements OnInit {
 
 
 	ngOnInit(): void {
-		this.getProfileByProfileId();
+		this.getProfile();
 	}
 
-	getProfileByProfileId(): void {
+	getProfile(): void {
 		this.route.params
 			.switchMap((params: Params) => this.profileService.getProfile(+params["id"]))
 			.subscribe(reply => this.profile = reply);

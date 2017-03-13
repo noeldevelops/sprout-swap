@@ -17,8 +17,10 @@ export const allAppComponents = [SignUpComponent, ProfileComponent, MessageCompo
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
 	{path: "profile", component: ProfileComponent},
+	{path: "profile/:id", component: ProfileComponent},
 	{path: "message", component: MessageComponent},
 	{path: "post", component: PostComponent},
+	{path: "post/:post", component: PostComponent},
 	{path: "activation/:activation", component: ActivationComponent},
 	{path: "**", redirectTo: ""}
 ];
