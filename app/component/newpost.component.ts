@@ -23,21 +23,11 @@ declare var $: any;
 export class NewPostComponent {
 	@ViewChild("newPostForm") newPostForm : any;
 	status: Status = null;
-	newpost: Post = new Post(0, 0, 0, "", [], "", "", 0);
-	newimage: Image = new Image(null, "");
+	newpost: Post = new Post(0, 0, 0, 0, "", [], "", "", 0);
+
 	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {}
 
 	createPost() : void {
-		this.ImageService.createImage(this.newimage)
-			.subscribe(status =>{
-				this.status = status;
-				if(status.status === 200){
-					this.newimage.imageId = this.newimage.imageId;
-				} else{
-					return status.status;
-				}
-			});
-
 		this.PostService.createPost(this.newpost)
 			.subscribe(status => {
 				this.status = status;
