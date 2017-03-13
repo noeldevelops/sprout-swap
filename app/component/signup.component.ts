@@ -3,11 +3,10 @@
 
 import{Component, ViewChild, OnInit, EventEmitter, Output} from "@angular/core";
 import {Router} from "@angular/router";
-// import {Observable} from "rxjs/Observable"
+import {Observable} from "rxjs/Observable"
 import {Profile} from "../class/profile-class";
 import {Status} from "../class/status";
 import {SignUpService} from "../service/signup-service";
-// import {ActivationService} from "../service/activation-service";
 declare var $: any;
 
 @Component({
