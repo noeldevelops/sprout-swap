@@ -31,9 +31,6 @@ export class SignInComponent {
 					this.router.navigate([""]);
 					this.signInForm.reset();
 					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
-				} else{
-					console.log(status.status);
-					console.log(this.signin);
 				}
 			});
 	}
