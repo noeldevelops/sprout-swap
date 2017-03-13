@@ -6,11 +6,13 @@
 		<div class="row post">
 			<div class="col-md-3">
 				<img src="../../images/farmer.jpg" id="profile-img">
-				<p id="handle">JoeGrows</p>
+				<p id="handle">{{ post.postProfileId }}</p>
 			</div>
 			<div class="col-md-9">
 				<img src="../../images/zuccs.jpg" alt="" id="post-img">
-				<p id="post-rundown">Please buy my extra zucchini!!!</p>
+				<p class="post-rundown">{{ post.postOffer }}</p>
+				<p class="post-rundown">{{ post.postModeId }}</p>
+				<p class="post-rundown">{{ post.postRequest }}</p>
 			</div>
 		</div>
 	</div>
