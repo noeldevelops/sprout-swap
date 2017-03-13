@@ -1,5 +1,5 @@
 //this is the modal that pops up when "create new post" is clicked
-import{Component, OnInit} from "@angular/core";
+import{Component, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
 import {PostService} from "../service/post-service";
 
@@ -12,6 +12,7 @@ import {Image} from "../class/image-class";
 import {Point} from "../class/point-class";
 
 import {Status} from "../class/status";
+declare var $: any;
 
 @Component({
 	templateUrl: "./templates/newpost-template.php",
@@ -19,12 +20,20 @@ import {Status} from "../class/status";
 })
 
 export class NewPostComponent {
+	@ViewChild("newPostForm") newPostForm : any;
 	status: Status = null;
 	newpost: Post = new Post(0, 0, 0, "", [], "", "","", 0);
-	constructor(
+	constructor(private PostService: PostService, private router: Router) {}
 
-	)
-	{
+	createPost() : void {
+		this.PostService.createPost(this.newpost)
+			.subscribe(status => {
+				this.status = status;
+				if(status.status === 200) {
+					this.router.navigate([""]);
+					this.newPostForm.reset();
+					setTimeout(function(){$("#newPostModal").modal('hide');},1000);
+				}
+			});
 	}
-
 }
