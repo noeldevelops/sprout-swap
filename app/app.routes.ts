@@ -20,7 +20,7 @@ export const routes: Routes = [
 	{path: "profile/:id", component: ProfileComponent},
 	{path: "message", component: MessageComponent},
 	{path: "post", component: PostComponent},
-	{path: "post/:post", component: PostComponent},
+	{path: "post/:id", component: PostComponent},
 	{path: "activation/:activation", component: ActivationComponent},
 	{path: "**", redirectTo: ""}
 ];
