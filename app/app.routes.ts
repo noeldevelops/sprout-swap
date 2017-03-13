@@ -10,6 +10,7 @@ import {NewMessageComponent} from "./component/newmessage.component";
 import {PostComponent} from "./component/post.component";
 import {HomeComponent} from "./component/home.component";
 import {ActivationComponent} from "./component/activation.component";
+import {EditProfileComponent} from "./component/edit-profile.component";
 
 
 export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent, ActivationComponent];
@@ -18,6 +19,7 @@ export const routes: Routes = [
 	{path: "", component: HomeComponent},
 	{path: "profile", component: ProfileComponent},
 	{path: "profile/:id", component: ProfileComponent},
+	{path: "edit-profile/:id", component: EditProfileComponent},
 	{path: "message", component: MessageComponent},
 	{path: "post", component: PostComponent},
 	{path: "post/:id", component: PostComponent},

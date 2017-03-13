@@ -5,6 +5,8 @@ import {Status} from "../class/status";
 import {PostService} from "../service/post-service";
 import {Post} from "../class/post-class";
 import {Point} from "../class/point-class";
+import DateTimeFormat = Intl.DateTimeFormat;
+
 
 @Component({
 	templateUrl: "./templates/home-template.php"
@@ -18,9 +20,9 @@ export class HomeComponent implements OnInit{
 	postId: number = null;
 	postModeId: number = null;
 	postProfileId: number = null;
-	postContent: number = null;
-	postOffer: number = null;
-	postRequest: number = null;
+	postContent: string = null;
+	postOffer: string = null;
+	postRequest: string = null;
 	postTimestamp: number = null;
 
 	constructor(private postService: PostService
