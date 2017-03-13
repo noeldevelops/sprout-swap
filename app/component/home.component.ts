@@ -16,18 +16,54 @@ export class HomeComponent {
 	posts: Post[] = [];
 	postLocation: Point = null;
 	postId: number = null;
+	postModeId: number = null;
+	postProfileId: number = null;
+	postContent: number = null;
+	postOffer: number = null;
+	postRequest: number = null;
+	postTimestamp: number = null;
 
 	constructor(private postService: PostService
 	){}
 
 	getPostByPostLocation(): void {
 		this.postService.getPostsByPostLocation(this.postLocation)
-		.subscribe(posts => {this.posts = posts});
+			.subscribe(posts => {this.posts = posts});
 	}
 
 	getPost():void{
 		this.postService.getPost(this.postId)
 			.subscribe(post=>{this.post = post});
+	}
+
+	getPostsByPostModeId(): void{
+		this.postService.getPostsByPostModeId(this.postModeId)
+			.subscribe(posts=>{this.posts = posts});
+	}
+
+	getPostsByPostProfileId():void{
+		this.postService.getPostsByPostProfileId(this.postProfileId)
+			.subscribe(posts => {this.posts = posts});
+	}
+
+	getPostsByPostContent():void{
+		this.postService.getPostsByPostContent(this.postContent)
+			.subscribe(posts => {this.posts = posts});
+	}
+
+	getPostsByPostOffer(): void{
+		this.postService.getPostsByPostOffer(this.postOffer)
+			.subscribe(posts => {this.posts = posts});
+	}
+
+	getPostsByPostRequest(): void{
+		this.postService.getPostsByPostRequest(this.postRequest)
+			.subscribe(posts => {this.posts = posts});
+	}
+
+	getPostsByPostTimestamp(): void{
+		this.postService.getPostsByPostTimestamp(this.postTimestamp)
+			.subscribe(posts => {this.posts = posts});
 	}
 
 

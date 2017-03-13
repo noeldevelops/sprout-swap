@@ -78,5 +78,5 @@ export class PostService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	get
+
 }
