@@ -89,6 +89,7 @@ try {
 
 		$reply->message = "Image upload ok";
 
+
 //	} elseif($method === "DELETE") {
 //		verifyXsrf();
 //

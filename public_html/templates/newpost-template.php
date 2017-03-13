@@ -16,7 +16,7 @@
 				<div class="form-group">
 					<label for="postImage" class="modal-labels">Upload an image</label>
 					<input type="file" name="postImage" id="postImage" class="modal-inputs" required
-							 [(ngModel)]="post.postImageId" #postImage="ngModel">
+							 [(ngModel)]="post.postImageId" #postImageId="ngModel">
 				</div>
 				<!--up to 75 characters; what they're giving away or selling-->
 				<div class="form-group">

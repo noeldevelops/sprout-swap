@@ -22,7 +22,7 @@ declare var $: any;
 export class NewPostComponent {
 	@ViewChild("newPostForm") newPostForm : any;
 	status: Status = null;
-	newpost: Post = new Post(0, 0, 0, "", [], "", "","", 0);
+	newpost: Post = new Post(0, 0, 0, 0, "", [], "", "","", 0);
 	constructor(private PostService: PostService, private router: Router) {}
 
 	createPost() : void {
