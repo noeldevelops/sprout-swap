@@ -172,7 +172,14 @@ try {
 			if(empty($_SESSION["profile"]->getProfileId() ) === true) {
 				throw(new \InvalidArgumentException("You are not allowed to make a post unless you're logged in.", 401));
 			}
-var_dump($requestObject);
+
+			if(empty($requestObject->postImagePostId !== true) && empty($requestObject->postImageImageId !== true)) {
+				$postImage = new PostImage($requestObject->postImageImageId, $requestObject->postImagePostId);
+				$postImage->insert($pdo);
+				return;
+			}
+
+
 			//create a new post and insert into database
 			$post = new Post(null, $requestObject->postModeId, $_SESSION["profile"]->getProfileId(), $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
 			$post->insert($pdo);

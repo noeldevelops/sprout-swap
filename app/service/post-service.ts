@@ -4,6 +4,8 @@ import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
 import {Post} from "../class/post-class";
 import {Status} from "../class/status";
+import {PostImage} from "../class/postImage-class";
+
 import DateTimeFormat = Intl.DateTimeFormat;
 
 @Injectable()
@@ -75,6 +77,12 @@ export class PostService extends BaseService {
 	getPostsByPostTimestamp(postTimestamp: number) : Observable<Post[]> {
 		return(this.http.get(this.postUrl + postTimestamp)
 			.map(this.extractData)
+			.catch(this.handleError));
+	}
+
+	insertPostImage(postImage: PostImage) : Observable<any> {
+		return(this.http.post(this.postUrl, postImage)
+			.map(this.extractTomWu)
 			.catch(this.handleError));
 	}
 }

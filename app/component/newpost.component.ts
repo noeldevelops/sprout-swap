@@ -13,6 +13,8 @@ import {Point} from "../class/point-class";
 
 import {Status} from "../class/status";
 import {ImageService} from "../service/image-service";
+import {PostImage} from "../class/postImage-class";
+
 declare var $: any;
 
 @Component({
@@ -26,7 +28,7 @@ export class NewPostComponent {
 	newpoint: Point = new Point(0, 0);
 	newpost: Post = new Post(0, 0, 0, "", this.newpoint, "", "", 0);
 	newimage: Image = new Image(null, "");
-
+	newpostimage: PostImage = new PostImage (null, null);
 
 	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {
 	}
@@ -36,15 +38,15 @@ export class NewPostComponent {
 			.subscribe((reply : any) => {
 			if(reply.status === 200) {
 				this.newimage.imageId = reply.data;
+				this.newpostimage.postImageImageId = reply.data;
 			}
 		});
 
-
-
 		this.PostService.createPost(this.newpost)
-			.subscribe(status => {
-				this.status = status;
-				if(status.status === 200) {
+			.subscribe((reply : any) => {
+				if(reply.status === 200) {
+					this.newpostimage.postImagePostId = reply.data;
+					this.PostService.insertPostImage(this.newpostimage);
 					this.router.navigate([""]);
 					this.newPostForm.reset();
 					setTimeout(function() {
