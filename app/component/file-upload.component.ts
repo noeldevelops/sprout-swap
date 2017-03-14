@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import {Cookie} from "ng2-cookies";
 
 // const URL = '/api/';
 const URL = './api/image/';
@@ -9,7 +10,7 @@ const URL = './api/image/';
 	templateUrl: './templates/file-upload-template.php'
 })
 export class FileUploadComponent implements OnInit {
-	public uploader:FileUploader = new FileUploader({url: URL});
+	public uploader:FileUploader = new FileUploader({url: URL, headers: [{name: "X-XSRF-TOKEN", value: Cookie.get("XSRF-TOKEN")}]});
 	public hasBaseDropZoneOver:boolean = false;
 	public hasAnotherDropZoneOver:boolean = false;
 
