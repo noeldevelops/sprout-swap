@@ -30,12 +30,10 @@ export class NewPostComponent {
 	}
 
 	createPost(): void {
-		this.ImageService.createImage(this.newimage)   .subscribe(status => {
-			this.status = status;
-			if(status.status === 200) {
-				this.newimage.imageId = this.newimage.imageId;
-			} else {
-				return status.status;
+		this.ImageService.createImage(this.newimage)
+			.subscribe((reply : any) => {
+			if(reply.status === 200) {
+				this.newimage.imageId = reply.data;
 			}
 		});
 

@@ -20,9 +20,9 @@ export class PostService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	createPost(post: Post) : Observable<Status> {
+	createPost(post: Post) : Observable<any> {
 		return(this.http.post(this.postUrl, post)
-			.map(this.extractMessage)
+			.map(this.extractTomWu)
 			.catch(this.handleError));
 	}
 

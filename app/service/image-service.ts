@@ -16,7 +16,7 @@ export class ImageService extends BaseService {
 
 	createImage(image: Image): Observable<Status> {
 		return (this.http.post(this.imageUrl, image)
-			.map(this.extractMessage)
+			.map(this.extractTomWu)
 			.catch(this.handleError));
 	}
 
