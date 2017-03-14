@@ -12,9 +12,10 @@ import {HomeComponent} from "./component/home.component";
 import {ActivationComponent} from "./component/activation.component";
 import {EditProfileComponent} from "./component/edit-profile.component";
 import {SignOutComponent} from "./component/signout.component";
+import {FileUploadComponent} from "./component/file-upload.component";
+import {FileSelectDirective} from 'ng2-file-upload';
 
-
-export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent, ActivationComponent, EditProfileComponent, SignOutComponent];
+	export const allAppComponents = [SignUpComponent, ProfileComponent, MessageComponent, PostComponent, NewPostComponent, SignInComponent, SideNavComponent, NewMessageComponent, HomeComponent, ActivationComponent, EditProfileComponent, SignOutComponent, FileUploadComponent, FileSelectDirective];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
@@ -25,6 +26,7 @@ export const routes: Routes = [
 	{path: "post", component: PostComponent},
 	{path: "post/:id", component: PostComponent},
 	{path: "activation/:activation", component: ActivationComponent},
+	{path: "file-upload", component: FileUploadComponent},
 	{path: "**", redirectTo: ""}
 ];
 
