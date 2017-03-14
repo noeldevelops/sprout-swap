@@ -76,12 +76,12 @@ try {
 		}
 
 		//assigning variables to the user image name, MIME type, and image extension
-		$tempUserFileName = $_FILES["postImage"]["tmp_name"];
-		$userFileType = $_FILES["postImage"]["type"];
-		$userFileExtension = strtolower(strrchr($_FILES["postImage"]["name"], "."));
-
+		$tempUserFileName = $_FILES["file"]["tmp_name"];
+		$userFileType = $_FILES["file"]["type"];
+		$userFileExtension = strtolower(strrchr($_FILES["file"]["name"], "."));
+var_dump($_FILES);
 		//upload image to cloudinary and get public id
-		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["postImage"]["tmp_name"], array("width"=>500, "crop"=>"scale"));
+		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"], array("width"=>500, "crop"=>"scale"));
 
 		//after sending the image to Cloudinary, grab the public id and create a new image
 		$image = new Image(null, $cloudinaryResult["public_id"]);

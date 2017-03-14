@@ -10,7 +10,7 @@ const URL = './api/image/';
 	templateUrl: './templates/file-upload-template.php'
 })
 export class FileUploadComponent implements OnInit {
-	public uploader:FileUploader = new FileUploader({url: URL, headers: [{name: "X-XSRF-TOKEN", value: Cookie.get("XSRF-TOKEN")}]});
+	public uploader: FileUploader = new FileUploader({url: URL, headers: [{name: "X-XSRF-TOKEN", value: Cookie.get("XSRF-TOKEN")}]});
 	public hasBaseDropZoneOver:boolean = false;
 	public hasAnotherDropZoneOver:boolean = false;
 
@@ -25,6 +25,7 @@ export class FileUploadComponent implements OnInit {
 		this.uploader.onSuccessItem = (item:any, response:string, status:number, headers:any)=>{
 			console.log("re-Hi All!");
 			console.log(response);
+			console.log(this.uploader);
 		};
 	}
 }
