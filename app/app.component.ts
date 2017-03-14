@@ -1,4 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
+import {SignInComponent} from "./component/signin.component";
+import {SignInService} from "./service/signin-service";
 
 @Component({
 	selector: 'sproutswap-app',
@@ -7,4 +9,11 @@ import {Component} from "@angular/core";
 })
 
 export class AppComponent {
+	constructor(
+		private SignInService: SignInService
+	){}
+	@ViewChild(SignInComponent)
+		private SignInComponent: SignInComponent;
+		isSignedIn = false;
 }
+

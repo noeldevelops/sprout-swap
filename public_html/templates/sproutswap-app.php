@@ -22,7 +22,7 @@
 			</div>
 		</div>
 	</header>
-
+	<sidenav *ngIf="signInComponent.isSignedIn"></sidenav>
 	<router-outlet></router-outlet>
 </div>
 
