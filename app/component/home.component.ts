@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit{
 	){}
 
 	ngOnInit(): void{
-		this.getPostByPostLocation();
+			this.postService.getPostsByPostModeId(1)
+			.subscribe(posts=>{this.posts = posts});
 	}
 
 	getPostByPostLocation(): void {

@@ -31,7 +31,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 			</div>
 		</div>
 	</header>
-	<sidenav></sidenav>
+<!--	<sidenav></sidenav>-->
 	<router-outlet></router-outlet>
 </div>
 

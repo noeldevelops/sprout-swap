@@ -45,7 +45,7 @@ export class PostService extends BaseService {
 	}
 
 	getPostsByPostModeId(postModeId: number) : Observable<Post[]> {
-		return(this.http.get(this.postUrl + postModeId)
+		return(this.http.get(this.postUrl + "?postModeId=" + postModeId)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
