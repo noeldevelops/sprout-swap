@@ -5,9 +5,8 @@ export class Post {
 		public id: number,
 		public postModeId: number,
 		public postProfileId: number,
-		public postImageId:number,
 		public postContent: string,
-		public postLocation: Point[],
+		public postLocation: Point,
 		public postOffer: string,
 		public postRequest: string,
 		public postTimestamp: number

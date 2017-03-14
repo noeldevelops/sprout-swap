@@ -23,8 +23,10 @@ declare var $: any;
 export class NewPostComponent {
 	@ViewChild("newPostForm") newPostForm: any;
 	status: Status = null;
-	newpost: Post = new Post(0, 0, 0, 0, "", [], "", "", 0);
+	newpoint: Point = new Point(0, 0);
+	newpost: Post = new Post(0, 0, 0, "", this.newpoint, "", "", 0);
 	newimage: Image = new Image(null, "");
+
 
 	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {
 	}
@@ -36,6 +38,8 @@ export class NewPostComponent {
 				this.newimage.imageId = reply.data;
 			}
 		});
+
+
 
 		this.PostService.createPost(this.newpost)
 			.subscribe(status => {

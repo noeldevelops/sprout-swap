@@ -117,12 +117,12 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 		//take the lat and long in postLocation and make it a new Point
-		$postLocation = new Point($requestObject->postLocation->lat, $requestObject->postLocation->lng);
+		$postLocation = new Point($requestObject->postLocation->pointLat, $requestObject->postLocation->pointLong);
 
-		//make sure postProfileId is available
-		if(empty($requestObject->postProfileId) === true) {
-			throw(new \InvalidArgumentException("No profile ID for Post", 405));
-		}
+//		//make sure postProfileId is available
+//		if(empty($requestObject->postProfileId) === true) {
+//			throw(new \InvalidArgumentException("No profile ID for Post", 405));
+//		}
 		//make sure modeId is available
 		if(empty($requestObject->postModeId) === true) {
 			throw(new \InvalidArgumentException("No Mode available", 405));
@@ -136,9 +136,9 @@ try {
 			throw (new \InvalidArgumentException("No offer for post", 405));
 		}
 
-		if(empty($requestObject->postImageId) === true) {
-			throw (new \InvalidArgumentException("No image for post", 405));
-		}
+//		if(empty($requestObject->postImageId) === true) {
+//			throw (new \InvalidArgumentException("No image for post", 405));
+//		}
 
 
 		if($method === "PUT") {
@@ -172,9 +172,9 @@ try {
 			if(empty($_SESSION["profile"]->getProfileId() ) === true) {
 				throw(new \InvalidArgumentException("You are not allowed to make a post unless you're logged in.", 401));
 			}
-
+var_dump($requestObject);
 			//create a new post and insert into database
-			$post = new Post(null, $requestObject->postModeId, $requestObject->postProfileId, $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
+			$post = new Post(null, $requestObject->postModeId, $_SESSION["profile"]->getProfileId(), $_SERVER["HTTP_USER_AGENT"], $requestObject->postContent, $_SERVER["REMOTE_ADDR"], $postLocation, $requestObject->postOffer, $requestObject->postRequest, null);
 			$post->insert($pdo);
 
 			//update reply

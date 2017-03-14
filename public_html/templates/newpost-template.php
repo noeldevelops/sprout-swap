@@ -13,19 +13,23 @@
 			<!--begin actual form -->
 			<form #newPostForm="ngForm" name="newPostForm" (ngSubmit)="createPost();">
 				<!--upload an image of the produce they are offering-->
-<!--				<file-upload></file-upload>-->
+				<file-upload></file-upload>
 				<!--up to 75 characters; what they're giving away or selling-->
 				<div class="form-group">
 					<label for="postOffer" class="modal-labels">Tell us what you have for offer</label>
-					<input type="text" id="postOffer" name="postOffer" class="modal-inputs" required [(ngModel)]="newpost.postOffer"
-							 #postOffer="ngModel">
+					<input type="text" id="postOffer" name="postOffer" class="modal-inputs" required [(ngModel)]="newpost.postOffer" #postOffer="ngModel">
+				</div>
+				<div class="form-group">
+					<label for="postLocation" class="modal-labels"> Where are your veggies located?</label>
+					<input type="text" name="pointLat" id="pointLat" class="modal-inputs" required
+							 [(ngModel)]="newpoint.pointLat" #pointLat="ngModel">
+					<input type="text" name="pointLong" id="pointLong" class="modal-inputs" required
+							 [(ngModel)]="newpoint.pointLong" #pointLong="ngModel">
 				</div>
 				<!--the mode: for free, for sale, or for trade-->
 				<div class="form-group">
-					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to
-						trade?</label>
-					<select id="postMode" name="postMode" class="modal-inputs" required [(ngModel)]="newpost.postModeId"
-							  #postMode="ngModel">
+					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to trade?</label>
+					<select id="postMode" name="postMode" class="modal-inputs" required [(ngModel)]="newpost.postModeId" #postMode="ngModel">
 						<option value="1">Free</option>
 						<option value="2">Sell</option>
 						<option value="3">Trade</option>
@@ -45,7 +49,7 @@
 								 #postContent="ngModel"></textarea>
 				</div>
 				<!--submit the information-->
-				<input type="submit" name="newPost" id="newPost" class="modal-submit" value="Submit">
+				<button type="submit" name="newPost" id="newPost" class="modal-submit">Submit Post</button>
 				<!--<div>{{status.message}}</div>-->
 			</form>
 		</div>

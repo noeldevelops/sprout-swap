@@ -6,7 +6,7 @@ import {Cookie} from "ng2-cookies";
 const URL = './api/image/';
 
 @Component({
-	// selector: 'file-upload',
+	selector: 'file-upload',
 	templateUrl: './templates/file-upload-template.php'
 })
 export class FileUploadComponent implements OnInit {
