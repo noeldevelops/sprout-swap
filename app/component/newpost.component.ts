@@ -21,20 +21,33 @@ declare var $: any;
 })
 
 export class NewPostComponent {
-	@ViewChild("newPostForm") newPostForm : any;
+	@ViewChild("newPostForm") newPostForm: any;
 	status: Status = null;
 	newpost: Post = new Post(0, 0, 0, 0, "", [], "", "", 0);
+	newimage: Image = new Image(null, "");
 
-	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {}
+	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {
+	}
 
-	createPost() : void {
+	createPost(): void {
+		this.ImageService.createImage(this.newimage)   .subscribe(status => {
+			this.status = status;
+			if(status.status === 200) {
+				this.newimage.imageId = this.newimage.imageId;
+			} else {
+				return status.status;
+			}
+		});
+
 		this.PostService.createPost(this.newpost)
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
 					this.router.navigate([""]);
 					this.newPostForm.reset();
-					setTimeout(function(){$("#newPostModal").modal('hide');},1000);
+					setTimeout(function() {
+						$("#newPostModal").modal('hide');
+					}, 1000);
 				}
 			});
 	}

@@ -182,6 +182,7 @@ try {
 			$post->insert($pdo);
 
 			//update reply
+			$reply->data = $post->getPostId();
 			$reply->message = "New post successful.";
 		}
 

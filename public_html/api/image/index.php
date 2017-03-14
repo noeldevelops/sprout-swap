@@ -87,6 +87,7 @@ try {
 		$image = new Image(null, $cloudinaryResult["public_id"]);
 		$image->insert($pdo);
 
+		$reply->data = $image->getImageId();
 		$reply->message = "Image upload ok";
 
 
