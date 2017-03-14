@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 
 // const URL = '/api/';
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = './api/image/';
 
 @Component({
 	selector: 'file-upload',
-	templateUrl: './file-upload-template.php'
+	templateUrl: './templates/file-upload-template.php'
 })
 export class SimpleDemoComponent {
 	public uploader:FileUploader = new FileUploader({url: URL});
