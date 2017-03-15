@@ -9,7 +9,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require 'Uploader.php';
 //require 'Api.php';
 
-use Edu\Cnm\SproutSwap\{Image, PostImage};
+use Edu\Cnm\SproutSwap\{Image, Post, PostImage, Profile};
 
 
 /**
@@ -44,6 +44,7 @@ try {
 	$imageId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageCloudinaryId = filter_input(INPUT_GET, "imageCloudinaryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$imagePostId = filter_input(INPUT_GET, "imagePostId", FILTER_VALIDATE_INT);
+	$imageProfileId = filter_input(INPUT_GET, "imageProfileId", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE") && (empty($imageId) === true || $imageId < 0)) {
@@ -72,6 +73,17 @@ try {
 				$image = Image::getImageByImageId($pdo, $postImage[0]->getPostImagePostId());
 				$reply->data = $image;
 			}
+		} elseif(empty($imageProfileId) === false) {
+			$images = [];
+			$posts = Post::getPostsByPostProfileId($pdo, $imageProfileId);
+			foreach($posts as $post) {
+				$postImage = PostImage::getPostImageByPostImagePostId($pdo, $post->getPostId());
+				if($postImage->count() > 0) {
+					$image = Image::getImageByImageId($pdo, $postImage[0]->getPostImageImageId());
+					$images[$post->getPostId()] = $image;
+				}
+			}
+			$reply->data = $images;
 		}
 	} elseif($method === "POST") {
 

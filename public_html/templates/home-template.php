@@ -9,7 +9,7 @@
 				<p id="handle">{{ post.postProfileId }}</p>
 			</div>
 			<div class="col-md-9">
-				<img [src]="postImageUrl" alt="post image" id="post-img"/>
+				<img [src]="imageMap[post.postId]?.imageCloudinaryId" alt="post image" id="post-img"/>
 				<p class="post-rundown">{{ post.postOffer }}</p>
 				<p class="post-rundown">{{ post.postModeId }}</p>
 				<p class="post-rundown">{{ post.postRequest }}</p>

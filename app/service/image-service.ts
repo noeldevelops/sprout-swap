@@ -32,4 +32,10 @@ export class ImageService extends BaseService {
 			.catch(this.handleError));
 	}
 
+	getImageByProfileId(imageProfileId : number) : Observable<Image[]> {
+		return (this.http.get(this.imageUrl + "?imageProfileId=" + imageProfileId)
+			.map(this.extractData)
+			.catch(this.handleError));
+	}
+
 }

@@ -194,6 +194,7 @@ class Image implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
+		$fields["imageCloudinaryId"] = "https://res.cloudinary.com/sprout-swap/" . $this->imageCloudinaryId . ".jpg";
 		return($fields);
 	}
 }
