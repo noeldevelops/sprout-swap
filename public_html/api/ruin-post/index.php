@@ -4,8 +4,12 @@ require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\SproutSwap\Image;
-use Edu\Cnm\SproutSwap\Point;
+use Edu\Cnm\SproutSwap\{Image, Post, Point, PostImage};
+
+//verify the session, start if not active
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
 
 $pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/sprout-swap.ini");
 
@@ -36,11 +40,10 @@ if(empty($_SESSION["profile"]->getProfileId() ) === true) {
 	throw(new \InvalidArgumentException("You are not allowed to make a post unless you're logged in.", 401));
 }
 
-if(empty($requestObject->postImagePostId !== true) && empty($requestObject->postImageImageId !== true)) {
-	$postImage = new PostImage($requestObject->postImageImageId, $requestObject->postImagePostId);
-	$postImage->insert($pdo);
-}
-
 //create a new post and insert into database
 $post = new Post(null, $postModeId, $_SESSION["profile"]->getProfileId(), $_SERVER["HTTP_USER_AGENT"], $postContent, $_SERVER["REMOTE_ADDR"], $postLocation = new Point ($postLocationLat, $postLocationLng), $postOffer, $postRequest, null);
 $post->insert($pdo);
+
+//new postimage
+$postImage = new PostImage($image->getImageId(), $post->getPostId());
+$postImage->insert($pdo);
