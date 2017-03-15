@@ -25,14 +25,15 @@ export class SignUpComponent implements OnInit{
 	}
 
 	createProfile() : void {
-
 		this.SignUpService.postSignUp(this.profile)
 			.subscribe(status => {
 				this.status = status;
+				console.log(this.status);
 				if(status.status === 200) {
-					this.signUpForm.reset()
 					alert("Please check your email and click the link to activate your account. Thanks!");
-					setTimeout(function(){$("#signup-modal").modal('hide');},1000);
+					this.signUpForm.reset();
+					setTimeout(function(){$("#signup-modal").modal('hide');},500);
+					this.router.navigate([""]);
 				}
 			});
 	}
