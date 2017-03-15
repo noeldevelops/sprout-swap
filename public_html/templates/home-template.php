@@ -4,8 +4,8 @@
 		<div class="col-xs-12 col-md-6 col-md-offset-3 display">
 			<div class="row post">
 				<div class="col-md-3">
-					<img [src]="profileImageUrl" id="profile-img"/>
-					<p id="handle">{{ post.postProfileId }}</p>
+					<img src="images/farmer.jpg" id="profile-img"/>
+					<p id="handle">Solomon</p>
 				</div>
 				<div class="col-md-9">
 					<img [src]="imageMap[post.postId]?.imageCloudinaryId" alt="post image" id="post-img"/>

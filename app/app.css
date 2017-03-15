@@ -10,11 +10,6 @@ p {
 }
 
 .main {
-	background: url("../images/soil-bkgd.jpg");
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
 	margin: 0 -20px;
 	padding: 0;
 }
@@ -57,7 +52,6 @@ li.navigation > a {
 
 .post {
 	padding: 10px;
-	border: 1px solid #117004;
 }
 
 #post-image {
@@ -200,8 +194,10 @@ button#edit {
 	/* Set up positioning */
 	position: relative;
 }
-
-
+li>a {
+	color: white;
+	font-family: "Palanquin", sans-serif;
+}
 /*Creating classes for all text and boxes on modal forms*/
 .logo {
 	max-width: 100%;

@@ -1,7 +1,7 @@
 <div class="col-md-6 col-xs-12" id="profile">
 	<div class="row">
 		<div id="img-wrap">
-			<img id="profile-img" src="../../images/farmer.jpg">
+			<img id="profile-img" src="../images/farmer.jpg">
 		</div>
 		<!--edit button is hidden unless user is signed-in and viewing their own profile-->
 			<a routerLink="/edit-profile/:id" class="btn btn-default">Edit Profile</a>

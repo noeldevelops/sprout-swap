@@ -1,7 +1,7 @@
 <div class="col-md-6 col-xs-12" id="profile">
 	<div class="row">
 		<div id="img-wrap">
-			<img id="profile-img" src="../../images/farmer.jpg">
+			<img id="profile-img" src="../images/farmer.jpg">
 		</div>
 	</div>
 	<form #editProfileForm="ngForm" name="editProfileForm" (ngSubmit)="editProfile();">

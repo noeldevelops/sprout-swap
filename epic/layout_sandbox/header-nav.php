@@ -50,7 +50,7 @@
 				<div class="col-md-6 display">
 					<div class="row post">
 						<div class="col-md-3">
-							<img src="../../images/farmer.jpg" id="profile-img">
+							<img src="../../public_html/images/farmer.jpg" id="profile-img">
 							<p id="handle">JoeGrows</p>
 						</div>
 						<div class="col-md-9">
