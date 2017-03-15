@@ -19,13 +19,13 @@
 					<label for="postOffer" class="modal-labels">Tell us what you have for offer</label>
 					<input type="text" id="postOffer" name="postOffer" class="modal-inputs" required [(ngModel)]="newpost.postOffer" #postOffer="ngModel">
 				</div>
-				<div class="form-group">
-					<label for="postLocation" class="modal-labels"> Where are your veggies located?</label>
-					<input type="text" name="pointLat" id="pointLat" class="modal-inputs" required
-							 [(ngModel)]="newpoint.pointLat" #pointLat="ngModel">
-					<input type="text" name="pointLong" id="pointLong" class="modal-inputs" required
-							 [(ngModel)]="newpoint.pointLong" #pointLong="ngModel">
-				</div>
+<!--				<div class="form-group">-->
+<!--					<label for="postLocation" class="modal-labels"> Where are your veggies located?</label>-->
+<!--					<input type="text" name="pointLat" id="pointLat" class="modal-inputs" required-->
+<!--							 [(ngModel)]="newpoint.pointLat" #pointLat="ngModel">-->
+<!--					<input type="text" name="pointLong" id="pointLong" class="modal-inputs" required-->
+<!--							 [(ngModel)]="newpoint.pointLong" #pointLong="ngModel">-->
+<!--				</div>-->
 				<!--the mode: for free, for sale, or for trade-->
 				<div class="form-group">
 					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to trade?</label>

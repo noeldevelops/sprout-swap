@@ -29,8 +29,8 @@ export class NewPostComponent implements OnInit {
 	status: Status = null;
 	newpoint: Point = new Point(0, 0);
 	newpost: Post = new Post(0, 0, 0, "", this.newpoint, "", "", 0);
-	newimage: Image = new Image(null, "");
-	newpostimage: PostImage = new PostImage(null, null);
+	// newimage: Image = new Image(null, "");
+	// newpostimage: PostImage = new PostImage(null, null);
 	@Output() pointLat: number;
 	@Output() pointLong: number;
 
@@ -59,10 +59,11 @@ export class NewPostComponent implements OnInit {
 			postOffer: this.newpost.postOffer,
 			postRequest: this.newpost.postRequest
 		};
+
 		this.fileUploadComponent.uploader.options.additionalParameter = additionalParameter;
 		this.fileUploadComponent.uploader.uploadAll();
 
-		//this is where the promise in file upload component should fulfill?
+		//this is where the promise in file upload component should fulfill? all this code was scrapped in favor of the ruin-post api!
 		// this.fileUploadComponent.getImageId().then(imageId => this.newpostimage.postImageImageId = this.fileUploadComponent.imageId);
 
 		// this.fileUploadComponent.imageIdObservable
