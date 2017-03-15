@@ -79,7 +79,7 @@ try {
 		$tempUserFileName = $_FILES["file"]["tmp_name"];
 		$userFileType = $_FILES["file"]["type"];
 		$userFileExtension = strtolower(strrchr($_FILES["file"]["name"], "."));
-var_dump($_FILES);
+
 		//upload image to cloudinary and get public id
 		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"], array("width"=>500, "crop"=>"scale"));
 
