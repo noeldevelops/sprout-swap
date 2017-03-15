@@ -31,7 +31,7 @@
 				<div class="form-group">
 					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to
 						trade?</label>
-					<select id="postMode" name="postMode" class="modal-inputs" required ngModel="mod"
+					<select id="postMode" name="postMode" class="modal-inputs" required
 							  [(ngModel)]="newpost.postModeId" #postMode="ngModel">
 						<option value="1">Free</option>
 						<option value="2">Sell</option>
@@ -39,9 +39,9 @@
 					</select>
 				</div>
 				<!--what they are looking for: cash or other veggies.  only shows up if selected mode is not 'free' -->
-				{{ modOff = (mod === '1')}} {{modOn = ((mod === '2') || (mod === '3'))}}
 
-				<div id="on" *ngif="modOn">
+				<div id="off" *ngIf="newpost.postModeId === '1'"></div>
+				<div id="on" *ngIf="newpost.postModeId === '2' || newpost.postModeId === '3'">
 					<div class="form-group">
 						<label for="postRequest" class="modal-labels"> What do you want in return?</label>
 						<input type="text" name="postRequest" id="postRequest" class="modal-inputs" required
