@@ -49,7 +49,7 @@ try {
 				$reply->data = $modes;
 			}
 		} else {
-			$modes = Mode::getAllModes($pdo);
+			$modes = Mode::getAllModes($pdo)->toArray();
 			if($modes !== null) {
 				$reply->data = $modes;
 			}

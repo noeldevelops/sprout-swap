@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
 import {Status} from "../class/status";
+import {Mode} from "../class/mode-class";
 
 @Injectable()
 export class ModeService extends BaseService {
@@ -12,9 +13,9 @@ export class ModeService extends BaseService {
 
 	private modeUrl = "api/mode/";
 
-	getModeByModeId(modeId: number) : Observable<Status> {
+	getModeByModeId(modeId: number) : Observable<Mode> {
 		return(this.http.get(this.modeUrl + modeId)
-			.map(this.extractMessage)
+			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
@@ -24,9 +25,9 @@ export class ModeService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	getAllModes() : Observable<Status> {
+	getAllModes() : Observable<Mode[]> {
 		return(this.http.get(this.modeUrl)
-			.map(this.extractMessage)
+			.map(this.extractData)
 			.catch(this.handleError));
 	}
 }
