@@ -41,9 +41,9 @@ li.navigation > a {
 	font-size: large;
 }
 
-li.navigation > a:hover {
-	background-color: #f1dcb8;
-	color: black;
+.footer-text{
+	list-style-type: none;
+	display: inline;
 }
 
 #header-nav {
@@ -278,7 +278,8 @@ footer {
 }
 
 footer > ul {
-	list-style: none;
+	list-style-type: none;
+
 }
 /*corrects IE min-height bug - thanks to @rlewis2892*/
 html { display: flex;}
