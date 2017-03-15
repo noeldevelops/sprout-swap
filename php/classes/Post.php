@@ -710,6 +710,8 @@ public function update(\PDO $pdo) {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
+		$fields["postIpAddress"] = inet_ntop($this->postIpAddress);
+		$fields["postTimestamp"] = $this->postTimestamp->getTimestamp() * 1000;
 		return($fields);
 	}
 }

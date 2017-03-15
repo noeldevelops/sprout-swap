@@ -1,8 +1,8 @@
-import{Component, OnInit} from "@angular/core";
+import{Component, OnInit, Input} from "@angular/core";
 import {PostService} from "../service/post-service";
 import {Post} from "../class/post-class";
 import {ActivatedRoute} from "@angular/router";
-
+import {Status} from "../class/status";
 
 
 @Component({
@@ -10,8 +10,9 @@ import {ActivatedRoute} from "@angular/router";
 })
 
 export class HomeComponent implements OnInit {
-	posts: Post[] = [];
+	@Input() posts: Post[] = [];
 	post: Post = new Post(0, 0, 0, "", null, "", "", 0);
+	status: Status = new Status(null, null, null);
 	constructor(private postService: PostService, private route: ActivatedRoute) {
 	}
 
@@ -19,8 +20,10 @@ export class HomeComponent implements OnInit {
 		this.getAlmostAllPosts();
 	}
 
-	getAlmostAllPosts() : void {
-		this.postService.getPostsByPostModeId (2)
-			.subscribe(posts=>{this.posts = posts});
+	getAlmostAllPosts(): void {
+		this.postService.getPostsByPostProfileId(1)
+			.subscribe(posts => {
+				this.posts = posts
+			});
 	}
 }

@@ -9,7 +9,7 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 //require 'Uploader.php';
 //require 'Api.php';
 
-use Edu\Cnm\SproutSwap\Image;
+use Edu\Cnm\SproutSwap\{Image, PostImage};
 
 
 /**
@@ -43,6 +43,7 @@ try {
 	//sanitize input
 	$imageId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$imageCloudinaryId = filter_input(INPUT_GET, "imageCloudinaryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$imagePostId = filter_input(INPUT_GET, "imagePostId", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE") && (empty($imageId) === true || $imageId < 0)) {
@@ -63,6 +64,12 @@ try {
 		} elseif(empty($imageCloudinaryId) === false) {
 			$image = Image::getImageByImageCloudinaryId($pdo, $imageCloudinaryId);
 			if($image !== null) {
+				$reply->data = $image;
+			}
+		} elseif(empty($imagePostId) === false) {
+			$postImage = PostImage::getPostImageByPostImagePostId($pdo, $imagePostId);
+			if($postImage->count() > 0) {
+				$image = Image::getImageByImageId($pdo, $postImage[0]->getPostImagePostId());
 				$reply->data = $image;
 			}
 		}
@@ -121,9 +128,5 @@ try {
 }
 
 header("Content-type: application/json");
-if($reply->data === null) {
-	unset($reply->data);
-}
-
 // encode and return reply to front end caller
 echo json_encode($reply);
