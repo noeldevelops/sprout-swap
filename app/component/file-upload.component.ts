@@ -5,16 +5,17 @@ import {Observable} from "rxjs";
 
 
 // const URL = '/api/';
-const URL = './api/image/';
+const URL = './api/ruin-post/';
 
 @Component({
 	selector: 'file-upload',
 	templateUrl: './templates/file-upload-template.php'
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent {
 	public uploader: FileUploader = new FileUploader({
 		url: URL,
-		headers: [{name: "X-XSRF-TOKEN", value: Cookie.get("XSRF-TOKEN")}]
+		headers: [{name: "X-XSRF-TOKEN", value: Cookie.get("XSRF-TOKEN")}],
+		additionalParameter: {}
 	});
 	public hasBaseDropZoneOver: boolean = false;
 	public hasAnotherDropZoneOver: boolean = false;
@@ -22,7 +23,13 @@ export class FileUploadComponent implements OnInit {
 	// public imageIdObservable: Observable<number> = Observable.if(() => this.imageId !== null, Observable.response(this.imageId));
 
 	//trying a promise to return image Id
-	getImageId(): Promise<number> {
+	getImageId(): Promise<any> {
+		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
+			let reply = JSON.parse(response);
+			this.imageId = reply.data;
+			console.log("Daniel is not here....again....meh: " + response);
+		};
+		// console.log(this.imageId);
 		return Promise.resolve(this.imageId);
 	}
 
@@ -34,10 +41,10 @@ export class FileUploadComponent implements OnInit {
 		this.hasAnotherDropZoneOver = e;
 	}
 
-	ngOnInit(): void {
-		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
-			let reply = JSON.parse(response);
-			this.imageId = reply.data;
-		};
-	}
+	// ngOnInit(): Promise<any> {
+	//
+	// 	console.log(this.imageId);
+	// 	return Promise.resolve(this.imageId);
+	//
+	// }
 }

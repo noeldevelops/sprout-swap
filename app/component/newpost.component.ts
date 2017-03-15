@@ -51,11 +51,19 @@ export class NewPostComponent implements OnInit {
 	}
 
 	createPost(): void {
+		let additionalParameter = {
+			postModeId: this.newpost.postModeId,
+			postContent: this.newpost.postContent,
+			postLocationLat: this.newpoint.pointLat,
+			postLocationLng: this.newpoint.pointLong,
+			postOffer: this.newpost.postOffer,
+			postRequest: this.newpost.postRequest
+		};
+		this.fileUploadComponent.uploader.options.additionalParameter = additionalParameter;
 		this.fileUploadComponent.uploader.uploadAll();
+
 		//this is where the promise in file upload component should fulfill?
-		getImageId(): void {
-			this.fileUploadComponent.getImageId().then(postImageImageId => this.fileUploadComponent.imageId = this.newpostimage.postImageImageId);
-		}
+		// this.fileUploadComponent.getImageId().then(imageId => this.newpostimage.postImageImageId = this.fileUploadComponent.imageId);
 
 		// this.fileUploadComponent.imageIdObservable
 		// 	.subscribe(imageId => {
@@ -63,20 +71,21 @@ export class NewPostComponent implements OnInit {
 		// 		this.newpostimage.postImageImageId = imageId;
 		// 		console.log("Go Team imageId " + imageId);
 
-				this.PostService.createPost(this.newpost)
-					.subscribe((reply: any) => {
-						if(reply.status === 200) {
-							this.newpostimage.postImagePostId = reply.data;
-							this.PostService.insertPostImage(this.newpostimage);
-							this.router.navigate([""]);
-							this.newPostForm.reset();
-							setTimeout(function() {
-								$("#newPostModal").modal('hide');
-							}, 1000);
-						}
-					});
+				// this.PostService.createPost(this.newpost)
+				// 	.subscribe((reply: any) => {
+				// 		if(reply.status === 200) {
+				// 			this.newpostimage.postImagePostId = reply.data;
+				// 			// console.log(reply);
+				// 			this.PostService.insertPostImage(this.newpostimage);
+				// 			// console.log(this.newpostimage);
+				// 			this.router.navigate([""]);
+				// 			this.newPostForm.reset();
+				// 			setTimeout(function() {
+				// 				$("#newPostModal").modal('hide');
+				// 			}, 1000);
+				// 		}
+				// 	});
 
-			});
+			};
 
-	}
 }

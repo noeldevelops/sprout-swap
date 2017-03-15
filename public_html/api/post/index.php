@@ -176,6 +176,8 @@ try {
 			if(empty($requestObject->postImagePostId !== true) && empty($requestObject->postImageImageId !== true)) {
 				$postImage = new PostImage($requestObject->postImageImageId, $requestObject->postImagePostId);
 				$postImage->insert($pdo);
+				$reply->data = $postImage;
+				var_dump($postImage);
 				return;
 			}
 
