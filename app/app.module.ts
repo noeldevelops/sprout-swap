@@ -2,6 +2,7 @@ import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
+import {CommonModule} from "@angular/common";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 import {SignInService} from "./service/signin-service";
@@ -19,7 +20,7 @@ const moduleDeclarations = [AppComponent];
 
 
 @NgModule({
-	imports: [BrowserModule, FormsModule, HttpModule, routing],
+	imports: [BrowserModule, FormsModule, HttpModule, routing, CommonModule],
 	//tells angular which components/ must declare every component, directive, and pipe
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap: [AppComponent],
