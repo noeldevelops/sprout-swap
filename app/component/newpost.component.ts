@@ -1,5 +1,5 @@
 //this is the modal that pops up when "create new post" is clicked
-import{Component, ViewChild} from "@angular/core";
+import{Component, ViewChild, OnInit, Output} from "@angular/core";
 import {Router} from "@angular/router";
 import {PostService} from "../service/post-service";
 
@@ -22,15 +22,30 @@ declare var $: any;
 	selector: "newPost"
 })
 
-export class NewPostComponent {
+export class NewPostComponent implements OnInit{
 	@ViewChild("newPostForm") newPostForm: any;
 	status: Status = null;
 	newpoint: Point = new Point(0, 0);
 	newpost: Post = new Post(0, 0, 0, "", this.newpoint, "", "", 0);
 	newimage: Image = new Image(null, "");
 	newpostimage: PostImage = new PostImage (null, null);
+	@Output() pointLat: number;
+	@Output() pointLong: number;
 
 	constructor(private PostService: PostService, private ImageService: ImageService, private router: Router) {
+	}
+
+	ngOnInit() {
+		this.setCurrentPosition();
+	}
+
+	private setCurrentPosition(){
+		if("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition((position) => {
+				this.newpoint.pointLat = position.coords.latitude;
+				this.newpoint.pointLong = position.coords.longitude;
+			});
+		}
 	}
 
 	createPost(): void {
