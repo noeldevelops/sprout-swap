@@ -1,4 +1,4 @@
 <div>
-	Welcome TO SPROUT SWAP!!!!
-	<post ngFor="let post of posts" [postInfo]="post"></post>
+	Welcome to SPROUT SWAP!!!!
+	<post *ngFor="let post of posts"></post>
 </div>

@@ -86,7 +86,5 @@ export class NewPostComponent implements OnInit {
 				// 			}, 1000);
 				// 		}
 				// 	});
-
 			};
-
 }

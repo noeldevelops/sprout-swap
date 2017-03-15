@@ -27,9 +27,7 @@ export class FileUploadComponent {
 		this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any) => {
 			let reply = JSON.parse(response);
 			this.imageId = reply.data;
-			console.log("Daniel is not here....again....meh: " + response);
 		};
-		// console.log(this.imageId);
 		return Promise.resolve(this.imageId);
 	}
 
