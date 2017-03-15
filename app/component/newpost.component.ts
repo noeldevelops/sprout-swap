@@ -52,12 +52,16 @@ export class NewPostComponent implements OnInit {
 
 	createPost(): void {
 		this.fileUploadComponent.uploader.uploadAll();
+		//this is where the promise in file upload component should fulfill?
+		getImageId(): void {
+			this.fileUploadComponent.getImageId().then(postImageImageId => this.fileUploadComponent.imageId = this.newpostimage.postImageImageId);
+		}
 
-		this.fileUploadComponent.imageIdObservable
-			.subscribe(imageId => {
-				this.newimage.imageId = imageId;
-				this.newpostimage.postImageImageId = imageId;
-				console.log("Go Team imageId " + imageId);
+		// this.fileUploadComponent.imageIdObservable
+		// 	.subscribe(imageId => {
+		// 		this.newimage.imageId = imageId;
+		// 		this.newpostimage.postImageImageId = imageId;
+		// 		console.log("Go Team imageId " + imageId);
 
 				this.PostService.createPost(this.newpost)
 					.subscribe((reply: any) => {
