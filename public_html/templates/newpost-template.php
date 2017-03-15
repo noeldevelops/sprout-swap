@@ -32,8 +32,8 @@
 					<label for="postMode" class="modal-labels">Is your produce free, for sale, or are you looking to
 						trade?</label>
 					<select id="postMode" name="postMode" class="modal-inputs" required
-							  [(ngModel)]="newpost.postModeId" #postMode="ngModel">
-						<option value="1">Free</option>
+							  [(ngModel)]="newpost.postModeId" #postMode="ngModel" >
+						<option selected value="1">Free</option>
 						<option value="2">Sell</option>
 						<option value="3">Trade</option>
 					</select>

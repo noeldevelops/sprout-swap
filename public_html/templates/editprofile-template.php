@@ -5,6 +5,7 @@
 		</div>
 	</div>
 	<form #editProfileForm="ngForm" name="editProfileForm" (ngSubmit)="editProfile();">
+		<file-upload></file-upload>
 		<div class="row">
 			<div class="form-group">
 				<div id="profile-left">

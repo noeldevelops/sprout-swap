@@ -16,13 +16,13 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 			<div class="row">
 				<div class="col-md-12" id="header-nav">
 					<ul class="nav navbar-nav navbar-left">
-						<li class="navigation"><a routerLink="">Home</a></li>
+						<li class="topbar"><a routerLink="">Home</a></li>
 						<?php if(empty($_SESSION["profile"])===true) { ?>
-						<li class="navigation"><signup-component></signup-component></li>
-						<li class="navigation"><signin-component></signin-component></li>
+						<li class="topbar"><signup-component></signup-component></li>
+						<li class="topbar"><signin-component></signin-component></li>
 						<?php } else { ?>
-						<li><a routerLink="/profile">Profile</a></li>
-						<li class="navigation"><newPost></newPost></li>
+						<li class="topbar"><a routerLink="/profile">Profile</a></li>
+						<li class="topbar"><newPost></newPost></li>
 						<?php } ?>
 					</ul>
 <!--					<form class="navbar-form navbar-right" id="search" name="search"><input label="search" placeholder="Search" id="search-input" type="text" />-->
@@ -39,10 +39,10 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 <footer>
 	<div class="col-md-12">
 		<p>Copyright Sprout Swap 2017</p>
-		<ul>
-			<li>Contact</li>
-			<li>Jobs</li>
-			<li>About</li>
-		</ul>
+<!--		<ul>-->
+<!--			<li class="footer-text">Contact</li>-->
+<!--			<li class="footer-text">Jobs</li>-->
+<!--			<li class="footer-text">About</li>-->
+<!--		</ul>-->
 	</div>
 </footer>
