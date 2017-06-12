@@ -94,11 +94,6 @@ try {
 			throw(new \InvalidArgumentException("You are not allowed to upload images unless you are logged in.", 401));
 		}
 
-		//assigning variables to the user image name, MIME type, and image extension
-		$tempUserFileName = $_FILES["file"]["tmp_name"];
-		$userFileType = $_FILES["file"]["type"];
-		$userFileExtension = strtolower(strrchr($_FILES["file"]["name"], "."));
-
 		//upload image to cloudinary and get public id
 		$cloudinaryResult = \Cloudinary\Uploader::upload($_FILES["file"]["tmp_name"], array("width"=>500, "crop"=>"scale"));
 
